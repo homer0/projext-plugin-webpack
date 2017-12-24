@@ -11,9 +11,11 @@ class WebpackLoadersConfiguration extends ConfigurationFile {
   }
 
   createConfig(params) {
-    return params.target.is.node ?
+    const rules = params.target.is.node ?
       this.createNodeConfig(params) :
       this.createBrowserConfig(params);
+
+    return { rules };
   }
 
   createNodeConfig(params) {
@@ -27,11 +29,7 @@ class WebpackLoadersConfiguration extends ConfigurationFile {
       ),
     ];
 
-    const rules = this.events.reduce('webpack-loaders-configuration-for-node', loaders, params);
-
-    return {
-      rules,
-    };
+    return this.events.reduce('webpack-loaders-configuration-for-node', loaders, params);
   }
 
   createBrowserConfig(params) {
