@@ -1,6 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../../interfaces/configurationFile');
+const ConfigurationFile = require('../../interfaces/configurationFile');
 
 class WebpackLoadersConfiguration extends ConfigurationFile {
   constructor(babelConfiguration, events, pathUtils, projectConfiguration) {
@@ -27,7 +27,11 @@ class WebpackLoadersConfiguration extends ConfigurationFile {
       ),
     ];
 
-    return this.events.reduce('webpack-loaders-configuration-for-node', loaders, params);
+    const rules = this.events.reduce('webpack-loaders-configuration-for-node', loaders, params);
+
+    return {
+      rules,
+    };
   }
 
   createBrowserConfig(params) {
@@ -137,7 +141,7 @@ class WebpackLoadersConfiguration extends ConfigurationFile {
     return this.events.reduce(eventName, loaders, params);
   }
 
-  getFontsLoader(params) {
+  getFontsLoaders(params) {
     const { paths: { output: { fonts } } } = this.projectConfiguration;
     const { hashStr } = params;
     const name = `${fonts}/[name]${hashStr}.[ext]`;

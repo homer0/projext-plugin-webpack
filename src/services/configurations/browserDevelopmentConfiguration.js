@@ -9,7 +9,7 @@ const {
   HotModuleReplacementPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../../interfaces/configurationFile');
+const ConfigurationFile = require('../../interfaces/configurationFile');
 
 class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   constructor(

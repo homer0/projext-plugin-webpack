@@ -1,5 +1,6 @@
 const {
   webpackConfiguration,
+  webpackBuildEngine,
 } = require('./services/building');
 
 const {
@@ -13,6 +14,7 @@ const {
 
 module.exports = (app) => {
   app.register(webpackConfiguration);
+  app.register(webpackBuildEngine);
 
   app.register(webpackBaseConfiguration);
   app.register(webpackBrowserDevelopmentConfiguration);

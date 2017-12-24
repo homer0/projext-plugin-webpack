@@ -7,7 +7,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../../interfaces/configurationFile');
+const ConfigurationFile = require('../../interfaces/configurationFile');
 
 class WebpackBrowserProductionConfiguration extends ConfigurationFile {
   constructor(

@@ -17,9 +17,10 @@
       "script-ext-html-webpack-plugin": "1.8.8",
       "compression-webpack-plugin": "1.1.2",
       "uglifyjs-webpack-plugin": "1.1.4",
-      "optimize-css-assets-webpack-plugin": "3.2.0",
+      "optimize-css-assets-webpack-plugin": "3.2.0"
+    },
+    "peerDependencies": {
 
-      "wootils": "../wootils"
     },
     "devDependencies": {
       "eslint": "4.13.1",

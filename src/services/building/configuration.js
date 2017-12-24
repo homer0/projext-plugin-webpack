@@ -1,14 +1,17 @@
+const path = require('path');
 const extend = require('extend');
 const { provider } = require('jimple');
 
 class WebpackConfiguration {
   constructor(
     projectConfiguration,
+    pathUtils,
     versionUtils,
     targetConfiguration,
     webpackConfigurations
   ) {
     this.projectConfiguration = projectConfiguration;
+    this.pathUtils = pathUtils;
     this.versionUtils = versionUtils;
     this.targetConfiguration = targetConfiguration;
     this.webpackConfigurations = webpackConfigurations;
@@ -48,11 +51,13 @@ class WebpackConfiguration {
       throw new Error(`There's no configuration for the selected build type: ${buildType}`);
     }
 
+    const entryFile = path.join(target.paths.source, target.entry[buildType]);
+
     const { hash, hashStr } = this.getHash();
     const params = {
       target,
       entry: {
-        [target.name]: [target.paths.source],
+        [target.name]: [entryFile],
       },
       definitions: this.getDefinitions(buildType),
       version: this.getVersion(),
@@ -89,6 +94,7 @@ const webpackConfiguration = provider((app) => {
 
     return new WebpackConfiguration(
       app.get('projectConfiguration').getConfig(),
+      app.get('pathUtils'),
       app.get('versionUtils'),
       app.get('targetConfiguration'),
       webpackConfigurations

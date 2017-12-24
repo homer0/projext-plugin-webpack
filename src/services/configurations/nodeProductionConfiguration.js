@@ -3,7 +3,7 @@ const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../../interfaces/configurationFile');
+const ConfigurationFile = require('../../interfaces/configurationFile');
 
 class WebpackNodeProductionConfiguration extends ConfigurationFile {
   constructor(

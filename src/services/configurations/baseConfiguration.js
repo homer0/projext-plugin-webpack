@@ -1,5 +1,5 @@
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../../interfaces/configurationFile');
+const ConfigurationFile = require('../../interfaces/configurationFile');
 
 class WebpackBaseConfiguration extends ConfigurationFile {
   constructor(
@@ -15,7 +15,7 @@ class WebpackBaseConfiguration extends ConfigurationFile {
   }
 
   createConfig(params) {
-    const rules = this.webpackLoadersConfiguration.getConfig(params);
+    const { rules } = this.webpackLoadersConfiguration.getConfig(params);
     const config = {
       resolve: {
         extensions: ['.js', '.jsx'],
