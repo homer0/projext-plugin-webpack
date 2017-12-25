@@ -39,7 +39,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       entry,
       output: {
         path: `./${target.folders.build}`,
-        filename: `${output.js}/[name].js`,
+        filename: `${output.js}/[name]${hashStr}.js`,
         publicPath: '/',
       },
     };
