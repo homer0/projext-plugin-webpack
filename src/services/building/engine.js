@@ -36,7 +36,11 @@ class WebpackBuildEngine {
     ]
     .join(' ');
 
-    return `${vars} webpack --config ${config} ${options}`;
+    const command = target.is.browser && target.runOnDevelopment ?
+      'webpack-dev-server' :
+      'webpack';
+
+    return `${vars} ${command} --config ${config} ${options}`;
   }
 
   getConfiguration(target, buildType) {

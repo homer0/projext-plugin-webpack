@@ -52,12 +52,16 @@ class WebpackConfiguration {
     }
 
     const entryFile = path.join(target.paths.source, target.entry[buildType]);
+    const entries = [entryFile];
+    if (target.babel.polyfill) {
+      entries.unshift('babel-polyfill');
+    }
 
     const { hash, hashStr } = this.getHash();
     const params = {
       target,
       entry: {
-        [target.name]: [entryFile],
+        [target.name]: entries,
       },
       definitions: this.getDefinitions(buildType),
       version: this.getVersion(),

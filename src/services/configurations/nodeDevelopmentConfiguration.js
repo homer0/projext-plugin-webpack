@@ -30,7 +30,7 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       new NoEmitOnErrorsPlugin(),
     ];
 
-    if (target.run) {
+    if (target.runOnDevelopment) {
       watch = true;
       plugins.push(new webpackNodeUtils.WebpackNodeUtilsRunner());
     }
