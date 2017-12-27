@@ -15,13 +15,15 @@ class WebpackBuildEngine {
     this.envVars = {
       target: 'WOOPACK_WEBPACK_TARGET',
       type: 'WOOPACK_WEBPACK_BUILD_TYPE',
+      run: 'WOOPACK_WEBPACK_RUN',
     };
   }
 
-  getBuildCommand(target, buildType) {
+  getBuildCommand(target, buildType, forceRun = false) {
     const vars = this.getEnvVarsAsString({
       target: target.name,
       type: buildType,
+      run: forceRun,
     });
 
     const config = path.join(
@@ -36,7 +38,7 @@ class WebpackBuildEngine {
     ]
     .join(' ');
 
-    const command = target.is.browser && target.runOnDevelopment ?
+    const command = target.is.browser && (target.runOnDevelopment || forceRun) ?
       'webpack-dev-server' :
       'webpack';
 
@@ -53,8 +55,12 @@ class WebpackBuildEngine {
       throw new Error('This file can only be run by using the `build` command');
     }
 
-    const { type } = vars;
-    const target = this.targets.getTarget(vars.target);
+    const { type, run } = vars;
+    const target = Object.assign({}, this.targets.getTarget(vars.target));
+    if (run === 'true') {
+      target.runOnDevelopment = true;
+    }
+
     return this.getConfiguration(target, type);
   }
 
