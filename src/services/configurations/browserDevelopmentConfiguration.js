@@ -1,4 +1,5 @@
 const path = require('path');
+const extend = require('extend');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -39,7 +40,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     const { paths: { output } } = this.projectConfiguration;
 
     const config = {
-      entry,
+      entry: extend(true, {}, entry),
       output: {
         path: `./${target.folders.build}`,
         filename: `${output.js}/[name].js`,
@@ -75,7 +76,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       const { devServer } = target;
       config.devServer = {
         port: devServer.port || 2509,
-        inline: devServer.reload,
+        inline: !!devServer.reload,
         open: true,
       };
 

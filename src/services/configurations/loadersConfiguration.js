@@ -19,14 +19,9 @@ class WebpackLoadersConfiguration extends ConfigurationFile {
   }
 
   createNodeConfig(params) {
-    const { target: { bundle } } = params;
     const loaders = [
       ...this.getJSLoaders(params, 'webpack-js-loaders-configuration-for-node'),
-      ...(
-        bundle ?
-          this.getVersionLoaders(params, 'webpack-version-loaders-configuration-for-node') :
-          []
-      ),
+      ...this.getVersionLoaders(params, 'webpack-version-loaders-configuration-for-node'),
     ];
 
     return this.events.reduce('webpack-loaders-configuration-for-node', loaders, params);

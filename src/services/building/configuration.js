@@ -46,7 +46,7 @@ class WebpackConfiguration {
   getConfig(target, buildType) {
     const targetType = target.type;
     if (!this.webpackConfigurations[targetType]) {
-      throw new Error(`Theres's no configuration for the selected target type: ${targetType}`);
+      throw new Error(`There's no configuration for the selected target type: ${targetType}`);
     } else if (!this.webpackConfigurations[targetType][buildType]) {
       throw new Error(`There's no configuration for the selected build type: ${buildType}`);
     }

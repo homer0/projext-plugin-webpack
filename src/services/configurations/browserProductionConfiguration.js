@@ -59,7 +59,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       }),
       new DefinePlugin(definitions),
       new UglifyJSPlugin({
-        sourceMap: target.sourceMap.production,
+        sourceMap: !!target.sourceMap.production,
       }),
       new OptimizeCssAssetsPlugin(),
       new CompressionPlugin(),
