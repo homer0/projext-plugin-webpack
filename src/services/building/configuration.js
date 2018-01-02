@@ -69,9 +69,13 @@ class WebpackConfiguration {
       hashStr,
     };
 
-    const config = this.targetConfiguration(
-      `webpack/${target.name}.${buildType}.config.js`,
+    let config = this.targetConfiguration(
+      `webpack/${target.name}.config.js`,
       this.webpackConfigurations[targetType][buildType]
+    );
+    config = this.targetConfiguration(
+      `webpack/${target.name}.${buildType}.config.js`,
+      config
     ).getConfig(params);
     config.output.path = this.pathUtils.join(config.output.path);
 

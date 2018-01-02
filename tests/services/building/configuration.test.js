@@ -144,10 +144,14 @@ describe('services/building:configuration', () => {
     expect(result).toEqual(config);
     expect(versionUtils.getVersion).toHaveBeenCalledTimes(1);
     expect(versionUtils.getVersion).toHaveBeenCalledWith(revisionFilename);
-    expect(targetConfiguration).toHaveBeenCalledTimes(1);
+    expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
+    expect(targetConfiguration).toHaveBeenCalledWith(
+      `webpack/${target.name}.config.js`,
+      {}
+    );
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.${buildType}.config.js`,
-      {}
+      targetConfig
     );
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
@@ -225,10 +229,14 @@ describe('services/building:configuration', () => {
     expect(result).toEqual(config);
     expect(versionUtils.getVersion).toHaveBeenCalledTimes(1);
     expect(versionUtils.getVersion).toHaveBeenCalledWith(revisionFilename);
-    expect(targetConfiguration).toHaveBeenCalledTimes(1);
+    expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
+    expect(targetConfiguration).toHaveBeenCalledWith(
+      `webpack/${target.name}.config.js`,
+      {}
+    );
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.${buildType}.config.js`,
-      {}
+      targetConfig
     );
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
@@ -314,10 +322,14 @@ describe('services/building:configuration', () => {
     expect(result).toEqual(expectedConfig);
     expect(versionUtils.getVersion).toHaveBeenCalledTimes(1);
     expect(versionUtils.getVersion).toHaveBeenCalledWith(revisionFilename);
-    expect(targetConfiguration).toHaveBeenCalledTimes(1);
+    expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
+    expect(targetConfiguration).toHaveBeenCalledWith(
+      `webpack/${target.name}.config.js`,
+      {}
+    );
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.${buildType}.config.js`,
-      {}
+      targetConfig
     );
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
