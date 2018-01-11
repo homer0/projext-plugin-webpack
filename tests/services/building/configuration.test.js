@@ -92,7 +92,7 @@ describe('services/building:configuration', () => {
     const revisionFilename = 'revision';
     const projectConfiguration = {
       version: {
-        revisionFilename,
+        filename: revisionFilename,
       },
     };
     const pathUtils = {
@@ -175,7 +175,7 @@ describe('services/building:configuration', () => {
     const revisionFilename = 'revision';
     const projectConfiguration = {
       version: {
-        revisionFilename,
+        filename: revisionFilename,
       },
     };
     const pathUtils = {
@@ -263,7 +263,7 @@ describe('services/building:configuration', () => {
     const revisionFilename = 'revision';
     const projectConfiguration = {
       version: {
-        revisionFilename,
+        filename: revisionFilename,
       },
     };
     const pathUtils = {
