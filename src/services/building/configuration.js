@@ -7,20 +7,34 @@ class WebpackConfiguration {
     projectConfiguration,
     pathUtils,
     versionUtils,
+    targets,
     targetConfiguration,
     webpackConfigurations
   ) {
     this.projectConfiguration = projectConfiguration;
     this.pathUtils = pathUtils;
     this.versionUtils = versionUtils;
+    this.targets = targets;
     this.targetConfiguration = targetConfiguration;
     this.webpackConfigurations = webpackConfigurations;
   }
 
-  getDefinitions(env) {
-    return {
-      'process.env.NODE_ENV': env,
+  getDefinitions(target, env) {
+    const definitions = {
+      'process.env.NODE_ENV': `'${env}'`,
     };
+
+    if (
+      target.is.browser &&
+      target.configuration &&
+      target.configuration.enabled
+    ) {
+      definitions[target.configuration.defineOn] = JSON.stringify(
+        this.targets.getBrowserTargetConfiguration(target)
+      );
+    }
+
+    return definitions;
   }
 
   getHash() {
@@ -63,7 +77,7 @@ class WebpackConfiguration {
       entry: {
         [target.name]: entries,
       },
-      definitions: this.getDefinitions(buildType),
+      definitions: this.getDefinitions(target, buildType),
       version: this.getVersion(),
       hash,
       hashStr,
@@ -104,6 +118,7 @@ const webpackConfiguration = provider((app) => {
       app.get('projectConfiguration').getConfig(),
       app.get('pathUtils'),
       app.get('versionUtils'),
+      app.get('targets'),
       app.get('targetConfiguration'),
       webpackConfigurations
     );
