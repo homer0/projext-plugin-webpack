@@ -25,6 +25,7 @@ describe('plugin:woopackWebpack', () => {
       'webpackLoadersConfiguration',
       'webpackNodeDevelopmentConfiguration',
       'webpackNodeProductionConfiguration',
+      'webpackMiddlewares',
     ].length);
   });
 });

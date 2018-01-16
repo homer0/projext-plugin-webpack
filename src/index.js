@@ -12,6 +12,10 @@ const {
   webpackNodeProductionConfiguration,
 } = require('./services/configurations');
 
+const {
+  webpackMiddlewares,
+} = require('./services/server');
+
 module.exports = (app) => {
   app.register(webpackConfiguration);
   app.register(webpackBuildEngine);
@@ -22,4 +26,6 @@ module.exports = (app) => {
   app.register(webpackLoadersConfiguration);
   app.register(webpackNodeDevelopmentConfiguration);
   app.register(webpackNodeProductionConfiguration);
+
+  app.register(webpackMiddlewares);
 };
