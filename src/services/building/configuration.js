@@ -46,7 +46,13 @@ class WebpackConfiguration {
   }
 
   getVersion() {
-    const { version: { filename } } = this.projectConfiguration;
+    const {
+      version: {
+        revision: {
+          filename,
+        },
+      },
+    } = this.projectConfiguration;
     return this.versionUtils.getVersion(filename);
   }
 

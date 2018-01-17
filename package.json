@@ -1,7 +1,7 @@
 {
     "name": "woopack-plugin-webpack",
     "description": "...",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "repository": "homer0/woopack-plugin-webpack",
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
@@ -52,7 +52,7 @@
       "jest-ex": "4.0.0",
       "jest-cli": "22.0.4",
       "jasmine-expect": "3.8.1",
-      "jimpex": "^0.0.1"
+      "jimpex": "^0.0.5"
     },
     "engine-strict": true,
     "engines": {
