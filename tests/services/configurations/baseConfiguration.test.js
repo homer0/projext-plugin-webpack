@@ -20,14 +20,12 @@ describe('services/configurations:baseConfiguration', () => {
     // Given
     const events = 'events';
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const webpackLoadersConfiguration = 'webpackLoadersConfiguration';
     let sut = null;
     // When
     sut = new WebpackBaseConfiguration(
       events,
       pathUtils,
-      projectConfiguration,
       webpackLoadersConfiguration
     );
     // Then
@@ -38,7 +36,6 @@ describe('services/configurations:baseConfiguration', () => {
       'webpack/base.config.js'
     );
     expect(sut.events).toBe(events);
-    expect(sut.projectConfiguration).toBe(projectConfiguration);
     expect(sut.webpackLoadersConfiguration).toBe(webpackLoadersConfiguration);
   });
 
@@ -49,7 +46,6 @@ describe('services/configurations:baseConfiguration', () => {
       reduce: jest.fn(() => message),
     };
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const rules = 'rules';
     const target = {
       is: {
@@ -78,7 +74,6 @@ describe('services/configurations:baseConfiguration', () => {
     sut = new WebpackBaseConfiguration(
       events,
       pathUtils,
-      projectConfiguration,
       webpackLoadersConfiguration
     );
     result = sut.getConfig(params);
@@ -101,7 +96,6 @@ describe('services/configurations:baseConfiguration', () => {
       reduce: jest.fn(() => message),
     };
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const rules = 'rules';
     const target = {
       is: {
@@ -130,7 +124,6 @@ describe('services/configurations:baseConfiguration', () => {
     sut = new WebpackBaseConfiguration(
       events,
       pathUtils,
-      projectConfiguration,
       webpackLoadersConfiguration
     );
     result = sut.getConfig(params);
@@ -151,13 +144,7 @@ describe('services/configurations:baseConfiguration', () => {
     let sut = null;
     const container = {
       set: jest.fn(),
-      get: jest.fn(
-        (service) => (
-          service === 'projectConfiguration' ?
-            { getConfig: () => service } :
-            service
-        )
-      ),
+      get: jest.fn((service) => service),
     };
     let serviceName = null;
     let serviceFn = null;
@@ -170,7 +157,6 @@ describe('services/configurations:baseConfiguration', () => {
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackBaseConfiguration);
     expect(sut.events).toBe('events');
-    expect(sut.projectConfiguration).toBe('projectConfiguration');
     expect(sut.webpackLoadersConfiguration).toBe('webpackLoadersConfiguration');
   });
 });

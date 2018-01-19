@@ -12,21 +12,18 @@ const {
 describe('services/building:engine', () => {
   it('should be instantiated with all its dependencies', () => {
     // Given
-    const appLogger = 'appLogger';
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
     let sut = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackBuildEngine);
-    expect(sut.appLogger).toBe(appLogger);
     expect(sut.environmentUtils).toBe(environmentUtils);
     expect(sut.targets).toBe(targets);
     expect(sut.webpackConfiguration).toBe(webpackConfiguration);
@@ -34,7 +31,6 @@ describe('services/building:engine', () => {
 
   it('should return the command to build a target', () => {
     // Given
-    const appLogger = 'appLogger';
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
@@ -49,7 +45,6 @@ describe('services/building:engine', () => {
     let result = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
@@ -67,7 +62,6 @@ describe('services/building:engine', () => {
 
   it('should return the command to build and run a target', () => {
     // Given
-    const appLogger = 'appLogger';
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
@@ -83,7 +77,6 @@ describe('services/building:engine', () => {
     let result = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
@@ -101,7 +94,6 @@ describe('services/building:engine', () => {
 
   it('should return the command to build and `force` run a target', () => {
     // Given
-    const appLogger = 'appLogger';
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
@@ -117,7 +109,6 @@ describe('services/building:engine', () => {
     let result = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
@@ -135,7 +126,6 @@ describe('services/building:engine', () => {
 
   it('should return a target Webpack configuration from the configurations service', () => {
     // Given
-    const appLogger = 'appLogger';
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const target = 'some-target';
@@ -148,7 +138,6 @@ describe('services/building:engine', () => {
     let result = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
@@ -162,7 +151,6 @@ describe('services/building:engine', () => {
 
   it('should return a target Webpack configuration', () => {
     // Given
-    const appLogger = 'appLogger';
     const targetName = 'some-target';
     const buildType = 'development';
     const run = false;
@@ -189,7 +177,6 @@ describe('services/building:engine', () => {
     let result = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
@@ -209,7 +196,6 @@ describe('services/building:engine', () => {
 
   it('should return a Webpack configuration for running a target', () => {
     // Given
-    const appLogger = 'appLogger';
     const targetName = 'some-target';
     const buildType = 'development';
     const run = true;
@@ -236,7 +222,6 @@ describe('services/building:engine', () => {
     let result = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
@@ -262,7 +247,6 @@ describe('services/building:engine', () => {
 
   it('should thro an error when getting a configuration without the env variables', () => {
     // Given
-    const appLogger = 'appLogger';
     const envVarsNames = [
       'WOOPACK_WEBPACK_TARGET',
       'WOOPACK_WEBPACK_BUILD_TYPE',
@@ -276,7 +260,6 @@ describe('services/building:engine', () => {
     let sut = null;
     // When
     sut = new WebpackBuildEngine(
-      appLogger,
       environmentUtils,
       targets,
       webpackConfiguration
@@ -306,7 +289,6 @@ describe('services/building:engine', () => {
     expect(serviceName).toBe('webpackBuildEngine');
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackBuildEngine);
-    expect(sut.appLogger).toBe('appLogger');
     expect(sut.environmentUtils).toBe('environmentUtils');
     expect(sut.targets).toBe('targets');
     expect(sut.webpackConfiguration).toBe('webpackConfiguration');

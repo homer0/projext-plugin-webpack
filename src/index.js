@@ -15,8 +15,13 @@ const {
 const {
   webpackMiddlewares,
 } = require('./services/server');
-
-module.exports = (app) => {
+/**
+ * This is the method called by Woopack when loading the plugin and it takes care of registering
+ * the Webpack build engine service and all the other services the engine depends on.
+ * @param {Woopack} app The Woopack main container.
+ * @ignore
+ */
+const loadPlugin = (app) => {
   app.register(webpackConfiguration);
   app.register(webpackBuildEngine);
 
@@ -29,3 +34,5 @@ module.exports = (app) => {
 
   app.register(webpackMiddlewares);
 };
+
+module.exports = loadPlugin;

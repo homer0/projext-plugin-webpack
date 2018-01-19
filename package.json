@@ -52,7 +52,10 @@
       "jest-ex": "4.0.0",
       "jest-cli": "22.0.4",
       "jasmine-expect": "3.8.1",
-      "jimpex": "^0.0.5"
+      "jimpex": "^0.0.5",
+      "esdoc": "1.0.4",
+      "esdoc-standard-plugin": "1.0.0",
+      "esdoc-node": "homer0/esdoc-node"
     },
     "engine-strict": true,
     "engines": {
@@ -64,6 +67,6 @@
       "install-hooks": "./utils/hooks/install",
       "test": "./utils/scripts/test",
       "lint": "./utils/scripts/lint",
-      "docs": ""
+      "docs": "./utils/scripts/docs"
     }
 }
