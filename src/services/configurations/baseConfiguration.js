@@ -24,7 +24,7 @@ class WebpackBaseConfiguration extends ConfigurationFile {
   ) {
     super(pathUtils, 'webpack/base.config.js');
     /**
-     * A local reference for the `Events` service.
+     * A local reference for the `events` service.
      * @type {Events}
      */
     this.events = events;
