@@ -68,7 +68,7 @@ class WebpackBaseConfiguration extends ConfigurationFile {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackBaseConfiguration` as the `webpackBaseConfiguration` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackBaseConfiguration);
  * // Getting access to the service instance
  * const webpackBaseConfiguration = container.get('webpackBaseConfiguration');

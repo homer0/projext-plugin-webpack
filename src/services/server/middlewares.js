@@ -235,7 +235,7 @@ class WebpackMiddlewares {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackMiddlewares` as the `webpackMiddlewares` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackMiddlewares);
  * // Getting access to the service instance
  * const webpackMiddlewares = container.get('webpackMiddlewares');

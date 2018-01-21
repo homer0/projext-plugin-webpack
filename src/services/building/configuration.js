@@ -183,7 +183,7 @@ class WebpackConfiguration {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackConfiguration` as the `webpackConfiguration` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackConfiguration);
  * // Getting access to the service instance
  * const webpackConfiguration = container.get('webpackConfiguration');

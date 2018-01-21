@@ -115,7 +115,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackBrowserProductionConfiguration` as the `webpackBrowserProductionConfiguration` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackBrowserProductionConfiguration);
  * // Getting access to the service instance
  * const webpackBrowserProdConfig = container.get('webpackBrowserProductionConfiguration');

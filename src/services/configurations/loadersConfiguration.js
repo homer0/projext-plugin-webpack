@@ -440,7 +440,7 @@ class WebpackLoadersConfiguration extends ConfigurationFile {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackLoadersConfiguration` as the `webpackLoadersConfiguration` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackLoadersConfiguration);
  * // Getting access to the service instance
  * const webpackLoadersConfiguration = container.get('webpackLoadersConfiguration');

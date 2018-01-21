@@ -91,7 +91,7 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackNodeProductionConfiguration` as the `webpackNodeProductionConfiguration` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackNodeProductionConfiguration);
  * // Getting access to the service instance
  * const webpackNodeProdConfig = container.get('webpackNodeProductionConfiguration');

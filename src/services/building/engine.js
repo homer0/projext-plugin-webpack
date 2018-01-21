@@ -146,7 +146,7 @@ class WebpackBuildEngine {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackBuildEngine` as the `webpackBuildEngine` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackBuildEngine);
  * // Getting access to the service instance
  * const webpackBuildEngine = container.get('webpackBuildEngine');

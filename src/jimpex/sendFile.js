@@ -43,7 +43,7 @@ class WebpackSendFile {
  * The service provider that once registered on the app container will set
  * `WebpackSendFile.sendFile` as the `sendFIle` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(sendFile);
  * // Getting access to the service instance
  * const sendFile = container.get('sendFile');

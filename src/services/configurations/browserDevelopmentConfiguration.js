@@ -170,7 +170,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
  * The service provider that once registered on the app container will set an instance of
  * `WebpackBrowserDevelopmentConfiguration` as the `webpackBrowserDevelopmentConfiguration` service.
  * @example
- * // Register is on the container
+ * // Register it on the container
  * container.register(webpackBrowserDevelopmentConfiguration);
  * // Getting access to the service instance
  * const webpackBrowserDevConfig = container.get('webpackBrowserDevelopmentConfiguration');

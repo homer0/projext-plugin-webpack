@@ -95,7 +95,7 @@ class WebpackFrontendFs {
  * @example
  * // Generate the provider
  * const provider = webpackFrontendFs(() => 'some-dir', () => middleware.fs);
- * // Register is on the container
+ * // Register it on the container
  * container.register(provider);
  * // Getting access to the service instance
  * const frontendFs = container.get('frontendFs');
