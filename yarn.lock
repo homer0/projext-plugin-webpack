@@ -4606,9 +4606,9 @@ jest-worker@^22.0.3:
   dependencies:
     merge-stream "^1.0.1"
 
-jimpex@^1.0.0:
-  version "1.0.0"
-  resolved "http://local.npm/jimpex/-/jimpex-1.0.0.tgz#ca8e77f3530b1af584412398b6767552d76e32dd"
+jimpex@^1.0.2:
+  version "1.0.2"
+  resolved "http://local.npm/jimpex/-/jimpex-1.0.2.tgz#21b70f939c1f349ad638704ac90fe703f3acb816"
   dependencies:
     body-parser "1.18.2"
     compression "1.7.1"
@@ -4621,7 +4621,7 @@ jimpex@^1.0.0:
     node-fetch "1.7.3"
     statuses "1.4.0"
     urijs "1.19.0"
-    wootils "^1.0.2"
+    wootils "^1.0.4"
 
 "jimple@github:homer0/jimple", jimple@homer0/jimple:
   version "1.4.6"
@@ -5207,7 +5207,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@^4, lodash@^4.0.0, lodash@^4.1.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.4:
+lodash@^4.0.0, lodash@^4.1.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -7528,13 +7528,6 @@ string-length@^2.0.0:
     astral-regex "^1.0.0"
     strip-ansi "^4.0.0"
 
-string-replace-loader@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/string-replace-loader/-/string-replace-loader-1.3.0.tgz#1d404a7bf5e2ec21b08ffc76d89445fbe49bc01d"
-  dependencies:
-    loader-utils "^1.1.0"
-    lodash "^4"
-
 string-width@^1.0.1, string-width@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-1.0.2.tgz#118bdf5b8cdc51a2a7e70d211e07e2b0b9b107d3"
@@ -8472,9 +8465,9 @@ window-size@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
 
-woopack@^0.0.18:
-  version "0.0.18"
-  resolved "http://local.npm/woopack/-/woopack-0.0.18.tgz#1bad3618447cc1a89733176352ac9877f7022d6c"
+woopack@^0.0.28:
+  version "0.0.28"
+  resolved "http://local.npm/woopack/-/woopack-0.0.28.tgz#eb2085ab9bf3e5002dbbf293725f20251ee34f5f"
   dependencies:
     babel-cli "6.26.0"
     babel-core "6.26.0"
@@ -8494,11 +8487,21 @@ woopack@^0.0.18:
     nodemon "1.14.3"
     shelljs "0.7.8"
     watchpack "1.4.0"
-    wootils "^1.0.2"
+    wootils "^1.0.4"
 
 wootils@^1.0.2:
   version "1.0.2"
   resolved "http://local.npm/wootils/-/wootils-1.0.2.tgz#70de151c3c14ef2bb1abbed75c5fb822ca0c30ef"
+  dependencies:
+    colors "1.1.2"
+    fs-extra "5.0.0"
+    jimple homer0/jimple
+    statuses "1.4.0"
+    urijs "1.19.0"
+
+wootils@^1.0.4:
+  version "1.0.4"
+  resolved "http://local.npm/wootils/-/wootils-1.0.4.tgz#c98137526f08046855d776118254db94311bfa15"
   dependencies:
     colors "1.1.2"
     fs-extra "5.0.0"
