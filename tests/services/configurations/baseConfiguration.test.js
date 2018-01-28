@@ -20,13 +20,13 @@ describe('services/configurations:baseConfiguration', () => {
     // Given
     const events = 'events';
     const pathUtils = 'pathUtils';
-    const webpackLoadersConfiguration = 'webpackLoadersConfiguration';
+    const webpackRulesConfiguration = 'webpackRulesConfiguration';
     let sut = null;
     // When
     sut = new WebpackBaseConfiguration(
       events,
       pathUtils,
-      webpackLoadersConfiguration
+      webpackRulesConfiguration
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackBaseConfiguration);
@@ -36,7 +36,7 @@ describe('services/configurations:baseConfiguration', () => {
       'webpack/base.config.js'
     );
     expect(sut.events).toBe(events);
-    expect(sut.webpackLoadersConfiguration).toBe(webpackLoadersConfiguration);
+    expect(sut.webpackRulesConfiguration).toBe(webpackRulesConfiguration);
   });
 
   it('should create the configuration for a node target', () => {
@@ -56,7 +56,7 @@ describe('services/configurations:baseConfiguration', () => {
       rules,
     };
     const params = { target };
-    const webpackLoadersConfiguration = {
+    const webpackRulesConfiguration = {
       getConfig: jest.fn(() => config),
     };
     const expectedConfig = {
@@ -74,13 +74,13 @@ describe('services/configurations:baseConfiguration', () => {
     sut = new WebpackBaseConfiguration(
       events,
       pathUtils,
-      webpackLoadersConfiguration
+      webpackRulesConfiguration
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toBe(message);
-    expect(webpackLoadersConfiguration.getConfig).toHaveBeenCalledTimes(1);
-    expect(webpackLoadersConfiguration.getConfig).toHaveBeenCalledWith(params);
+    expect(webpackRulesConfiguration.getConfig).toHaveBeenCalledTimes(1);
+    expect(webpackRulesConfiguration.getConfig).toHaveBeenCalledWith(params);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       'webpack-base-configuration-for-node',
@@ -106,7 +106,7 @@ describe('services/configurations:baseConfiguration', () => {
       rules,
     };
     const params = { target };
-    const webpackLoadersConfiguration = {
+    const webpackRulesConfiguration = {
       getConfig: jest.fn(() => config),
     };
     const expectedConfig = {
@@ -124,13 +124,13 @@ describe('services/configurations:baseConfiguration', () => {
     sut = new WebpackBaseConfiguration(
       events,
       pathUtils,
-      webpackLoadersConfiguration
+      webpackRulesConfiguration
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toBe(message);
-    expect(webpackLoadersConfiguration.getConfig).toHaveBeenCalledTimes(1);
-    expect(webpackLoadersConfiguration.getConfig).toHaveBeenCalledWith(params);
+    expect(webpackRulesConfiguration.getConfig).toHaveBeenCalledTimes(1);
+    expect(webpackRulesConfiguration.getConfig).toHaveBeenCalledWith(params);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       'webpack-base-configuration-for-browser',
@@ -157,6 +157,6 @@ describe('services/configurations:baseConfiguration', () => {
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackBaseConfiguration);
     expect(sut.events).toBe('events');
-    expect(sut.webpackLoadersConfiguration).toBe('webpackLoadersConfiguration');
+    expect(sut.webpackRulesConfiguration).toBe('webpackRulesConfiguration');
   });
 });

@@ -6,8 +6,8 @@ const {
   webpackBrowserProductionConfiguration,
 } = require('./browserProductionConfiguration');
 const {
-  webpackLoadersConfiguration,
-} = require('./loadersConfiguration');
+  webpackRulesConfiguration,
+} = require('./rulesConfiguration');
 const {
   webpackNodeDevelopmentConfiguration,
 } = require('./nodeDevelopmentConfiguration');
@@ -19,7 +19,7 @@ module.exports = {
   webpackBaseConfiguration,
   webpackBrowserDevelopmentConfiguration,
   webpackBrowserProductionConfiguration,
-  webpackLoadersConfiguration,
+  webpackRulesConfiguration,
   webpackNodeDevelopmentConfiguration,
   webpackNodeProductionConfiguration,
 };

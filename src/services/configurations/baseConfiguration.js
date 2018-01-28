@@ -9,18 +9,18 @@ const ConfigurationFile = require('../../interfaces/configurationFile');
 class WebpackBaseConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {Events}                      events                      To reduce the configuration.
-   * @param {PathUtils}                   pathUtils                   Required by
-   *                                                                  `ConfigurationFile` in order
-   *                                                                  to build the path to the
-   *                                                                  overwrite file.
-   * @param {WebpackLoadersConfiguration} webpackLoadersConfiguration To get all the loaders and
-   *                                                                  rules for the configuration.
+   * @param {Events}                    events                    To reduce the configuration.
+   * @param {PathUtils}                 pathUtils                 Required by `ConfigurationFile`
+   *                                                              in order to build the path to
+   *                                                              the overwrite file.
+   * @param {WebpackRulesConfiguration} webpackRulesConfiguration To get all the configuration rules
+   *                                                              for the type of files that will be
+   *                                                              bundled.
    */
   constructor(
     events,
     pathUtils,
-    webpackLoadersConfiguration
+    webpackRulesConfiguration
   ) {
     super(pathUtils, 'webpack/base.config.js');
     /**
@@ -29,10 +29,10 @@ class WebpackBaseConfiguration extends ConfigurationFile {
      */
     this.events = events;
     /**
-     * A local reference for the `webpackLoadersConfiguration` service.
-     * @type {WebpackLoadersConfiguration}
+     * A local reference for the `webpackRulesConfiguration` service.
+     * @type {WebpackRulesConfiguration}
      */
-    this.webpackLoadersConfiguration = webpackLoadersConfiguration;
+    this.webpackRulesConfiguration = webpackRulesConfiguration;
   }
   /**
    * Create the configuration with the `resolve` and the `module` `rules`.
@@ -46,7 +46,7 @@ class WebpackBaseConfiguration extends ConfigurationFile {
    * @return {object}
    */
   createConfig(params) {
-    const { rules } = this.webpackLoadersConfiguration.getConfig(params);
+    const { rules } = this.webpackRulesConfiguration.getConfig(params);
     const config = {
       resolve: {
         extensions: ['.js', '.jsx'],
@@ -78,7 +78,7 @@ const webpackBaseConfiguration = provider((app) => {
   app.set('webpackBaseConfiguration', () => new WebpackBaseConfiguration(
     app.get('events'),
     app.get('pathUtils'),
-    app.get('webpackLoadersConfiguration')
+    app.get('webpackRulesConfiguration')
   ));
 });
 

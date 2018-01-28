@@ -7,7 +7,7 @@ const {
   webpackBaseConfiguration,
   webpackBrowserDevelopmentConfiguration,
   webpackBrowserProductionConfiguration,
-  webpackLoadersConfiguration,
+  webpackRulesConfiguration,
   webpackNodeDevelopmentConfiguration,
   webpackNodeProductionConfiguration,
 } = require('./services/configurations');
@@ -28,7 +28,7 @@ const loadPlugin = (app) => {
   app.register(webpackBaseConfiguration);
   app.register(webpackBrowserDevelopmentConfiguration);
   app.register(webpackBrowserProductionConfiguration);
-  app.register(webpackLoadersConfiguration);
+  app.register(webpackRulesConfiguration);
   app.register(webpackNodeDevelopmentConfiguration);
   app.register(webpackNodeProductionConfiguration);
 

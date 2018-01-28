@@ -4,23 +4,23 @@ const ConfigurationFileMock = require('/tests/mocks/configurationFile.mock');
 jest.mock('jimple', () => JimpleMock);
 jest.mock('extract-text-webpack-plugin');
 jest.mock('/src/interfaces/configurationFile', () => ConfigurationFileMock);
-jest.unmock('/src/services/configurations/loadersConfiguration');
+jest.unmock('/src/services/configurations/rulesConfiguration');
 
 require('jasmine-expect');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {
-  WebpackLoadersConfiguration,
-  webpackLoadersConfiguration,
-} = require('/src/services/configurations/loadersConfiguration');
+  WebpackRulesConfiguration,
+  webpackRulesConfiguration,
+} = require('/src/services/configurations/rulesConfiguration');
 
-describe('services/configurations:loadersConfiguration', () => {
-  const getExpectedLoaders = (
+describe('services/configurations:rulesConfiguration', () => {
+  const getExpectedRules = (
     target,
     babelConfig,
     extractResult = ''
   ) => {
-    const loaders = {};
-    loaders.jsLoaders = [{
+    const rules = {};
+    rules.jsRules = [{
       test: expect.any(RegExp),
       include: [RegExp(target.folders.source)],
       use: [{
@@ -28,7 +28,7 @@ describe('services/configurations:loadersConfiguration', () => {
         options: babelConfig,
       }],
     }];
-    loaders.scssExtractOptions = {
+    rules.scssExtractOptions = {
       fallback: expect.any(String),
       use: [
         {
@@ -42,13 +42,13 @@ describe('services/configurations:loadersConfiguration', () => {
         },
       ],
     };
-    loaders.scssExtractOptionsWithModules = {
+    rules.scssExtractOptionsWithModules = {
       fallback: expect.any(String),
       use: [
         {
           loader: 'css-loader',
           query: {
-            importLoaders: 2,
+            importRules: 2,
             modules: true,
             localIdentName: '[name]__[local]___[hash:base64:5]',
           },
@@ -60,29 +60,29 @@ describe('services/configurations:loadersConfiguration', () => {
         },
       ],
     };
-    loaders.cssExtractOptions = {
+    rules.cssExtractOptions = {
       fallback: 'style-loader',
       use: [
         'css-loader',
       ],
     };
-    loaders.scssLoaders = [{
+    rules.scssRules = [{
       test: expect.any(RegExp),
       exclude: expect.any(RegExp),
       use: extractResult,
     }];
-    loaders.cssLoaders = [{
+    rules.cssRules = [{
       test: expect.any(RegExp),
       use: extractResult,
     }];
-    loaders.htmlLoaders = [{
+    rules.htmlRules = [{
       test: expect.any(RegExp),
       exclude: expect.any(RegExp),
       use: [
         'raw-loader',
       ],
     }];
-    loaders.fontsLoaders = [
+    rules.fontsRules = [
       {
         test: expect.any(RegExp),
         include: expect.any(RegExp),
@@ -134,7 +134,7 @@ describe('services/configurations:loadersConfiguration', () => {
         }],
       },
     ];
-    loaders.imagesLoaders = [
+    rules.imagesRules = [
       {
         test: expect.any(RegExp),
         exclude: expect.any(RegExp),
@@ -153,7 +153,7 @@ describe('services/configurations:loadersConfiguration', () => {
         ],
       },
     ];
-    loaders.faviconLoaders = [
+    rules.faviconRules = [
       {
         test: expect.any(RegExp),
         include: expect.any(RegExp),
@@ -173,7 +173,7 @@ describe('services/configurations:loadersConfiguration', () => {
       },
     ];
 
-    return loaders;
+    return rules;
   };
 
   beforeEach(() => {
@@ -189,25 +189,25 @@ describe('services/configurations:loadersConfiguration', () => {
     const projectConfiguration = 'projectConfiguration';
     let sut = null;
     // When
-    sut = new WebpackLoadersConfiguration(
+    sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
       pathUtils,
       projectConfiguration
     );
     // Then
-    expect(sut).toBeInstanceOf(WebpackLoadersConfiguration);
+    expect(sut).toBeInstanceOf(WebpackRulesConfiguration);
     expect(sut.constructorMock).toHaveBeenCalledTimes(1);
     expect(sut.constructorMock).toHaveBeenCalledWith(
       pathUtils,
-      'webpack/loaders.config.js'
+      'webpack/rules.config.js'
     );
     expect(sut.babelConfiguration).toBe(babelConfiguration);
     expect(sut.events).toBe(events);
     expect(sut.projectConfiguration).toBe(projectConfiguration);
   });
 
-  it('should return the loaders for a node target', () => {
+  it('should return the rules for a node target', () => {
     // Given
     const version = 'latest';
     const babelConfig = 'babel';
@@ -215,7 +215,7 @@ describe('services/configurations:loadersConfiguration', () => {
       getConfigForTarget: jest.fn(() => babelConfig),
     };
     const events = {
-      reduce: jest.fn((eventName, loaders) => loaders),
+      reduce: jest.fn((eventName, rules) => rules),
     };
     const pathUtils = 'pathUtils';
     const projectConfiguration = 'projectConfiguration';
@@ -233,11 +233,11 @@ describe('services/configurations:loadersConfiguration', () => {
       target,
       version,
     };
-    const expectedLoaders = getExpectedLoaders(target, babelConfig);
+    const expectedRules = getExpectedRules(target, babelConfig);
     let sut = null;
     let result = null;
     // When
-    sut = new WebpackLoadersConfiguration(
+    sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
       pathUtils,
@@ -249,24 +249,34 @@ describe('services/configurations:loadersConfiguration', () => {
       rules: expect.any(Array),
     });
     expect(events.reduce).toHaveBeenCalledTimes([
-      'getJSLoaders',
+      'getJSRules',
       'createNodeConfig',
+      'createConfig',
     ].length);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-js-loaders-configuration-for-node',
-      expectedLoaders.jsLoaders,
+      'webpack-js-rules-configuration-for-node',
+      expectedRules.jsRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-loaders-configuration-for-node',
+      'webpack-rules-configuration-for-node',
       [
-        ...expectedLoaders.jsLoaders,
+        ...expectedRules.jsRules,
       ],
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-rules-configuration',
+      {
+        rules: [
+          ...expectedRules.jsRules,
+        ],
+      },
       params
     );
   });
 
-  it('should return the loaders for a browser target', () => {
+  it('should return the rules for a browser target', () => {
     // Given
     const extractResult = 'extract';
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
@@ -276,7 +286,7 @@ describe('services/configurations:loadersConfiguration', () => {
       getConfigForTarget: jest.fn(() => babelConfig),
     };
     const events = {
-      reduce: jest.fn((eventName, loaders) => loaders),
+      reduce: jest.fn((eventName, rules) => rules),
     };
     const pathUtils = 'pathUtils';
     const projectConfiguration = {
@@ -302,7 +312,7 @@ describe('services/configurations:loadersConfiguration', () => {
       target,
       hashStr,
     };
-    const expectedLoaders = getExpectedLoaders(
+    const expectedRules = getExpectedRules(
       target,
       babelConfig,
       extractResult
@@ -311,7 +321,7 @@ describe('services/configurations:loadersConfiguration', () => {
     let result = null;
 
     // When
-    sut = new WebpackLoadersConfiguration(
+    sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
       pathUtils,
@@ -323,69 +333,85 @@ describe('services/configurations:loadersConfiguration', () => {
       rules: expect.any(Array),
     });
     expect(events.reduce).toHaveBeenCalledTimes([
-      'getJSLoaders',
-      'getSCSSLoaders',
-      'getCSSLoaders',
-      'getHTMLLoaders',
-      'getFontsLoaders',
-      'getImagesLoaders',
-      'getFaviconsLoaders',
+      'getJSRules',
+      'getSCSSRules',
+      'getCSSRules',
+      'getHTMLRules',
+      'getFontsRules',
+      'getImagesRules',
+      'getFaviconsRules',
       'createBrowserConfig',
+      'createConfig',
     ].length);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-js-loaders-configuration-for-browser',
-      expectedLoaders.jsLoaders,
+      'webpack-js-rules-configuration-for-browser',
+      expectedRules.jsRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-scss-loaders-configuration-for-browser',
-      expectedLoaders.scssLoaders,
+      'webpack-scss-rules-configuration-for-browser',
+      expectedRules.scssRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-css-loaders-configuration-for-browser',
-      expectedLoaders.cssLoaders,
+      'webpack-css-rules-configuration-for-browser',
+      expectedRules.cssRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-html-loaders-configuration-for-browser',
-      expectedLoaders.htmlLoaders,
+      'webpack-html-rules-configuration-for-browser',
+      expectedRules.htmlRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-fonts-loaders-configuration-for-browser',
-      expectedLoaders.fontsLoaders,
+      'webpack-fonts-rules-configuration-for-browser',
+      expectedRules.fontsRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-images-loaders-configuration-for-browser',
-      expectedLoaders.imagesLoaders,
+      'webpack-images-rules-configuration-for-browser',
+      expectedRules.imagesRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-favicons-loaders-configuration-for-browser',
-      expectedLoaders.faviconLoaders,
+      'webpack-favicons-rules-configuration-for-browser',
+      expectedRules.faviconRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-loaders-configuration-for-browser',
+      'webpack-rules-configuration-for-browser',
       [
-        ...expectedLoaders.jsLoaders,
-        ...expectedLoaders.scssLoaders,
-        ...expectedLoaders.cssLoaders,
-        ...expectedLoaders.htmlLoaders,
-        ...expectedLoaders.fontsLoaders,
-        ...expectedLoaders.imagesLoaders,
-        ...expectedLoaders.faviconLoaders,
+        ...expectedRules.jsRules,
+        ...expectedRules.scssRules,
+        ...expectedRules.cssRules,
+        ...expectedRules.htmlRules,
+        ...expectedRules.fontsRules,
+        ...expectedRules.imagesRules,
+        ...expectedRules.faviconRules,
       ],
       params
     );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-rules-configuration',
+      {
+        rules: [
+          ...expectedRules.jsRules,
+          ...expectedRules.scssRules,
+          ...expectedRules.cssRules,
+          ...expectedRules.htmlRules,
+          ...expectedRules.fontsRules,
+          ...expectedRules.imagesRules,
+          ...expectedRules.faviconRules,
+        ],
+      },
+      params
+    );
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedLoaders.scssExtractOptions);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedLoaders.cssExtractOptions);
+    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.scssExtractOptions);
+    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
   });
 
-  it('should return the loaders for a browser target that uses CSS modules', () => {
+  it('should return the rules for a browser target that uses CSS modules', () => {
     // Given
     const extractResult = 'extract';
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
@@ -395,7 +421,7 @@ describe('services/configurations:loadersConfiguration', () => {
       getConfigForTarget: jest.fn(() => babelConfig),
     };
     const events = {
-      reduce: jest.fn((eventName, loaders) => loaders),
+      reduce: jest.fn((eventName, rules) => rules),
     };
     const pathUtils = 'pathUtils';
     const projectConfiguration = {
@@ -422,7 +448,7 @@ describe('services/configurations:loadersConfiguration', () => {
       target,
       hashStr,
     };
-    const expectedLoaders = getExpectedLoaders(
+    const expectedRules = getExpectedRules(
       target,
       babelConfig,
       extractResult
@@ -431,7 +457,7 @@ describe('services/configurations:loadersConfiguration', () => {
     let result = null;
 
     // When
-    sut = new WebpackLoadersConfiguration(
+    sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
       pathUtils,
@@ -443,67 +469,83 @@ describe('services/configurations:loadersConfiguration', () => {
       rules: expect.any(Array),
     });
     expect(events.reduce).toHaveBeenCalledTimes([
-      'getJSLoaders',
-      'getSCSSLoaders',
-      'getCSSLoaders',
-      'getHTMLLoaders',
-      'getFontsLoaders',
-      'getImagesLoaders',
-      'getFaviconsLoaders',
+      'getJSRules',
+      'getSCSSRules',
+      'getCSSRules',
+      'getHTMLRules',
+      'getFontsRules',
+      'getImagesRules',
+      'getFaviconsRules',
       'createBrowserConfig',
+      'createConfig',
     ].length);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-js-loaders-configuration-for-browser',
-      expectedLoaders.jsLoaders,
+      'webpack-js-rules-configuration-for-browser',
+      expectedRules.jsRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-scss-loaders-configuration-for-browser',
-      expectedLoaders.scssLoaders,
+      'webpack-scss-rules-configuration-for-browser',
+      expectedRules.scssRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-css-loaders-configuration-for-browser',
-      expectedLoaders.cssLoaders,
+      'webpack-css-rules-configuration-for-browser',
+      expectedRules.cssRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-html-loaders-configuration-for-browser',
-      expectedLoaders.htmlLoaders,
+      'webpack-html-rules-configuration-for-browser',
+      expectedRules.htmlRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-fonts-loaders-configuration-for-browser',
-      expectedLoaders.fontsLoaders,
+      'webpack-fonts-rules-configuration-for-browser',
+      expectedRules.fontsRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-images-loaders-configuration-for-browser',
-      expectedLoaders.imagesLoaders,
+      'webpack-images-rules-configuration-for-browser',
+      expectedRules.imagesRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-favicons-loaders-configuration-for-browser',
-      expectedLoaders.faviconLoaders,
+      'webpack-favicons-rules-configuration-for-browser',
+      expectedRules.faviconRules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-loaders-configuration-for-browser',
+      'webpack-rules-configuration-for-browser',
       [
-        ...expectedLoaders.jsLoaders,
-        ...expectedLoaders.scssLoaders,
-        ...expectedLoaders.cssLoaders,
-        ...expectedLoaders.htmlLoaders,
-        ...expectedLoaders.fontsLoaders,
-        ...expectedLoaders.imagesLoaders,
-        ...expectedLoaders.faviconLoaders,
+        ...expectedRules.jsRules,
+        ...expectedRules.scssRules,
+        ...expectedRules.cssRules,
+        ...expectedRules.htmlRules,
+        ...expectedRules.fontsRules,
+        ...expectedRules.imagesRules,
+        ...expectedRules.faviconRules,
       ],
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-rules-configuration',
+      {
+        rules: [
+          ...expectedRules.jsRules,
+          ...expectedRules.scssRules,
+          ...expectedRules.cssRules,
+          ...expectedRules.htmlRules,
+          ...expectedRules.fontsRules,
+          ...expectedRules.imagesRules,
+          ...expectedRules.faviconRules,
+        ],
+      },
       params
     );
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
     expect(ExtractTextPlugin.extract)
-    .toHaveBeenCalledWith(expectedLoaders.scssExtractOptionsWithModules);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedLoaders.cssExtractOptions);
+    .toHaveBeenCalledWith(expectedRules.scssExtractOptionsWithModules);
+    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
   });
 
   it('should include a provider for the DIC', () => {
@@ -522,13 +564,13 @@ describe('services/configurations:loadersConfiguration', () => {
     let serviceName = null;
     let serviceFn = null;
     // When
-    webpackLoadersConfiguration(container);
+    webpackRulesConfiguration(container);
     [[serviceName, serviceFn]] = container.set.mock.calls;
     sut = serviceFn();
     // Then
-    expect(serviceName).toBe('webpackLoadersConfiguration');
+    expect(serviceName).toBe('webpackRulesConfiguration');
     expect(serviceFn).toBeFunction();
-    expect(sut).toBeInstanceOf(WebpackLoadersConfiguration);
+    expect(sut).toBeInstanceOf(WebpackRulesConfiguration);
     expect(sut.babelConfiguration).toBe('babelConfiguration');
     expect(sut.events).toBe('events');
     expect(sut.projectConfiguration).toBe('projectConfiguration');
