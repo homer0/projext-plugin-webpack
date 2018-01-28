@@ -17,9 +17,7 @@ describe('services/configurations:loadersConfiguration', () => {
   const getExpectedLoaders = (
     target,
     babelConfig,
-    extractResult,
-    versionReplaceKey,
-    version
+    extractResult = ''
   ) => {
     const loaders = {};
     loaders.jsLoaders = [{
@@ -174,17 +172,6 @@ describe('services/configurations:loadersConfiguration', () => {
         ],
       },
     ];
-    loaders.versionLoaders = [{
-      test: expect.any(RegExp),
-      include: expect.any(RegExp),
-      use: [{
-        loader: 'string-replace-loader',
-        options: {
-          search: RegExp(`{{${versionReplaceKey}}}`, 'g'),
-          replace: version,
-        },
-      }],
-    }];
 
     return loaders;
   };
@@ -231,11 +218,7 @@ describe('services/configurations:loadersConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const projectConfiguration = {
-      version: {
-        replaceKey: 'APP_VERSION',
-      },
-    };
+    const projectConfiguration = 'projectConfiguration';
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -250,13 +233,7 @@ describe('services/configurations:loadersConfiguration', () => {
       target,
       version,
     };
-    const expectedLoaders = getExpectedLoaders(
-      target,
-      babelConfig,
-      '',
-      projectConfiguration.version.replaceKey,
-      version
-    );
+    const expectedLoaders = getExpectedLoaders(target, babelConfig);
     let sut = null;
     let result = null;
     // When
@@ -273,7 +250,6 @@ describe('services/configurations:loadersConfiguration', () => {
     });
     expect(events.reduce).toHaveBeenCalledTimes([
       'getJSLoaders',
-      'getVersionLoaders',
       'createNodeConfig',
     ].length);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -282,15 +258,9 @@ describe('services/configurations:loadersConfiguration', () => {
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-version-loaders-configuration-for-node',
-      expectedLoaders.versionLoaders,
-      params
-    );
-    expect(events.reduce).toHaveBeenCalledWith(
       'webpack-loaders-configuration-for-node',
       [
         ...expectedLoaders.jsLoaders,
-        ...expectedLoaders.versionLoaders,
       ],
       params
     );
@@ -301,7 +271,6 @@ describe('services/configurations:loadersConfiguration', () => {
     const extractResult = 'extract';
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
-    const version = 'latest';
     const babelConfig = 'babel';
     const babelConfiguration = {
       getConfigForTarget: jest.fn(() => babelConfig),
@@ -317,9 +286,6 @@ describe('services/configurations:loadersConfiguration', () => {
           images: 'statics/images',
         },
       },
-      version: {
-        replaceKey: 'APP_VERSION',
-      },
     };
     const targetName = 'some-target';
     const target = {
@@ -334,15 +300,12 @@ describe('services/configurations:loadersConfiguration', () => {
     const hashStr = 'hash.';
     const params = {
       target,
-      version,
       hashStr,
     };
     const expectedLoaders = getExpectedLoaders(
       target,
       babelConfig,
-      extractResult,
-      projectConfiguration.version.replaceKey,
-      version
+      extractResult
     );
     let sut = null;
     let result = null;
@@ -361,7 +324,6 @@ describe('services/configurations:loadersConfiguration', () => {
     });
     expect(events.reduce).toHaveBeenCalledTimes([
       'getJSLoaders',
-      'getVersionLoaders',
       'getSCSSLoaders',
       'getCSSLoaders',
       'getHTMLLoaders',
@@ -373,11 +335,6 @@ describe('services/configurations:loadersConfiguration', () => {
     expect(events.reduce).toHaveBeenCalledWith(
       'webpack-js-loaders-configuration-for-browser',
       expectedLoaders.jsLoaders,
-      params
-    );
-    expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-version-loaders-configuration-for-browser',
-      expectedLoaders.versionLoaders,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
@@ -414,7 +371,6 @@ describe('services/configurations:loadersConfiguration', () => {
       'webpack-loaders-configuration-for-browser',
       [
         ...expectedLoaders.jsLoaders,
-        ...expectedLoaders.versionLoaders,
         ...expectedLoaders.scssLoaders,
         ...expectedLoaders.cssLoaders,
         ...expectedLoaders.htmlLoaders,
@@ -434,7 +390,6 @@ describe('services/configurations:loadersConfiguration', () => {
     const extractResult = 'extract';
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
-    const version = 'latest';
     const babelConfig = 'babel';
     const babelConfiguration = {
       getConfigForTarget: jest.fn(() => babelConfig),
@@ -449,9 +404,6 @@ describe('services/configurations:loadersConfiguration', () => {
           fonts: 'statics/fonts',
           images: 'statics/images',
         },
-      },
-      version: {
-        replaceKey: 'APP_VERSION',
       },
     };
     const targetName = 'some-target';
@@ -468,15 +420,12 @@ describe('services/configurations:loadersConfiguration', () => {
     const hashStr = 'hash.';
     const params = {
       target,
-      version,
       hashStr,
     };
     const expectedLoaders = getExpectedLoaders(
       target,
       babelConfig,
-      extractResult,
-      projectConfiguration.version.replaceKey,
-      version
+      extractResult
     );
     let sut = null;
     let result = null;
@@ -495,7 +444,6 @@ describe('services/configurations:loadersConfiguration', () => {
     });
     expect(events.reduce).toHaveBeenCalledTimes([
       'getJSLoaders',
-      'getVersionLoaders',
       'getSCSSLoaders',
       'getCSSLoaders',
       'getHTMLLoaders',
@@ -507,11 +455,6 @@ describe('services/configurations:loadersConfiguration', () => {
     expect(events.reduce).toHaveBeenCalledWith(
       'webpack-js-loaders-configuration-for-browser',
       expectedLoaders.jsLoaders,
-      params
-    );
-    expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-version-loaders-configuration-for-browser',
-      expectedLoaders.versionLoaders,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
@@ -548,7 +491,6 @@ describe('services/configurations:loadersConfiguration', () => {
       'webpack-loaders-configuration-for-browser',
       [
         ...expectedLoaders.jsLoaders,
-        ...expectedLoaders.versionLoaders,
         ...expectedLoaders.scssLoaders,
         ...expectedLoaders.cssLoaders,
         ...expectedLoaders.htmlLoaders,

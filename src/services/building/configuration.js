@@ -8,9 +8,8 @@ const { provider } = require('jimple');
 class WebpackConfiguration {
   /**
    * Class constructor.
-   * @param {ProjectConfiguration}           projectConfiguration  To read the versions settings.
+   * @param {BuildVersion}                   buildVersion          To load the project version.
    * @param {PathUtils}                      pathUtils             To generate the Webpack paths.
-   * @param {VersionUtils}                   versionUtils          To load the project version.
    * @param {Targets}                        targets               To get the target information.
    * @param {function():TargetConfiguration} targetConfiguration   To create an overwrite
    *                                                               configuration for the target.
@@ -18,28 +17,22 @@ class WebpackConfiguration {
    *                                                               for target type and build type.
    */
   constructor(
-    projectConfiguration,
+    buildVersion,
     pathUtils,
-    versionUtils,
     targets,
     targetConfiguration,
     webpackConfigurations
   ) {
     /**
-     * A local reference for the `projectConfiguration` service.
-     * @type {ProjectConfiguration}
+     * A local reference for the `buildVersion` service.
+     * @type {BuildVersion}
      */
-    this.projectConfiguration = projectConfiguration;
+    this.buildVersion = buildVersion;
     /**
      * A local reference for the `pathUtils` service.
      * @type {PathUtils}
      */
     this.pathUtils = pathUtils;
-    /**
-     * A local reference for the `versionUtils` service.
-     * @type {VersionUtils}
-     */
-    this.versionUtils = versionUtils;
     /**
      * A local reference for the `targets` service.
      * @type {Targets}
@@ -74,6 +67,7 @@ class WebpackConfiguration {
   getDefinitions(target, env) {
     const definitions = {
       'process.env.NODE_ENV': `'${env}'`,
+      [this.buildVersion.getDefinitionVariable()]: JSON.stringify(this.buildVersion.getVersion()),
     };
 
     if (
@@ -101,20 +95,6 @@ class WebpackConfiguration {
       hash,
       hashStr: `.${hash}`,
     };
-  }
-  /**
-   * Get the project version.
-   * @return {string}
-   */
-  getVersion() {
-    const {
-      version: {
-        revision: {
-          filename,
-        },
-      },
-    } = this.projectConfiguration;
-    return this.versionUtils.getVersion(filename);
   }
   /**
    * In case the target is a library, this method will be called to generate the library options
@@ -157,7 +137,6 @@ class WebpackConfiguration {
         [target.name]: entries,
       },
       definitions: this.getDefinitions(target, buildType),
-      version: this.getVersion(),
       hash,
       hashStr,
     };
@@ -203,9 +182,8 @@ const webpackConfiguration = provider((app) => {
     };
 
     return new WebpackConfiguration(
-      app.get('projectConfiguration').getConfig(),
+      app.get('buildVersion'),
       app.get('pathUtils'),
-      app.get('versionUtils'),
       app.get('targets'),
       app.get('targetConfiguration'),
       webpackConfigurations

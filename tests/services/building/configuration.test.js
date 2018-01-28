@@ -13,27 +13,24 @@ const {
 describe('services/building:configuration', () => {
   it('should be instantiated with all its dependencies', () => {
     // Given
-    const projectConfiguration = 'projectConfiguration';
+    const buildVersion = 'buildVersion';
     const pathUtils = 'pathUtils';
-    const versionUtils = 'versionUtils';
     const targets = 'targets';
     const targetConfiguration = 'targetConfiguration';
     const webpackConfigurations = 'webpackConfigurations';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
-      projectConfiguration,
+      buildVersion,
       pathUtils,
-      versionUtils,
       targets,
       targetConfiguration,
       webpackConfigurations
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackConfiguration);
-    expect(sut.projectConfiguration).toBe(projectConfiguration);
+    expect(sut.buildVersion).toBe(buildVersion);
     expect(sut.pathUtils).toBe(pathUtils);
-    expect(sut.versionUtils).toBe(versionUtils);
     expect(sut.targets).toBe(targets);
     expect(sut.targetConfiguration).toBe(targetConfiguration);
     expect(sut.webpackConfigurations).toBe(webpackConfigurations);
@@ -41,9 +38,8 @@ describe('services/building:configuration', () => {
 
   it('should throw an error when trying to build a target with an invalid type', () => {
     // Given
-    const projectConfiguration = 'projectConfiguration';
+    const buildVersion = 'buildVersion';
     const pathUtils = 'pathUtils';
-    const versionUtils = 'versionUtils';
     const targets = 'targets';
     const targetConfiguration = 'targetConfiguration';
     const target = {
@@ -53,9 +49,8 @@ describe('services/building:configuration', () => {
     let sut = null;
     // When
     sut = new WebpackConfiguration(
-      projectConfiguration,
+      buildVersion,
       pathUtils,
-      versionUtils,
       targets,
       targetConfiguration,
       webpackConfigurations
@@ -67,9 +62,8 @@ describe('services/building:configuration', () => {
 
   it('should throw an error when trying to build with an unknown build type', () => {
     // Given
-    const projectConfiguration = 'projectConfiguration';
+    const buildVersion = 'buildVersion';
     const pathUtils = 'pathUtils';
-    const versionUtils = 'versionUtils';
     const targets = 'targets';
     const targetConfiguration = 'targetConfiguration';
     const target = {
@@ -82,9 +76,8 @@ describe('services/building:configuration', () => {
     let sut = null;
     // When
     sut = new WebpackConfiguration(
-      projectConfiguration,
+      buildVersion,
       pathUtils,
-      versionUtils,
       targets,
       targetConfiguration,
       webpackConfigurations
@@ -96,20 +89,14 @@ describe('services/building:configuration', () => {
 
   it('should generate the configuration for a target', () => {
     // Given
-    const revisionFilename = 'revision';
-    const projectConfiguration = {
-      version: {
-        revision: {
-          filename: revisionFilename,
-        },
-      },
+    const versionVariable = 'process.env.VERSION';
+    const version = 'latest';
+    const buildVersion = {
+      getDefinitionVariable: jest.fn(() => versionVariable),
+      getVersion: jest.fn(() => version),
     };
     const pathUtils = {
       join: jest.fn((rest) => rest),
-    };
-    const version = 'latest';
-    const versionUtils = {
-      getVersion: jest.fn(() => version),
     };
     const config = {
       output: {
@@ -146,9 +133,8 @@ describe('services/building:configuration', () => {
     let result = null;
     // When
     sut = new WebpackConfiguration(
-      projectConfiguration,
+      buildVersion,
       pathUtils,
-      versionUtils,
       targets,
       targetConfiguration,
       webpackConfigurations
@@ -156,8 +142,8 @@ describe('services/building:configuration', () => {
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(config);
-    expect(versionUtils.getVersion).toHaveBeenCalledTimes(1);
-    expect(versionUtils.getVersion).toHaveBeenCalledWith(revisionFilename);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -175,8 +161,8 @@ describe('services/building:configuration', () => {
       },
       definitions: {
         'process.env.NODE_ENV': `'${buildType}'`,
+        [versionVariable]: `"${version}"`,
       },
-      version,
       hash: expect.any(Number),
       hashStr: expect.any(String),
     });
@@ -186,20 +172,14 @@ describe('services/building:configuration', () => {
 
   it('should generate the configuration for a browser target and `define` its config', () => {
     // Given
-    const revisionFilename = 'revision';
-    const projectConfiguration = {
-      version: {
-        revision: {
-          filename: revisionFilename,
-        },
-      },
+    const versionVariable = 'process.env.VERSION';
+    const version = 'latest';
+    const buildVersion = {
+      getDefinitionVariable: jest.fn(() => versionVariable),
+      getVersion: jest.fn(() => version),
     };
     const pathUtils = {
       join: jest.fn((rest) => rest),
-    };
-    const version = 'latest';
-    const versionUtils = {
-      getVersion: jest.fn(() => version),
     };
     const config = {
       output: {
@@ -245,9 +225,8 @@ describe('services/building:configuration', () => {
     let result = null;
     // When
     sut = new WebpackConfiguration(
-      projectConfiguration,
+      buildVersion,
       pathUtils,
-      versionUtils,
       targets,
       targetConfiguration,
       webpackConfigurations
@@ -255,8 +234,8 @@ describe('services/building:configuration', () => {
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(config);
-    expect(versionUtils.getVersion).toHaveBeenCalledTimes(1);
-    expect(versionUtils.getVersion).toHaveBeenCalledWith(revisionFilename);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -274,9 +253,9 @@ describe('services/building:configuration', () => {
       },
       definitions: {
         'process.env.NODE_ENV': `'${buildType}'`,
+        [versionVariable]: `"${version}"`,
         [target.configuration.defineOn]: JSON.stringify(targetBrowserConfig),
       },
-      version,
       hash: expect.any(Number),
       hashStr: expect.any(String),
     });
@@ -288,20 +267,14 @@ describe('services/building:configuration', () => {
 
   it('should generate the configuration for a target, with the Babel polyfill', () => {
     // Given
-    const revisionFilename = 'revision';
-    const projectConfiguration = {
-      version: {
-        revision: {
-          filename: revisionFilename,
-        },
-      },
+    const versionVariable = 'process.env.VERSION';
+    const version = 'latest';
+    const buildVersion = {
+      getDefinitionVariable: jest.fn(() => versionVariable),
+      getVersion: jest.fn(() => version),
     };
     const pathUtils = {
       join: jest.fn((rest) => rest),
-    };
-    const version = 'latest';
-    const versionUtils = {
-      getVersion: jest.fn(() => version),
     };
     const config = {
       output: {
@@ -340,9 +313,8 @@ describe('services/building:configuration', () => {
     let result = null;
     // When
     sut = new WebpackConfiguration(
-      projectConfiguration,
+      buildVersion,
       pathUtils,
-      versionUtils,
       targets,
       targetConfiguration,
       webpackConfigurations
@@ -350,8 +322,8 @@ describe('services/building:configuration', () => {
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(config);
-    expect(versionUtils.getVersion).toHaveBeenCalledTimes(1);
-    expect(versionUtils.getVersion).toHaveBeenCalledWith(revisionFilename);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -372,8 +344,8 @@ describe('services/building:configuration', () => {
       },
       definitions: {
         'process.env.NODE_ENV': `'${buildType}'`,
+        [versionVariable]: `"${version}"`,
       },
-      version,
       hash: expect.any(Number),
       hashStr: expect.any(String),
     });
@@ -383,20 +355,14 @@ describe('services/building:configuration', () => {
 
   it('should generate the configuration for a library target', () => {
     // Given
-    const revisionFilename = 'revision';
-    const projectConfiguration = {
-      version: {
-        revision: {
-          filename: revisionFilename,
-        },
-      },
+    const versionVariable = 'process.env.VERSION';
+    const version = 'latest';
+    const buildVersion = {
+      getDefinitionVariable: jest.fn(() => versionVariable),
+      getVersion: jest.fn(() => version),
     };
     const pathUtils = {
       join: jest.fn((rest) => rest),
-    };
-    const version = 'latest';
-    const versionUtils = {
-      getVersion: jest.fn(() => version),
     };
     const config = {
       output: {
@@ -440,9 +406,8 @@ describe('services/building:configuration', () => {
     let result = null;
     // When
     sut = new WebpackConfiguration(
-      projectConfiguration,
+      buildVersion,
       pathUtils,
-      versionUtils,
       targets,
       targetConfiguration,
       webpackConfigurations
@@ -450,8 +415,8 @@ describe('services/building:configuration', () => {
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(versionUtils.getVersion).toHaveBeenCalledTimes(1);
-    expect(versionUtils.getVersion).toHaveBeenCalledWith(revisionFilename);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -469,8 +434,8 @@ describe('services/building:configuration', () => {
       },
       definitions: {
         'process.env.NODE_ENV': `'${buildType}'`,
+        [versionVariable]: `"${version}"`,
       },
-      version,
       hash: expect.any(Number),
       hashStr: expect.any(String),
     });
@@ -483,13 +448,7 @@ describe('services/building:configuration', () => {
     let sut = null;
     const container = {
       set: jest.fn(),
-      get: jest.fn(
-        (service) => (
-          service === 'projectConfiguration' ?
-            { getConfig: () => service } :
-            service
-        )
-      ),
+      get: jest.fn((service) => service),
     };
     let serviceName = null;
     let serviceFn = null;
@@ -501,9 +460,9 @@ describe('services/building:configuration', () => {
     expect(serviceName).toBe('webpackConfiguration');
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackConfiguration);
-    expect(sut.projectConfiguration).toBe('projectConfiguration');
+    expect(sut.buildVersion).toBe('buildVersion');
     expect(sut.pathUtils).toBe('pathUtils');
-    expect(sut.versionUtils).toBe('versionUtils');
+    expect(sut.buildVersion).toBe('buildVersion');
     expect(sut.targets).toBe('targets');
     expect(sut.targetConfiguration).toBe('targetConfiguration');
     expect(sut.webpackConfigurations).toEqual({
