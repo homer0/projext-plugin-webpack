@@ -10,11 +10,10 @@ const {
   HotModuleReplacementPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../interfaces/configurationFile');
+const ConfigurationFile = require('../../abstracts/configurationFile');
 /**
  * Creates the specifics of a Webpack configuration for a browser target development build.
  * @extends {ConfigurationFile}
- * @implements {ConfigurationFile}
  */
 class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   /**

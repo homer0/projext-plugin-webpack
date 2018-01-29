@@ -1,10 +1,9 @@
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../interfaces/configurationFile');
+const ConfigurationFile = require('../../abstracts/configurationFile');
 /**
  * The base configuration is at the top of the Webpack configurations level and it includes the
  * settings for `resolve` and `module`.
  * @extends {ConfigurationFile}
- * @implements {ConfigurationFile}
  */
 class WebpackBaseConfiguration extends ConfigurationFile {
   /**

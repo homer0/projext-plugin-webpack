@@ -4,7 +4,7 @@ const ConfigurationFileMock = require('/tests/mocks/configurationFile.mock');
 
 jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
-jest.mock('/src/interfaces/configurationFile', () => ConfigurationFileMock);
+jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
 jest.mock('html-webpack-plugin');
 jest.mock('script-ext-html-webpack-plugin');
 jest.mock('extract-text-webpack-plugin');

@@ -3,11 +3,10 @@ const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../interfaces/configurationFile');
+const ConfigurationFile = require('../../abstracts/configurationFile');
 /**
  * Creates the specifics of a Webpack configuration for a Node target production build.
  * @extends {ConfigurationFile}
- * @implements {ConfigurationFile}
  */
 class WebpackNodeProductionConfiguration extends ConfigurationFile {
   /**

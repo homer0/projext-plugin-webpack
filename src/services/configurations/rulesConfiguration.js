@@ -1,11 +1,10 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { provider } = require('jimple');
-const ConfigurationFile = require('../../interfaces/configurationFile');
+const ConfigurationFile = require('../../abstracts/configurationFile');
 /**
  * Define the Webpack configuration rules for basic types of assets: Javascript, stylesheets,
  * images and fonts.
  * @extends {ConfigurationFile}
- * @implements {ConfigurationFile}
  */
 class WebpackRulesConfiguration extends ConfigurationFile {
   /**

@@ -6,7 +6,7 @@ const ConfigurationFileMock = require('/tests/mocks/configurationFile.mock');
 jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
 jest.mock('webpack-node-utils', () => webpackNodeUtilsMock);
-jest.mock('/src/interfaces/configurationFile', () => ConfigurationFileMock);
+jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
 jest.unmock('/src/services/configurations/nodeDevelopmentConfiguration');
 
 require('jasmine-expect');
