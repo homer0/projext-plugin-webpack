@@ -6,18 +6,18 @@ const ConfigurationFile = require('../../interfaces/configurationFile');
  * images and fonts.
  * @extends {ConfigurationFile}
  * @implements {ConfigurationFile}
- * @todo The events name shouldn't be sent to the methods, because the documentation needs to be
- *       able to _'confirm'_ which events use, and right now that's based on the implementation.
  */
 class WebpackRulesConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {BabelConfiguration}   babelConfiguration   Used to configure the `babel-loader`.
-   * @param {Events}               events               To reduce each set of rules and the
-   *                                                    entire configuration.
-   * @param {PathUtils}            pathUtils            Required by `ConfigurationFile` in order
-   *                                                    to build the path to the overwrite file.
-   * @param {ProjectConfiguration} projectConfiguration Used to read the project's paths.
+   * @param {BabelConfiguration}           babelConfiguration   Used to configure the
+   *                                                            `babel-loader`.
+   * @param {Events}                       events               To reduce each set of rules and the
+   *                                                            entire configuration.
+   * @param {PathUtils}                    pathUtils            Required by `ConfigurationFile` in
+   *                                                            order to build the path to
+   *                                                            the overwrite file.
+   * @param {ProjectConfigurationSettings} projectConfiguration Used to read the project's paths.
    */
   constructor(babelConfiguration, events, pathUtils, projectConfiguration) {
     super(pathUtils, 'webpack/rules.config.js');
@@ -32,8 +32,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
      */
     this.events = events;
     /**
-     * A local reference for the `projectConfiguration` service.
-     * @type {ProjectConfiguration}
+     * All the project settings.
+     * @type {ProjectConfigurationSettings}
      */
     this.projectConfiguration = projectConfiguration;
   }
@@ -44,6 +44,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            hash for the files, the target information, the
    *                                            entry point, etc.
    * @return {Object}
+   * @property {Array} rules The list of rules
    */
   createConfig(params) {
     const rules = params.target.is.node ?

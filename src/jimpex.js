@@ -4,14 +4,15 @@ const { middleware } = require('jimpex');
 const { webpackFrontendFs, webpackSendFile } = require('./jimpex/index');
 /**
  * Implements the Webpack middlewares for a target on a Jimpex app.
- * @param {Jimple}  jimpexApp  The app where the middlewares are going to be registered..
- * @param {Target}  target     The target for which the middlewares are for.
+ * @param {Jimpex}  jimpexApp  The app where the middlewares are going to be registered..
+ * @param {string}  targetName The name of the target for which the middlewares are for.
+ * @return {MiddlewaresInformation}
  */
-const useJimpex = (jimpexApp, target) => {
+const useJimpex = (jimpexApp, targetName) => {
   // Get the middlewares service.
   const webpackMiddlewares = woopack.get('webpackMiddlewares');
   // Generate the middlewares for the target.
-  const info = webpackMiddlewares.generate(target);
+  const info = webpackMiddlewares.generate(targetName);
   /**
    * Register the overwrite services...
    * - The `webpackFrontendFs` overwrites the regular `frontendFs` in order to read files from
@@ -34,6 +35,8 @@ const useJimpex = (jimpexApp, target) => {
   jimpexApp.get('events').once('after-start', () => {
     jimpexApp.get('appLogger').warning('waiting for Webpack...');
   });
+
+  return info;
 };
 
 module.exports = useJimpex;

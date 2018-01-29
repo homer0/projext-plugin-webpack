@@ -55,7 +55,7 @@ class WebpackBuildEngine {
    * @param  {Target}  target           The target information.
    * @param  {string}  buildType        The intended build type: `development` or `production`.
    * @param  {boolean} [forceRun=false] Force the target to run even if the `runOnDevelopment`
-   *                                    setting is `false` or the `buildType` is production.
+   *                                    setting is `false`.
    * @return {string}
    */
   getBuildCommand(target, buildType, forceRun = false) {

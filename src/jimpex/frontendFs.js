@@ -7,22 +7,22 @@ const { provider } = require('jimple');
 class WebpackFrontendFs {
   /**
    * Class constructor.
-   * @param {function():string}            getDirectory  A function to get the directory the
-   *                                                     Webpack middleware is using.
-   * @param {function():Promise<fs,Error>} getFileSystem A function to get the virtual file system
-   *                                                     the Webpack middleware uses. It uses a
-   *                                                     Promise in order to avoid accessing it
-   *                                                     before the middleware finishes compiling.
+   * @param {DevMiddlewareGetDirectory}  getDirectory  A function to get the directory the
+   *                                                   Webpack middleware is using.
+   * @param {DevMiddlewareGetFileSystem} getFileSystem A function to get the virtual file system
+   *                                                   the Webpack middleware uses. It uses a
+   *                                                   Promise in order to avoid accessing it
+   *                                                   before the middleware finishes compiling.
    */
   constructor(getDirectory, getFileSystem) {
     /**
      * A function to get the directory the Webpack middleware is using.
-     * @type {function():string}
+     * @type {DevMiddlewareGetDirectory}
      */
     this.getDirectory = getDirectory;
     /**
      * A function that returns a Promise with the virtual file system the Webpack middleware uses.
-     * @type {function():Promise<fs,Error>}
+     * @type {DevMiddlewareGetFileSystem}
      */
     this.getFileSystem = getFileSystem;
   }
@@ -99,12 +99,12 @@ class WebpackFrontendFs {
  * container.register(provider);
  * // Getting access to the service instance
  * const frontendFs = container.get('frontendFs');
- * @param {function():string}            getDirectory  A function to get the directory the
- *                                                     Webpack middleware is using.
- * @param {function():Promise<fs,Error>} getFileSystem A function to get the virtual file system
- *                                                     the Webpack middleware uses. It uses a
- *                                                     Promise in order to avoid accessing it
- *                                                     before the middleware finishes compiling.
+ * @param {DevMiddlewareGetDirectory}  getDirectory  A function to get the directory the
+ *                                                   Webpack middleware is using.
+ * @param {DevMiddlewareGetFileSystem} getFileSystem A function to get the virtual file system
+ *                                                   the Webpack middleware uses. It uses a
+ *                                                   Promise in order to avoid accessing it
+ *                                                   before the middleware finishes compiling.
  * @return {Provider}
  */
 const webpackFrontendFs = (getDirectory, getFileSystem) => provider((app) => {

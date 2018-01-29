@@ -8,13 +8,13 @@ const { provider } = require('jimple');
 class WebpackConfiguration {
   /**
    * Class constructor.
-   * @param {BuildVersion}                   buildVersion          To load the project version.
-   * @param {PathUtils}                      pathUtils             To generate the Webpack paths.
-   * @param {Targets}                        targets               To get the target information.
-   * @param {function():TargetConfiguration} targetConfiguration   To create an overwrite
-   *                                                               configuration for the target.
-   * @param {Object}                         webpackConfigurations A dictionary of configurations
-   *                                                               for target type and build type.
+   * @param {BuildVersion}               buildVersion          To load the project version.
+   * @param {PathUtils}                  pathUtils             To generate the Webpack paths.
+   * @param {Targets}                    targets               To get the target information.
+   * @param {TargetConfigurationCreator} targetConfiguration   To create an overwrite
+   *                                                           configuration for the target.
+   * @param {WebpackConfigurations}      webpackConfigurations A dictionary of configurations
+   *                                                           for target type and build type.
    */
   constructor(
     buildVersion,
@@ -39,21 +39,13 @@ class WebpackConfiguration {
      */
     this.targets = targets;
     /**
-     * A local reference for the `targetConfiguration` service.
-     * @type {TargetConfiguration}
+     * A local reference for the `targetConfiguration` function service.
+     * @type {TargetConfigurationCreator}
      */
     this.targetConfiguration = targetConfiguration;
     /**
      * A dictionary with the configurations for target type and build type.
-     * @type {Object}
-     * @property {ConfigurationFile} browser.production  The browser targets configuration for a
-     *                                                   production build.
-     * @property {ConfigurationFile} browser.development The browser targets configuration for a
-     *                                                   development build.
-     * @property {ConfigurationFile} node.production     The Node targets configuration for a
-     *                                                   production build.
-     * @property {ConfigurationFile} node.development    The Node targets configuration for a
-     *                                                   development build.
+     * @type {WebpackConfigurations}
      */
     this.webpackConfigurations = webpackConfigurations;
   }
@@ -139,6 +131,7 @@ class WebpackConfiguration {
       definitions: this.getDefinitions(target, buildType),
       hash,
       hashStr,
+      buildType,
     };
 
     let config = this.targetConfiguration(

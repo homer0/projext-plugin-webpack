@@ -1,6 +1,6 @@
 {
     "name": "woopack-plugin-webpack",
-    "description": "...",
+    "description": "Allows woopack to use webpack as a build engine.",
     "version": "0.0.30",
     "repository": "homer0/woopack-plugin-webpack",
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
@@ -54,7 +54,8 @@
       "jimpex": "^1.0.2",
       "esdoc": "1.0.4",
       "esdoc-standard-plugin": "1.0.0",
-      "esdoc-node": "homer0/esdoc-node"
+      "esdoc-node": "homer0/esdoc-node",
+      "leasot": "4.13.0"
     },
     "engine-strict": true,
     "engines": {
@@ -66,6 +67,8 @@
       "install-hooks": "./utils/hooks/install",
       "test": "./utils/scripts/test",
       "lint": "./utils/scripts/lint",
-      "docs": "./utils/scripts/docs"
+      "lint:full": "./utils/scripts/lint-full",
+      "docs": "./utils/scripts/docs",
+      "todo": "./utils/scripts/todo"
     }
 }

@@ -81,14 +81,7 @@ class WebpackMiddlewares {
   /**
    * Generate the middlewares for a given target.
    * @param {string} targetName The name of the target.
-   * @return {object}
-   * @property {array}                        middlewares  A list of functions that return a
-   *                                                       middleware to `use`.
-   * @property {function():string}            getDirectory A function that returns the middleware
-   *                                                       file system root directory.
-   * @property {function:()Promise<fs,Error>} getFileSystem A function that returns a promise that
-   *                                                       resolves on the dev middleware file
-   *                                                       system.
+   * @return {MiddlewaresInformation}
    */
   generate(targetName) {
     // Get the target information.
@@ -135,7 +128,7 @@ class WebpackMiddlewares {
   /**
    * Get access to a target dev middleware file system.
    * @param {Target} target The target owner of the middleware.
-   * @return {Promise<fs,Error>}
+   * @return {Promise<FileSystem,Error>}
    */
   fileSystem(target) {
     return this._fileSystemsReady[target.name] ?
@@ -146,7 +139,7 @@ class WebpackMiddlewares {
    * The `fileSystem` method only returns promises, but this is the one that gets the middleware
    * and returns its file system.
    * @param {Target} target The target owner of the middleware.
-   * @return {fs}
+   * @return {FileSystem}
    */
   _fileSystem(target) {
     return this.devMiddleware(target).fileSystem;
@@ -156,7 +149,7 @@ class WebpackMiddlewares {
    * middleware or a middleware property, and what it does is: Checks if the target has a compiled
    * middleware, and if it's not ready, it creates the middleware and compiles them, otherwise, it
    * just returns the saved instances.
-   * This method uses the event reducer `webpack-configuration-for-middleware`, which sends the
+   * This method uses the reducer event `webpack-configuration-for-middleware`, which sends the
    * middleware options, the target information, and expects an object with middleware options on
    * return.
    * @param {Target} target The target for which the middlewares are for.

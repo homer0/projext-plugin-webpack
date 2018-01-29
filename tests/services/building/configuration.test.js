@@ -156,6 +156,7 @@ describe('services/building:configuration', () => {
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
+      buildType,
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
@@ -248,6 +249,7 @@ describe('services/building:configuration', () => {
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
+      buildType,
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
@@ -336,6 +338,7 @@ describe('services/building:configuration', () => {
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
+      buildType,
       entry: {
         [target.name]: [
           'babel-polyfill',
@@ -429,6 +432,7 @@ describe('services/building:configuration', () => {
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
+      buildType,
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
