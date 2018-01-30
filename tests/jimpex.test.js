@@ -1,7 +1,7 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 
 jest.mock('jimple', () => JimpleMock);
-jest.mock('woopack', () => ({ get: jest.fn() }));
+jest.mock('woopack/index', () => ({ get: jest.fn() }));
 jest.mock('jimpex', () => ({ middleware: jest.fn() }));
 jest.mock('/src/jimpex/index', () => ({
   webpackFrontendFs: jest.fn(() => 'webpackFrontendFs'),
@@ -11,7 +11,7 @@ jest.unmock('/src/jimpex.js');
 
 require('jasmine-expect');
 
-const woopack = require('woopack');
+const woopack = require('woopack/index');
 const jimpex = require('jimpex');
 const jimpexServices = require('/src/jimpex/index');
 const jimpexImplementation = require('/src/jimpex.js');

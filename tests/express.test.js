@@ -1,12 +1,12 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 
 jest.mock('jimple', () => JimpleMock);
-jest.mock('woopack', () => ({ get: jest.fn() }));
+jest.mock('woopack/index', () => ({ get: jest.fn() }));
 jest.unmock('/src/express');
 
 require('jasmine-expect');
 
-const woopack = require('woopack');
+const woopack = require('woopack/index');
 const expressImplementation = require('/src/express');
 
 describe('plugin:woopackWebpack/Express', () => {

@@ -1,7 +1,7 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 
 jest.mock('jimple', () => JimpleMock);
-jest.mock('woopack', () => ({
+jest.mock('woopack/index', () => ({
   get: jest.fn(() => ({
     getWebpackConfig: () => 'webpackConfig',
   })),
@@ -9,7 +9,7 @@ jest.mock('woopack', () => ({
 jest.unmock('/src/webpack.config');
 
 require('jasmine-expect');
-const woopack = require('woopack');
+const woopack = require('woopack/index');
 require('/src/webpack.config');
 
 describe('plugin:webpack.config', () => {

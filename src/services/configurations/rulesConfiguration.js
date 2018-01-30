@@ -109,8 +109,11 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       'webpack-js-rules-configuration-for-browser';
     const rules = [{
       test: /\.jsx?$/i,
-      // Only check for files on the target source directory.
-      include: [RegExp(params.target.folders.source)],
+      // Only check for files on the target source directory and the configurations folder.
+      include: [
+        RegExp(params.target.folders.source),
+        RegExp(this.pathUtils.join('config')),
+      ],
       use: [{
         loader: 'babel-loader',
         // Apply the target's own Babel configuration.

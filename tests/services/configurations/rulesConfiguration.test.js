@@ -22,7 +22,10 @@ describe('services/configurations:rulesConfiguration', () => {
     const rules = {};
     rules.jsRules = [{
       test: expect.any(RegExp),
-      include: [RegExp(target.folders.source)],
+      include: [
+        RegExp(target.folders.source),
+        RegExp('config'),
+      ],
       use: [{
         loader: 'babel-loader',
         options: babelConfig,
@@ -217,7 +220,9 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = 'pathUtils';
+    const pathUtils = {
+      join: jest.fn((rest) => rest),
+    };
     const projectConfiguration = 'projectConfiguration';
     const targetName = 'some-target';
     const target = {
@@ -274,6 +279,8 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
+    expect(pathUtils.join).toHaveBeenCalledTimes(1);
+    expect(pathUtils.join).toHaveBeenCalledWith('config');
   });
 
   it('should return the rules for a browser target', () => {
@@ -288,7 +295,9 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = 'pathUtils';
+    const pathUtils = {
+      join: jest.fn((rest) => rest),
+    };
     const projectConfiguration = {
       paths: {
         output: {
@@ -406,6 +415,8 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
+    expect(pathUtils.join).toHaveBeenCalledTimes(1);
+    expect(pathUtils.join).toHaveBeenCalledWith('config');
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
     expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.scssExtractOptions);
     expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
@@ -423,7 +434,9 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = 'pathUtils';
+    const pathUtils = {
+      join: jest.fn((rest) => rest),
+    };
     const projectConfiguration = {
       paths: {
         output: {
@@ -542,6 +555,8 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
+    expect(pathUtils.join).toHaveBeenCalledTimes(1);
+    expect(pathUtils.join).toHaveBeenCalledWith('config');
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
     expect(ExtractTextPlugin.extract)
     .toHaveBeenCalledWith(expectedRules.scssExtractOptionsWithModules);

@@ -1,4 +1,4 @@
-const woopack = require('woopack');
+const woopack = require('woopack/index');
 const { middleware } = require('jimpex');
 
 const { webpackFrontendFs, webpackSendFile } = require('./jimpex/index');

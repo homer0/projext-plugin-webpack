@@ -1,4 +1,4 @@
-const woopack = require('woopack');
+const woopack = require('woopack/index');
 /**
  * Implements the Webpack middlewares for a target on an Express app.
  * @param {Express} expressApp The app where the middlewares are going to be `use`d.
