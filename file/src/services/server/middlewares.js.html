@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/services/server/middlewares.js | woopack-plugin-webpack</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Allows woopack to use webpack as a build engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="woopack-plugin-webpack"><meta property="twitter:description" content="Allows woopack to use webpack as a build engine."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/homer0/woopack-plugin-webpack"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useExpress">useExpress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useJimpex">useJimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetDirectory">DevMiddlewareGetDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetFileSystem">DevMiddlewareGetFileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurations">WebpackConfigurations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationsByEnvironment">WebpackConfigurationsByEnvironment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/buildVersion.js~BuildVersion.html">BuildVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/errorHandler.js~ErrorHandler.html">ErrorHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/common/events.js~Events.html">Events</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://expressjs.com">Express</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://nodejs.org/api/fs.html">FileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimpex">Jimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/app/index.js~Woopack.html">Woopack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#abstracts">abstracts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jimpex">jimpex</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/frontendFs.js~WebpackFrontendFs.html">WebpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/sendFile.js~WebpackSendFile.html">WebpackSendFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-webpackFrontendFs">webpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackSendFile">webpackSendFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBuildEngine">webpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-configurations">services/configurations</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html">WebpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html">WebpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html">WebpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html">WebpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html">WebpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html">WebpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBaseConfiguration">webpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserDevelopmentConfiguration">webpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserProductionConfiguration">webpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeDevelopmentConfiguration">webpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeProductionConfiguration">webpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackRulesConfiguration">webpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-server">services/server</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/server/middlewares.js~WebpackMiddlewares.html">WebpackMiddlewares</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackMiddlewares">webpackMiddlewares</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/services/server/middlewares.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const webpack = require(&apos;webpack&apos;);
+const webpackRealDevMiddleware = require(&apos;webpack-dev-middleware&apos;);
+const webpackRealHotMiddleware = require(&apos;webpack-hot-middleware&apos;);
+const { provider } = require(&apos;jimple&apos;);
+const { deferred } = require(&apos;wootils/shared&apos;);
+/**
+ * This service creates and manages middlewares for Webpack server implementations.
+ */
+class WebpackMiddlewares {
+  /**
+   * Class constructor.
+   * @param {Events}               events               To reduce the middlewares configuration.
+   * @param {Targets}              targets              To get targets information.
+   * @param {WebpackConfiguration} webpackConfiguration To get a target Webpack configuration in
+   *                                                    order to instantiate the middlewares.
+   */
+  constructor(events, targets, webpackConfiguration) {
+    /**
+     * A local reference for the `events` service.
+     * @type {Events}
+     */
+    this.events = events;
+    /**
+     * A local reference for the `targets` service.
+     * @type {Targets}
+     */
+    this.targets = targets;
+    /**
+     * A local reference for the `webpackConfiguration` service.
+     * @type {WebpackConfiguration}
+     */
+    this.webpackConfiguration = webpackConfiguration;
+    /**
+     * A dictionary with the dev middlewares. It uses the targets names as the keys.
+     * @type {Object}
+     * @ignore
+     * @access protected
+     */
+    this._devMiddlewares = {};
+    /**
+     * A dictionary with the hot middlewares. It uses the targets names as the keys.
+     * @type {Object}
+     * @ignore
+     * @access protected
+     */
+    this._hotMiddlewares = {};
+    /**
+     * A dictionary of flags that indicate if a target middleware file system is ready to be used.
+     * A middleware file system is not ready until Webpack finishes compiling the code.
+     * It uses the targets names as the keys.
+     * @type {Object}
+     * @ignore
+     * @access protected
+     */
+    this._fileSystemsReady = {};
+    /**
+     * A dictionary of deffered promises the service uses to return when asked for a file system
+     * while its middleware hasn&apos;t finished compiling.
+     * It uses the targets names as the keys.
+     * @type {Object}
+     * @ignore
+     * @access protected
+     */
+    this._fileSystemsDeferreds = {};
+    /**
+     * A dictionary of directories the middlewares use as root for their file system.
+     * It uses the targets names as the keys.
+     * @type {Object}
+     * @ignore
+     * @access protected
+     */
+    this._directories = {};
+    /**
+     * A list with the names of the targets which dev middlewares have finished compiling.
+     * @type {Array}
+     * @ignore
+     * @access protected
+     */
+    this._compiled = [];
+  }
+  /**
+   * Generate the middlewares for a given target.
+   * @param {string} targetName The name of the target.
+   * @return {MiddlewaresInformation}
+   */
+  generate(targetName) {
+    // Get the target information.
+    const target = this.targets.getTarget(targetName);
+    // Set the flag indicating the dev middleware file system is not ready.
+    this._fileSystemsReady[targetName] = false;
+    // Create the deferred promise for when the dev middleware file system is ready.
+    this._fileSystemsDeferreds[targetName] = deferred();
+    // Create the list of middlewares with just the dev middleware.
+    const middlewares = [
+      () =&gt; this.devMiddleware(target),
+    ];
+    // If the target uses hot replacement...
+    if (target.hot) {
+      // ...pubsh the function that returns the hot middleware.
+      middlewares.push(() =&gt; this.hotMiddleware(target));
+    }
+    // Define the functions to get the file system promise and the middleware root directory.
+    const getFileSystem = () =&gt; this.fileSystem(target);
+    const getDirectory = () =&gt; this._directories[target.name];
+
+    return {
+      getDirectory,
+      getFileSystem,
+      middlewares,
+    };
+  }
+  /**
+   * Get access to a target dev middleware.
+   * @param {Target} target The target for which the middleware is.
+   * @return {Middleware}
+   */
+  devMiddleware(target) {
+    return this._compile(target).devMiddleware;
+  }
+  /**
+   * Get access to a target hot middleware.
+   * @param {Target} target The target for which the middleware is.
+   * @return {Middleware}
+   */
+  hotMiddleware(target) {
+    return this._compile(target).hotMiddleware;
+  }
+  /**
+   * Get access to a target dev middleware file system.
+   * @param {Target} target The target owner of the middleware.
+   * @return {Promise&lt;FileSystem,Error&gt;}
+   */
+  fileSystem(target) {
+    return this._fileSystemsReady[target.name] ?
+      Promise.resolve(this._fileSystem(target)) :
+      this._fileSystemsDeferreds[target.name].promise;
+  }
+  /**
+   * The `fileSystem` method only returns promises, but this is the one that gets the middleware
+   * and returns its file system.
+   * @param {Target} target The target owner of the middleware.
+   * @return {FileSystem}
+   */
+  _fileSystem(target) {
+    return this.devMiddleware(target).fileSystem;
+  }
+  /**
+   * This method gets called every time another method fromt the service needs to access a
+   * middleware or a middleware property, and what it does is: Checks if the target has a compiled
+   * middleware, and if it&apos;s not ready, it creates the middleware and compiles them, otherwise, it
+   * just returns the saved instances.
+   * This method uses the reducer event `webpack-configuration-for-middleware`, which sends the
+   * middleware options, the target information, and expects an object with middleware options on
+   * return.
+   * @param {Target} target The target for which the middlewares are for.
+   * @return {object}
+   * @property {middleware}  devMiddleware An instance of the Webpack dev middleware created for
+   *                                       the target.
+   * @property {?middleware} hotMiddleware An instance of the Webpack hot middleware, if needed
+   *                                       by the target.
+   * @property {string}      directory     The dev middleware root directory.
+   * @ignore
+   * @access protected
+   */
+  _compile(target) {
+    if (!this._compiled.includes(target.name)) {
+      this._compiled.push(target.name);
+      const configuration = this.webpackConfiguration.getConfig(target, &apos;development&apos;);
+      configuration.plugins.push(this._getFileSystemStatusPlugin(target));
+      this._directories[target.name] = configuration.output.path;
+
+      const compiler = webpack(configuration);
+      const middlewareOptions = {
+        publicPath: configuration.output.publicPath,
+        stats: {
+          colors: true,
+          hash: false,
+          timings: true,
+          chunks: false,
+          chunkModules: false,
+          modules: false,
+        },
+      };
+      this._devMiddlewares[target.name] = webpackRealDevMiddleware(
+        compiler,
+        this.events.reduce(
+          &apos;webpack-configuration-for-middleware&apos;,
+          middlewareOptions,
+          target
+        )
+      );
+
+      if (target.hot) {
+        this._hotMiddlewares[target.name] = webpackRealHotMiddleware(compiler);
+      }
+    }
+
+    return {
+      devMiddleware: this._devMiddlewares[target.name],
+      hotMiddleware: this._hotMiddlewares[target.name],
+      directory: this._directories[target.name],
+    };
+  }
+  /**
+   * Creates a _&apos;fake Webpack plugin&apos;_ that detects when the bundle finishes compiling and let
+   * the service know that the file system can accessed now.
+   * @param {Target} target The target owner of the middleware.
+   * @return {object} A webpack plugin.
+   * @ignore
+   * @access protected
+   */
+  _getFileSystemStatusPlugin(target) {
+    return {
+      apply: (compiler) =&gt; {
+        compiler.plugin(&apos;done&apos;, () =&gt; {
+          // Mark the file system as ready.
+          this._fileSystemsReady[target.name] = true;
+          // Resolve the deferred promise.
+          this._fileSystemsDeferreds[target.name].resolve(
+            this._fileSystem(target)
+          );
+        });
+      },
+    };
+  }
+}
+/**
+ * The service provider that once registered on the app container will set an instance of
+ * `WebpackMiddlewares` as the `webpackMiddlewares` service.
+ * @example
+ * // Register it on the container
+ * container.register(webpackMiddlewares);
+ * // Getting access to the service instance
+ * const webpackMiddlewares = container.get(&apos;webpackMiddlewares&apos;);
+ * @type {Provider}
+ */
+const webpackMiddlewares = provider((app) =&gt; {
+  app.set(&apos;webpackMiddlewares&apos;, () =&gt; new WebpackMiddlewares(
+    app.get(&apos;events&apos;),
+    app.get(&apos;targets&apos;),
+    app.get(&apos;webpackConfiguration&apos;)
+  ));
+});
+
+module.exports = {
+  WebpackMiddlewares,
+  webpackMiddlewares,
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

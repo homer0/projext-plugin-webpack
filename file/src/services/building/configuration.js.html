@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/services/building/configuration.js | woopack-plugin-webpack</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Allows woopack to use webpack as a build engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="woopack-plugin-webpack"><meta property="twitter:description" content="Allows woopack to use webpack as a build engine."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/homer0/woopack-plugin-webpack"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useExpress">useExpress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useJimpex">useJimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetDirectory">DevMiddlewareGetDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetFileSystem">DevMiddlewareGetFileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurations">WebpackConfigurations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationsByEnvironment">WebpackConfigurationsByEnvironment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/buildVersion.js~BuildVersion.html">BuildVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/errorHandler.js~ErrorHandler.html">ErrorHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/common/events.js~Events.html">Events</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://expressjs.com">Express</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://nodejs.org/api/fs.html">FileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimpex">Jimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/app/index.js~Woopack.html">Woopack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#abstracts">abstracts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jimpex">jimpex</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/frontendFs.js~WebpackFrontendFs.html">WebpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/sendFile.js~WebpackSendFile.html">WebpackSendFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-webpackFrontendFs">webpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackSendFile">webpackSendFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBuildEngine">webpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-configurations">services/configurations</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html">WebpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html">WebpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html">WebpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html">WebpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html">WebpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html">WebpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBaseConfiguration">webpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserDevelopmentConfiguration">webpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserProductionConfiguration">webpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeDevelopmentConfiguration">webpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeProductionConfiguration">webpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackRulesConfiguration">webpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-server">services/server</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/server/middlewares.js~WebpackMiddlewares.html">WebpackMiddlewares</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackMiddlewares">webpackMiddlewares</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/services/building/configuration.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const path = require(&apos;path&apos;);
+const extend = require(&apos;extend&apos;);
+const { provider } = require(&apos;jimple&apos;);
+/**
+ * This service reads the targets information and generates what would be the contents of a
+ * `webpack.config.js` for them.
+ */
+class WebpackConfiguration {
+  /**
+   * Class constructor.
+   * @param {BuildVersion}               buildVersion          To load the project version.
+   * @param {PathUtils}                  pathUtils             To generate the Webpack paths.
+   * @param {Targets}                    targets               To get the target information.
+   * @param {TargetConfigurationCreator} targetConfiguration   To create an overwrite
+   *                                                           configuration for the target.
+   * @param {WebpackConfigurations}      webpackConfigurations A dictionary of configurations
+   *                                                           for target type and build type.
+   */
+  constructor(
+    buildVersion,
+    pathUtils,
+    targets,
+    targetConfiguration,
+    webpackConfigurations
+  ) {
+    /**
+     * A local reference for the `buildVersion` service.
+     * @type {BuildVersion}
+     */
+    this.buildVersion = buildVersion;
+    /**
+     * A local reference for the `pathUtils` service.
+     * @type {PathUtils}
+     */
+    this.pathUtils = pathUtils;
+    /**
+     * A local reference for the `targets` service.
+     * @type {Targets}
+     */
+    this.targets = targets;
+    /**
+     * A local reference for the `targetConfiguration` function service.
+     * @type {TargetConfigurationCreator}
+     */
+    this.targetConfiguration = targetConfiguration;
+    /**
+     * A dictionary with the configurations for target type and build type.
+     * @type {WebpackConfigurations}
+     */
+    this.webpackConfigurations = webpackConfigurations;
+  }
+  /**
+   * Get a dictionary of definitions that will be replaced on the generated bundle. This is done
+   * using the `webpack.DefinePlugin` plugin.
+   * @param {Target} target The target information.
+   * @param {string} env    The `NODE_ENV` to define.
+   * @return {Object}
+   */
+  getDefinitions(target, env) {
+    const definitions = {
+      &apos;process.env.NODE_ENV&apos;: `&apos;${env}&apos;`,
+      [this.buildVersion.getDefinitionVariable()]: JSON.stringify(this.buildVersion.getVersion()),
+    };
+
+    if (
+      target.is.browser &amp;&amp;
+      target.configuration &amp;&amp;
+      target.configuration.enabled
+    ) {
+      definitions[target.configuration.defineOn] = JSON.stringify(
+        this.targets.getBrowserTargetConfiguration(target)
+      );
+    }
+
+    return definitions;
+  }
+  /**
+   * Get a hash an a hash sufix to append on filenames if needed.
+   * @return {Object}
+   * @property {number} hash    The current timestamp.
+   * @property {string} hashStr The `hash` property plus a `.` as a prefix., so it can be added to
+   *                            any filename without having to manually modify the filename.
+   */
+  getHash() {
+    const hash = Date.now();
+    return {
+      hash,
+      hashStr: `.${hash}`,
+    };
+  }
+  /**
+   * In case the target is a library, this method will be called to generate the library options
+   * for Webpack.
+   * @param {Target} target The target information.
+   * @return {Object}
+   */
+  getLibraryOptions(target) {
+    const { libraryOptions } = target;
+    return Object.assign({
+      libraryTarget: &apos;commonjs2&apos;,
+    }, libraryOptions);
+  }
+  /**
+   * This method generates a complete Webpack configuration for a target.
+   * @param {Target} target    The target information.
+   * @param {string} buildType The intended build type: `production` or `development`.
+   * @return {Object}
+   * @throws {Error} If there&apos;s no base configuration for the target type.
+   * @throws {Error} If there&apos;s no base configuration for the target type and build type.
+   */
+  getConfig(target, buildType) {
+    const targetType = target.type;
+    if (!this.webpackConfigurations[targetType]) {
+      throw new Error(`There&apos;s no configuration for the selected target type: ${targetType}`);
+    } else if (!this.webpackConfigurations[targetType][buildType]) {
+      throw new Error(`There&apos;s no configuration for the selected build type: ${buildType}`);
+    }
+
+    const entryFile = path.join(target.paths.source, target.entry[buildType]);
+    const entries = [entryFile];
+    if (target.babel.polyfill) {
+      entries.unshift(&apos;babel-polyfill&apos;);
+    }
+
+    const { hash, hashStr } = this.getHash();
+    const params = {
+      target,
+      entry: {
+        [target.name]: entries,
+      },
+      definitions: this.getDefinitions(target, buildType),
+      hash,
+      hashStr,
+      buildType,
+    };
+
+    let config = this.targetConfiguration(
+      `webpack/${target.name}.config.js`,
+      this.webpackConfigurations[targetType][buildType]
+    );
+    config = this.targetConfiguration(
+      `webpack/${target.name}.${buildType}.config.js`,
+      config
+    ).getConfig(params);
+    config.output.path = this.pathUtils.join(config.output.path);
+
+    if (target.library) {
+      config.output = extend(true, {}, config.output, this.getLibraryOptions(target));
+    }
+
+    return config;
+  }
+}
+/**
+ * The service provider that once registered on the app container will set an instance of
+ * `WebpackConfiguration` as the `webpackConfiguration` service.
+ * @example
+ * // Register it on the container
+ * container.register(webpackConfiguration);
+ * // Getting access to the service instance
+ * const webpackConfiguration = container.get(&apos;webpackConfiguration&apos;);
+ * @type {Provider}
+ */
+const webpackConfiguration = provider((app) =&gt; {
+  app.set(&apos;webpackConfiguration&apos;, () =&gt; {
+    const webpackConfigurations = {
+      node: {
+        development: app.get(&apos;webpackNodeDevelopmentConfiguration&apos;),
+        production: app.get(&apos;webpackNodeProductionConfiguration&apos;),
+      },
+      browser: {
+        development: app.get(&apos;webpackBrowserDevelopmentConfiguration&apos;),
+        production: app.get(&apos;webpackBrowserProductionConfiguration&apos;),
+      },
+    };
+
+    return new WebpackConfiguration(
+      app.get(&apos;buildVersion&apos;),
+      app.get(&apos;pathUtils&apos;),
+      app.get(&apos;targets&apos;),
+      app.get(&apos;targetConfiguration&apos;),
+      webpackConfigurations
+    );
+  });
+});
+
+module.exports = {
+  WebpackConfiguration,
+  webpackConfiguration,
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

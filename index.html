@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Home | woopack-plugin-webpack</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Allows woopack to use webpack as a build engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="woopack-plugin-webpack"><meta property="twitter:description" content="Allows woopack to use webpack as a build engine."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/homer0/woopack-plugin-webpack"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useExpress">useExpress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useJimpex">useJimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetDirectory">DevMiddlewareGetDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetFileSystem">DevMiddlewareGetFileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurations">WebpackConfigurations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationsByEnvironment">WebpackConfigurationsByEnvironment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/buildVersion.js~BuildVersion.html">BuildVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/errorHandler.js~ErrorHandler.html">ErrorHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/common/events.js~Events.html">Events</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://expressjs.com">Express</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://nodejs.org/api/fs.html">FileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimpex">Jimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/app/index.js~Woopack.html">Woopack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#abstracts">abstracts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jimpex">jimpex</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/frontendFs.js~WebpackFrontendFs.html">WebpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/sendFile.js~WebpackSendFile.html">WebpackSendFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-webpackFrontendFs">webpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackSendFile">webpackSendFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBuildEngine">webpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-configurations">services/configurations</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html">WebpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html">WebpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html">WebpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html">WebpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html">WebpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html">WebpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBaseConfiguration">webpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserDevelopmentConfiguration">webpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserProductionConfiguration">webpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeDevelopmentConfiguration">webpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeProductionConfiguration">webpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackRulesConfiguration">webpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-server">services/server</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/server/middlewares.js~WebpackMiddlewares.html">WebpackMiddlewares</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackMiddlewares">webpackMiddlewares</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="woopack-plugin-for-webpack">woopack plugin for webpack</h1><p>Allows <a href="https://yarnpkg.com/en/package/woopack">woopack</a> to use <a href="https://webpack.js.org">webpack</a> as a build engine.</p>
+<h2 id="introduction">Introduction</h2><p><a href="https://yarnpkg.com/en/package/woopack">woopack</a> allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin allows you to bundle your woopack project targets using <a href="https://webpack.js.org">webpack</a>.</p>
+<h3 id="node-targets">Node targets</h3><ul>
+<li>It only handles Javascript files.</li>
+<li>It uses <a href="https://yarnpkg.com/en/package/webpack-node-utils"><code>webpack-node-utils</code></a> to execute the target.</li>
+</ul>
+<h3 id="browser-targets">Browser targets</h3><ul>
+<li>It handles Javascript files, stylesheets (CSS and SCSS), images, favicons and fonts.</li>
+<li>It uses the <a href="https://yarnpkg.com/en/package/webpack-dev-server"><code>webpack-dev-server</code></a> to run the target.</li>
+</ul>
+<h2 id="information">Information</h2><table>
+<thead>
+<tr>
+<th>-</th>
+<th>-</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td>woopack-plugin-webpack</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Allows woopack to use webpack as a build engine.</td>
+</tr>
+<tr>
+<td>Node Version</td>
+<td>&gt;= v6.10.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2><p>Since webpack is the default build engine for woopack, after you install the plugin there&apos;s nothing else to do, just run the build command and the plugin will take care of the rest:</p>
+<pre><code class="lang-bash"><code class="source-code prettyprint">woopack build [target-name]</code>
+</code></pre>
+<p>In the case you changed the engine and you want to restore it to webpack, you just need to go to your project configuration file (<code>config/project.config.js</code>), on your target settings, change <code>engine</code> to <code>webpack</code>:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// config/project.config.js
+
+module.exports = {
+  targets: {
+    myTarget: {
+      type: &apos;browser&apos;,
+      engine: &apos;webpack&apos;,
+    },
+  },
+};</code>
+</code></pre>
+<h3 id="middleware-implementation">Middleware implementation</h3><p>You can implement both the <a href="https://yarnpkg.com/en/package/webpack-dev-middleware"><code>webpack-dev-middleware</code></a> and the <a href="https://yarnpkg.com/en/package/webpack-hot-middleware"><code>webpack-hot-middleware</code></a> on <a href="https://expressjs.com">Express</a> and <a href="https://yarnpkg.com/en/package/jimpex">Jimpex</a> very easy:</p>
+<h4 id="express">Express</h4><pre><code class="lang-js"><code class="source-code prettyprint">// Require the function for the implementation
+const useExpress = require(&apos;woopack-plugin-plugin/express&apos;);
+
+// Require Express to create a dummy app
+const express = require(&apos;express&apos;);
+
+// Create the app
+const app = express();
+
+// Tell the plugin to configure the necessary middlewares for the `myApp` target on the app
+useExpress(app, &apos;myApp&apos;);
+
+// Start the app
+app.listen(...);</code>
+</code></pre>
+<h4 id="jimpex">Jimpex</h4><pre><code class="lang-js"><code class="source-code prettyprint">// Require the function for the implementation
+const useJimpex = require(&apos;woopack-plugin-webpack/jimpex&apos;);
+
+// Require Jimpex to create a dummy app
+const Jimpex = require(&apos;jimpex&apos;);
+
+// Define the Jimpex app
+class DevApp extends Jimpex {}
+
+// Create the app
+const app = new DevApp();
+
+// Tell the plugin to configure the necessary middlewares for the `myApp` target on the app
+useJimpex(app, &apos;myApp&apos;);
+
+// Start the app
+app.start();</code>
+</code></pre>
+<h4 id="accessing-the-dev-middleware-files">Accessing the dev middleware files</h4><p>Both <code>useExpress</code> and <code>useJimpex</code> return and object with the following properties:</p>
+<ul>
+<li><code>middlewares</code>: A list with the implemented middlewares.</li>
+<li><code>getDirectory</code>: A function that returns the directory from where the dev middleware is serving the files.</li>
+<li><code>getFileSystem</code>: A function that returns a promise with the instance of the <em>&quot;virtual file system&quot;</em> the middleware uses to read and write the files in memory.</li>
+</ul>
+<h3 id="extending-overwriting-the-configuration">Extending/Overwriting the configuration</h3><p>This plugin has <code>6</code> different configuration services:</p>
+<ul>
+<li>Base configuration.</li>
+<li>Rules configuration.</li>
+<li>Browser targets configuration for development.</li>
+<li>Browser targets configuration for production.</li>
+<li>Node targets configuration for development.</li>
+<li>Node targets configuration for production.</li>
+</ul>
+<p>They can be easily extended/overwritten by creating a file on your project with an specific name.</p>
+<p>All the configurations receive a single object parameter with the following properties:</p>
+<ul>
+<li><code>target</code>: It has all the information for the target being bundled.</li>
+<li><code>entry</code>: A dictionary with the <code>entry</code> setting for a webpack configuration, generated with the target information.</li>
+<li><code>definitions</code>: A dictionary of defined variables that will be replaced on the bundled code.</li>
+<li><code>hashStr</code>: A random number that can be used as a hash to include on the generated files names. It&apos;s a string that ends on a <code>.</code>, so it can be added directly on a filename.</li>
+</ul>
+<h4 id="base-configuration">Base configuration</h4><p>This is the top level configuration, the one a regular <code>webpack.config.js</code> file would export.</p>
+<p>To extend/overwrite this configuration you would need to create a file with the following path: <code>config/webpack/base.config.js</code>. For example:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// config/webpack/base.config.js
+
+module.exports = (params) =&gt; ({
+  resolve: {
+    extensions: [&apos;.js&apos;, &apos;.jsx&apos;, &apos;.tsx&apos;],
+  },
+});</code>
+</code></pre>
+<h4 id="rules-configuration">Rules configuration</h4><p>This is what you would normally found inside <code>module.rules</code>. It has all the rules to handle the different file types, based on a target type: If it&apos;s a Node target, it will only handle Javascript; but if the target is for browsers, it will also handle stylesheets, images and fonts.</p>
+<p>To extend/overwrite this configuration you would need to create a file with the following path: <code>config/webpack/rules.config.js</code>. For example:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// config/webpack/rules.config.js
+
+module.exports = (params) =&gt; ({
+  rules: [{
+    test: /\.tsx?$/i,
+    use: [
+      &apos;babel-loader&apos;,
+      &apos;ts-loader&apos;,
+    ],
+  }]
+});</code>
+</code></pre>
+<h4 id="browser-targets-configuration-for-development-and-production">Browser targets configuration for development and production</h4><p>These configurations handles the specifics of a browser target: <code>entry</code>, <code>output</code> and <code>plugins</code>.</p>
+<p>To extend/overwrite these configurations you would need to create a file with the following path: <code>config/webpack/browser.development.config.js</code> or <code>config/webpack/browser.production.config.js</code>. For example:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// config/webpack/browser.development.config.js
+
+module.exports = (params) =&gt; ({
+  devtool: &apos;eval&apos;,
+});</code>
+</code></pre>
+<h3 id="node-targets-configuration-for-development-and-production">Node targets configuration for development and production</h3><p>These configurations handles the specifics of a Node target: <code>entry</code>, <code>output</code> and <code>plugins</code>.</p>
+<p>To extend/overwrite these configurations you would need to create a file with the following path: <code>config/webpack/node.development.config.js</code> or <code>config/webpack/node.production.config.js</code>. For example:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// config/webpack/node.production.config.js
+
+module.exports = (params) =&gt; ({
+  node: {
+    __filename: false,
+  }
+});</code>
+</code></pre>
+<h3 id="extending-overwriting-a-target-configuration">Extending/Overwriting a target configuration</h3><p>The methods above allow you to extend/overwrite a configuration service for all the targets, but there are two ways of extending/overwriting configurations for an specific target:</p>
+<p><strong><code>config/webpack/[target].config.js</code></strong></p>
+<p>This file allows you to overwrite the webpack configuration generated for an specific target, no matter the build type:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// config/webpack/myApp.config.js
+
+module.exports = (params) =&gt; ({
+  node: {
+    __filename: false,
+  }
+});</code>
+</code></pre>
+<p>That change will only be applied when building the target <code>myApp</code>.</p>
+<p><strong><code>config/webpack/[target].[build-type].config.js</code></strong></p>
+<p>This file allows you to overwrite the webpack configuration generated for an specifc target and build type.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// config/webpack/myApp.production.config.js
+
+module.exports = (params) =&gt; ({
+  devtool: &apos;eval&apos;,
+});</code>
+</code></pre>
+<p>That change will only be applied when building the target <code>myApp</code> on a production build.</p>
+<h2 id="making-a-plugin">Making a plugin</h2><p>If you want to write a plugin that works with this one (like a framework plugin), there are a lot of reducer events you can listen for and use to modify the webpack configuration:</p>
+<h3 id="node-target-configuration">Node target configuration</h3><ul>
+<li>Name: <code>webpack-base-configuration-for-node</code></li>
+<li>Reduces: A webpack configuration for a Node target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after generating the configuration for a Node target and before using it.</p>
+<h3 id="browser-target-configuration">Browser target configuration</h3><ul>
+<li>Name: <code>webpack-base-configuration-for-browser</code></li>
+<li>Reduces: A webpack configuration for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after generating the configuration for a browser target and before using it.</p>
+<h3 id="rules-configuration">Rules configuration</h3><ul>
+<li>Name: <code>webpack-rules-configuration</code></li>
+<li>Reduces: A dictionary with a <code>rules</code> property that contains all the file rules for an specific target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all the rules for a target and before sending them to the main configuration.</p>
+<h3 id="node-target-rules-configuration">Node target rules configuration</h3><ul>
+<li>Name: <code>webpack-rules-configuration-for-node</code></li>
+<li>Reduces: A dictionary with a <code>rules</code> property that contains all the file rules for a Node target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all the rules for a Node target and before sending them to the main configuration.</p>
+<h3 id="browser-target-rules-configuration">Browser target rules configuration</h3><ul>
+<li>Name: <code>webpack-rules-configuration-for-browser</code></li>
+<li>Reduces: A dictionary with a <code>rules</code> property that contains all the file rules for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all the rules for a browser target and before sending them to the main configuration.</p>
+<h3 id="node-target-javascript-rules-configuration">Node target Javascript rules configuration</h3><ul>
+<li>Name: <code>webpack-js-rules-configuration-for-node</code></li>
+<li>Reduces: A list of file rules for Javascript files for a Node target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all Javascript files rules for a Node target and before sending them to the main rules configuration.</p>
+<h3 id="browser-target-javascript-rules-configuration">Browser target Javascript rules configuration</h3><ul>
+<li>Name: <code>webpack-js-rules-configuration-for-browser</code></li>
+<li>Reduces: A list of file rules for Javascript files for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all Javascript files rules for a browser target and before sending them to the main rules configuration.</p>
+<h3 id="browser-target-scss-stylesheets-rules-configuration">Browser target SCSS stylesheets rules configuration</h3><ul>
+<li>Name: <code>webpack-scss-rules-configuration-for-browser</code></li>
+<li>Reduces: A list of file rules for SCSS stylesheets files for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all SCSS stylesheets files rules for a browser target and before sending them to the main rules configuration.</p>
+<h3 id="browser-target-css-stylesheets-rules-configuration">Browser target CSS stylesheets rules configuration</h3><ul>
+<li>Name: <code>webpack-css-rules-configuration-for-browser</code></li>
+<li>Reduces: A list of file rules for CSS stylesheets files for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all CSS stylesheets files rules for a browser target and before sending them to the main rules configuration.</p>
+<h3 id="browser-target-html-rules-configuration">Browser target HTML rules configuration</h3><ul>
+<li>Name: <code>webpack-html-rules-configuration-for-browser</code></li>
+<li>Reduces: A list of file rules for HTML files for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all HTML files rules for a browser target and before sending them to the main rules configuration.</p>
+<h3 id="browser-target-fonts-rules-configuration">Browser target fonts rules configuration</h3><ul>
+<li>Name: <code>webpack-fonts-rules-configuration-for-browser</code></li>
+<li>Reduces: A list of file rules for font files for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all font files rules for a browser target and before sending them to the main rules configuration.</p>
+<p>The supported formats are:</p>
+<ul>
+<li><code>.svg</code> - But they need to be inside a <code>fonts</code> folder, to be able to differentiate them between images and fonts.</li>
+<li><code>.woof</code></li>
+<li><code>.woff2</code></li>
+<li><code>.ttf</code></li>
+<li><code>.eot</code></li>
+</ul>
+<h3 id="browser-target-images-rules-configuration">Browser target images rules configuration</h3><ul>
+<li>Name: <code>webpack-images-rules-configuration-for-browser</code></li>
+<li>Reduces: A list of file rules for images files for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all images files rules for a browser target and before sending them to the main rules configuration.</p>
+<p>It excludes all images which path matches with <code>favicon</code>, as the favicon needs to be on the root directory in order to be automatically detected by the browser.</p>
+<p>The supported formats are:</p>
+<ul>
+<li><code>png</code></li>
+<li><code>jpg</code></li>
+<li><code>jpeg</code></li>
+<li><code>gif</code></li>
+<li><code>svg</code></li>
+<li><code>ico</code></li>
+</ul>
+<h3 id="browser-target-favicons-rules-configuration">Browser target favicons rules configuration</h3><ul>
+<li>Name: <code>webpack-html-favicons-configuration-for-browser</code></li>
+<li>Reduces: A list of file rules for favicons files for a browser target.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after defining all favicons files rules for a browser target and before sending them to the main rules configuration.</p>
+<p>The reason this is not included with the images rules is because favicons need to be on the roto directory in order to be automatically detected by the browser, and they can only be <code>ico</code> and <code>png</code>.</p>
+<h3 id="node-target-development-configuration">Node target development configuration</h3><ul>
+<li>Name: <code>node-browser-development-configuration</code></li>
+<li>Reduces: A dictionary with the specific configuration for a Node target: <code>entry</code>, <code>output</code> and <code>plugins</code>.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after generating the configuration for a Node target development build and before sending it to the main configuration to merge everything.</p>
+<h3 id="node-target-production-configuration">Node target production configuration</h3><ul>
+<li>Name: <code>webpack-node-production-configuration</code></li>
+<li>Reduces: A dictionary with the specific configuration for a Node target: <code>entry</code>, <code>output</code> and <code>plugins</code>.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after generating the configuration for a Node target production build and before sending it to the main configuration to merge everything.</p>
+<h3 id="browser-target-development-configuration">Browser target development configuration</h3><ul>
+<li>Name: <code>webpack-browser-development-configuration</code></li>
+<li>Reduces: A dictionary with the specific configuration for a browser target: <code>entry</code>, <code>output</code> and <code>plugins</code>.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after generating the configuration for a browser target development build and before sending it to the main configuration to merge everything.</p>
+<h3 id="browser-target-production-configuration">Browser target production configuration</h3><ul>
+<li>Name: <code>webpack-browser-production-configuration</code></li>
+<li>Reduces: A dictionary with the specific configuration for a browser target: <code>entry</code>, <code>output</code> and <code>plugins</code>.</li>
+<li>Parameters:<ul>
+<li><code>params</code>: The same dictionary sent to all the files that extend a configuration. Check the <em>&quot;Extending/Overwriting the configuration&quot;</em> section for more information.</li>
+</ul>
+</li>
+</ul>
+<p>This is called after generating the configuration for a browser target production build and before sending it to the main configuration to merge everything.</p>
+<h2 id="development">Development</h2><p>Before doing anything, install the repository hooks:</p>
+<pre><code class="lang-bash"><code class="source-code prettyprint"># You can either use npm or yarn, it doesn&apos;t matter
+npm run install-hooks</code>
+</code></pre>
+<h3 id="npm-yarn-tasks">NPM/Yarn Tasks</h3><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>npm run install-hooks</code></td>
+<td>Install the GIT repository hooks.</td>
+</tr>
+<tr>
+<td><code>npm test</code></td>
+<td>Run the project unit tests.</td>
+</tr>
+<tr>
+<td><code>npm run lint</code></td>
+<td>Lint the modified files.</td>
+</tr>
+<tr>
+<td><code>npm run lint:full</code></td>
+<td>Lint the project code.</td>
+</tr>
+<tr>
+<td><code>npm run docs</code></td>
+<td>Generate the project documentation.</td>
+</tr>
+<tr>
+<td><code>npm run todo</code></td>
+<td>List all the pending to-do&apos;s.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="testing">Testing</h3><p>I use <a href="https://facebook.github.io/jest/">Jest</a> with <a href="https://yarnpkg.com/en/package/jest-ex">Jest-Ex</a> to test the project. The configuration file is on <code>./.jestrc</code>, the tests and mocks are on <code>./tests</code> and the script that runs it is on <code>./utils/scripts/test</code>.</p>
+<h3 id="linting">Linting</h3><p>I use <a href="http://eslint.org">ESlint</a> to validate all our JS code. The configuration file for the project code is on <code>./.eslintrc</code> and for the tests on <code>./tests/.eslintrc</code> (which inherits from the one on the root), there&apos;s also an <code>./.eslintignore</code> to ignore some files on the process, and the script that runs it is on <code>./utils/scripts/lint</code>.</p>
+<h3 id="documentation">Documentation</h3><p>I use <a href="http://esdoc.org">ESDoc</a> to generate HTML documentation for the project. The configuration file is on <code>./.esdocrc</code> and the script that runs it is on <code>./utils/scripts/docs</code>.</p>
+<h3 id="to-dos">To-Dos</h3><p>I use <code>@todo</code> comments to write all the pending improvements and fixes, and <a href="https://yarnpkg.com/en/package/leasot">Leasot</a> to generate a report. The script that runs it is on <code>./utils/scripts/todo</code>.</p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

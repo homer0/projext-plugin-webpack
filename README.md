@@ -1,1 +1,0 @@
-# woopack-plugin-webpack
