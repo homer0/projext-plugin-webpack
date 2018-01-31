@@ -63,8 +63,9 @@ const express = require('express');
 // Create the app
 const app = express();
 
-// Tell the plugin to configure the necessary middlewares for the `myApp` target on the app
-useExpress(app, 'myApp');
+// Tell the plugin to configure the necessary middlewares for the `myApp` target to be served by the
+// `myServer` target
+useExpress(app, 'myApp', 'myServer');
 
 // Start the app
 app.listen(...);
@@ -85,8 +86,9 @@ class DevApp extends Jimpex {}
 // Create the app
 const app = new DevApp();
 
-// Tell the plugin to configure the necessary middlewares for the `myApp` target on the app
-useJimpex(app, 'myApp');
+// Tell the plugin to configure the necessary middlewares for the `myApp` target to be served by the
+// `myServer` target
+useJimpex(app, 'myApp', 'myServer');
 
 // Start the app
 app.start();
@@ -97,7 +99,7 @@ app.start();
 Both `useExpress` and `useJimpex` return and object with the following properties:
 
 - `middlewares`: A list with the implemented middlewares.
-- `getDirectory`: A function that returns the directory from where the dev middleware is serving the files.
+- `getDirectory`: A function that returns the build directory of the target implementing the middleware(s).
 - `getFileSystem`: A function that returns a promise with the instance of the _"virtual file system"_ the middleware uses to read and write the files in memory.
 
 ### Extending/Overwriting the configuration

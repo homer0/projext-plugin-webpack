@@ -49,18 +49,19 @@ describe('plugin:woopackWebpack/Jimpex', () => {
     };
     woopack.get.mockImplementationOnce(() => webpackMiddlewares);
     jimpex.middleware.mockImplementation((fn) => fn());
-    const target = 'target-name';
+    const targetToBuild = 'target-to-build';
+    const targetToServe = 'target-to-serve';
     const expectedRegisteredServices = [
       'webpackFrontendFs',
       'webpackSendFile',
     ];
     // When
-    jimpexImplementation(jimpexApp, target);
+    jimpexImplementation(jimpexApp, targetToBuild, targetToServe);
     // Then
     expect(woopack.get).toHaveBeenCalledTimes(1);
     expect(woopack.get).toHaveBeenCalledWith('webpackMiddlewares');
     expect(webpackMiddlewares.generate).toHaveBeenCalledTimes(1);
-    expect(webpackMiddlewares.generate).toHaveBeenCalledWith(target);
+    expect(webpackMiddlewares.generate).toHaveBeenCalledWith(targetToBuild, targetToServe);
     expect(jimpexApp.register).toHaveBeenCalledTimes(expectedRegisteredServices.length);
     expectedRegisteredServices.forEach((service) => {
       expect(jimpexApp.register).toHaveBeenCalledWith(service);
@@ -109,21 +110,22 @@ describe('plugin:woopackWebpack/Jimpex', () => {
     };
     woopack.get.mockImplementationOnce(() => webpackMiddlewares);
     jimpex.middleware.mockImplementation((fn) => fn());
-    const target = 'target-name';
+    const targetToBuild = 'target-to-build';
+    const targetToServe = 'target-to-serve';
     let eventListener = null;
     const expectedRegisteredServices = [
       'webpackFrontendFs',
       'webpackSendFile',
     ];
     // When
-    jimpexImplementation(jimpexApp, target);
+    jimpexImplementation(jimpexApp, targetToBuild, targetToServe);
     [[, eventListener]] = events.once.mock.calls;
     eventListener();
     // Then
     expect(woopack.get).toHaveBeenCalledTimes(1);
     expect(woopack.get).toHaveBeenCalledWith('webpackMiddlewares');
     expect(webpackMiddlewares.generate).toHaveBeenCalledTimes(1);
-    expect(webpackMiddlewares.generate).toHaveBeenCalledWith(target);
+    expect(webpackMiddlewares.generate).toHaveBeenCalledWith(targetToBuild, targetToServe);
     expect(jimpexApp.register).toHaveBeenCalledTimes(expectedRegisteredServices.length);
     expectedRegisteredServices.forEach((service) => {
       expect(jimpexApp.register).toHaveBeenCalledWith(service);

@@ -91,7 +91,7 @@
 /**
  * @typedef {function} DevMiddlewareGetDirectory
  * @return {string}
- * The directory from where the webpack dev middleware is serving the files.
+ * The build directory of the target implementing the dev middleware.
  */
 
 /**
@@ -106,7 +106,7 @@
  * @property {Array} middlewares
  * A list of functions that when executed return a Node middleware.
  * @property {DevMiddlewareGetDirectory} getDirectory
- * To access the webpack dev middleware working directory.
+ * To access the target implementing the middleware build directory.
  * @property {DevMiddlewareGetFileSystem} getFileSystem
  * To access the webpack dev middleware _"virtual filesystem"_.
  */

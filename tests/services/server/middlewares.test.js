@@ -46,27 +46,37 @@ describe('services/server:middlewares', () => {
   it('should generate the middleware information object for a target', () => {
     // Given
     const events = 'events';
-    const targetName = 'some-target';
-    const target = {
-      name: targetName,
+    const targetToBuild = {
+      name: 'target-to-build',
+    };
+    const targetToServe = {
+      name: 'target-to-serve',
+      paths: {
+        build: 'dist/server',
+      },
+    };
+    const targetsList = {
+      [targetToBuild.name]: targetToBuild,
+      [targetToServe.name]: targetToServe,
     };
     const targets = {
-      getTarget: jest.fn(() => target),
+      getTarget: jest.fn((name) => targetsList[name]),
     };
     const webpackConfiguration = 'webpackConfiguration';
     let sut = null;
     let result = null;
     // When
     sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
-    result = sut.generate(targetName);
+    result = sut.generate(targetToBuild.name, targetToServe.name);
     // Then
     expect(result).toEqual({
       getDirectory: expect.any(Function),
       getFileSystem: expect.any(Function),
       middlewares: expect.any(Array),
     });
-    expect(targets.getTarget).toHaveBeenCalledTimes(1);
-    expect(targets.getTarget).toHaveBeenCalledWith(targetName);
+    expect(targets.getTarget).toHaveBeenCalledTimes(2);
+    expect(targets.getTarget).toHaveBeenCalledWith(targetToBuild.name);
+    expect(targets.getTarget).toHaveBeenCalledWith(targetToServe.name);
   });
 
   it('should generate the dev middleware for a target', () => {
@@ -78,12 +88,21 @@ describe('services/server:middlewares', () => {
     const events = {
       reduce: jest.fn((name, options) => options),
     };
-    const targetName = 'some-target';
-    const target = {
-      name: targetName,
+    const targetToBuild = {
+      name: 'target-to-build',
+    };
+    const targetToServe = {
+      name: 'target-to-serve',
+      paths: {
+        build: 'dist/server',
+      },
+    };
+    const targetsList = {
+      [targetToBuild.name]: targetToBuild,
+      [targetToServe.name]: targetToServe,
     };
     const targets = {
-      getTarget: jest.fn(() => target),
+      getTarget: jest.fn((name) => targetsList[name]),
     };
     const webpackConfig = {
       output: {
@@ -100,7 +119,7 @@ describe('services/server:middlewares', () => {
     let middlewareResult = null;
     // When
     sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
-    result = sut.generate(targetName);
+    result = sut.generate(targetToBuild.name, targetToServe.name);
     [middleware] = result.middlewares;
     middlewareResult = middleware();
     // Then
@@ -112,8 +131,9 @@ describe('services/server:middlewares', () => {
     expect(result.middlewares.length).toBe(1);
     expect(middleware).toBeFunction();
     expect(middlewareResult).toBe(devMiddleware);
-    expect(targets.getTarget).toHaveBeenCalledTimes(1);
-    expect(targets.getTarget).toHaveBeenCalledWith(targetName);
+    expect(targets.getTarget).toHaveBeenCalledTimes(2);
+    expect(targets.getTarget).toHaveBeenCalledWith(targetToBuild.name);
+    expect(targets.getTarget).toHaveBeenCalledWith(targetToServe.name);
     expect(webpack).toHaveBeenCalledTimes(1);
     expect(webpack).toHaveBeenCalledWith(Object.assign({}, webpackConfig, {
       plugins: [{
@@ -127,7 +147,7 @@ describe('services/server:middlewares', () => {
         publicPath: webpackConfig.output.publicPath,
         stats: expect.any(Object),
       },
-      target
+      targetToBuild
     );
     expect(webpackRealDevMiddleware).toHaveBeenCalledTimes(1);
     expect(webpackRealDevMiddleware).toHaveBeenCalledWith(
@@ -150,13 +170,22 @@ describe('services/server:middlewares', () => {
     const events = {
       reduce: jest.fn((name, options) => options),
     };
-    const targetName = 'some-target';
-    const target = {
-      name: targetName,
+    const targetToBuild = {
+      name: 'target-to-build',
       hot: true,
     };
+    const targetToServe = {
+      name: 'target-to-serve',
+      paths: {
+        build: 'dist/server',
+      },
+    };
+    const targetsList = {
+      [targetToBuild.name]: targetToBuild,
+      [targetToServe.name]: targetToServe,
+    };
     const targets = {
-      getTarget: jest.fn(() => target),
+      getTarget: jest.fn((name) => targetsList[name]),
     };
     const webpackConfig = {
       output: {
@@ -175,7 +204,7 @@ describe('services/server:middlewares', () => {
     let middlewareHotResult = null;
     // When
     sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
-    result = sut.generate(targetName);
+    result = sut.generate(targetToBuild.name, targetToServe.name);
     [middleware, middlewareHot] = result.middlewares;
     middlewareResult = middleware();
     middlewareHotResult = middlewareHot();
@@ -190,8 +219,9 @@ describe('services/server:middlewares', () => {
     expect(middlewareResult).toBe(devMiddleware);
     expect(middlewareHot).toBeFunction();
     expect(middlewareHotResult).toBe(hotMiddleware);
-    expect(targets.getTarget).toHaveBeenCalledTimes(1);
-    expect(targets.getTarget).toHaveBeenCalledWith(targetName);
+    expect(targets.getTarget).toHaveBeenCalledTimes(2);
+    expect(targets.getTarget).toHaveBeenCalledWith(targetToBuild.name);
+    expect(targets.getTarget).toHaveBeenCalledWith(targetToServe.name);
     expect(webpack).toHaveBeenCalledTimes(1);
     expect(webpack).toHaveBeenCalledWith(Object.assign({}, webpackConfig, {
       plugins: [{
@@ -205,7 +235,7 @@ describe('services/server:middlewares', () => {
         publicPath: webpackConfig.output.publicPath,
         stats: expect.any(Object),
       },
-      target
+      targetToBuild
     );
     expect(webpackRealDevMiddleware).toHaveBeenCalledTimes(1);
     expect(webpackRealDevMiddleware).toHaveBeenCalledWith(
@@ -230,12 +260,21 @@ describe('services/server:middlewares', () => {
     const events = {
       reduce: jest.fn((name, options) => options),
     };
-    const targetName = 'some-target';
-    const target = {
-      name: targetName,
+    const targetToBuild = {
+      name: 'target-to-build',
+    };
+    const targetToServe = {
+      name: 'target-to-serve',
+      paths: {
+        build: 'dist/server',
+      },
+    };
+    const targetsList = {
+      [targetToBuild.name]: targetToBuild,
+      [targetToServe.name]: targetToServe,
     };
     const targets = {
-      getTarget: jest.fn(() => target),
+      getTarget: jest.fn((name) => targetsList[name]),
     };
     const webpackConfig = {
       output: {
@@ -258,7 +297,7 @@ describe('services/server:middlewares', () => {
     let middlewareResult = null;
     // When
     sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
-    result = sut.generate(targetName);
+    result = sut.generate(targetToBuild.name, targetToServe.name);
     getFileSystemFn = result.getFileSystem;
     [middleware] = result.middlewares;
     middlewareResult = middleware();
@@ -284,7 +323,7 @@ describe('services/server:middlewares', () => {
     });
   });
 
-  it('should give access to the dev middleware working directory', () => {
+  it('should give access to the target using the middleware build directory', () => {
     // Given
     const compiled = 'compiled';
     webpack.mockImplementationOnce(() => compiled);
@@ -295,12 +334,21 @@ describe('services/server:middlewares', () => {
     const events = {
       reduce: jest.fn((name, options) => options),
     };
-    const targetName = 'some-target';
-    const target = {
-      name: targetName,
+    const targetToBuild = {
+      name: 'target-to-build',
+    };
+    const targetToServe = {
+      name: 'target-to-serve',
+      paths: {
+        build: 'dist/server',
+      },
+    };
+    const targetsList = {
+      [targetToBuild.name]: targetToBuild,
+      [targetToServe.name]: targetToServe,
     };
     const targets = {
-      getTarget: jest.fn(() => target),
+      getTarget: jest.fn((name) => targetsList[name]),
     };
     const webpackConfig = {
       output: {
@@ -317,12 +365,12 @@ describe('services/server:middlewares', () => {
     let middleware = null;
     // When
     sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
-    result = sut.generate(targetName);
+    result = sut.generate(targetToBuild.name, targetToServe.name);
     [middleware] = result.middlewares;
     middleware();
     directoryResult = result.getDirectory();
     // Then
-    expect(directoryResult).toBe(webpackConfig.output.path);
+    expect(directoryResult).toBe(targetToServe.paths.build);
   });
 
   it('should include a provider for the DIC', () => {
