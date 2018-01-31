@@ -26,16 +26,17 @@ describe('plugin:woopackWebpack/Express', () => {
       generate: jest.fn(() => info),
     };
     woopack.get.mockImplementationOnce(() => webpackMiddlewares);
-    const target = 'target-name';
+    const targetToBuild = 'target-to-build';
+    const targetToServe = 'target-to-serve';
     let result = null;
     // When
-    result = expressImplementation(expressApp, target);
+    result = expressImplementation(expressApp, targetToBuild, targetToServe);
     // Then
     expect(result).toEqual(info);
     expect(woopack.get).toHaveBeenCalledTimes(1);
     expect(woopack.get).toHaveBeenCalledWith('webpackMiddlewares');
     expect(webpackMiddlewares.generate).toHaveBeenCalledTimes(1);
-    expect(webpackMiddlewares.generate).toHaveBeenCalledWith(target);
+    expect(webpackMiddlewares.generate).toHaveBeenCalledWith(targetToBuild, targetToServe);
     expect(expressApp.use).toHaveBeenCalledTimes(info.middlewares.length);
     info.middlewares.forEach(() => {
       expect(expressApp.use).toHaveBeenCalledWith(middlewareCall);
