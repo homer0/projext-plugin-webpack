@@ -141,8 +141,9 @@ const express = require(&apos;express&apos;);
 // Create the app
 const app = express();
 
-// Tell the plugin to configure the necessary middlewares for the `myApp` target on the app
-useExpress(app, &apos;myApp&apos;);
+// Tell the plugin to configure the necessary middlewares for the `myApp` target to be served by the
+// `myServer` target
+useExpress(app, &apos;myApp&apos;, &apos;myServer&apos;);
 
 // Start the app
 app.listen(...);</code>
@@ -159,8 +160,9 @@ class DevApp extends Jimpex {}
 // Create the app
 const app = new DevApp();
 
-// Tell the plugin to configure the necessary middlewares for the `myApp` target on the app
-useJimpex(app, &apos;myApp&apos;);
+// Tell the plugin to configure the necessary middlewares for the `myApp` target to be served by the
+// `myServer` target
+useJimpex(app, &apos;myApp&apos;, &apos;myServer&apos;);
 
 // Start the app
 app.start();</code>
@@ -168,7 +170,7 @@ app.start();</code>
 <h4 id="accessing-the-dev-middleware-files">Accessing the dev middleware files</h4><p>Both <code>useExpress</code> and <code>useJimpex</code> return and object with the following properties:</p>
 <ul>
 <li><code>middlewares</code>: A list with the implemented middlewares.</li>
-<li><code>getDirectory</code>: A function that returns the directory from where the dev middleware is serving the files.</li>
+<li><code>getDirectory</code>: A function that returns the build directory of the target implementing the middleware(s).</li>
 <li><code>getFileSystem</code>: A function that returns a promise with the instance of the <em>&quot;virtual file system&quot;</em> the middleware uses to read and write the files in memory.</li>
 </ul>
 <h3 id="extending-overwriting-the-configuration">Extending/Overwriting the configuration</h3><p>This plugin has <code>6</code> different configuration services:</p>

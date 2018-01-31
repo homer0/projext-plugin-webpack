@@ -167,16 +167,28 @@ class WebpackMiddlewares {
   }
   /**
    * Generate the middlewares for a given target.
-   * @param {string} targetName The name of the target.
+   * @param {string} targetToBuild The name of the target that will be builded on the middleware(s).
+   * @param {string} targetToServe The name of the target that will implement the middleware(s).
+   *                               When the other target is builded, it will assume that is on the
+   *                               distribution directory, and if the target serving it is being
+   *                               executed from the source directory it won&apos;t be able to use the
+   *                               dev middleware file system without hardcoding some relatives
+   *                               paths from the build to the source; to avoid that, the method
+   *                               gets the build path of this target, so when using
+   *                               `getDirectory()`, it will think they are both on the
+   *                               distribution directory and the paths can be created relative to
+   *                               that.
    * @return {MiddlewaresInformation}
    */
-  generate(targetName) {
+  generate(targetToBuild, targetToServe) {
     // Get the target information.
-    const target = this.targets.getTarget(targetName);
+    const target = this.targets.getTarget(targetToBuild);
     // Set the flag indicating the dev middleware file system is not ready.
-    this._fileSystemsReady[targetName] = false;
+    this._fileSystemsReady[targetToBuild] = false;
     // Create the deferred promise for when the dev middleware file system is ready.
-    this._fileSystemsDeferreds[targetName] = deferred();
+    this._fileSystemsDeferreds[targetToBuild] = deferred();
+    // Set the target working directory as the target that serves it build folder
+    this._directories[targetToBuild] = this.targets.getTarget(targetToServe).paths.build;
     // Create the list of middlewares with just the dev middleware.
     const middlewares = [
       () =&gt; this.devMiddleware(target),
@@ -245,7 +257,8 @@ class WebpackMiddlewares {
    *                                       the target.
    * @property {?middleware} hotMiddleware An instance of the Webpack hot middleware, if needed
    *                                       by the target.
-   * @property {string}      directory     The dev middleware root directory.
+   * @property {string}      directory     The build directory of the target implementing the
+   *                                       middleware.
    * @ignore
    * @access protected
    */
@@ -254,7 +267,6 @@ class WebpackMiddlewares {
       this._compiled.push(target.name);
       const configuration = this.webpackConfiguration.getConfig(target, &apos;development&apos;);
       configuration.plugins.push(this._getFileSystemStatusPlugin(target));
-      this._directories[target.name] = configuration.output.path;
 
       const compiler = webpack(configuration);
       const middlewareOptions = {

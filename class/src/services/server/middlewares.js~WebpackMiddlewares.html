@@ -332,7 +332,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-method-generate">generate</a></span></span><span class="code" data-ice="signature">(targetName: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-method-generate">generate</a></span></span><span class="code" data-ice="signature">(targetToBuild: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, targetToServe: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span>
         </p>
       </div>
       <div>
@@ -648,7 +648,7 @@ and returns its file system.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber117">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber129">source</a></span></span>
     </span>
   </h3>
 
@@ -721,7 +721,7 @@ and returns its file system.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber133">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber145">source</a></span></span>
     </span>
   </h3>
 
@@ -790,11 +790,11 @@ and returns its file system.</p>
     
     
     
-    <span class="code" data-ice="name">generate</span><span class="code" data-ice="signature">(targetName: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span>
+    <span class="code" data-ice="name">generate</span><span class="code" data-ice="signature">(targetToBuild: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, targetToServe: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber86">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber96">source</a></span></span>
     </span>
   </h3>
 
@@ -815,10 +815,26 @@ and returns its file system.</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">targetName</td>
+      <td data-ice="name" class="code" data-depth="0">targetToBuild</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The name of the target.</p>
+      <td data-ice="description"><p>The name of the target that will be builded on the middleware(s).</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">targetToServe</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The name of the target that will implement the middleware(s).
+                              When the other target is builded, it will assume that is on the
+                              distribution directory, and if the target serving it is being
+                              executed from the source directory it won&apos;t be able to use the
+                              dev middleware file system without hardcoding some relatives
+                              paths from the build to the source; to avoid that, the method
+                              gets the build path of this target, so when using
+                              <code>getDirectory()</code>, it will think they are both on the
+                              distribution directory and the paths can be created relative to
+                              that.</p>
 </td>
     </tr>
 </tbody>
@@ -867,7 +883,7 @@ and returns its file system.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber125">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber137">source</a></span></span>
     </span>
   </h3>
 
@@ -942,7 +958,7 @@ and returns its file system.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber144">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/server/middlewares.js.html#lineNumber156">source</a></span></span>
     </span>
   </h3>
 
