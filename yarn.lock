@@ -9040,9 +9040,9 @@ window-size@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
 
-woopack@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/woopack/-/woopack-1.0.0.tgz#125f580725af218b2fc4ac106002523ed4644c45"
+woopack@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/woopack/-/woopack-1.0.1.tgz#ccb78728447de645bf29d524b7b564374f4c1b70"
   dependencies:
     babel-cli "6.26.0"
     babel-core "6.26.0"
@@ -9067,6 +9067,16 @@ woopack@^1.0.0:
 wootils@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/wootils/-/wootils-1.0.5.tgz#8e7c35b8d2167e93c967c6a3c6522712579172e7"
+  dependencies:
+    colors "1.1.2"
+    fs-extra "5.0.0"
+    jimple homer0/jimple
+    statuses "1.4.0"
+    urijs "1.19.0"
+
+wootils@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/wootils/-/wootils-1.1.1.tgz#159e2bdd0f6249b07dce08f8ffc029874b631ca6"
   dependencies:
     colors "1.1.2"
     fs-extra "5.0.0"
