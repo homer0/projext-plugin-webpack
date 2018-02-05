@@ -140,6 +140,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(0);
+    expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
@@ -238,6 +239,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
@@ -251,6 +253,280 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   });
 
   it('should create a configuration for building and running the dev server', () => {
+    // Given
+    const compiler = {
+      plugin: jest.fn(),
+    };
+    const appLogger = {
+      success: jest.fn(),
+      warning: jest.fn(),
+    };
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const projectConfiguration = {
+      paths: {
+        output: {
+          js: 'statics/js',
+          css: 'statics/css',
+        },
+      },
+    };
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      runOnDevelopment: true,
+      devServer: {},
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {},
+      hot: true,
+    };
+    const definitions = 'definitions';
+    const babelPolyfillEntry = 'babel-polyfill';
+    const targetEntry = 'index.js';
+    const entry = {
+      [target.name]: [
+        babelPolyfillEntry,
+        targetEntry,
+      ],
+    };
+    const params = {
+      target,
+      definitions,
+      entry,
+    };
+    const expectedConfig = {
+      devServer: {
+        port: 2509,
+        inline: false,
+        open: true,
+        hot: true,
+        publicPath: '/',
+      },
+      entry: {
+        [target.name]: [
+          babelPolyfillEntry,
+          'webpack-dev-server/client?http://localhost:2509',
+          'webpack/hot/only-dev-server',
+          targetEntry,
+        ],
+      },
+      output: {
+        path: `./${target.folders.build}`,
+        filename: `${projectConfiguration.paths.output.js}/[name].js`,
+        publicPath: '/',
+      },
+      plugins: expect.any(Array),
+    };
+    let sut = null;
+    let result = null;
+    let devSeverPlugin = null;
+    let devSeverPluginCompile = null;
+    let devSeverPluginDone = null;
+    // When
+    sut = new WebpackBrowserDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      projectConfiguration,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
+    expect(ExtractTextPlugin).toHaveBeenCalledWith(
+      `${projectConfiguration.paths.output.css}/${target.name}.css`
+    );
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
+      target.html,
+      {
+        template: `${target.paths.source}/${target.html.template}`,
+        inject: 'body',
+      }
+    ));
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
+      defaultAttribute: 'async',
+    });
+    expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-browser-development-configuration',
+      expectedConfig,
+      params
+    );
+    devSeverPlugin = result.plugins.slice().pop();
+    devSeverPlugin.apply(compiler);
+    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
+    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
+    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
+    [
+      [, devSeverPluginCompile],
+      [, devSeverPluginDone],
+    ] = compiler.plugin.mock.calls;
+    devSeverPluginCompile();
+    expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.warning).toHaveBeenCalledTimes(1);
+    devSeverPluginDone();
+    jest.runAllTimers();
+    expect(appLogger.success).toHaveBeenCalledTimes(2);
+  });
+
+  it('should create a configuration for building and running the dev server (HTTPS)', () => {
+    // Given
+    const compiler = {
+      plugin: jest.fn(),
+    };
+    const appLogger = {
+      success: jest.fn(),
+      warning: jest.fn(),
+    };
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const projectConfiguration = {
+      paths: {
+        output: {
+          js: 'statics/js',
+          css: 'statics/css',
+        },
+      },
+    };
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      runOnDevelopment: true,
+      devServer: {
+        https: true,
+      },
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {},
+      hot: true,
+    };
+    const definitions = 'definitions';
+    const babelPolyfillEntry = 'babel-polyfill';
+    const targetEntry = 'index.js';
+    const entry = {
+      [target.name]: [
+        babelPolyfillEntry,
+        targetEntry,
+      ],
+    };
+    const params = {
+      target,
+      definitions,
+      entry,
+    };
+    const expectedConfig = {
+      devServer: {
+        port: 2509,
+        inline: false,
+        open: true,
+        hot: true,
+        publicPath: '/',
+      },
+      entry: {
+        [target.name]: [
+          babelPolyfillEntry,
+          'webpack-dev-server/client?https://localhost:2509',
+          'webpack/hot/only-dev-server',
+          targetEntry,
+        ],
+      },
+      output: {
+        path: `./${target.folders.build}`,
+        filename: `${projectConfiguration.paths.output.js}/[name].js`,
+        publicPath: '/',
+      },
+      plugins: expect.any(Array),
+    };
+    let sut = null;
+    let result = null;
+    let devSeverPlugin = null;
+    let devSeverPluginCompile = null;
+    let devSeverPluginDone = null;
+    // When
+    sut = new WebpackBrowserDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      projectConfiguration,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
+    expect(ExtractTextPlugin).toHaveBeenCalledWith(
+      `${projectConfiguration.paths.output.css}/${target.name}.css`
+    );
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
+      target.html,
+      {
+        template: `${target.paths.source}/${target.html.template}`,
+        inject: 'body',
+      }
+    ));
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
+      defaultAttribute: 'async',
+    });
+    expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-browser-development-configuration',
+      expectedConfig,
+      params
+    );
+    devSeverPlugin = result.plugins.slice().pop();
+    devSeverPlugin.apply(compiler);
+    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
+    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
+    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
+    [
+      [, devSeverPluginCompile],
+      [, devSeverPluginDone],
+    ] = compiler.plugin.mock.calls;
+    devSeverPluginCompile();
+    expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.warning).toHaveBeenCalledTimes(1);
+    devSeverPluginDone();
+    jest.runAllTimers();
+    expect(appLogger.success).toHaveBeenCalledTimes(2);
+  });
+
+  it('should create a configuration for building and running the dev server with HMR', () => {
     // Given
     const compiler = {
       plugin: jest.fn(),
@@ -343,6 +619,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(0);
+    expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);

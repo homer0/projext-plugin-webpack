@@ -2,6 +2,7 @@ const mocks = {
   noEmitOnErrorsPlugin: jest.fn(),
   definePlugin: jest.fn(),
   hotModuleReplacementPlugin: jest.fn(),
+  namedModulesPlugin: jest.fn(),
 };
 
 class NoEmitOnErrorsPluginMock {
@@ -25,6 +26,13 @@ class HotModuleReplacementPluginMock {
   }
 }
 
+class NamedModulesPluginMock {
+  constructor(...args) {
+    this.constructorMock = mocks.namedModulesPlugin;
+    this.constructorMock(...args);
+  }
+}
+
 class WebpackMock {
   static mock(name, mock) {
     mocks[name] = mock;
@@ -44,3 +52,5 @@ module.exports.DefinePlugin = DefinePluginMock;
 module.exports.DefinePluginMock = mocks.definePlugin;
 module.exports.HotModuleReplacementPlugin = HotModuleReplacementPluginMock;
 module.exports.HotModuleReplacementPluginMock = mocks.hotModuleReplacementPlugin;
+module.exports.NamedModulesPlugin = NamedModulesPluginMock;
+module.exports.NamedModulesPluginMock = mocks.namedModulesPlugin;
