@@ -8,6 +8,7 @@ const {
   NoEmitOnErrorsPlugin,
   DefinePlugin,
   HotModuleReplacementPlugin,
+  NamedModulesPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
@@ -87,12 +88,6 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         publicPath: '/',
       },
     };
-    // If the target uses hot replacement...
-    if (target.hot) {
-      // ...add the middleware.
-      const [entryName] = Object.keys(entry);
-      config.entry[entryName].unshift('webpack-hot-middleware/client?reload=true');
-    }
     // If the target has source maps enabled...
     if (target.sourceMap.development) {
       // ...configure the devtool
@@ -112,7 +107,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         defaultAttribute: 'async',
       }),
       // If the target uses hot replacement, add the plugin.
-      ...(target.hot ? [new HotModuleReplacementPlugin()] : []),
+      ...(target.hot ? [new NamedModulesPlugin(), new HotModuleReplacementPlugin()] : []),
       // To avoid pushing assets with errors.
       new NoEmitOnErrorsPlugin(),
       // To add the _'browser env variables'_.
@@ -120,6 +115,8 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
     ];
+    // Define a list of extra entries that may be need depending on the target HMR configuration.
+    const hotEntries = [];
     // If the target needs to run on development...
     if (target.runOnDevelopment) {
       // Add the dev server information to the configuration.
@@ -129,9 +126,51 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         inline: !!devServer.reload,
         open: true,
       };
+      // If the target will run with the dev server and it requires HMR...
+      if (target.hot) {
+        // Disable the `inline` mode.
+        config.devServer.inline = false;
+        // Set the public path to `/`, as required by HMR.
+        config.devServer.publicPath = '/';
+        // Enable the dev server `hot` setting.
+        config.devServer.hot = true;
+        // Build the host URL for the dev server as it will be needed for the hot entries.
+        const protocol = devServer.https ? 'https' : 'http';
+        const host = `${protocol}://localhost:${config.devServer.port}`;
+        // Push the required entries to enable HMR on the dev server.
+        hotEntries.push(...[
+          `webpack-dev-server/client?${host}`,
+          'webpack/hot/only-dev-server',
+        ]);
+      }
       // Push the fake plugin that logs the dev server statuses.
       config.plugins.push(this._getDevServerLogger(config.devServer));
+    } else if (target.hot) {
+      /**
+       * If the target requires HMR but is not running with the dev server, it means that there's
+       * an Express or Jimpex target that implements the `webpack-hot-middleware`, so we push it
+       * required entry to the list.
+       */
+      hotEntries.push('webpack-hot-middleware/client?reload=true');
     }
+    // If there are entries for HMR...
+    if (hotEntries.length) {
+      // Get target entry name.
+      const [entryName] = Object.keys(entry);
+      // Get the list of entries for the target.
+      const entries = config.entry[entryName];
+      // Check if the `babel-polyfill` is present, since it always needs to be first.
+      const polyfillIndex = entries.indexOf('babel-polyfill');
+      // If the `babel-polyfill` is present...
+      if (polyfillIndex > -1) {
+        // ...push all the _"hot entries"_ after it.
+        entries.splice(polyfillIndex + 1, 0, ...hotEntries);
+      } else {
+        // ...push all the _"hot entries"_ on top of the existing entries.
+        entries.unshift(...hotEntries);
+      }
+    }
+
     // Reduce the configuration
     return this.events.reduce(
       'webpack-browser-development-configuration',
