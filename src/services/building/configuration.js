@@ -75,18 +75,15 @@ class WebpackConfiguration {
     return definitions;
   }
   /**
-   * Get a hash an a hash sufix to append on filenames if needed.
-   * @return {Object}
-   * @property {number} hash    The current timestamp.
-   * @property {string} hashStr The `hash` property plus a `.` as a prefix., so it can be added to
-   *                            any filename without having to manually modify the filename.
+   * Generate the output paths for a target files.
+   * @param {Target} target    The target information.
+   * @param {string} buildType The intended build type: `production` or `development`.
+   * @return {WebpackConfigurationTargetOutput}
    */
-  getHash() {
-    const hash = Date.now();
-    return {
-      hash,
-      hashStr: `.${hash}`,
-    };
+  getOutput(target, buildType) {
+    return target.is.node ?
+      { js: target.output[buildType] } :
+      Object.assign({}, target.output[buildType]);
   }
   /**
    * In case the target is a library, this method will be called to generate the library options
@@ -122,15 +119,13 @@ class WebpackConfiguration {
       entries.unshift('babel-polyfill');
     }
 
-    const { hash, hashStr } = this.getHash();
     const params = {
       target,
       entry: {
         [target.name]: entries,
       },
       definitions: this.getDefinitions(target, buildType),
-      hash,
-      hashStr,
+      output: this.getOutput(target, buildType),
       buildType,
     };
 

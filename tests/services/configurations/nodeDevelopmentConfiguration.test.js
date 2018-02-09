@@ -27,14 +27,12 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     // Given
     const events = 'events';
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     let sut = null;
     // When
     sut = new WebpackNodeDevelopmentConfiguration(
       events,
       pathUtils,
-      projectConfiguration,
       webpackBaseConfiguration
     );
     // Then
@@ -47,7 +45,6 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       webpackBaseConfiguration
     );
     expect(sut.events).toBe(events);
-    expect(sut.projectConfiguration).toBe(projectConfiguration);
   });
 
   it('should create a configuration', () => {
@@ -56,7 +53,6 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -70,15 +66,19 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     const entry = {
       [target.name]: ['index.js'],
     };
+    const output = {
+      js: 'statics/js/build.js',
+    };
     const params = {
       target,
       entry,
+      output,
     };
     const expectedConfig = {
       entry,
       output: {
         path: `./${target.folders.build}`,
-        filename: '[name].js',
+        filename: output.js,
         publicPath: '/',
       },
       watch: false,
@@ -95,7 +95,6 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     sut = new WebpackNodeDevelopmentConfiguration(
       events,
       pathUtils,
-      projectConfiguration,
       webpackBaseConfiguration
     );
     result = sut.getConfig(params);
@@ -118,7 +117,6 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -133,15 +131,19 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     const entry = {
       [target.name]: ['index.js'],
     };
+    const output = {
+      js: 'statics/js/build.js',
+    };
     const params = {
       target,
       entry,
+      output,
     };
     const expectedConfig = {
       entry,
       output: {
         path: `./${target.folders.build}`,
-        filename: '[name].js',
+        filename: output.js,
         publicPath: '/',
       },
       watch: true,
@@ -158,7 +160,6 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     sut = new WebpackNodeDevelopmentConfiguration(
       events,
       pathUtils,
-      projectConfiguration,
       webpackBaseConfiguration
     );
     result = sut.getConfig(params);
@@ -182,13 +183,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     let sut = null;
     const container = {
       set: jest.fn(),
-      get: jest.fn(
-        (service) => (
-          service === 'projectConfiguration' ?
-            { getConfig: () => service } :
-            service
-        )
-      ),
+      get: jest.fn((service) => service),
     };
     let serviceName = null;
     let serviceFn = null;
@@ -201,6 +196,5 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackNodeDevelopmentConfiguration);
     expect(sut.events).toBe('events');
-    expect(sut.projectConfiguration).toBe('projectConfiguration');
   });
 });
