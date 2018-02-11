@@ -45,9 +45,9 @@ class WebpackBuildEngine {
      *                           will be either `'true'` or `'false'`.
      */
     this.envVars = {
-      target: 'WOOPACK_WEBPACK_TARGET',
-      type: 'WOOPACK_WEBPACK_BUILD_TYPE',
-      run: 'WOOPACK_WEBPACK_RUN',
+      target: 'PROJEXT_WEBPACK_TARGET',
+      type: 'PROJEXT_WEBPACK_BUILD_TYPE',
+      run: 'PROJEXT_WEBPACK_RUN',
     };
   }
   /**
@@ -66,7 +66,7 @@ class WebpackBuildEngine {
     });
 
     const config = path.join(
-      'node_modules/woopack-plugin-webpack',
+      'node_modules/projext-plugin-webpack',
       'src/webpack.config.js'
     );
 
@@ -120,7 +120,7 @@ class WebpackBuildEngine {
    *   target: 'my-target',
    *   type: 'development',
    * });
-   * // will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`
+   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`
    * @param {object} values A dictionary with the purpose(alias) of the variables as keys.
    * @return {string}
    */

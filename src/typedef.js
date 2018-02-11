@@ -44,48 +44,48 @@
  */
 
 /**
- * @external {Woopack}
- * https://homer0.github.io/woopack/class/src/app/index.js~Woopack.html
+ * @external {Projext}
+ * https://homer0.github.io/projext/class/src/app/index.js~Projext.html
  */
 
 /**
  * @external {BuildVersion}
- * https://homer0.github.io/woopack/class/src/services/building/buildVersion.js~BuildVersion.html
+ * https://homer0.github.io/projext/class/src/services/building/buildVersion.js~BuildVersion.html
  */
 
 /**
  * @external {Events}
- * https://homer0.github.io/woopack/class/src/services/common/events.js~Events.html
+ * https://homer0.github.io/projext/class/src/services/common/events.js~Events.html
  */
 
 /**
  * @external {Targets}
- * https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html
+ * https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html
  */
 
 /**
  * @external {Target}
- * https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target
  */
 
 /**
  * @external {BrowserTarget}
- * https://homer0.github.io/woopack/typedef/index.html#static-typedef-BrowserTarget
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget
  */
 
 /**
  * @external {TargetConfigurationCreator}
- * https://homer0.github.io/woopack/typedef/index.html#static-typedef-TargetConfigurationCreator
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator
  */
 
 /**
  * @external {ProjectConfigurationSettings}
- * https://homer0.github.io/woopack/typedef/index.html#static-typedef-ProjectConfigurationSettings
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings
  */
 
 /**
  * @external {BabelConfiguration}
- * https://homer0.github.io/woopack/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html
+ * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html
  */
 
 /**

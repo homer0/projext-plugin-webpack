@@ -7,7 +7,7 @@ require('jasmine-expect');
 
 const plugin = require('/src/index');
 
-describe('plugin:woopackWebpack', () => {
+describe('plugin:projextWebpack', () => {
   it('should register all the services', () => {
     // Given
     const app = {

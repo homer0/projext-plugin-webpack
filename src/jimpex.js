@@ -1,4 +1,4 @@
-const woopack = require('woopack/index');
+const projext = require('projext/index');
 const { middleware } = require('jimpex');
 
 const { webpackFrontendFs, webpackSendFile } = require('./jimpex/index');
@@ -19,7 +19,7 @@ const { webpackFrontendFs, webpackSendFile } = require('./jimpex/index');
  */
 const useJimpex = (jimpexApp, targetToBuild, targetToServe) => {
   // Get the middlewares service.
-  const webpackMiddlewares = woopack.get('webpackMiddlewares');
+  const webpackMiddlewares = projext.get('webpackMiddlewares');
   // Generate the middlewares for the target.
   const info = webpackMiddlewares.generate(targetToBuild, targetToServe);
   /**
