@@ -119,8 +119,8 @@ All the configurations receive a single object parameter with the following prop
 
 - `target`: It has all the information for the target being bundled.
 - `entry`: A dictionary with the `entry` setting for a webpack configuration, generated with the target information.
+- `output`: A dictionary with the filenames formats and paths of the different files the bundle can generate (`js`, `css`, `images` and `fonts`).
 - `definitions`: A dictionary of defined variables that will be replaced on the bundled code.
-- `hashStr`: A random number that can be used as a hash to include on the generated files names. It's a string that ends on a `.`, so it can be added directly on a filename.
 
 #### Base configuration
 
