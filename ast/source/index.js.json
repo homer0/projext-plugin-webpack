@@ -582,7 +582,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\n * This is the method called by Woopack when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Woopack} app The Woopack main container.\n * @ignore\n ",
+            "value": "*\n * This is the method called by projext when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
             "start": 408,
             "end": 661,
             "loc": {
@@ -2667,7 +2667,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\n * This is the method called by Woopack when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Woopack} app The Woopack main container.\n * @ignore\n ",
+              "value": "*\n * This is the method called by projext when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
               "start": 408,
               "end": 661,
               "loc": {
@@ -2691,7 +2691,7 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "*\n * This is the method called by Woopack when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Woopack} app The Woopack main container.\n * @ignore\n ",
+      "value": "*\n * This is the method called by projext when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
       "start": 408,
       "end": 661,
       "loc": {
@@ -3648,7 +3648,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * This is the method called by Woopack when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Woopack} app The Woopack main container.\n * @ignore\n ",
+      "value": "*\n * This is the method called by projext when loading the plugin and it takes care of registering\n * the Webpack build engine service and all the other services the engine depends on.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
       "start": 408,
       "end": 661,
       "loc": {

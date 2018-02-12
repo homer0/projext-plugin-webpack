@@ -1,152 +1,152 @@
 window.esdocSearchIndex = [
   [
-    "woopack-plugin-webpack/src/abstracts/configurationfile.js~configurationfile",
+    "projext-plugin-webpack/src/abstracts/configurationfile.js~configurationfile",
     "class/src/abstracts/configurationFile.js~ConfigurationFile.html",
-    "<span>ConfigurationFile</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/abstracts/configurationFile.js</span>",
+    "<span>ConfigurationFile</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/abstracts/configurationFile.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/baseconfiguration.js~webpackbaseconfiguration",
+    "projext-plugin-webpack/src/services/configurations/baseconfiguration.js~webpackbaseconfiguration",
     "class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html",
-    "<span>WebpackBaseConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/baseConfiguration.js</span>",
+    "<span>WebpackBaseConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/baseConfiguration.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration",
+    "projext-plugin-webpack/src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration",
     "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html",
-    "<span>WebpackBrowserDevelopmentConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/browserDevelopmentConfiguration.js</span>",
+    "<span>WebpackBrowserDevelopmentConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/browserDevelopmentConfiguration.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration",
+    "projext-plugin-webpack/src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration",
     "class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html",
-    "<span>WebpackBrowserProductionConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/browserProductionConfiguration.js</span>",
+    "<span>WebpackBrowserProductionConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/browserProductionConfiguration.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/building/engine.js~webpackbuildengine",
+    "projext-plugin-webpack/src/services/building/engine.js~webpackbuildengine",
     "class/src/services/building/engine.js~WebpackBuildEngine.html",
-    "<span>WebpackBuildEngine</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/building/engine.js</span>",
+    "<span>WebpackBuildEngine</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/building/engine.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/building/configuration.js~webpackconfiguration",
+    "projext-plugin-webpack/src/services/building/configuration.js~webpackconfiguration",
     "class/src/services/building/configuration.js~WebpackConfiguration.html",
-    "<span>WebpackConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/building/configuration.js</span>",
+    "<span>WebpackConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/building/configuration.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/jimpex/frontendfs.js~webpackfrontendfs",
+    "projext-plugin-webpack/src/jimpex/frontendfs.js~webpackfrontendfs",
     "class/src/jimpex/frontendFs.js~WebpackFrontendFs.html",
-    "<span>WebpackFrontendFs</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/jimpex/frontendFs.js</span>",
+    "<span>WebpackFrontendFs</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/jimpex/frontendFs.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/server/middlewares.js~webpackmiddlewares",
+    "projext-plugin-webpack/src/services/server/middlewares.js~webpackmiddlewares",
     "class/src/services/server/middlewares.js~WebpackMiddlewares.html",
-    "<span>WebpackMiddlewares</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/server/middlewares.js</span>",
+    "<span>WebpackMiddlewares</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/server/middlewares.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration",
+    "projext-plugin-webpack/src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration",
     "class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html",
-    "<span>WebpackNodeDevelopmentConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/nodeDevelopmentConfiguration.js</span>",
+    "<span>WebpackNodeDevelopmentConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/nodeDevelopmentConfiguration.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration",
+    "projext-plugin-webpack/src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration",
     "class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html",
-    "<span>WebpackNodeProductionConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/nodeProductionConfiguration.js</span>",
+    "<span>WebpackNodeProductionConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/nodeProductionConfiguration.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration",
+    "projext-plugin-webpack/src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration",
     "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html",
-    "<span>WebpackRulesConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/rulesConfiguration.js</span>",
+    "<span>WebpackRulesConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/rulesConfiguration.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/jimpex/sendfile.js~webpacksendfile",
+    "projext-plugin-webpack/src/jimpex/sendfile.js~webpacksendfile",
     "class/src/jimpex/sendFile.js~WebpackSendFile.html",
-    "<span>WebpackSendFile</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/jimpex/sendFile.js</span>",
+    "<span>WebpackSendFile</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/jimpex/sendFile.js</span>",
     "class"
   ],
   [
-    "woopack-plugin-webpack/src/express.js~useexpress",
+    "projext-plugin-webpack/src/express.js~useexpress",
     "function/index.html#static-function-useExpress",
-    "<span>useExpress</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/express.js</span>",
+    "<span>useExpress</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/express.js</span>",
     "function"
   ],
   [
-    "woopack-plugin-webpack/src/jimpex.js~usejimpex",
+    "projext-plugin-webpack/src/jimpex.js~usejimpex",
     "function/index.html#static-function-useJimpex",
-    "<span>useJimpex</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/jimpex.js</span>",
+    "<span>useJimpex</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/jimpex.js</span>",
     "function"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/baseconfiguration.js~webpackbaseconfiguration",
+    "projext-plugin-webpack/src/services/configurations/baseconfiguration.js~webpackbaseconfiguration",
     "variable/index.html#static-variable-webpackBaseConfiguration",
-    "<span>webpackBaseConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/baseConfiguration.js</span>",
+    "<span>webpackBaseConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/baseConfiguration.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration",
+    "projext-plugin-webpack/src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration",
     "variable/index.html#static-variable-webpackBrowserDevelopmentConfiguration",
-    "<span>webpackBrowserDevelopmentConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/browserDevelopmentConfiguration.js</span>",
+    "<span>webpackBrowserDevelopmentConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/browserDevelopmentConfiguration.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration",
+    "projext-plugin-webpack/src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration",
     "variable/index.html#static-variable-webpackBrowserProductionConfiguration",
-    "<span>webpackBrowserProductionConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/browserProductionConfiguration.js</span>",
+    "<span>webpackBrowserProductionConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/browserProductionConfiguration.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/services/building/engine.js~webpackbuildengine",
+    "projext-plugin-webpack/src/services/building/engine.js~webpackbuildengine",
     "variable/index.html#static-variable-webpackBuildEngine",
-    "<span>webpackBuildEngine</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/building/engine.js</span>",
+    "<span>webpackBuildEngine</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/building/engine.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/services/building/configuration.js~webpackconfiguration",
+    "projext-plugin-webpack/src/services/building/configuration.js~webpackconfiguration",
     "variable/index.html#static-variable-webpackConfiguration",
-    "<span>webpackConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/building/configuration.js</span>",
+    "<span>webpackConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/building/configuration.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/jimpex/frontendfs.js~webpackfrontendfs",
+    "projext-plugin-webpack/src/jimpex/frontendfs.js~webpackfrontendfs",
     "function/index.html#static-function-webpackFrontendFs",
-    "<span>webpackFrontendFs</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/jimpex/frontendFs.js</span>",
+    "<span>webpackFrontendFs</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/jimpex/frontendFs.js</span>",
     "function"
   ],
   [
-    "woopack-plugin-webpack/src/services/server/middlewares.js~webpackmiddlewares",
+    "projext-plugin-webpack/src/services/server/middlewares.js~webpackmiddlewares",
     "variable/index.html#static-variable-webpackMiddlewares",
-    "<span>webpackMiddlewares</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/server/middlewares.js</span>",
+    "<span>webpackMiddlewares</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/server/middlewares.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration",
+    "projext-plugin-webpack/src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration",
     "variable/index.html#static-variable-webpackNodeDevelopmentConfiguration",
-    "<span>webpackNodeDevelopmentConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/nodeDevelopmentConfiguration.js</span>",
+    "<span>webpackNodeDevelopmentConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/nodeDevelopmentConfiguration.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration",
+    "projext-plugin-webpack/src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration",
     "variable/index.html#static-variable-webpackNodeProductionConfiguration",
-    "<span>webpackNodeProductionConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/nodeProductionConfiguration.js</span>",
+    "<span>webpackNodeProductionConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/nodeProductionConfiguration.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration",
+    "projext-plugin-webpack/src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration",
     "variable/index.html#static-variable-webpackRulesConfiguration",
-    "<span>webpackRulesConfiguration</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/services/configurations/rulesConfiguration.js</span>",
+    "<span>webpackRulesConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/rulesConfiguration.js</span>",
     "variable"
   ],
   [
-    "woopack-plugin-webpack/src/jimpex/sendfile.js~webpacksendfile",
+    "projext-plugin-webpack/src/jimpex/sendfile.js~webpacksendfile",
     "variable/index.html#static-variable-webpackSendFile",
-    "<span>webpackSendFile</span> <span class=\"search-result-import-path\">woopack-plugin-webpack/src/jimpex/sendFile.js</span>",
+    "<span>webpackSendFile</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/jimpex/sendFile.js</span>",
     "variable"
   ],
   [
@@ -618,15 +618,15 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/services/building/configuration.js~webpackconfiguration#gethash",
-    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-method-getHash",
-    "src/services/building/configuration.js~WebpackConfiguration#getHash",
-    "method"
-  ],
-  [
     "src/services/building/configuration.js~webpackconfiguration#getlibraryoptions",
     "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-method-getLibraryOptions",
     "src/services/building/configuration.js~WebpackConfiguration#getLibraryOptions",
+    "method"
+  ],
+  [
+    "src/services/building/configuration.js~webpackconfiguration#getoutput",
+    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-method-getOutput",
+    "src/services/building/configuration.js~WebpackConfiguration#getOutput",
     "method"
   ],
   [
@@ -786,12 +786,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#projectconfiguration",
-    "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html#instance-member-projectConfiguration",
-    "src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration#projectConfiguration",
-    "member"
-  ],
-  [
     "src/services/configurations/browserproductionconfiguration.js",
     "file/src/services/configurations/browserProductionConfiguration.js.html",
     "src/services/configurations/browserProductionConfiguration.js",
@@ -813,12 +807,6 @@ window.esdocSearchIndex = [
     "src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration#events",
     "class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html#instance-member-events",
     "src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration#events",
-    "member"
-  ],
-  [
-    "src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration#projectconfiguration",
-    "class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html#instance-member-projectConfiguration",
-    "src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration#projectConfiguration",
     "member"
   ],
   [
@@ -852,12 +840,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration#projectconfiguration",
-    "class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html#instance-member-projectConfiguration",
-    "src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration#projectConfiguration",
-    "member"
-  ],
-  [
     "src/services/configurations/nodeproductionconfiguration.js",
     "file/src/services/configurations/nodeProductionConfiguration.js.html",
     "src/services/configurations/nodeProductionConfiguration.js",
@@ -879,12 +861,6 @@ window.esdocSearchIndex = [
     "src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration#events",
     "class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html#instance-member-events",
     "src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration#events",
-    "member"
-  ],
-  [
-    "src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration#projectconfiguration",
-    "class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html#instance-member-projectConfiguration",
-    "src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration#projectConfiguration",
     "member"
   ],
   [
@@ -972,12 +948,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#projectconfiguration",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-member-projectConfiguration",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#projectConfiguration",
-    "member"
-  ],
-  [
     "src/services/server/index.js",
     "file/src/services/server/index.js.html",
     "src/services/server/index.js",
@@ -1051,13 +1021,19 @@ window.esdocSearchIndex = [
   ],
   [
     "src/typedef.js~babelconfiguration",
-    "https://homer0.github.io/woopack/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html",
+    "https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html",
     "src/typedef.js~BabelConfiguration",
     "external"
   ],
   [
+    "src/typedef.js~browsertarget",
+    "https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget",
+    "src/typedef.js~BrowserTarget",
+    "external"
+  ],
+  [
     "src/typedef.js~buildversion",
-    "https://homer0.github.io/woopack/class/src/services/building/buildVersion.js~BuildVersion.html",
+    "https://homer0.github.io/projext/class/src/services/building/buildVersion.js~BuildVersion.html",
     "src/typedef.js~BuildVersion",
     "external"
   ],
@@ -1087,7 +1063,7 @@ window.esdocSearchIndex = [
   ],
   [
     "src/typedef.js~events",
-    "https://homer0.github.io/woopack/class/src/services/common/events.js~Events.html",
+    "https://homer0.github.io/projext/class/src/services/common/events.js~Events.html",
     "src/typedef.js~Events",
     "external"
   ],
@@ -1141,8 +1117,14 @@ window.esdocSearchIndex = [
   ],
   [
     "src/typedef.js~projectconfigurationsettings",
-    "https://homer0.github.io/woopack/typedef/index.html#static-typedef-ProjectConfigurationSettings",
+    "https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings",
     "src/typedef.js~ProjectConfigurationSettings",
+    "external"
+  ],
+  [
+    "src/typedef.js~projext",
+    "https://homer0.github.io/projext/class/src/app/index.js~Projext.html",
+    "src/typedef.js~Projext",
     "external"
   ],
   [
@@ -1165,19 +1147,19 @@ window.esdocSearchIndex = [
   ],
   [
     "src/typedef.js~target",
-    "https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target",
+    "https://homer0.github.io/projext/typedef/index.html#static-typedef-Target",
     "src/typedef.js~Target",
     "external"
   ],
   [
     "src/typedef.js~targetconfigurationcreator",
-    "https://homer0.github.io/woopack/typedef/index.html#static-typedef-TargetConfigurationCreator",
+    "https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator",
     "src/typedef.js~TargetConfigurationCreator",
     "external"
   ],
   [
     "src/typedef.js~targets",
-    "https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html",
+    "https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html",
     "src/typedef.js~Targets",
     "external"
   ],
@@ -1185,6 +1167,12 @@ window.esdocSearchIndex = [
     "src/typedef.js~webpackconfigurationparams",
     "typedef/index.html#static-typedef-WebpackConfigurationParams",
     "src/typedef.js~WebpackConfigurationParams",
+    "typedef"
+  ],
+  [
+    "src/typedef.js~webpackconfigurationtargetoutput",
+    "typedef/index.html#static-typedef-WebpackConfigurationTargetOutput",
+    "src/typedef.js~WebpackConfigurationTargetOutput",
     "typedef"
   ],
   [
@@ -1198,11 +1186,5 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-WebpackConfigurationsByEnvironment",
     "src/typedef.js~WebpackConfigurationsByEnvironment",
     "typedef"
-  ],
-  [
-    "src/typedef.js~woopack",
-    "https://homer0.github.io/woopack/class/src/app/index.js~Woopack.html",
-    "src/typedef.js~Woopack",
-    "external"
   ]
 ]

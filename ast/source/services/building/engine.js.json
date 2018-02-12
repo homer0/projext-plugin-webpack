@@ -904,10 +904,10 @@
                                 }
                               },
                               "extra": {
-                                "rawValue": "WOOPACK_WEBPACK_TARGET",
-                                "raw": "'WOOPACK_WEBPACK_TARGET'"
+                                "rawValue": "PROJEXT_WEBPACK_TARGET",
+                                "raw": "'PROJEXT_WEBPACK_TARGET'"
                               },
-                              "value": "WOOPACK_WEBPACK_TARGET"
+                              "value": "PROJEXT_WEBPACK_TARGET"
                             }
                           },
                           {
@@ -959,10 +959,10 @@
                                 }
                               },
                               "extra": {
-                                "rawValue": "WOOPACK_WEBPACK_BUILD_TYPE",
-                                "raw": "'WOOPACK_WEBPACK_BUILD_TYPE'"
+                                "rawValue": "PROJEXT_WEBPACK_BUILD_TYPE",
+                                "raw": "'PROJEXT_WEBPACK_BUILD_TYPE'"
                               },
-                              "value": "WOOPACK_WEBPACK_BUILD_TYPE"
+                              "value": "PROJEXT_WEBPACK_BUILD_TYPE"
                             }
                           },
                           {
@@ -1014,10 +1014,10 @@
                                 }
                               },
                               "extra": {
-                                "rawValue": "WOOPACK_WEBPACK_RUN",
-                                "raw": "'WOOPACK_WEBPACK_RUN'"
+                                "rawValue": "PROJEXT_WEBPACK_RUN",
+                                "raw": "'PROJEXT_WEBPACK_RUN'"
                               },
-                              "value": "WOOPACK_WEBPACK_RUN"
+                              "value": "PROJEXT_WEBPACK_RUN"
                             }
                           }
                         ]
@@ -1669,10 +1669,10 @@
                                 }
                               },
                               "extra": {
-                                "rawValue": "node_modules/woopack-plugin-webpack",
-                                "raw": "'node_modules/woopack-plugin-webpack'"
+                                "rawValue": "node_modules/projext-plugin-webpack",
+                                "raw": "'node_modules/projext-plugin-webpack'"
                               },
-                              "value": "node_modules/woopack-plugin-webpack"
+                              "value": "node_modules/projext-plugin-webpack"
                             },
                             {
                               "type": "StringLiteral",
@@ -3918,7 +3918,7 @@
               "trailingComments": [
                 {
                   "type": "CommentBlock",
-                  "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
+                  "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
                   "start": 4055,
                   "end": 4540,
                   "loc": {
@@ -4481,7 +4481,7 @@
               "leadingComments": [
                 {
                   "type": "CommentBlock",
-                  "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
+                  "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
                   "start": 4055,
                   "end": 4540,
                   "loc": {
@@ -6589,10 +6589,10 @@
                                   }
                                 },
                                 "extra": {
-                                  "rawValue": "WOOPACK_WEBPACK_TARGET",
-                                  "raw": "'WOOPACK_WEBPACK_TARGET'"
+                                  "rawValue": "PROJEXT_WEBPACK_TARGET",
+                                  "raw": "'PROJEXT_WEBPACK_TARGET'"
                                 },
-                                "value": "WOOPACK_WEBPACK_TARGET"
+                                "value": "PROJEXT_WEBPACK_TARGET"
                               }
                             },
                             {
@@ -6644,10 +6644,10 @@
                                   }
                                 },
                                 "extra": {
-                                  "rawValue": "WOOPACK_WEBPACK_BUILD_TYPE",
-                                  "raw": "'WOOPACK_WEBPACK_BUILD_TYPE'"
+                                  "rawValue": "PROJEXT_WEBPACK_BUILD_TYPE",
+                                  "raw": "'PROJEXT_WEBPACK_BUILD_TYPE'"
                                 },
-                                "value": "WOOPACK_WEBPACK_BUILD_TYPE"
+                                "value": "PROJEXT_WEBPACK_BUILD_TYPE"
                               }
                             },
                             {
@@ -6699,10 +6699,10 @@
                                   }
                                 },
                                 "extra": {
-                                  "rawValue": "WOOPACK_WEBPACK_RUN",
-                                  "raw": "'WOOPACK_WEBPACK_RUN'"
+                                  "rawValue": "PROJEXT_WEBPACK_RUN",
+                                  "raw": "'PROJEXT_WEBPACK_RUN'"
                                 },
-                                "value": "WOOPACK_WEBPACK_RUN"
+                                "value": "PROJEXT_WEBPACK_RUN"
                               }
                             }
                           ]
@@ -7354,10 +7354,10 @@
                                   }
                                 },
                                 "extra": {
-                                  "rawValue": "node_modules/woopack-plugin-webpack",
-                                  "raw": "'node_modules/woopack-plugin-webpack'"
+                                  "rawValue": "node_modules/projext-plugin-webpack",
+                                  "raw": "'node_modules/projext-plugin-webpack'"
                                 },
-                                "value": "node_modules/woopack-plugin-webpack"
+                                "value": "node_modules/projext-plugin-webpack"
                               },
                               {
                                 "type": "StringLiteral",
@@ -9603,7 +9603,7 @@
                 "trailingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
+                    "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
                     "start": 4055,
                     "end": 4540,
                     "loc": {
@@ -10166,7 +10166,7 @@
                 "leadingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
+                    "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
                     "start": 4055,
                     "end": 4540,
                     "loc": {
@@ -11662,7 +11662,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
+      "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
       "start": 4055,
       "end": 4540,
       "loc": {
@@ -13106,7 +13106,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "WOOPACK_WEBPACK_TARGET",
+      "value": "PROJEXT_WEBPACK_TARGET",
       "start": 1964,
       "end": 1988,
       "loc": {
@@ -13211,7 +13211,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "WOOPACK_WEBPACK_BUILD_TYPE",
+      "value": "PROJEXT_WEBPACK_BUILD_TYPE",
       "start": 2002,
       "end": 2030,
       "loc": {
@@ -13316,7 +13316,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "WOOPACK_WEBPACK_RUN",
+      "value": "PROJEXT_WEBPACK_RUN",
       "start": 2043,
       "end": 2064,
       "loc": {
@@ -14582,7 +14582,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "node_modules/woopack-plugin-webpack",
+      "value": "node_modules/projext-plugin-webpack",
       "start": 2693,
       "end": 2730,
       "loc": {
@@ -19166,7 +19166,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
+      "value": "*\n   * Given a dictionary with the environment variables purpose and values, this method generates\n   * a string with the variables real names and values.\n   * @example\n   * console.log(getEnvVarsAsString{\n   *   target: 'my-target',\n   *   type: 'development',\n   * });\n   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`\n   * @param {object} values A dictionary with the purpose(alias) of the variables as keys.\n   * @return {string}\n   ",
       "start": 4055,
       "end": 4540,
       "loc": {

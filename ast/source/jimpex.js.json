@@ -70,9 +70,9 @@
                   "line": 1,
                   "column": 14
                 },
-                "identifierName": "woopack"
+                "identifierName": "projext"
               },
-              "name": "woopack"
+              "name": "projext"
             }
           }
         ],
@@ -91,10 +91,10 @@
             }
           },
           "extra": {
-            "rawValue": "woopack/index",
-            "raw": "'woopack/index'"
+            "rawValue": "projext/index",
+            "raw": "'projext/index'"
           },
-          "value": "woopack/index"
+          "value": "projext/index"
         }
       },
       {
@@ -557,9 +557,9 @@
                                   "line": 22,
                                   "column": 36
                                 },
-                                "identifierName": "woopack"
+                                "identifierName": "projext"
                               },
-                              "name": "woopack"
+                              "name": "projext"
                             },
                             "property": {
                               "type": "Identifier",
@@ -2324,9 +2324,9 @@
                                     "line": 22,
                                     "column": 36
                                   },
-                                  "identifierName": "woopack"
+                                  "identifierName": "projext"
                                 },
-                                "name": "woopack"
+                                "name": "projext"
                               },
                               "property": {
                                 "type": "Identifier",
@@ -3979,7 +3979,7 @@
         "postfix": false,
         "binop": null
       },
-      "value": "woopack",
+      "value": "projext",
       "start": 7,
       "end": 14,
       "loc": {
@@ -4032,7 +4032,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "woopack/index",
+      "value": "projext/index",
       "start": 20,
       "end": 35,
       "loc": {
@@ -4927,7 +4927,7 @@
         "postfix": false,
         "binop": null
       },
-      "value": "woopack",
+      "value": "projext",
       "start": 1418,
       "end": 1425,
       "loc": {

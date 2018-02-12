@@ -1,7 +1,7 @@
 {
   "coverage": "100%",
-  "expectCount": 121,
-  "actualCount": 121,
+  "expectCount": 116,
+  "actualCount": 116,
   "files": {
     "src/abstracts/configurationFile.js": {
       "expectCount": 13,
@@ -49,28 +49,28 @@
       "undocumentLines": []
     },
     "src/services/configurations/browserDevelopmentConfiguration.js": {
-      "expectCount": 8,
-      "actualCount": 8,
+      "expectCount": 7,
+      "actualCount": 7,
       "undocumentLines": []
     },
     "src/services/configurations/browserProductionConfiguration.js": {
-      "expectCount": 6,
-      "actualCount": 6,
+      "expectCount": 5,
+      "actualCount": 5,
       "undocumentLines": []
     },
     "src/services/configurations/nodeDevelopmentConfiguration.js": {
-      "expectCount": 6,
-      "actualCount": 6,
+      "expectCount": 5,
+      "actualCount": 5,
       "undocumentLines": []
     },
     "src/services/configurations/nodeProductionConfiguration.js": {
-      "expectCount": 6,
-      "actualCount": 6,
+      "expectCount": 5,
+      "actualCount": 5,
       "undocumentLines": []
     },
     "src/services/configurations/rulesConfiguration.js": {
-      "expectCount": 16,
-      "actualCount": 16,
+      "expectCount": 15,
+      "actualCount": 15,
       "undocumentLines": []
     },
     "src/services/server/middlewares.js": {

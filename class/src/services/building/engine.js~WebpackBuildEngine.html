@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../">
-  <title data-ice="title">WebpackBuildEngine | woopack-plugin-webpack</title>
+  <title data-ice="title">WebpackBuildEngine | projext-plugin-webpack</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="Allows woopack to use webpack as a build engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="woopack-plugin-webpack"><meta property="twitter:description" content="Allows woopack to use webpack as a build engine."></head>
+<meta name="description" content="Allows projext to use webpack as a build engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="projext-plugin-webpack"><meta property="twitter:description" content="Allows projext to use webpack as a build engine."></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -24,7 +24,7 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-<a style="position:relative; top:3px;" href="https://github.com/homer0/woopack-plugin-webpack"><img width="20px" src="./image/github.png"></a></header>
+<a style="position:relative; top:3px;" href="https://github.com/homer0/projext-plugin-webpack"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div>
   <ul>
@@ -37,13 +37,15 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationTargetOutput">WebpackConfigurationTargetOutput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurations">WebpackConfigurations</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationsByEnvironment">WebpackConfigurationsByEnvironment</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/buildVersion.js~BuildVersion.html">BuildVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget">BrowserTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/building/buildVersion.js~BuildVersion.html">BuildVersion</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/errorHandler.js~ErrorHandler.html">ErrorHandler</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/common/events.js~Events.html">Events</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://expressjs.com">Express</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://nodejs.org/api/fs.html">FileSystem</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimpex">Jimpex</a></span></span></li>
@@ -51,12 +53,12 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/woopack/class/src/app/index.js~Woopack.html">Woopack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#abstracts">abstracts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jimpex">jimpex</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/frontendFs.js~WebpackFrontendFs.html">WebpackFrontendFs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/sendFile.js~WebpackSendFile.html">WebpackSendFile</a></span></span></li>
@@ -85,7 +87,7 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {WebpackBuildEngine} from &apos;<span><a href="file/src/services/building/engine.js.html#lineNumber7">woopack-plugin-webpack/src/services/building/engine.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {WebpackBuildEngine} from &apos;<span><a href="file/src/services/building/engine.js.html#lineNumber7">projext-plugin-webpack/src/services/building/engine.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
@@ -145,7 +147,7 @@ a target using Webpack.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(environmentUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span>, targets: <span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span>, webpackConfiguration: <span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(environmentUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span>, targets: <span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span>, webpackConfiguration: <span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span>)</span>
         </p>
       </div>
       <div>
@@ -240,7 +242,7 @@ that will be retrieved when generating the configuration.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-member-targets">targets</a></span></span><span class="code" data-ice="signature">: <span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-member-targets">targets</a></span></span><span class="code" data-ice="signature">: <span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span></span>
         </p>
       </div>
       <div>
@@ -305,7 +307,7 @@ that will be retrieved when generating the configuration.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getBuildCommand">getBuildCommand</a></span></span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getBuildCommand">getBuildCommand</a></span></span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
         </p>
       </div>
       <div>
@@ -334,7 +336,7 @@ that will be retrieved when generating the configuration.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getConfiguration">getConfiguration</a></span></span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getConfiguration">getConfiguration</a></span></span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
         </p>
       </div>
       <div>
@@ -456,7 +458,7 @@ a string with the variables real names and values.</p>
     
     
     
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(environmentUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span>, targets: <span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span>, webpackConfiguration: <span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span>)</span>
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(environmentUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span>, targets: <span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span>, webpackConfiguration: <span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span>)</span>
     <span class="right-info">
       
       
@@ -491,7 +493,7 @@ a string with the variables real names and values.</p>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">targets</td>
-      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span></td>
+      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>To get a target information.</p>
 </td>
@@ -659,7 +661,7 @@ The keys are the purpose and the values the actual names of the variables.</p>
     
     
     
-    <span class="code" data-ice="name">targets</span><span class="code" data-ice="signature">: <span><a href="https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html">Targets</a></span></span>
+    <span class="code" data-ice="name">targets</span><span class="code" data-ice="signature">: <span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span></span>
     <span class="right-info">
       
       
@@ -750,7 +752,7 @@ The keys are the purpose and the values the actual names of the variables.</p>
     
     
     
-    <span class="code" data-ice="name">getBuildCommand</span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="code" data-ice="name">getBuildCommand</span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
     <span class="right-info">
       
       
@@ -776,7 +778,7 @@ The keys are the purpose and the values the actual names of the variables.</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">target</td>
-      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span></td>
+      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The target information.</p>
 </td>
@@ -839,7 +841,7 @@ The keys are the purpose and the values the actual names of the variables.</p>
     
     
     
-    <span class="code" data-ice="name">getConfiguration</span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+    <span class="code" data-ice="name">getConfiguration</span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
     <span class="right-info">
       
       
@@ -865,7 +867,7 @@ The keys are the purpose and the values the actual names of the variables.</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">target</td>
-      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target">Target</a></span></td>
+      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The target configuration.</p>
 </td>
@@ -987,7 +989,7 @@ a string with the variables real names and values.</p>
   target: &apos;my-target&apos;,
   type: &apos;development&apos;,
 });
-// will output `WOOPACK_WEBPACK_TARGET=my-target WOOPACK_WEBPACK_BUILD_TYPE=development`</code></pre>
+// will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`</code></pre>
     </div>
 </div>
 
