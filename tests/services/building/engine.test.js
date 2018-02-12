@@ -51,9 +51,9 @@ describe('services/building:engine', () => {
     );
     result = sut.getBuildCommand(target, buildType);
     // Then
-    expect(result).toMatch(/WOOPACK_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack/);
-    expect(result).toMatch(/WOOPACK_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack/);
-    expect(result).toMatch(/WOOPACK_WEBPACK_RUN=(?:true|false).*?webpack/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_RUN=(?:true|false).*?webpack/);
     expect(result).toMatch(/webpack --config ([\w_\-/]*?)webpack\.config\.js/);
     expect(result).toMatch(/webpack --config.*?--progress/);
     expect(result).toMatch(/webpack --config.*?--profile/);
@@ -83,9 +83,9 @@ describe('services/building:engine', () => {
     );
     result = sut.getBuildCommand(target, buildType);
     // Then
-    expect(result).toMatch(/WOOPACK_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
-    expect(result).toMatch(/WOOPACK_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack-dev-server/);
-    expect(result).toMatch(/WOOPACK_WEBPACK_RUN=(?:true|false).*?webpack-dev-server/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack-dev-server/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_RUN=(?:true|false).*?webpack-dev-server/);
     expect(result).toMatch(/webpack-dev-server --config ([\w_\-/]*?)webpack\.config\.js/);
     expect(result).toMatch(/webpack-dev-server --config.*?--progress/);
     expect(result).toMatch(/webpack-dev-server --config.*?--profile/);
@@ -115,9 +115,9 @@ describe('services/building:engine', () => {
     );
     result = sut.getBuildCommand(target, buildType, true);
     // Then
-    expect(result).toMatch(/WOOPACK_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
-    expect(result).toMatch(/WOOPACK_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack-dev-server/);
-    expect(result).toMatch(/WOOPACK_WEBPACK_RUN=(?:true|false).*?webpack-dev-server/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack-dev-server/);
+    expect(result).toMatch(/PROJEXT_WEBPACK_RUN=(?:true|false).*?webpack-dev-server/);
     expect(result).toMatch(/webpack-dev-server --config ([\w_\-/]*?)webpack\.config\.js/);
     expect(result).toMatch(/webpack-dev-server --config.*?--progress/);
     expect(result).toMatch(/webpack-dev-server --config.*?--profile/);
@@ -158,9 +158,9 @@ describe('services/building:engine', () => {
       name: targetName,
     };
     const envVars = {
-      WOOPACK_WEBPACK_TARGET: targetName,
-      WOOPACK_WEBPACK_BUILD_TYPE: buildType,
-      WOOPACK_WEBPACK_RUN: run.toString(),
+      PROJEXT_WEBPACK_TARGET: targetName,
+      PROJEXT_WEBPACK_BUILD_TYPE: buildType,
+      PROJEXT_WEBPACK_RUN: run.toString(),
     };
     const envVarsNames = Object.keys(envVars);
     const environmentUtils = {
@@ -203,9 +203,9 @@ describe('services/building:engine', () => {
       name: targetName,
     };
     const envVars = {
-      WOOPACK_WEBPACK_TARGET: targetName,
-      WOOPACK_WEBPACK_BUILD_TYPE: buildType,
-      WOOPACK_WEBPACK_RUN: run.toString(),
+      PROJEXT_WEBPACK_TARGET: targetName,
+      PROJEXT_WEBPACK_BUILD_TYPE: buildType,
+      PROJEXT_WEBPACK_RUN: run.toString(),
     };
     const envVarsNames = Object.keys(envVars);
     const environmentUtils = {
@@ -248,9 +248,9 @@ describe('services/building:engine', () => {
   it('should thro an error when getting a configuration without the env variables', () => {
     // Given
     const envVarsNames = [
-      'WOOPACK_WEBPACK_TARGET',
-      'WOOPACK_WEBPACK_BUILD_TYPE',
-      'WOOPACK_WEBPACK_RUN',
+      'PROJEXT_WEBPACK_TARGET',
+      'PROJEXT_WEBPACK_BUILD_TYPE',
+      'PROJEXT_WEBPACK_RUN',
     ];
     const environmentUtils = {
       get: jest.fn(),

@@ -1,3 +1,3 @@
-const woopack = require('woopack/index');
+const projext = require('projext/index');
 
-module.exports = woopack.get('webpackBuildEngine').getWebpackConfig();
+module.exports = projext.get('webpackBuildEngine').getWebpackConfig();

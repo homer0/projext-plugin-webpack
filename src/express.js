@@ -1,4 +1,4 @@
-const woopack = require('woopack/index');
+const projext = require('projext/index');
 /**
  * Implements the Webpack middlewares for a target on an Express app.
  * @param {Express} expressApp    The app where the middlewares are going to be `use`d.
@@ -16,7 +16,7 @@ const woopack = require('woopack/index');
  */
 const useExpress = (expressApp, targetToBuild, targetToServe) => {
   // Get the middlewares service.
-  const webpackMiddlewares = woopack.get('webpackMiddlewares');
+  const webpackMiddlewares = projext.get('webpackMiddlewares');
   // Generate the middlewares for the target.
   const info = webpackMiddlewares.generate(targetToBuild, targetToServe);
   // Loop all the received middlewares...

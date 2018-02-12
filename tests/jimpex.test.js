@@ -1,7 +1,7 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 
 jest.mock('jimple', () => JimpleMock);
-jest.mock('woopack/index', () => ({ get: jest.fn() }));
+jest.mock('projext/index', () => ({ get: jest.fn() }));
 jest.mock('jimpex', () => ({ middleware: jest.fn() }));
 jest.mock('/src/jimpex/index', () => ({
   webpackFrontendFs: jest.fn(() => 'webpackFrontendFs'),
@@ -11,14 +11,14 @@ jest.unmock('/src/jimpex.js');
 
 require('jasmine-expect');
 
-const woopack = require('woopack/index');
+const projext = require('projext/index');
 const jimpex = require('jimpex');
 const jimpexServices = require('/src/jimpex/index');
 const jimpexImplementation = require('/src/jimpex.js');
 
-describe('plugin:woopackWebpack/Jimpex', () => {
+describe('plugin:projextWebpack/Jimpex', () => {
   beforeEach(() => {
-    woopack.get.mockClear();
+    projext.get.mockClear();
     jimpexServices.webpackFrontendFs.mockClear();
   });
 
@@ -47,7 +47,7 @@ describe('plugin:woopackWebpack/Jimpex', () => {
     const webpackMiddlewares = {
       generate: jest.fn(() => info),
     };
-    woopack.get.mockImplementationOnce(() => webpackMiddlewares);
+    projext.get.mockImplementationOnce(() => webpackMiddlewares);
     jimpex.middleware.mockImplementation((fn) => fn());
     const targetToBuild = 'target-to-build';
     const targetToServe = 'target-to-serve';
@@ -58,8 +58,8 @@ describe('plugin:woopackWebpack/Jimpex', () => {
     // When
     jimpexImplementation(jimpexApp, targetToBuild, targetToServe);
     // Then
-    expect(woopack.get).toHaveBeenCalledTimes(1);
-    expect(woopack.get).toHaveBeenCalledWith('webpackMiddlewares');
+    expect(projext.get).toHaveBeenCalledTimes(1);
+    expect(projext.get).toHaveBeenCalledWith('webpackMiddlewares');
     expect(webpackMiddlewares.generate).toHaveBeenCalledTimes(1);
     expect(webpackMiddlewares.generate).toHaveBeenCalledWith(targetToBuild, targetToServe);
     expect(jimpexApp.register).toHaveBeenCalledTimes(expectedRegisteredServices.length);
@@ -108,7 +108,7 @@ describe('plugin:woopackWebpack/Jimpex', () => {
     const webpackMiddlewares = {
       generate: jest.fn(() => info),
     };
-    woopack.get.mockImplementationOnce(() => webpackMiddlewares);
+    projext.get.mockImplementationOnce(() => webpackMiddlewares);
     jimpex.middleware.mockImplementation((fn) => fn());
     const targetToBuild = 'target-to-build';
     const targetToServe = 'target-to-serve';
@@ -122,8 +122,8 @@ describe('plugin:woopackWebpack/Jimpex', () => {
     [[, eventListener]] = events.once.mock.calls;
     eventListener();
     // Then
-    expect(woopack.get).toHaveBeenCalledTimes(1);
-    expect(woopack.get).toHaveBeenCalledWith('webpackMiddlewares');
+    expect(projext.get).toHaveBeenCalledTimes(1);
+    expect(projext.get).toHaveBeenCalledWith('webpackMiddlewares');
     expect(webpackMiddlewares.generate).toHaveBeenCalledTimes(1);
     expect(webpackMiddlewares.generate).toHaveBeenCalledWith(targetToBuild, targetToServe);
     expect(jimpexApp.register).toHaveBeenCalledTimes(expectedRegisteredServices.length);
