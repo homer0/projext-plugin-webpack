@@ -16,9 +16,9 @@ const {
   webpackMiddlewares,
 } = require('./services/server');
 /**
- * This is the method called by Woopack when loading the plugin and it takes care of registering
+ * This is the method called by projext when loading the plugin and it takes care of registering
  * the Webpack build engine service and all the other services the engine depends on.
- * @param {Woopack} app The Woopack main container.
+ * @param {Projext} app The projext main container.
  * @ignore
  */
 const loadPlugin = (app) => {

@@ -1,15 +1,15 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 
 jest.mock('jimple', () => JimpleMock);
-jest.mock('woopack/index', () => ({ get: jest.fn() }));
+jest.mock('projext/index', () => ({ get: jest.fn() }));
 jest.unmock('/src/express');
 
 require('jasmine-expect');
 
-const woopack = require('woopack/index');
+const projext = require('projext/index');
 const expressImplementation = require('/src/express');
 
-describe('plugin:woopackWebpack/Express', () => {
+describe('plugin:projextWebpack/Express', () => {
   it('should implement the middlewares on the Express App', () => {
     // Given
     const expressApp = {
@@ -25,7 +25,7 @@ describe('plugin:woopackWebpack/Express', () => {
     const webpackMiddlewares = {
       generate: jest.fn(() => info),
     };
-    woopack.get.mockImplementationOnce(() => webpackMiddlewares);
+    projext.get.mockImplementationOnce(() => webpackMiddlewares);
     const targetToBuild = 'target-to-build';
     const targetToServe = 'target-to-serve';
     let result = null;
@@ -33,8 +33,8 @@ describe('plugin:woopackWebpack/Express', () => {
     result = expressImplementation(expressApp, targetToBuild, targetToServe);
     // Then
     expect(result).toEqual(info);
-    expect(woopack.get).toHaveBeenCalledTimes(1);
-    expect(woopack.get).toHaveBeenCalledWith('webpackMiddlewares');
+    expect(projext.get).toHaveBeenCalledTimes(1);
+    expect(projext.get).toHaveBeenCalledWith('webpackMiddlewares');
     expect(webpackMiddlewares.generate).toHaveBeenCalledTimes(1);
     expect(webpackMiddlewares.generate).toHaveBeenCalledWith(targetToBuild, targetToServe);
     expect(expressApp.use).toHaveBeenCalledTimes(info.middlewares.length);

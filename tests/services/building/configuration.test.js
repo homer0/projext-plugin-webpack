@@ -10,7 +10,13 @@ const {
   webpackConfiguration,
 } = require('/src/services/building/configuration');
 
+const originalNow = Date.now;
+
 describe('services/building:configuration', () => {
+  afterEach(() => {
+    Date.now = originalNow;
+  });
+
   it('should be instantiated with all its dependencies', () => {
     // Given
     const buildVersion = 'buildVersion';
@@ -87,7 +93,7 @@ describe('services/building:configuration', () => {
     .toThrow(/there's no configuration for the selected build type/i);
   });
 
-  it('should generate the configuration for a target', () => {
+  it('should generate the configuration for a Node target', () => {
     // Given
     const versionVariable = 'process.env.VERSION';
     const version = 'latest';
@@ -118,14 +124,18 @@ describe('services/building:configuration', () => {
       entry: {
         [buildType]: 'index.js',
       },
+      output: {
+        [buildType]: 'target.js',
+      },
       babel: {},
       library: false,
       is: {
+        node: true,
         browser: false,
       },
     };
     const webpackConfigurations = {
-      node: {
+      [target.type]: {
         [buildType]: {},
       },
     };
@@ -164,8 +174,103 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      hash: expect.any(Number),
-      hashStr: expect.any(String),
+      output: {
+        js: target.output[buildType],
+      },
+    });
+    expect(pathUtils.join).toHaveBeenCalledTimes(1);
+    expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
+  });
+
+  it('should generate the configuration for a browser target', () => {
+    // Given
+    const hash = '2509';
+    Date.now = () => hash;
+    const versionVariable = 'process.env.VERSION';
+    const version = 'latest';
+    const buildVersion = {
+      getDefinitionVariable: jest.fn(() => versionVariable),
+      getVersion: jest.fn(() => version),
+    };
+    const pathUtils = {
+      join: jest.fn((rest) => rest),
+    };
+    const config = {
+      output: {
+        path: 'some-output-path',
+      },
+    };
+    const targetConfig = {
+      getConfig: jest.fn(() => config),
+    };
+    const targets = 'targets';
+    const targetConfiguration = jest.fn(() => targetConfig);
+    const buildType = 'development';
+    const target = {
+      type: 'browser',
+      name: 'target',
+      paths: {
+        source: 'src/target',
+      },
+      entry: {
+        [buildType]: 'index.js',
+      },
+      output: {
+        [buildType]: {
+          js: 'js/target/file.2509.js',
+          css: 'css/target/file.2509.css',
+          fonts: 'fonts/target/[name].2509.[ext]',
+          images: 'images/target/[name].2509.[ext]',
+        },
+      },
+      babel: {},
+      library: false,
+      is: {
+        node: false,
+        browser: true,
+      },
+    };
+    const webpackConfigurations = {
+      [target.type]: {
+        [buildType]: {},
+      },
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackConfiguration(
+      buildVersion,
+      pathUtils,
+      targets,
+      targetConfiguration,
+      webpackConfigurations
+    );
+    result = sut.getConfig(target, buildType);
+    // Then
+    expect(result).toEqual(config);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
+    expect(targetConfiguration).toHaveBeenCalledWith(
+      `webpack/${target.name}.config.js`,
+      {}
+    );
+    expect(targetConfiguration).toHaveBeenCalledWith(
+      `webpack/${target.name}.${buildType}.config.js`,
+      targetConfig
+    );
+    expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
+    expect(targetConfig.getConfig).toHaveBeenCalledWith({
+      target,
+      buildType,
+      entry: {
+        [target.name]: [path.join(target.paths.source, target.entry[buildType])],
+      },
+      definitions: {
+        'process.env.NODE_ENV': `'${buildType}'`,
+        [versionVariable]: `"${version}"`,
+      },
+      output: target.output[buildType],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -207,6 +312,11 @@ describe('services/building:configuration', () => {
       entry: {
         [buildType]: 'index.js',
       },
+      output: {
+        [buildType]: {
+          js: 'target.js',
+        },
+      },
       babel: {},
       library: false,
       is: {
@@ -218,7 +328,7 @@ describe('services/building:configuration', () => {
       },
     };
     const webpackConfigurations = {
-      browser: {
+      [target.type]: {
         [buildType]: {},
       },
     };
@@ -253,13 +363,12 @@ describe('services/building:configuration', () => {
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
+      output: target.output[buildType],
       definitions: {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
         [target.configuration.defineOn]: JSON.stringify(targetBrowserConfig),
       },
-      hash: expect.any(Number),
-      hashStr: expect.any(String),
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -298,16 +407,20 @@ describe('services/building:configuration', () => {
       entry: {
         [buildType]: 'index.js',
       },
+      output: {
+        [buildType]: 'target.js',
+      },
       babel: {
         polyfill: true,
       },
       library: false,
       is: {
         browser: false,
+        node: true,
       },
     };
     const webpackConfigurations = {
-      node: {
+      [target.type]: {
         [buildType]: {},
       },
     };
@@ -349,8 +462,9 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      hash: expect.any(Number),
-      hashStr: expect.any(String),
+      output: {
+        js: target.output[buildType],
+      },
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -387,15 +501,19 @@ describe('services/building:configuration', () => {
       entry: {
         [buildType]: 'index.js',
       },
+      output: {
+        [buildType]: 'target.js',
+      },
       babel: {},
       library: true,
       libraryOptions: {},
       is: {
         browser: false,
+        node: true,
       },
     };
     const webpackConfigurations = {
-      node: {
+      [target.type]: {
         [buildType]: {},
       },
     };
@@ -440,8 +558,9 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      hash: expect.any(Number),
-      hashStr: expect.any(String),
+      output: {
+        js: target.output[buildType],
+      },
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);

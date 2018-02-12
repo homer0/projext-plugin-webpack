@@ -1,10 +1,10 @@
-# woopack plugin for webpack
+# projext plugin for webpack
 
-Allows [woopack](https://yarnpkg.com/en/package/woopack) to use [webpack](https://webpack.js.org) as a build engine.
+Allows [projext](https://yarnpkg.com/en/package/projext) to use [webpack](https://webpack.js.org) as a build engine.
 
 ## Introduction
 
-[woopack](https://yarnpkg.com/en/package/woopack) allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin allows you to bundle your woopack project targets using [webpack](https://webpack.js.org).
+[projext](https://yarnpkg.com/en/package/projext) allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin allows you to bundle your projext project targets using [webpack](https://webpack.js.org).
 
 ### Node targets
 
@@ -20,16 +20,16 @@ Allows [woopack](https://yarnpkg.com/en/package/woopack) to use [webpack](https:
 
 | -            | -                                                                             |
 |--------------|-------------------------------------------------------------------------------|
-| Package      | woopack-plugin-webpack                                                        |
-| Description  | Allows woopack to use webpack as a build engine.                              |
+| Package      | projext-plugin-webpack                                                        |
+| Description  | Allows projext to use webpack as a build engine.                              |
 | Node Version | >= v6.10.0                                                                    |
 
 ## Usage
 
-Since webpack is the default build engine for woopack, after you install the plugin there's nothing else to do, just run the build command and the plugin will take care of the rest:
+Since webpack is the default build engine for projext, after you install the plugin there's nothing else to do, just run the build command and the plugin will take care of the rest:
 
 ```bash
-woopack build [target-name]
+projext build [target-name]
 ```
 
 In the case you changed the engine and you want to restore it to webpack, you just need to go to your project configuration file (`config/project.config.js`), on your target settings, change `engine` to `webpack`:
@@ -55,7 +55,7 @@ You can implement both the [`webpack-dev-middleware`](https://yarnpkg.com/en/pac
 
 ```js
 // Require the function for the implementation
-const useExpress = require('woopack-plugin-plugin/express');
+const useExpress = require('projext-plugin-plugin/express');
 
 // Require Express to create a dummy app
 const express = require('express');
@@ -75,7 +75,7 @@ app.listen(...);
 
 ```js
 // Require the function for the implementation
-const useJimpex = require('woopack-plugin-webpack/jimpex');
+const useJimpex = require('projext-plugin-webpack/jimpex');
 
 // Require Jimpex to create a dummy app
 const Jimpex = require('jimpex');
@@ -119,8 +119,8 @@ All the configurations receive a single object parameter with the following prop
 
 - `target`: It has all the information for the target being bundled.
 - `entry`: A dictionary with the `entry` setting for a webpack configuration, generated with the target information.
+- `output`: A dictionary with the filenames formats and paths of the different files the bundle can generate (`js`, `css`, `images` and `fonts`).
 - `definitions`: A dictionary of defined variables that will be replaced on the bundled code.
-- `hashStr`: A random number that can be used as a hash to include on the generated files names. It's a string that ends on a `.`, so it can be added directly on a filename.
 
 #### Base configuration
 
@@ -328,7 +328,7 @@ This is called after defining all font files rules for a browser target and befo
 The supported formats are:
 
 - `.svg` - But they need to be inside a `fonts` folder, to be able to differentiate them between images and fonts.
-- `.woof`
+- `.woff`
 - `.woff2`
 - `.ttf`
 - `.eot`

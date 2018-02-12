@@ -17,8 +17,13 @@ describe('services/configurations:rulesConfiguration', () => {
   const getExpectedRules = (
     target,
     babelConfig,
-    extractResult = ''
+    extractResult = '',
+    targetOutput = null
   ) => {
+    const output = targetOutput || {
+      images: expect.any(String),
+      fonts: expect.any(String),
+    };
     const rules = {};
     rules.jsRules = [{
       test: expect.any(RegExp),
@@ -92,7 +97,7 @@ describe('services/configurations:rulesConfiguration', () => {
         use: [{
           loader: 'file-loader',
           options: {
-            name: expect.any(String),
+            name: output.fonts,
             mimetype: 'image/svg+xml',
           },
         }],
@@ -102,7 +107,7 @@ describe('services/configurations:rulesConfiguration', () => {
         use: [{
           loader: 'file-loader',
           options: {
-            name: expect.any(String),
+            name: output.fonts,
             mimetype: 'application/font-woff',
           },
         }],
@@ -112,7 +117,7 @@ describe('services/configurations:rulesConfiguration', () => {
         use: [{
           loader: 'file-loader',
           options: {
-            name: expect.any(String),
+            name: output.fonts,
             mimetype: 'application/font-woff',
           },
         }],
@@ -122,7 +127,7 @@ describe('services/configurations:rulesConfiguration', () => {
         use: [{
           loader: 'file-loader',
           options: {
-            name: expect.any(String),
+            name: output.fonts,
             mimetype: 'application/octet-stream',
           },
         }],
@@ -132,7 +137,7 @@ describe('services/configurations:rulesConfiguration', () => {
         use: [{
           loader: 'file-loader',
           options: {
-            name: expect.any(String),
+            name: output.fonts,
           },
         }],
       },
@@ -145,7 +150,7 @@ describe('services/configurations:rulesConfiguration', () => {
           {
             loader: 'file-loader',
             options: {
-              name: expect.any(String),
+              name: output.images,
               digest: 'hex',
             },
           },
@@ -164,7 +169,7 @@ describe('services/configurations:rulesConfiguration', () => {
           {
             loader: 'file-loader',
             options: {
-              name: expect.any(String),
+              name: '[name].[ext]',
               digest: 'hex',
             },
           },
@@ -189,14 +194,12 @@ describe('services/configurations:rulesConfiguration', () => {
     const babelConfiguration = 'babelConfiguration';
     const events = 'events';
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     let sut = null;
     // When
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
-      pathUtils,
-      projectConfiguration
+      pathUtils
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackRulesConfiguration);
@@ -207,7 +210,6 @@ describe('services/configurations:rulesConfiguration', () => {
     );
     expect(sut.babelConfiguration).toBe(babelConfiguration);
     expect(sut.events).toBe(events);
-    expect(sut.projectConfiguration).toBe(projectConfiguration);
   });
 
   it('should return the rules for a node target', () => {
@@ -286,6 +288,10 @@ describe('services/configurations:rulesConfiguration', () => {
   it('should return the rules for a browser target', () => {
     // Given
     const extractResult = 'extract';
+    const output = {
+      fonts: 'statics/fonts/[name].[ext]',
+      images: 'statics/images/[name].[ext]',
+    };
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     const babelConfig = 'babel';
@@ -298,14 +304,6 @@ describe('services/configurations:rulesConfiguration', () => {
     const pathUtils = {
       join: jest.fn((rest) => rest),
     };
-    const projectConfiguration = {
-      paths: {
-        output: {
-          fonts: 'statics/fonts',
-          images: 'statics/images',
-        },
-      },
-    };
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -316,15 +314,15 @@ describe('services/configurations:rulesConfiguration', () => {
         node: false,
       },
     };
-    const hashStr = 'hash.';
     const params = {
       target,
-      hashStr,
+      output,
     };
     const expectedRules = getExpectedRules(
       target,
       babelConfig,
-      extractResult
+      extractResult,
+      output
     );
     let sut = null;
     let result = null;
@@ -333,8 +331,7 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
-      pathUtils,
-      projectConfiguration
+      pathUtils
     );
     result = sut.getConfig(params);
     // Then
@@ -425,6 +422,10 @@ describe('services/configurations:rulesConfiguration', () => {
   it('should return the rules for a browser target that uses CSS modules', () => {
     // Given
     const extractResult = 'extract';
+    const output = {
+      fonts: 'statics/fonts/[name].[ext]',
+      images: 'statics/images/[name].[ext]',
+    };
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     const babelConfig = 'babel';
@@ -456,15 +457,15 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       CSSModules: true,
     };
-    const hashStr = 'hash.';
     const params = {
       target,
-      hashStr,
+      output,
     };
     const expectedRules = getExpectedRules(
       target,
       babelConfig,
-      extractResult
+      extractResult,
+      output
     );
     let sut = null;
     let result = null;
@@ -568,13 +569,7 @@ describe('services/configurations:rulesConfiguration', () => {
     let sut = null;
     const container = {
       set: jest.fn(),
-      get: jest.fn(
-        (service) => (
-          service === 'projectConfiguration' ?
-            { getConfig: () => service } :
-            service
-        )
-      ),
+      get: jest.fn((service) => service),
     };
     let serviceName = null;
     let serviceFn = null;
@@ -588,6 +583,5 @@ describe('services/configurations:rulesConfiguration', () => {
     expect(sut).toBeInstanceOf(WebpackRulesConfiguration);
     expect(sut.babelConfiguration).toBe('babelConfiguration');
     expect(sut.events).toBe('events');
-    expect(sut.projectConfiguration).toBe('projectConfiguration');
   });
 });

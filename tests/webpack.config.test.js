@@ -1,7 +1,7 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 
 jest.mock('jimple', () => JimpleMock);
-jest.mock('woopack/index', () => ({
+jest.mock('projext/index', () => ({
   get: jest.fn(() => ({
     getWebpackConfig: () => 'webpackConfig',
   })),
@@ -9,13 +9,13 @@ jest.mock('woopack/index', () => ({
 jest.unmock('/src/webpack.config');
 
 require('jasmine-expect');
-const woopack = require('woopack/index');
+const projext = require('projext/index');
 require('/src/webpack.config');
 
 describe('plugin:webpack.config', () => {
   it('should register all the services', () => {
     // Given/When/Then
-    expect(woopack.get).toHaveBeenCalledTimes(1);
-    expect(woopack.get).toHaveBeenCalledWith('webpackBuildEngine');
+    expect(projext.get).toHaveBeenCalledTimes(1);
+    expect(projext.get).toHaveBeenCalledWith('webpackBuildEngine');
   });
 });

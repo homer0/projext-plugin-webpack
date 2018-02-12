@@ -44,43 +44,48 @@
  */
 
 /**
- * @external {Woopack}
- * https://homer0.github.io/woopack/class/src/app/index.js~Woopack.html
+ * @external {Projext}
+ * https://homer0.github.io/projext/class/src/app/index.js~Projext.html
  */
 
 /**
  * @external {BuildVersion}
- * https://homer0.github.io/woopack/class/src/services/building/buildVersion.js~BuildVersion.html
+ * https://homer0.github.io/projext/class/src/services/building/buildVersion.js~BuildVersion.html
  */
 
 /**
  * @external {Events}
- * https://homer0.github.io/woopack/class/src/services/common/events.js~Events.html
+ * https://homer0.github.io/projext/class/src/services/common/events.js~Events.html
  */
 
 /**
  * @external {Targets}
- * https://homer0.github.io/woopack/class/src/services/building/targets.js~Targets.html
+ * https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html
  */
 
 /**
  * @external {Target}
- * https://homer0.github.io/woopack/typedef/index.html#static-typedef-Target
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target
+ */
+
+/**
+ * @external {BrowserTarget}
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget
  */
 
 /**
  * @external {TargetConfigurationCreator}
- * https://homer0.github.io/woopack/typedef/index.html#static-typedef-TargetConfigurationCreator
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator
  */
 
 /**
  * @external {ProjectConfigurationSettings}
- * https://homer0.github.io/woopack/typedef/index.html#static-typedef-ProjectConfigurationSettings
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings
  */
 
 /**
  * @external {BabelConfiguration}
- * https://homer0.github.io/woopack/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html
+ * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html
  */
 
 /**
@@ -128,17 +133,34 @@
  */
 
 /**
+ * @typedef {Object} WebpackConfigurationTargetOutput
+ * @property {string} js
+ * The filename format and path for the bundle, on the distribution directory.
+ * @property {?string} css
+ * The filename format and path for the generated stylesheet, on the distribution directory.
+ * This path is only available for {@link BrowserTarget}s
+ * @property {?string} images
+ * The filename format and path for the images that are going to be copied to the distribution
+ * directory.
+ * This path is only available for {@link BrowserTarget}s
+ * @property {?string} fonts
+ * The filename format and path for the font files that are going to be copied to the distribution
+ * directory.
+ * This path is only available for {@link BrowserTarget}s
+ */
+
+/**
  * @typedef {Object} WebpackConfigurationParams
  * @property {Target} target
  * The target information.
  * @property {Object} entry
  * A dictionary with the `entry` setting for a webpack configuration, generated with the target
  * information.
+ * @property {WebpackConfigurationTargetOutput} output
+ * A dictionary with the filenames formats and paths of the different files the bundle can
+ * generate.
  * @property {Object} definitions
  * A dictionary of defined variables that will be replaced on the bundled code.
- * @property {string} hashStr
- * A random number that can be used as a hash to include on the generated files names. It's a
- * string that ends on a `.`, so it can be added directly on a filename.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
  */
