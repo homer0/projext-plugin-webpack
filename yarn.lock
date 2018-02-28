@@ -4930,7 +4930,7 @@ jimpex@^2.0.0:
     urijs "1.19.0"
     wootils "^1.0.5"
 
-"jimple@github:homer0/jimple", jimple@homer0/jimple:
+jimple@homer0/jimple:
   version "1.4.6"
   resolved "https://codeload.github.com/homer0/jimple/tar.gz/1f123c2ba1f0aef14de159747455f877f70e0c9d"
 
