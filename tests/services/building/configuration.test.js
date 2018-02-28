@@ -125,7 +125,12 @@ describe('services/building:configuration', () => {
         [buildType]: 'index.js',
       },
       output: {
-        [buildType]: 'target.js',
+        [buildType]: {
+          js: 'target.js',
+          css: 'css/target/file.2509.css',
+          fonts: 'fonts/target/[name].2509.[ext]',
+          images: 'images/target/[name].2509.[ext]',
+        },
       },
       babel: {},
       library: false,
@@ -174,9 +179,7 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: {
-        js: target.output[buildType],
-      },
+      output: target.output[buildType],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -408,7 +411,12 @@ describe('services/building:configuration', () => {
         [buildType]: 'index.js',
       },
       output: {
-        [buildType]: 'target.js',
+        [buildType]: {
+          js: 'target.js',
+          css: 'css/target/file.2509.css',
+          fonts: 'fonts/target/[name].2509.[ext]',
+          images: 'images/target/[name].2509.[ext]',
+        },
       },
       babel: {
         polyfill: true,
@@ -462,9 +470,7 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: {
-        js: target.output[buildType],
-      },
+      output: target.output[buildType],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -502,7 +508,12 @@ describe('services/building:configuration', () => {
         [buildType]: 'index.js',
       },
       output: {
-        [buildType]: 'target.js',
+        [buildType]: {
+          js: 'target.js',
+          css: 'css/target/file.2509.css',
+          fonts: 'fonts/target/[name].2509.[ext]',
+          images: 'images/target/[name].2509.[ext]',
+        },
       },
       babel: {},
       library: true,
@@ -558,9 +569,7 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: {
-        js: target.output[buildType],
-      },
+      output: target.output[buildType],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);

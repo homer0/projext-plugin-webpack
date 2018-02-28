@@ -7,9 +7,11 @@ jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
 jest.mock('webpack-node-utils', () => webpackNodeUtilsMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
+jest.mock('optimize-css-assets-webpack-plugin');
 jest.unmock('/src/services/configurations/nodeDevelopmentConfiguration');
 
 require('jasmine-expect');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const {
   WebpackNodeDevelopmentConfiguration,
@@ -21,6 +23,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     ConfigurationFileMock.reset();
     webpackMock.reset();
     webpackNodeUtilsMock.reset();
+    OptimizeCssAssetsPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -101,6 +104,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     // Then
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(webpackNodeUtilsMock.WebpackNodeUtilsRunnerMockMock)
     .toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
@@ -166,6 +170,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     // Then
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(webpackNodeUtilsMock.WebpackNodeUtilsRunnerMockMock)
     .toHaveBeenCalledTimes(1);
     expect(webpackNodeUtilsMock.externals).toHaveBeenCalledTimes(1);

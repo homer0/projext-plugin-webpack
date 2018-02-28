@@ -195,7 +195,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         compiler.plugin('done', () => {
           // Awful hack, but the webpack output gets on the same line
           setTimeout(() => {
-            this.appLogger.success(`You app is running on the port ${port}`);
+            this.appLogger.success(`Your app is running on the port ${port}`);
           }, 0);
         });
       },
