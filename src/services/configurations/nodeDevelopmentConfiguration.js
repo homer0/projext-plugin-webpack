@@ -1,4 +1,5 @@
 const webpackNodeUtils = require('webpack-node-utils');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
@@ -54,8 +55,10 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
     const plugins = [
       // To avoid pushing assets with errors.
       new NoEmitOnErrorsPlugin(),
+      // To optimize the SCSS and remove repeated declarations.
+      new OptimizeCssAssetsPlugin(),
     ];
-    // If the target needsto run on development...
+    // If the target needs to run on development...
     if (target.runOnDevelopment) {
       // ...watch the source files.
       watch = true;

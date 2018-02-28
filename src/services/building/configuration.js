@@ -75,17 +75,6 @@ class WebpackConfiguration {
     return definitions;
   }
   /**
-   * Generate the output paths for a target files.
-   * @param {Target} target    The target information.
-   * @param {string} buildType The intended build type: `production` or `development`.
-   * @return {WebpackConfigurationTargetOutput}
-   */
-  getOutput(target, buildType) {
-    return target.is.node ?
-      { js: target.output[buildType] } :
-      Object.assign({}, target.output[buildType]);
-  }
-  /**
    * In case the target is a library, this method will be called to generate the library options
    * for Webpack.
    * @param {Target} target The target information.
@@ -125,7 +114,7 @@ class WebpackConfiguration {
         [target.name]: entries,
       },
       definitions: this.getDefinitions(target, buildType),
-      output: this.getOutput(target, buildType),
+      output: target.output[buildType],
       buildType,
     };
 
