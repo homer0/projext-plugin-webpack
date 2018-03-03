@@ -32,10 +32,10 @@ Since webpack is the default build engine for projext, after you install the plu
 projext build [target-name]
 ```
 
-In the case you changed the engine and you want to restore it to webpack, you just need to go to your project configuration file (`config/project.config.js`), on your target settings, change `engine` to `webpack`:
+In the case you changed the engine and you want to restore it to webpack, you just need to go to your projext configuration file, on your target settings, change `engine` to `webpack`:
 
 ```js
-// config/project.config.js
+// projext.config.js
 
 module.exports = {
   targets: {
