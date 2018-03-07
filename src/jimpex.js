@@ -42,7 +42,7 @@ const useJimpex = (jimpexApp, targetToBuild, targetToServe) => {
   });
   // Add an event listener that shows a _'waiting'_ message when the server starts.
   jimpexApp.get('events').once('after-start', () => {
-    jimpexApp.get('appLogger').warning('waiting for Webpack...');
+    jimpexApp.get('appLogger').warning('waiting for webpack...');
   });
 
   return info;
