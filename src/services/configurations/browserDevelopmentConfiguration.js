@@ -117,7 +117,6 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         port: devServerConfig.port,
         inline: !!devServerConfig.reload,
         open: true,
-        openPage: '/',
       };
       // If the configuration has a custom host, set it.
       if (devServerConfig.host !== 'localhost') {
