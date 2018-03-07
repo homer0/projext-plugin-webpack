@@ -74,15 +74,22 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     config.plugins = [
       // To push all the styles into one single file.
       new ExtractTextPlugin(output.css),
-      // To automatically inject the `script` tag on the target `html` file.
-      new HtmlWebpackPlugin(Object.assign({}, target.html, {
-        template: path.join(target.paths.source, target.html.template),
-        inject: 'body',
-      })),
-      // To add the `async` attribute to the  `script` tag.
-      new ScriptExtHtmlWebpackPlugin({
-        defaultAttribute: 'async',
-      }),
+      // If the target is a library, it doesn't need HTML on production.
+      ...(
+        target.library ?
+          [] :
+          [
+            // To automatically inject the `script` tag on the target `html` file.
+            new HtmlWebpackPlugin(Object.assign({}, target.html, {
+              template: path.join(target.paths.source, target.html.template),
+              inject: 'body',
+            })),
+            // To add the `async` attribute to the  `script` tag.
+            new ScriptExtHtmlWebpackPlugin({
+              defaultAttribute: 'async',
+            }),
+          ]
+      ),
       // To add the _'browser env variables'_.
       new DefinePlugin(definitions),
       // To uglify the code.
@@ -91,8 +98,8 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       }),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
-      // To compress the emitted assets using gzip.
-      new CompressionPlugin(),
+      // To compress the emitted assets using gzip, if the target is not a library.
+      ...(target.library ? [] : [new CompressionPlugin()]),
     ];
     // Reduce the configuration
     return this.events.reduce(
