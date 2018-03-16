@@ -60,7 +60,12 @@
 
 /**
  * @external {Targets}
- * https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html
+ * https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html
+ */
+
+/**
+ * @external {TargetsHTML}
+ * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html
  */
 
 /**
