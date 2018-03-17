@@ -70,7 +70,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -147,8 +149,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
   });
 
   it('should create a configuration with HMR and source map', () => {
@@ -158,7 +160,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -244,8 +248,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
   });
 
   it('should create a configuration for building and running the dev server', () => {
@@ -261,7 +265,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -368,8 +374,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
@@ -403,7 +409,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const pathUtils = {
       join: jest.fn((rest) => rest),
     };
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -509,8 +517,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
@@ -544,7 +552,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const pathUtils = {
       join: jest.fn((rest) => rest),
     };
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -658,8 +668,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
@@ -693,7 +703,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const pathUtils = {
       join: jest.fn((rest) => rest),
     };
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -805,8 +817,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
@@ -840,7 +852,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const pathUtils = {
       join: jest.fn((rest) => rest),
     };
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -952,8 +966,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);

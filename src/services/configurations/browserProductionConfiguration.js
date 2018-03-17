@@ -14,16 +14,15 @@ const ConfigurationFile = require('../../abstracts/configurationFile');
 class WebpackBrowserProductionConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {Events}                       events                   To reduce the configuration.
-   * @param {PathUtils}                    pathUtils                Required by `ConfigurationFile`
-   *                                                                in order to build the path to
-   *                                                                the overwrite file.
-   * @param {TargetsHTML#getFilepath}      targetsHTML              The service in charge of
-   *                                                                generating a default HTML file
-   *                                                                in case the target doesn't have
-   *                                                                one.
-   * @param {WebpackBaseConfiguration}     webpackBaseConfiguration The configuration this one will
-   *                                                                extend.
+   * @param {Events}                   events                  To reduce the configuration.
+   * @param {PathUtils}                pathUtils                Required by `ConfigurationFile`
+   *                                                            in order to build the path to the
+   *                                                            overwrite file.
+   * @param {TargetsHTML}              targetsHTML              The service in charge of generating
+   *                                                            a default HTML file in case the
+   *                                                            target doesn't have one.
+   * @param {WebpackBaseConfiguration} webpackBaseConfiguration The configuration this one will
+   *                                                            extend.
    */
   constructor(
     events,
@@ -44,7 +43,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     this.events = events;
     /**
      * A local reference for the `targetsHTML` service.
-     * @type {TargetsHTML#getFilepath}
+     * @type {TargetsHTML}
      */
     this.targetsHTML = targetsHTML;
   }
@@ -90,7 +89,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           [
             // To automatically inject the `script` tag on the target `html` file.
             new HtmlWebpackPlugin(Object.assign({}, target.html, {
-              template: this.targetsHTML(target),
+              template: this.targetsHTML.getFilepath(target),
               inject: 'body',
             })),
             // To add the `async` attribute to the  `script` tag.

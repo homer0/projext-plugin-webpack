@@ -72,7 +72,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -150,8 +152,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
   });
 
   it('should create a configuration with source map', () => {
@@ -160,7 +162,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
-    const targetsHTML = jest.fn((targetInfo) => targetInfo.html.template);
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -241,8 +245,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       expectedConfig,
       params
     );
-    expect(targetsHTML).toHaveBeenCalledTimes(1);
-    expect(targetsHTML).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
   });
 
   it('shouldn\'t add the HTML and Compression plugins for a library target', () => {
