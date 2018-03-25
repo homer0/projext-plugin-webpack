@@ -1,4 +1,3 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -15,16 +14,20 @@ const ConfigurationFile = require('../../abstracts/configurationFile');
 class WebpackBrowserProductionConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {Events}                       events                   To reduce the configuration.
-   * @param {PathUtils}                    pathUtils                Required by `ConfigurationFile`
-   *                                                                in order to build the path to
-   *                                                                the overwrite file.
-   * @param {WebpackBaseConfiguration}     webpackBaseConfiguration The configuration this one will
-   *                                                                extend.
+   * @param {Events}                   events                  To reduce the configuration.
+   * @param {PathUtils}                pathUtils                Required by `ConfigurationFile`
+   *                                                            in order to build the path to the
+   *                                                            overwrite file.
+   * @param {TargetsHTML}              targetsHTML              The service in charge of generating
+   *                                                            a default HTML file in case the
+   *                                                            target doesn't have one.
+   * @param {WebpackBaseConfiguration} webpackBaseConfiguration The configuration this one will
+   *                                                            extend.
    */
   constructor(
     events,
     pathUtils,
+    targetsHTML,
     webpackBaseConfiguration
   ) {
     super(
@@ -38,6 +41,11 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
      * @type {Events}
      */
     this.events = events;
+    /**
+     * A local reference for the `targetsHTML` service.
+     * @type {TargetsHTML}
+     */
+    this.targetsHTML = targetsHTML;
   }
   /**
    * Create the configuration with the `entry`, the `output` and the plugins specifics for a
@@ -81,7 +89,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           [
             // To automatically inject the `script` tag on the target `html` file.
             new HtmlWebpackPlugin(Object.assign({}, target.html, {
-              template: path.join(target.paths.source, target.html.template),
+              template: this.targetsHTML.getFilepath(target),
               inject: 'body',
             })),
             // To add the `async` attribute to the  `script` tag.
@@ -125,6 +133,7 @@ const webpackBrowserProductionConfiguration = provider((app) => {
     () => new WebpackBrowserProductionConfiguration(
       app.get('events'),
       app.get('pathUtils'),
+      app.get('targetsHTML'),
       app.get('webpackBaseConfiguration')
     )
   );

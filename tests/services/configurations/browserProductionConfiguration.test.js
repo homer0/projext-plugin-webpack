@@ -43,12 +43,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
     // Given
     const events = 'events';
     const pathUtils = 'pathUtils';
+    const targetsHTML = 'targetsHTML';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     let sut = null;
     // When
     sut = new WebpackBrowserProductionConfiguration(
       events,
       pathUtils,
+      targetsHTML,
       webpackBaseConfiguration
     );
     // Then
@@ -61,6 +63,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       webpackBaseConfiguration
     );
     expect(sut.events).toBe(events);
+    expect(sut.targetsHTML).toBe(targetsHTML);
   });
 
   it('should create a configuration', () => {
@@ -69,6 +72,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -112,6 +118,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     sut = new WebpackBrowserProductionConfiguration(
       events,
       pathUtils,
+      targetsHTML,
       webpackBaseConfiguration
     );
     result = sut.getConfig(params);
@@ -123,7 +130,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
       {
-        template: `${target.paths.source}/${target.html.template}`,
+        template: target.html.template,
         inject: 'body',
       }
     ));
@@ -145,6 +152,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       expectedConfig,
       params
     );
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
   });
 
   it('should create a configuration with source map', () => {
@@ -153,6 +162,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -199,6 +211,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     sut = new WebpackBrowserProductionConfiguration(
       events,
       pathUtils,
+      targetsHTML,
       webpackBaseConfiguration
     );
     result = sut.getConfig(params);
@@ -210,7 +223,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
       {
-        template: `${target.paths.source}/${target.html.template}`,
+        template: target.html.template,
         inject: 'body',
       }
     ));
@@ -232,6 +245,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       expectedConfig,
       params
     );
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
   });
 
   it('shouldn\'t add the HTML and Compression plugins for a library target', () => {
@@ -240,6 +255,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
     const pathUtils = 'pathUtils';
+    const targetsHTML = 'targetsHTML';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const target = {
       name: 'targetName',
@@ -284,6 +300,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     sut = new WebpackBrowserProductionConfiguration(
       events,
       pathUtils,
+      targetsHTML,
       webpackBaseConfiguration
     );
     result = sut.getConfig(params);
