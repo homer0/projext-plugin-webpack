@@ -75,16 +75,26 @@ class WebpackConfiguration {
     return definitions;
   }
   /**
-   * In case the target is a library, this method will be called to generate the library options
-   * for Webpack.
+   * In case the target is a library, this method will be called in order to get the extra output
+   * settings webpack needs.
    * @param {Target} target The target information.
    * @return {Object}
    */
   getLibraryOptions(target) {
     const { libraryOptions } = target;
-    return Object.assign({
+    // Create the object for webpack.
+    const newOptions = Object.assign({
       libraryTarget: 'commonjs2',
     }, libraryOptions);
+
+    // Remove any option unsupported by the webpack schema
+    [
+      'compress',
+    ].forEach((invalidOption) => {
+      delete newOptions[invalidOption];
+    });
+
+    return newOptions;
   }
   /**
    * This method generates a complete Webpack configuration for a target.
