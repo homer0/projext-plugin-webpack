@@ -575,6 +575,107 @@ describe('services/building:configuration', () => {
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
   });
 
+  it('should generate the configuration for a library target and remove unsupported keys', () => {
+    // Given
+    const versionVariable = 'process.env.VERSION';
+    const version = 'latest';
+    const buildVersion = {
+      getDefinitionVariable: jest.fn(() => versionVariable),
+      getVersion: jest.fn(() => version),
+    };
+    const pathUtils = {
+      join: jest.fn((rest) => rest),
+    };
+    const config = {
+      output: {
+        path: 'some-output-path',
+      },
+    };
+    const targetConfig = {
+      getConfig: jest.fn(() => config),
+    };
+    const targets = 'targets';
+    const targetConfiguration = jest.fn(() => targetConfig);
+    const buildType = 'development';
+    const target = {
+      type: 'node',
+      name: 'target',
+      paths: {
+        source: 'src/target',
+      },
+      entry: {
+        [buildType]: 'index.js',
+      },
+      output: {
+        [buildType]: {
+          js: 'target.js',
+          css: 'css/target/file.2509.css',
+          fonts: 'fonts/target/[name].2509.[ext]',
+          images: 'images/target/[name].2509.[ext]',
+        },
+      },
+      babel: {},
+      library: true,
+      libraryOptions: {
+        compress: true,
+      },
+      is: {
+        browser: false,
+        node: true,
+      },
+    };
+    const webpackConfigurations = {
+      [target.type]: {
+        [buildType]: {},
+      },
+    };
+    const expectedConfig = {
+      output: {
+        path: 'some-output-path',
+        libraryTarget: 'commonjs2',
+      },
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackConfiguration(
+      buildVersion,
+      pathUtils,
+      targets,
+      targetConfiguration,
+      webpackConfigurations
+    );
+    result = sut.getConfig(target, buildType);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
+    expect(targetConfiguration).toHaveBeenCalledWith(
+      `webpack/${target.name}.config.js`,
+      {}
+    );
+    expect(targetConfiguration).toHaveBeenCalledWith(
+      `webpack/${target.name}.${buildType}.config.js`,
+      targetConfig
+    );
+    expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
+    expect(targetConfig.getConfig).toHaveBeenCalledWith({
+      target,
+      buildType,
+      entry: {
+        [target.name]: [path.join(target.paths.source, target.entry[buildType])],
+      },
+      definitions: {
+        'process.env.NODE_ENV': `'${buildType}'`,
+        [versionVariable]: `"${version}"`,
+      },
+      output: target.output[buildType],
+    });
+    expect(pathUtils.join).toHaveBeenCalledTimes(1);
+    expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
+  });
+
   it('should include a provider for the DIC', () => {
     // Given
     let sut = null;
