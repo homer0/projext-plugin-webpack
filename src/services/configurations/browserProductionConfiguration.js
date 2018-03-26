@@ -107,7 +107,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
-      ...(target.library ? [] : [new CompressionPlugin()]),
+      ...(!target.library || target.libraryOptions.compress ? [new CompressionPlugin()] : []),
     ];
     // Reduce the configuration
     return this.events.reduce(

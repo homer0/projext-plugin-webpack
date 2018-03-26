@@ -260,6 +260,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     const target = {
       name: 'targetName',
       library: true,
+      libraryOptions: {},
       folders: {
         build: 'build-folder',
       },
@@ -318,6 +319,86 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CompressionPlugin).toHaveBeenCalledTimes(0);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-browser-production-configuration',
+      expectedConfig,
+      params
+    );
+  });
+
+  it('should add the Compression plugins for a library target when enabled by setting', () => {
+    // Given
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const targetsHTML = 'targetsHTML';
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      library: true,
+      libraryOptions: {
+        compress: true,
+      },
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {},
+    };
+    const definitions = 'definitions';
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      css: 'statics/css/build.css',
+    };
+    const params = {
+      target,
+      definitions,
+      entry,
+      output,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        publicPath: '/',
+      },
+      plugins: expect.any(Array),
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBrowserProductionConfiguration(
+      events,
+      pathUtils,
+      targetsHTML,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
+    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(0);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
+    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+      sourceMap: false,
+    });
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       'webpack-browser-production-configuration',
