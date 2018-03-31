@@ -79,8 +79,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       test: /\.jsx?$/i,
       // Only check for files on the target source directory and the configurations folder.
       include: [
-        RegExp(target.folders.source),
-        RegExp(this.pathUtils.join('config')),
+        new RegExp(target.folders.source),
+        new RegExp(this.pathUtils.join('config')),
       ],
       use: [{
         loader: 'babel-loader',
@@ -256,12 +256,12 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *       for handling fonts than the `file-loader`.
    */
   getFontsRules(params) {
-    const { output: { fonts: name } } = params;
+    const { target, output: { fonts: name } } = params;
     const rules = [
       {
         // `.svg` files inside a `fonts` folder.
         test: /\.svg(\?(v=\d+\.\d+\.\d+|\w+))?$/,
-        include: /fonts/,
+        include: new RegExp(`${target.paths.source}\\/(?:.*?/)?fonts/.*?`, 'i'),
         use: [{
           loader: 'file-loader',
           options: {
@@ -338,15 +338,19 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    * @return {Array}
    */
   getImagesRules(params) {
-    const { output: { images: name } } = params;
+    const { target, output: { images: name } } = params;
     const rules = [{
       test: /\.(jpe?g|png|gif|svg|ico)$/i,
-      /**
-       * This excludes names that match `favicon` because there are specific rules for favicons.
-       * The reason is that favicons need to be on the root directory for the browser to
-       * automatically detect them, and they only include optimization options for `png`.
-       */
-      exclude: /favicon/,
+      exclude: [
+        /**
+         * This excludes names that match `favicon` because there are specific rules for favicons.
+         * The reason is that favicons need to be on the root directory for the browser to
+         * automatically detect them, and they only include optimization options for `png`.
+         */
+        /favicon\.\w+$/,
+        // Exclude svg files that were identified as fonts.
+        new RegExp(`${target.paths.source}\\/(?:.*?/)?fonts/.*?`, 'i'),
+      ],
       use: [
         {
           loader: 'file-loader',

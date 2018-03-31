@@ -174,7 +174,10 @@ describe('services/configurations:rulesConfiguration', () => {
     rules.imagesRules = [
       {
         test: expect.any(RegExp),
-        exclude: expect.any(RegExp),
+        exclude: expect.arrayContaining([
+          expect.any(RegExp),
+          expect.any(RegExp),
+        ]),
         use: [
           {
             loader: 'file-loader',
@@ -265,6 +268,9 @@ describe('services/configurations:rulesConfiguration', () => {
       name: targetName,
       folders: {
         source: 'src/target',
+      },
+      paths: {
+        source: '/absolute/src/target',
       },
       is: {
         node: true,
@@ -436,6 +442,9 @@ describe('services/configurations:rulesConfiguration', () => {
       name: targetName,
       folders: {
         source: 'src/target',
+      },
+      paths: {
+        source: '/absolute/src/target',
       },
       is: {
         node: true,
@@ -609,6 +618,9 @@ describe('services/configurations:rulesConfiguration', () => {
       name: targetName,
       folders: {
         source: 'src/target',
+      },
+      paths: {
+        source: '/absolute/src/target',
       },
       is: {
         node: false,
@@ -796,6 +808,9 @@ describe('services/configurations:rulesConfiguration', () => {
       name: targetName,
       folders: {
         source: 'src/target',
+      },
+      paths: {
+        source: '/absolute/src/target',
       },
       is: {
         node: false,
