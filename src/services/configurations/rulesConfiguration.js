@@ -117,7 +117,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       importRules: 2,
     };
     // If the target uses CSS modules...
-    if (params.target.CSSModules) {
+    if (params.target.css.modules) {
       // ...enable them on the CSS loader configuration.
       cssLoaderConfig.modules = true;
       // Add the modules name format.
@@ -146,14 +146,17 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     ];
     if (params.target.is.browser) {
       eventName = 'webpack-scss-rules-configuration-for-browser';
-      /**
-       * Wrap the loaders settings on the the plugin that extracts all the stylesheets on a
-       * single file.
-       */
-      use = ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use,
-      });
+      // If the target needs to inject the styles on the `<head>`...
+      if (params.target.css.inject) {
+        // ...add the style loader.
+        use.unshift('style-loader');
+      } else {
+        // ...otherwise, wrap the loaders on the plugin that creates a single stylesheet.
+        use = ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use,
+        });
+      }
     }
 
     const rules = [{
@@ -188,14 +191,17 @@ class WebpackRulesConfiguration extends ConfigurationFile {
 
     if (params.target.is.browser) {
       eventName = 'webpack-css-rules-configuration-for-browser';
-      /**
-       * Wrap the loaders settings on the the plugin that extracts all the stylesheets on a
-       * single file.
-       */
-      use = ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use,
-      });
+      // If the target needs to inject the styles on the `<head>`...
+      if (params.target.css.inject) {
+        // ...add the style loader.
+        use.unshift('style-loader');
+      } else {
+        // ...otherwise, wrap the loaders on the plugin that creates a single stylesheet.
+        use = ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use,
+        });
+      }
     }
 
     const rules = [{
