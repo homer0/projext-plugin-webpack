@@ -81,6 +81,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       include: [
         new RegExp(target.folders.source),
         new RegExp(this.pathUtils.join('config')),
+        ...target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
       ],
       use: [{
         loader: 'babel-loader',

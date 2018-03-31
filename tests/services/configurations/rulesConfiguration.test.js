@@ -31,8 +31,9 @@ describe('services/configurations:rulesConfiguration', () => {
     rules.jsRules = [{
       test: expect.any(RegExp),
       include: [
-        RegExp(target.folders.source),
-        RegExp('config'),
+        new RegExp(target.folders.source),
+        new RegExp('config'),
+        ...target.includeModules.map(() => expect.any(RegExp)),
       ],
       use: [{
         loader: 'babel-loader',
@@ -299,6 +300,7 @@ describe('services/configurations:rulesConfiguration', () => {
         source: '/absolute/src/target',
       },
       css: {},
+      includeModules: [],
       is: {
         node: true,
         browser: false,
@@ -476,6 +478,7 @@ describe('services/configurations:rulesConfiguration', () => {
       css: {
         modules: true,
       },
+      includeModules: [],
       is: {
         node: true,
         browser: false,
@@ -652,6 +655,7 @@ describe('services/configurations:rulesConfiguration', () => {
         source: '/absolute/src/target',
       },
       css: {},
+      includeModules: [],
       is: {
         node: false,
         browser: true,
@@ -678,6 +682,197 @@ describe('services/configurations:rulesConfiguration', () => {
     );
     result = sut.getConfig(params);
     // Then
+    expect(result).toEqual({
+      rules: expect.any(Array),
+    });
+    expect(events.reduce).toHaveBeenCalledTimes([
+      'getJSRulesForBrowser',
+      'getJSRules',
+      'getSCSSRulesForBrowser',
+      'getSCSSRules',
+      'getCSSRulesForBrowser',
+      'getCSSRules',
+      'getHTMLRulesForBrowser',
+      'getHTMLRules',
+      'getFontsRulesForBrowser',
+      'getFontsRules',
+      'getImagesRulesForBrowser',
+      'getImagesRules',
+      'getFaviconsRulesForBrowser',
+      'getFaviconsRules',
+      'createBrowserConfig',
+      'createConfig',
+    ].length);
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-js-rules-configuration-for-browser',
+      expectedRules.jsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-js-rules-configuration',
+      expectedRules.jsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-scss-rules-configuration-for-browser',
+      expectedRules.scssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-scss-rules-configuration',
+      expectedRules.scssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-css-rules-configuration-for-browser',
+      expectedRules.cssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-css-rules-configuration',
+      expectedRules.cssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-html-rules-configuration-for-browser',
+      expectedRules.htmlRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-html-rules-configuration',
+      expectedRules.htmlRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-fonts-rules-configuration-for-browser',
+      expectedRules.fontsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-fonts-rules-configuration',
+      expectedRules.fontsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-images-rules-configuration-for-browser',
+      expectedRules.imagesRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-images-rules-configuration',
+      expectedRules.imagesRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-favicons-rules-configuration-for-browser',
+      expectedRules.faviconRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-favicons-rules-configuration',
+      expectedRules.faviconRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-rules-configuration-for-browser',
+      {
+        rules: [
+          ...expectedRules.jsRules,
+          ...expectedRules.scssRulesForBrowser,
+          ...expectedRules.cssRulesForBrowser,
+          ...expectedRules.htmlRules,
+          ...expectedRules.fontsRules,
+          ...expectedRules.imagesRules,
+          ...expectedRules.faviconRules,
+        ],
+      },
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      'webpack-rules-configuration',
+      {
+        rules: [
+          ...expectedRules.jsRules,
+          ...expectedRules.scssRulesForBrowser,
+          ...expectedRules.cssRulesForBrowser,
+          ...expectedRules.htmlRules,
+          ...expectedRules.fontsRules,
+          ...expectedRules.imagesRules,
+          ...expectedRules.faviconRules,
+        ],
+      },
+      params
+    );
+    expect(pathUtils.join).toHaveBeenCalledTimes(1);
+    expect(pathUtils.join).toHaveBeenCalledWith('config');
+    expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
+    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.scssExtractOptions);
+    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
+  });
+
+  it('should return the rules for a browser target that transpiles a node module', () => {
+    // Given
+    const extractResult = 'extract';
+    const output = {
+      fonts: 'statics/fonts/[name].[ext]',
+      images: 'statics/images/[name].[ext]',
+    };
+    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
+    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
+    const babelConfig = 'babel';
+    const babelConfiguration = {
+      getConfigForTarget: jest.fn(() => babelConfig),
+    };
+    const events = {
+      reduce: jest.fn((eventName, rules) => rules),
+    };
+    const pathUtils = {
+      join: jest.fn((rest) => rest),
+    };
+    const targetName = 'some-target';
+    const includeModules = ['wootils', 'projext'];
+    const target = {
+      name: targetName,
+      folders: {
+        source: 'src/target',
+      },
+      paths: {
+        source: '/absolute/src/target',
+      },
+      css: {},
+      includeModules,
+      is: {
+        node: false,
+        browser: true,
+      },
+    };
+    const params = {
+      target,
+      output,
+    };
+    const expectedRules = getExpectedRules(
+      target,
+      babelConfig,
+      extractResult,
+      output
+    );
+    let sut = null;
+    let result = null;
+    let expressions = null;
+    // When
+    sut = new WebpackRulesConfiguration(
+      babelConfiguration,
+      events,
+      pathUtils
+    );
+    result = sut.getConfig(params);
+    [[, [{ include: expressions }]]] = events.reduce.mock.calls;
+    expressions = expressions.slice();
+    expressions.splice(0, ['target source', 'configurations'].length);
+    // Then
+    includeModules.forEach((moduleName, index) => {
+      expect(`/node_modules/${moduleName}`).toMatch(expressions[index]);
+    });
     expect(result).toEqual({
       rules: expect.any(Array),
     });
@@ -845,6 +1040,7 @@ describe('services/configurations:rulesConfiguration', () => {
       css: {
         modules: true,
       },
+      includeModules: [],
       is: {
         node: false,
         browser: true,
@@ -1037,6 +1233,7 @@ describe('services/configurations:rulesConfiguration', () => {
       css: {
         inject: true,
       },
+      includeModules: [],
       is: {
         node: false,
         browser: true,
@@ -1227,6 +1424,7 @@ describe('services/configurations:rulesConfiguration', () => {
         modules: true,
         inject: true,
       },
+      includeModules: [],
       is: {
         node: false,
         browser: true,
