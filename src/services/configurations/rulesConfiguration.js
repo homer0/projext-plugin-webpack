@@ -268,7 +268,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       {
         // `.svg` files inside a `fonts` folder.
         test: /\.svg(\?(v=\d+\.\d+\.\d+|\w+))?$/,
-        include: new RegExp(`${target.paths.source}\\/(?:.*?/)?fonts/.*?`, 'i'),
+        include: new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
         use: [{
           loader: 'file-loader',
           options: {
@@ -356,7 +356,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
          */
         /favicon\.\w+$/,
         // Exclude svg files that were identified as fonts.
-        new RegExp(`${target.paths.source}\\/(?:.*?/)?fonts/.*?`, 'i'),
+        new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
       ],
       use: [
         {
