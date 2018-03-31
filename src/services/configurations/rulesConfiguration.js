@@ -354,7 +354,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
          * The reason is that favicons need to be on the root directory for the browser to
          * automatically detect them, and they only include optimization options for `png`.
          */
-        /favicon\.\w+$/,
+        /favicon\.\w+$/i,
         // Exclude svg files that were identified as fonts.
         new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
       ],
@@ -415,7 +415,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     const rules = [{
       test: /\.(png|ico)$/i,
       // Only apply to files that match the `favicon` name/path.
-      include: /favicon/,
+      include: /favicon\.\w+$/i,
       use: [
         {
           loader: 'file-loader',
