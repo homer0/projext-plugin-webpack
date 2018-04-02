@@ -18,11 +18,16 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
    *                                                                the overwrite file.
    * @param {WebpackBaseConfiguration}     webpackBaseConfiguration The configuration this one will
    *                                                                extend.
+   * @param {Array}                        webpackDefaultExternals  The list of modules this plugin
+   *                                                                makes available and that need to
+   *                                                                be defined as externals in case
+   *                                                                the user uses them.
    */
   constructor(
     events,
     pathUtils,
-    webpackBaseConfiguration
+    webpackBaseConfiguration,
+    webpackDefaultExternals
   ) {
     super(
       pathUtils,
@@ -35,6 +40,13 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
      * @type {Events}
      */
     this.events = events;
+    /**
+     * A list of modules this plugin makes available and that need to be defined as externals on
+     * the webpack configuration in case the user uses them. If not defined as externals, webpack
+     * would try to bundle the entire plugin and its dependencies.
+     * @type {Array}
+     */
+    this.webpackDefaultExternals = webpackDefaultExternals;
   }
   /**
    * Create the configuration with the `entry`, the `output` and the plugins specifics for a
@@ -65,6 +77,11 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       // Push the plugin that executes the target.
       plugins.push(new webpackNodeUtils.WebpackNodeUtilsRunner());
     }
+    // Define the list of modules that should be used as externals
+    const externals = [
+      ...this.webpackDefaultExternals,
+      ...target.excludeModules,
+    ];
     // Define the rest of the configuration.
     const config = {
       entry,
@@ -84,7 +101,7 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
        * Mark all the project dependencies, including the devDependencies, as externals. This way,
        * Webpack won't try to push them into the bundle.
        */
-      externals: webpackNodeUtils.externals({}, true),
+      externals: webpackNodeUtils.externals({}, true, externals),
     };
     // Reduce the configuration.
     return this.events.reduce(
@@ -110,7 +127,8 @@ const webpackNodeDevelopmentConfiguration = provider((app) => {
     () => new WebpackNodeDevelopmentConfiguration(
       app.get('events'),
       app.get('pathUtils'),
-      app.get('webpackBaseConfiguration')
+      app.get('webpackBaseConfiguration'),
+      app.get('webpackDefaultExternals')
     )
   );
 });
