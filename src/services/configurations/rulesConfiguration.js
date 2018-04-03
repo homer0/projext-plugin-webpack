@@ -112,13 +112,14 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    * @return {Array}
    */
   getSCSSRules(params) {
+    const { target } = params;
     // Set the base configuration for the CSS loader.
     const cssLoaderConfig = {
       // `2` because there are two other loaders after it: `resolve-url-loader` and `sass-loader`.
       importRules: 2,
     };
     // If the target uses CSS modules...
-    if (params.target.css.modules) {
+    if (target.css.modules) {
       // ...enable them on the CSS loader configuration.
       cssLoaderConfig.modules = true;
       // Add the modules name format.
@@ -145,10 +146,10 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         },
       },
     ];
-    if (params.target.is.browser) {
+    if (target.is.browser) {
       eventName = 'webpack-scss-rules-configuration-for-browser';
       // If the target needs to inject the styles on the `<head>`...
-      if (params.target.css.inject) {
+      if (target.css.inject) {
         // ...add the style loader.
         use.unshift('style-loader');
       } else {
@@ -162,7 +163,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
 
     const rules = [{
       test: /\.scss$/i,
-      exclude: /node_modules/,
+      include: target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
       use,
     }];
     // Reduce the rules.
@@ -185,15 +186,16 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    * @return {Array}
    */
   getCSSRules(params) {
+    const { target } = params;
     let eventName = 'webpack-css-rules-configuration-for-node';
     let use = [
       'css-loader',
     ];
 
-    if (params.target.is.browser) {
+    if (target.is.browser) {
       eventName = 'webpack-css-rules-configuration-for-browser';
       // If the target needs to inject the styles on the `<head>`...
-      if (params.target.css.inject) {
+      if (target.css.inject) {
         // ...add the style loader.
         use.unshift('style-loader');
       } else {
@@ -207,6 +209,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
 
     const rules = [{
       test: /\.css$/i,
+      include: target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
       use,
     }];
     // Reduce the rules.
@@ -268,7 +271,12 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       {
         // `.svg` files inside a `fonts` folder.
         test: /\.svg(\?(v=\d+\.\d+\.\d+|\w+))?$/,
-        include: new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
+        include: [
+          new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
+          ...target.includeModules.map((modName) => (
+            new RegExp(`/node_modules/${modName}/(?:.*?/)?fonts/.*?`)
+          )),
+        ],
         use: [{
           loader: 'file-loader',
           options: {
@@ -357,6 +365,10 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         /favicon\.\w+$/i,
         // Exclude svg files that were identified as fonts.
         new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
+        // Exclude svg files that were identified as fonts on modules being processed.
+        ...target.includeModules.map((modName) => (
+          new RegExp(`/node_modules/${modName}/(?:.*?/)?fonts/.*?`)
+        )),
       ],
       use: [
         {
