@@ -7,9 +7,11 @@ jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
 jest.mock('webpack-node-utils', () => webpackNodeUtilsMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
+jest.mock('optimize-css-assets-webpack-plugin');
 jest.unmock('/src/services/configurations/nodeDevelopmentConfiguration');
 
 require('jasmine-expect');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const {
   WebpackNodeDevelopmentConfiguration,
@@ -21,6 +23,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     ConfigurationFileMock.reset();
     webpackMock.reset();
     webpackNodeUtilsMock.reset();
+    OptimizeCssAssetsPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -28,12 +31,14 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     const events = 'events';
     const pathUtils = 'pathUtils';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackDefaultExternals = 'webpackDefaultExternals';
     let sut = null;
     // When
     sut = new WebpackNodeDevelopmentConfiguration(
       events,
       pathUtils,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackDefaultExternals
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackNodeDevelopmentConfiguration);
@@ -45,6 +50,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       webpackBaseConfiguration
     );
     expect(sut.events).toBe(events);
+    expect(sut.webpackDefaultExternals).toBe(webpackDefaultExternals);
   });
 
   it('should create a configuration', () => {
@@ -54,6 +60,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     };
     const pathUtils = 'pathUtils';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackDefaultExternals = [];
     const target = {
       name: 'targetName',
       folders: {
@@ -62,6 +69,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       paths: {
         source: 'source-path',
       },
+      excludeModules: [],
     };
     const entry = {
       [target.name]: ['index.js'],
@@ -95,12 +103,23 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     sut = new WebpackNodeDevelopmentConfiguration(
       events,
       pathUtils,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackDefaultExternals
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(webpackNodeUtilsMock.externals).toHaveBeenCalledTimes(1);
+    expect(webpackNodeUtilsMock.externals).toHaveBeenCalledWith(
+      {},
+      true,
+      [
+        ...webpackDefaultExternals,
+        ...target.excludeModules,
+      ]
+    );
     expect(webpackNodeUtilsMock.WebpackNodeUtilsRunnerMockMock)
     .toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
@@ -118,6 +137,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     };
     const pathUtils = 'pathUtils';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackDefaultExternals = [];
     const target = {
       name: 'targetName',
       folders: {
@@ -126,6 +146,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       paths: {
         source: 'source-path',
       },
+      excludeModules: [],
       runOnDevelopment: true,
     };
     const entry = {
@@ -160,16 +181,25 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     sut = new WebpackNodeDevelopmentConfiguration(
       events,
       pathUtils,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackDefaultExternals
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(webpackNodeUtilsMock.WebpackNodeUtilsRunnerMockMock)
     .toHaveBeenCalledTimes(1);
     expect(webpackNodeUtilsMock.externals).toHaveBeenCalledTimes(1);
-    expect(webpackNodeUtilsMock.externals).toHaveBeenCalledWith({}, true);
+    expect(webpackNodeUtilsMock.externals).toHaveBeenCalledWith(
+      {},
+      true,
+      [
+        ...webpackDefaultExternals,
+        ...target.excludeModules,
+      ]
+    );
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       'webpack-node-development-configuration',
@@ -196,5 +226,6 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackNodeDevelopmentConfiguration);
     expect(sut.events).toBe('events');
+    expect(sut.webpackDefaultExternals).toBe('webpackDefaultExternals');
   });
 });

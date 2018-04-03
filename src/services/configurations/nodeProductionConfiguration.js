@@ -1,4 +1,5 @@
 const webpackNodeUtils = require('webpack-node-utils');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
@@ -17,11 +18,16 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
    *                                                                the overwrite file.
    * @param {WebpackBaseConfiguration}     webpackBaseConfiguration The configuration this one will
    *                                                                extend.
+   * @param {Array}                        webpackDefaultExternals  The list of modules this plugin
+   *                                                                makes available and that need to
+   *                                                                be defined as externals in case
+   *                                                                the user uses them.
    */
   constructor(
     events,
     pathUtils,
-    webpackBaseConfiguration
+    webpackBaseConfiguration,
+    webpackDefaultExternals
   ) {
     super(
       pathUtils,
@@ -34,6 +40,13 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
      * @type {Events}
      */
     this.events = events;
+    /**
+     * A list of modules this plugin makes available and that need to be defined as externals on
+     * the webpack configuration in case the user uses them. If not defined as externals, webpack
+     * would try to bundle the entire plugin and its dependencies.
+     * @type {Array}
+     */
+    this.webpackDefaultExternals = webpackDefaultExternals;
   }
   /**
    * Create the configuration with the `entry`, the `output` and the plugins specifics for a
@@ -48,6 +61,11 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
    */
   createConfig(params) {
     const { entry, target, output } = params;
+    // Define the list of modules that should be used as externals
+    const externals = [
+      ...this.webpackDefaultExternals,
+      ...target.excludeModules,
+    ];
 
     const config = {
       entry,
@@ -59,6 +77,8 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
       plugins: [
         // To avoid pushing assets with errors.
         new NoEmitOnErrorsPlugin(),
+        // To optimize the SCSS and remove repeated declarations.
+        new OptimizeCssAssetsPlugin(),
       ],
       target: 'node',
       node: {
@@ -69,7 +89,7 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
        * Mark the production dependencies as externals so Webpack won't try to push them into the
        * bundle.
        */
-      externals: webpackNodeUtils.externals(),
+      externals: webpackNodeUtils.externals({}, false, externals),
     };
     // Reduce the configuration.
     return this.events.reduce(
@@ -95,7 +115,8 @@ const webpackNodeProductionConfiguration = provider((app) => {
     () => new WebpackNodeProductionConfiguration(
       app.get('events'),
       app.get('pathUtils'),
-      app.get('webpackBaseConfiguration')
+      app.get('webpackBaseConfiguration'),
+      app.get('webpackDefaultExternals')
     )
   );
 });

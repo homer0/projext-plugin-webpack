@@ -32,10 +32,10 @@ Since webpack is the default build engine for projext, after you install the plu
 projext build [target-name]
 ```
 
-In the case you changed the engine and you want to restore it to webpack, you just need to go to your project configuration file (`config/project.config.js`), on your target settings, change `engine` to `webpack`:
+In the case you changed the engine and you want to restore it to webpack, you just need to go to your projext configuration file, on your target settings, change `engine` to `webpack`:
 
 ```js
-// config/project.config.js
+// projext.config.js
 
 module.exports = {
   targets: {
@@ -55,7 +55,7 @@ You can implement both the [`webpack-dev-middleware`](https://yarnpkg.com/en/pac
 
 ```js
 // Require the function for the implementation
-const useExpress = require('projext-plugin-plugin/express');
+const useExpress = require('projext-plugin-webpack/express');
 
 // Require Express to create a dummy app
 const express = require('express');
@@ -78,10 +78,14 @@ app.listen(...);
 const useJimpex = require('projext-plugin-webpack/jimpex');
 
 // Require Jimpex to create a dummy app
-const Jimpex = require('jimpex');
+const { Jimpex } = require('jimpex');
 
 // Define the Jimpex app
-class DevApp extends Jimpex {}
+class DevApp extends Jimpex {
+  boot() {
+    // This method needs to be created.
+  }
+}
 
 // Create the app
 const app = new DevApp();

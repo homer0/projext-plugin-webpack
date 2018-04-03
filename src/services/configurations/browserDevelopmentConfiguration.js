@@ -1,4 +1,3 @@
-const path = require('path');
 const extend = require('extend');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
@@ -19,20 +18,23 @@ const ConfigurationFile = require('../../abstracts/configurationFile');
 class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {Logger}                       appLogger                To inform the user when the
-   *                                                                build is running on the dev
-   *                                                                server.
-   * @param {Events}                       events                   To reduce the configuration.
-   * @param {PathUtils}                    pathUtils                Required by `ConfigurationFile`
-   *                                                                in order to build the path to
-   *                                                                the overwrite file.
-   * @param {WebpackBaseConfiguration}     webpackBaseConfiguration The configuration this one will
-   *                                                                extend.
+   * @param {Logger}                   appLogger                To inform the user when the build
+   *                                                            is running on the dev server.
+   * @param {Events}                   events                   To reduce the configuration.
+   * @param {PathUtils}                pathUtils                Required by `ConfigurationFile`
+   *                                                            in order to build the path to the
+   *                                                            overwrite file.
+   * @param {TargetsHTML}              targetsHTML              The service in charge of generating
+   *                                                            a default HTML file in case the
+   *                                                            target doesn't have one.
+   * @param {WebpackBaseConfiguration} webpackBaseConfiguration The configuration this one will
+   *                                                            extend.
    */
   constructor(
     appLogger,
     events,
     pathUtils,
+    targetsHTML,
     webpackBaseConfiguration
   ) {
     super(
@@ -51,6 +53,11 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
      * @type {Events}
      */
     this.events = events;
+    /**
+     * A local reference for the `targetsHTML` service.
+     * @type {TargetsHTML}
+     */
+    this.targetsHTML = targetsHTML;
   }
   /**
    * Create the configuration with the `entry`, the `output` and the plugins specifics for a
@@ -91,7 +98,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       new ExtractTextPlugin(output.css),
       // To automatically inject the `script` tag on the target `html` file.
       new HtmlWebpackPlugin(Object.assign({}, target.html, {
-        template: path.join(target.paths.source, target.html.template),
+        template: this.targetsHTML.getFilepath(target),
         inject: 'body',
       })),
       // To add the `async` attribute to the  `script` tag.
@@ -111,16 +118,42 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     const hotEntries = [];
     // If the target needs to run on development...
     if (target.runOnDevelopment) {
+      const devServerConfig = this._normalizeTargetDevServerSettings(target);
       // Add the dev server information to the configuration.
-      const { devServer } = target;
-      const devServerHost = devServer.host || 'localhost';
       config.devServer = {
-        port: devServer.port || 2509,
-        inline: !!devServer.reload,
+        port: devServerConfig.port,
+        inline: !!devServerConfig.reload,
         open: true,
       };
-      if (devServerHost !== 'localhost') {
-        config.devServer.public = devServerHost;
+      /**
+       * This setting is specific to the webpack dev server and it allows web apps that use
+       * the history API to fallback to the server's root in case the app is loaded on a sub
+       * route, that way the custom routing can redirect the user.
+       * This is not yet documented on the projext configuration because I'm not entirely sure
+       * other dev servers can support it that easily, so for the moment if will be like a
+       * _"hidden option"_ for this plugin; While implementing the next build engine I'll go
+       * back and either document it as special setting for this plugin or adding to the
+       * projext main configuration.
+       * @todo Validate historyApiFallback
+       */
+      if (devServerConfig.historyApiFallback) {
+        config.devServer.historyApiFallback = devServerConfig.historyApiFallback;
+      }
+      // If the configuration has a custom host, set it.
+      if (devServerConfig.host !== 'localhost') {
+        config.devServer.host = devServerConfig.host;
+      }
+      // If there are SSL files, set them on the server.
+      if (devServerConfig.ssl) {
+        config.devServer.https = {
+          key: devServerConfig.ssl.key,
+          cert: devServerConfig.ssl.cert,
+          ca: devServerConfig.ssl.ca,
+        };
+      }
+      // If the server is being proxied, add the public host.
+      if (devServerConfig.proxied) {
+        config.devServer.public = devServerConfig.proxied.host;
       }
       // If the target will run with the dev server and it requires HMR...
       if (target.hot) {
@@ -130,12 +163,9 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         config.devServer.publicPath = '/';
         // Enable the dev server `hot` setting.
         config.devServer.hot = true;
-        // Build the host URL for the dev server as it will be needed for the hot entries.
-        const protocol = devServer.https ? 'https' : 'http';
-        const host = `${protocol}://${devServerHost}:${config.devServer.port}`;
         // Push the required entries to enable HMR on the dev server.
         hotEntries.push(...[
-          `webpack-dev-server/client?${host}`,
+          `webpack-dev-server/client?${devServerConfig.url}`,
           'webpack/hot/only-dev-server',
         ]);
       }
@@ -175,6 +205,56 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     );
   }
   /**
+   * Check a target dev server settings in order to validate those that needs to be removed or
+   * completed with their default values.
+   * @param {Target} target The target information.
+   * @return {TargetDevServerSettings}
+   */
+  _normalizeTargetDevServerSettings(target) {
+    // Get a new copy of the config to work with.
+    const config = extend(true, {}, target.devServer);
+    /**
+     * Set a flag to know if at least one SSL file was sent.
+     * This flag is also used when reading the `proxied` settings to determine the default
+     * behaviour of `proxied.https`.
+     */
+    let hasASSLFile = false;
+    // Loop all the SSL files...
+    Object.keys(config.ssl).forEach((name) => {
+      const file = config.ssl[name];
+      // If there's an actual path...
+      if (typeof file === 'string') {
+        // ...set the flag to `true`.
+        hasASSLFile = true;
+        // Generate the path to the file.
+        config.ssl[name] = this.pathUtils.join(file);
+      }
+    });
+    // If no SSL file was sent, just remove the settings.
+    if (!hasASSLFile) {
+      delete config.ssl;
+    }
+    // If the server is being proxied...
+    if (config.proxied.enabled) {
+      // ...if no `host` was specified, use the one defined for the server.
+      if (config.proxied.host === null) {
+        config.proxied.host = config.host;
+      }
+      // If no `https` option was specified, set it to `true` if at least one SSL file was sent.
+      if (config.proxied.https === null) {
+        config.proxied.https = hasASSLFile;
+      }
+    } else {
+      // ...otherwise, just remove the setting.
+      delete config.proxied;
+    }
+
+    const protocol = config.ssl ? 'https' : 'http';
+    config.url = `${protocol}://${config.host}:${config.port}`;
+
+    return config;
+  }
+  /**
    * Creates a _'fake Webpack plugin'_ that detects when the bundle is being compiled in order to
    * log messages with the dev server information.
    * @param {object} devServer      The target dev server configuration.
@@ -195,7 +275,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         compiler.plugin('done', () => {
           // Awful hack, but the webpack output gets on the same line
           setTimeout(() => {
-            this.appLogger.success(`You app is running on the port ${port}`);
+            this.appLogger.success(`Your app is running on the port ${port}`);
           }, 0);
         });
       },
@@ -219,6 +299,7 @@ const webpackBrowserDevelopmentConfiguration = provider((app) => {
       app.get('appLogger'),
       app.get('events'),
       app.get('pathUtils'),
+      app.get('targetsHTML'),
       app.get('webpackBaseConfiguration')
     )
   );

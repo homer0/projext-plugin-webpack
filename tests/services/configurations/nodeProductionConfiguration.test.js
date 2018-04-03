@@ -7,9 +7,11 @@ jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
 jest.mock('webpack-node-utils', () => webpackNodeUtilsMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
+jest.mock('optimize-css-assets-webpack-plugin');
 jest.unmock('/src/services/configurations/nodeProductionConfiguration');
 
 require('jasmine-expect');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const {
   WebpackNodeProductionConfiguration,
@@ -21,6 +23,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     ConfigurationFileMock.reset();
     webpackMock.reset();
     webpackNodeUtilsMock.reset();
+    OptimizeCssAssetsPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -28,12 +31,14 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     const events = 'events';
     const pathUtils = 'pathUtils';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackDefaultExternals = 'webpackDefaultExternals';
     let sut = null;
     // When
     sut = new WebpackNodeProductionConfiguration(
       events,
       pathUtils,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackDefaultExternals
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackNodeProductionConfiguration);
@@ -45,6 +50,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
       webpackBaseConfiguration
     );
     expect(sut.events).toBe(events);
+    expect(sut.webpackDefaultExternals).toBe(webpackDefaultExternals);
   });
 
   it('should create a configuration', () => {
@@ -54,11 +60,13 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     };
     const pathUtils = 'pathUtils';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackDefaultExternals = ['some/external'];
     const target = {
       name: 'targetName',
       folders: {
         build: 'build-folder',
       },
+      excludeModules: [],
     };
     const entry = {
       [target.name]: ['index.js'],
@@ -91,13 +99,23 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     sut = new WebpackNodeProductionConfiguration(
       events,
       pathUtils,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackDefaultExternals
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(webpackNodeUtilsMock.externals).toHaveBeenCalledTimes(1);
+    expect(webpackNodeUtilsMock.externals).toHaveBeenCalledWith(
+      {},
+      false,
+      [
+        ...webpackDefaultExternals,
+        ...target.excludeModules,
+      ]
+    );
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       'webpack-node-production-configuration',
@@ -124,5 +142,6 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackNodeProductionConfiguration);
     expect(sut.events).toBe('events');
+    expect(sut.webpackDefaultExternals).toBe('webpackDefaultExternals');
   });
 });

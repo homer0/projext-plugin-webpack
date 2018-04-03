@@ -75,27 +75,26 @@ class WebpackConfiguration {
     return definitions;
   }
   /**
-   * Generate the output paths for a target files.
-   * @param {Target} target    The target information.
-   * @param {string} buildType The intended build type: `production` or `development`.
-   * @return {WebpackConfigurationTargetOutput}
-   */
-  getOutput(target, buildType) {
-    return target.is.node ?
-      { js: target.output[buildType] } :
-      Object.assign({}, target.output[buildType]);
-  }
-  /**
-   * In case the target is a library, this method will be called to generate the library options
-   * for Webpack.
+   * In case the target is a library, this method will be called in order to get the extra output
+   * settings webpack needs.
    * @param {Target} target The target information.
    * @return {Object}
    */
   getLibraryOptions(target) {
     const { libraryOptions } = target;
-    return Object.assign({
+    // Create the object for webpack.
+    const newOptions = Object.assign({
       libraryTarget: 'commonjs2',
     }, libraryOptions);
+
+    // Remove any option unsupported by the webpack schema
+    [
+      'compress',
+    ].forEach((invalidOption) => {
+      delete newOptions[invalidOption];
+    });
+
+    return newOptions;
   }
   /**
    * This method generates a complete Webpack configuration for a target.
@@ -125,7 +124,7 @@ class WebpackConfiguration {
         [target.name]: entries,
       },
       definitions: this.getDefinitions(target, buildType),
-      output: this.getOutput(target, buildType),
+      output: target.output[buildType],
       buildType,
     };
 

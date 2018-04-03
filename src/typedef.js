@@ -60,7 +60,12 @@
 
 /**
  * @external {Targets}
- * https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html
+ * https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html
+ */
+
+/**
+ * @external {TargetsHTML}
+ * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html
  */
 
 /**
@@ -163,6 +168,43 @@
  * A dictionary of defined variables that will be replaced on the bundled code.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
+ */
+
+/**
+ * @typedef {Object} TargetDevServerSSLSettings
+ * @property {string} key
+ * The path to the SSL key (`.key`).
+ * @property {string} cert
+ * The path to the SSL certificate (`.crt`).
+ * @property {string} ca
+ * The path to the SSL public file (`.pem`).
+ */
+
+/**
+ * @typedef {Object} TargetDevServerProxiedSettings
+ * @property {boolean} enabled
+ * Whether or not the dev server is being proxied.
+ * @property {string} host
+ * The host used to proxy the dev server.
+ * @property {boolean} https
+ * Whether or not the proxied host uses `https`.
+ */
+
+/**
+ * @typedef {Object} TargetDevServerSettings
+ * @property {number} port
+ * The server port.
+ * @property {string} host
+ * The dev server hostname.
+ * @property {string} url
+ * The complete URL for the dev server.
+ * @property {boolean} reload
+ * Whether or not to reload the server when the code changes.
+ * @property {?TargetDevServerSSLSettings} ssl
+ * The paths to the files to enable SSL on the dev server.
+ * @property {?TargetDevServerProxiedSettings} [proxied]
+ * When the dev server is being proxied (using `nginx` for example), there are certain
+ * functionalities, like hot module replacement and live reload, that need to be aware of this.
  */
 
 /**
