@@ -87,27 +87,27 @@ describe('services/configurations:rulesConfiguration', () => {
     // - - Rules
     rules.scssRulesForBrowser = [{
       test: expect.any(RegExp),
-      exclude: expect.any(RegExp),
+      include: target.includeModules.map(() => expect.any(RegExp)),
       use: extractResult,
     }];
     rules.scssRulesForBrowserWithInject = [{
       test: expect.any(RegExp),
-      exclude: expect.any(RegExp),
+      include: target.includeModules.map(() => expect.any(RegExp)),
       use: scssUseWithInject,
     }];
     rules.scssRulesForBrowserWithModulesAndInject = [{
       test: expect.any(RegExp),
-      exclude: expect.any(RegExp),
+      include: target.includeModules.map(() => expect.any(RegExp)),
       use: scssUseWithModulesAndInject,
     }];
     rules.scssRulesForNode = [{
       test: expect.any(RegExp),
-      exclude: expect.any(RegExp),
+      include: target.includeModules.map(() => expect.any(RegExp)),
       use: scssUse,
     }];
     rules.scssRulesForNodeWithModules = [{
       test: expect.any(RegExp),
-      exclude: expect.any(RegExp),
+      include: target.includeModules.map(() => expect.any(RegExp)),
       use: scssUseWithModules,
     }];
     // - CSS Rules
@@ -127,14 +127,17 @@ describe('services/configurations:rulesConfiguration', () => {
     rules.cssRulesForBrowser = [{
       test: expect.any(RegExp),
       use: extractResult,
+      include: target.includeModules.map(() => expect.any(RegExp)),
     }];
     rules.cssRulesForBrowserWithInject = [{
       test: expect.any(RegExp),
       use: cssUseWithInject,
+      include: target.includeModules.map(() => expect.any(RegExp)),
     }];
     rules.cssRulesForNode = [{
       test: expect.any(RegExp),
       use: cssUse,
+      include: target.includeModules.map(() => expect.any(RegExp)),
     }];
     // - HTML Rules
     rules.htmlRules = [{
@@ -148,7 +151,10 @@ describe('services/configurations:rulesConfiguration', () => {
     rules.fontsRules = [
       {
         test: expect.any(RegExp),
-        include: expect.any(RegExp),
+        include: [
+          expect.any(RegExp),
+          ...target.includeModules.map(() => expect.any(RegExp)),
+        ],
         use: [{
           loader: 'file-loader',
           options: {
@@ -204,6 +210,7 @@ describe('services/configurations:rulesConfiguration', () => {
         exclude: expect.arrayContaining([
           expect.any(RegExp),
           expect.any(RegExp),
+          ...target.includeModules.map(() => expect.any(RegExp)),
         ]),
         use: [
           {
