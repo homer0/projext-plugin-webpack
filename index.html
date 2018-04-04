@@ -36,6 +36,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerSSLSettings">TargetDevServerSSLSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerSettings">TargetDevServerSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationTargetOutput">WebpackConfigurationTargetOutput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurations">WebpackConfigurations</a></span></span></li>
@@ -58,7 +61,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html">TargetsHTML</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#abstracts">abstracts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jimpex">jimpex</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/frontendFs.js~WebpackFrontendFs.html">WebpackFrontendFs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/sendFile.js~WebpackSendFile.html">WebpackSendFile</a></span></span></li>
@@ -121,8 +125,8 @@
 <h2 id="usage">Usage</h2><p>Since webpack is the default build engine for projext, after you install the plugin there&apos;s nothing else to do, just run the build command and the plugin will take care of the rest:</p>
 <pre><code class="lang-bash"><code class="source-code prettyprint">projext build [target-name]</code>
 </code></pre>
-<p>In the case you changed the engine and you want to restore it to webpack, you just need to go to your project configuration file (<code>config/project.config.js</code>), on your target settings, change <code>engine</code> to <code>webpack</code>:</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">// config/project.config.js
+<p>In the case you changed the engine and you want to restore it to webpack, you just need to go to your projext configuration file, on your target settings, change <code>engine</code> to <code>webpack</code>:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// projext.config.js
 
 module.exports = {
   targets: {
@@ -135,7 +139,7 @@ module.exports = {
 </code></pre>
 <h3 id="middleware-implementation">Middleware implementation</h3><p>You can implement both the <a href="https://yarnpkg.com/en/package/webpack-dev-middleware"><code>webpack-dev-middleware</code></a> and the <a href="https://yarnpkg.com/en/package/webpack-hot-middleware"><code>webpack-hot-middleware</code></a> on <a href="https://expressjs.com">Express</a> and <a href="https://yarnpkg.com/en/package/jimpex">Jimpex</a> very easy:</p>
 <h4 id="express">Express</h4><pre><code class="lang-js"><code class="source-code prettyprint">// Require the function for the implementation
-const useExpress = require(&apos;projext-plugin-plugin/express&apos;);
+const useExpress = require(&apos;projext-plugin-webpack/express&apos;);
 
 // Require Express to create a dummy app
 const express = require(&apos;express&apos;);
@@ -154,10 +158,14 @@ app.listen(...);</code>
 const useJimpex = require(&apos;projext-plugin-webpack/jimpex&apos;);
 
 // Require Jimpex to create a dummy app
-const Jimpex = require(&apos;jimpex&apos;);
+const { Jimpex } = require(&apos;jimpex&apos;);
 
 // Define the Jimpex app
-class DevApp extends Jimpex {}
+class DevApp extends Jimpex {
+  boot() {
+    // This method needs to be created.
+  }
+}
 
 // Create the app
 const app = new DevApp();

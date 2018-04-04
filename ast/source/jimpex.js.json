@@ -1959,10 +1959,10 @@
                                         }
                                       },
                                       "extra": {
-                                        "rawValue": "waiting for Webpack...",
-                                        "raw": "'waiting for Webpack...'"
+                                        "rawValue": "waiting for webpack...",
+                                        "raw": "'waiting for webpack...'"
                                       },
-                                      "value": "waiting for Webpack..."
+                                      "value": "waiting for webpack..."
                                     }
                                   ]
                                 }
@@ -3726,10 +3726,10 @@
                                           }
                                         },
                                         "extra": {
-                                          "rawValue": "waiting for Webpack...",
-                                          "raw": "'waiting for Webpack...'"
+                                          "rawValue": "waiting for webpack...",
+                                          "raw": "'waiting for webpack...'"
                                         },
-                                        "value": "waiting for Webpack..."
+                                        "value": "waiting for webpack..."
                                       }
                                     ]
                                   }
@@ -7452,7 +7452,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "waiting for Webpack...",
+      "value": "waiting for webpack...",
       "start": 2463,
       "end": 2487,
       "loc": {

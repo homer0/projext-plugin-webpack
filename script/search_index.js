@@ -624,12 +624,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/services/building/configuration.js~webpackconfiguration#getoutput",
-    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-method-getOutput",
-    "src/services/building/configuration.js~WebpackConfiguration#getOutput",
-    "method"
-  ],
-  [
     "src/services/building/configuration.js~webpackconfiguration#pathutils",
     "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-member-pathUtils",
     "src/services/building/configuration.js~WebpackConfiguration#pathUtils",
@@ -762,6 +756,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#_normalizetargetdevserversettings",
+    "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html#instance-method-_normalizeTargetDevServerSettings",
+    "src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration#_normalizeTargetDevServerSettings",
+    "method"
+  ],
+  [
     "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#applogger",
     "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html#instance-member-appLogger",
     "src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration#appLogger",
@@ -786,6 +786,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#targetshtml",
+    "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html#instance-member-targetsHTML",
+    "src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration#targetsHTML",
+    "member"
+  ],
+  [
     "src/services/configurations/browserproductionconfiguration.js",
     "file/src/services/configurations/browserProductionConfiguration.js.html",
     "src/services/configurations/browserProductionConfiguration.js",
@@ -807,6 +813,12 @@ window.esdocSearchIndex = [
     "src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration#events",
     "class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html#instance-member-events",
     "src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration#events",
+    "member"
+  ],
+  [
+    "src/services/configurations/browserproductionconfiguration.js~webpackbrowserproductionconfiguration#targetshtml",
+    "class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html#instance-member-targetsHTML",
+    "src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration#targetsHTML",
     "member"
   ],
   [
@@ -840,6 +852,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration#webpackdefaultexternals",
+    "class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html#instance-member-webpackDefaultExternals",
+    "src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration#webpackDefaultExternals",
+    "member"
+  ],
+  [
     "src/services/configurations/nodeproductionconfiguration.js",
     "file/src/services/configurations/nodeProductionConfiguration.js.html",
     "src/services/configurations/nodeProductionConfiguration.js",
@@ -864,10 +882,22 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration#webpackdefaultexternals",
+    "class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html#instance-member-webpackDefaultExternals",
+    "src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration#webpackDefaultExternals",
+    "member"
+  ],
+  [
     "src/services/configurations/rulesconfiguration.js",
     "file/src/services/configurations/rulesConfiguration.js.html",
     "src/services/configurations/rulesConfiguration.js",
     "file"
+  ],
+  [
+    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#_reduceconfig",
+    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-_reduceConfig",
+    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#_reduceConfig",
+    "method"
   ],
   [
     "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#babelconfiguration",
@@ -882,21 +912,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#createbrowserconfig",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-createBrowserConfig",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#createBrowserConfig",
-    "method"
-  ],
-  [
     "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#createconfig",
     "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-createConfig",
     "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#createConfig",
-    "method"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#createnodeconfig",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-createNodeConfig",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#createNodeConfig",
     "method"
   ],
   [
@@ -1158,9 +1176,33 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "src/typedef.js~targetdevserverproxiedsettings",
+    "typedef/index.html#static-typedef-TargetDevServerProxiedSettings",
+    "src/typedef.js~TargetDevServerProxiedSettings",
+    "typedef"
+  ],
+  [
+    "src/typedef.js~targetdevserversslsettings",
+    "typedef/index.html#static-typedef-TargetDevServerSSLSettings",
+    "src/typedef.js~TargetDevServerSSLSettings",
+    "typedef"
+  ],
+  [
+    "src/typedef.js~targetdevserversettings",
+    "typedef/index.html#static-typedef-TargetDevServerSettings",
+    "src/typedef.js~TargetDevServerSettings",
+    "typedef"
+  ],
+  [
     "src/typedef.js~targets",
-    "https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html",
+    "https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html",
     "src/typedef.js~Targets",
+    "external"
+  ],
+  [
+    "src/typedef.js~targetshtml",
+    "https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html",
+    "src/typedef.js~TargetsHTML",
     "external"
   ],
   [

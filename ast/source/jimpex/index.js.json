@@ -194,10 +194,10 @@
             }
           },
           "extra": {
-            "rawValue": "./SendFile",
-            "raw": "'./SendFile'"
+            "rawValue": "./sendFile",
+            "raw": "'./sendFile'"
           },
-          "value": "./SendFile"
+          "value": "./sendFile"
         }
       },
       {
@@ -648,7 +648,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "./SendFile",
+      "value": "./sendFile",
       "start": 82,
       "end": 94,
       "loc": {

@@ -36,6 +36,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerSSLSettings">TargetDevServerSSLSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerSettings">TargetDevServerSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationTargetOutput">WebpackConfigurationTargetOutput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurations">WebpackConfigurations</a></span></span></li>
@@ -58,7 +61,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html">TargetsHTML</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#abstracts">abstracts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jimpex">jimpex</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/frontendFs.js~WebpackFrontendFs.html">WebpackFrontendFs</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/sendFile.js~WebpackSendFile.html">WebpackSendFile</a></span></span></li>
@@ -149,7 +153,12 @@
 
 /**
  * @external {Targets}
- * https://homer0.github.io/projext/class/src/services/building/targets.js~Targets.html
+ * https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html
+ */
+
+/**
+ * @external {TargetsHTML}
+ * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html
  */
 
 /**
@@ -252,6 +261,43 @@
  * A dictionary of defined variables that will be replaced on the bundled code.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
+ */
+
+/**
+ * @typedef {Object} TargetDevServerSSLSettings
+ * @property {string} key
+ * The path to the SSL key (`.key`).
+ * @property {string} cert
+ * The path to the SSL certificate (`.crt`).
+ * @property {string} ca
+ * The path to the SSL public file (`.pem`).
+ */
+
+/**
+ * @typedef {Object} TargetDevServerProxiedSettings
+ * @property {boolean} enabled
+ * Whether or not the dev server is being proxied.
+ * @property {string} host
+ * The host used to proxy the dev server.
+ * @property {boolean} https
+ * Whether or not the proxied host uses `https`.
+ */
+
+/**
+ * @typedef {Object} TargetDevServerSettings
+ * @property {number} port
+ * The server port.
+ * @property {string} host
+ * The dev server hostname.
+ * @property {string} url
+ * The complete URL for the dev server.
+ * @property {boolean} reload
+ * Whether or not to reload the server when the code changes.
+ * @property {?TargetDevServerSSLSettings} ssl
+ * The paths to the files to enable SSL on the dev server.
+ * @property {?TargetDevServerProxiedSettings} [proxied]
+ * When the dev server is being proxied (using `nginx` for example), there are certain
+ * functionalities, like hot module replacement and live reload, that need to be aware of this.
  */
 
 /**
