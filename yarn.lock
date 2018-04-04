@@ -6821,9 +6821,9 @@ progress@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
 
-projext@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/projext/-/projext-3.0.0.tgz#e1cfc872f8342f9830266646ef755c4f31c5d024"
+projext@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/projext/-/projext-3.0.1.tgz#f9fc983073a3a80e8f225b56c9e15e80974fa6e3"
   dependencies:
     babel-cli "6.26.0"
     babel-core "6.26.0"
