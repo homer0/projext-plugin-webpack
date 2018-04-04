@@ -16,7 +16,7 @@ const {
   webpackMiddlewares,
 } = require('./services/server');
 
-const { name: pluginName } = require('../package.json');
+const { name } = require('../package.json');
 /**
  * This is the method called by projext when loading the plugin and it takes care of registering
  * the Webpack build engine service and all the other services the engine depends on.
@@ -30,8 +30,8 @@ const loadPlugin = (app) => {
    * the plugin and all its dependencies.
    */
   app.set('webpackDefaultExternals', () => [
-    `${pluginName}/express`,
-    `${pluginName}/jimpex`,
+    `${name}/express`,
+    `${name}/jimpex`,
   ]);
   // Register the main services of the build engine.
   app.register(webpackConfiguration);
