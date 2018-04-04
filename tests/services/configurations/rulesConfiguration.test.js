@@ -85,29 +85,33 @@ describe('services/configurations:rulesConfiguration', () => {
       use: scssUseWithModules,
     };
     // - - Rules
+    const scssInclude = [
+      new RegExp(target.folders.source),
+      ...target.includeModules.map(() => expect.any(RegExp)),
+    ];
     rules.scssRulesForBrowser = [{
       test: expect.any(RegExp),
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: scssInclude,
       use: extractResult,
     }];
     rules.scssRulesForBrowserWithInject = [{
       test: expect.any(RegExp),
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: scssInclude,
       use: scssUseWithInject,
     }];
     rules.scssRulesForBrowserWithModulesAndInject = [{
       test: expect.any(RegExp),
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: scssInclude,
       use: scssUseWithModulesAndInject,
     }];
     rules.scssRulesForNode = [{
       test: expect.any(RegExp),
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: scssInclude,
       use: scssUse,
     }];
     rules.scssRulesForNodeWithModules = [{
       test: expect.any(RegExp),
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: scssInclude,
       use: scssUseWithModules,
     }];
     // - CSS Rules
@@ -124,20 +128,24 @@ describe('services/configurations:rulesConfiguration', () => {
       use: cssUse,
     };
     // - - Rules
+    const cssInclude = [
+      new RegExp(target.folders.source),
+      ...target.includeModules.map(() => expect.any(RegExp)),
+    ];
     rules.cssRulesForBrowser = [{
       test: expect.any(RegExp),
       use: extractResult,
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: cssInclude,
     }];
     rules.cssRulesForBrowserWithInject = [{
       test: expect.any(RegExp),
       use: cssUseWithInject,
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: cssInclude,
     }];
     rules.cssRulesForNode = [{
       test: expect.any(RegExp),
       use: cssUse,
-      include: target.includeModules.map(() => expect.any(RegExp)),
+      include: cssInclude,
     }];
     // - HTML Rules
     rules.htmlRules = [{

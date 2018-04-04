@@ -163,7 +163,10 @@ class WebpackRulesConfiguration extends ConfigurationFile {
 
     const rules = [{
       test: /\.scss$/i,
-      include: target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
+      include: [
+        new RegExp(target.folders.source),
+        ...target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
+      ],
       use,
     }];
     // Reduce the rules.
@@ -209,7 +212,10 @@ class WebpackRulesConfiguration extends ConfigurationFile {
 
     const rules = [{
       test: /\.css$/i,
-      include: target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
+      include: [
+        new RegExp(target.folders.source),
+        ...target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
+      ],
       use,
     }];
     // Reduce the rules.
