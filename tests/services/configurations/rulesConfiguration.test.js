@@ -154,6 +154,7 @@ describe('services/configurations:rulesConfiguration', () => {
         test: expect.any(RegExp),
         include: [
           expect.any(RegExp),
+          expect.any(RegExp),
           ...target.includeModules.map(() => expect.any(RegExp)),
         ],
         use: [{
@@ -209,6 +210,7 @@ describe('services/configurations:rulesConfiguration', () => {
       {
         test: expect.any(RegExp),
         exclude: expect.arrayContaining([
+          expect.any(RegExp),
           expect.any(RegExp),
           expect.any(RegExp),
           ...target.includeModules.map(() => expect.any(RegExp)),
