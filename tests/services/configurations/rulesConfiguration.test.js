@@ -128,24 +128,17 @@ describe('services/configurations:rulesConfiguration', () => {
       use: cssUse,
     };
     // - - Rules
-    const cssInclude = [
-      new RegExp(target.folders.source),
-      ...target.includeModules.map(() => expect.any(RegExp)),
-    ];
     rules.cssRulesForBrowser = [{
       test: expect.any(RegExp),
       use: extractResult,
-      include: cssInclude,
     }];
     rules.cssRulesForBrowserWithInject = [{
       test: expect.any(RegExp),
       use: cssUseWithInject,
-      include: cssInclude,
     }];
     rules.cssRulesForNode = [{
       test: expect.any(RegExp),
       use: cssUse,
-      include: cssInclude,
     }];
     // - HTML Rules
     rules.htmlRules = [{

@@ -212,10 +212,6 @@ class WebpackRulesConfiguration extends ConfigurationFile {
 
     const rules = [{
       test: /\.css$/i,
-      include: [
-        new RegExp(target.folders.source),
-        ...target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
-      ],
       use,
     }];
     // Reduce the rules.
