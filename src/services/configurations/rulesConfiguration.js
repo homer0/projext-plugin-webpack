@@ -212,10 +212,6 @@ class WebpackRulesConfiguration extends ConfigurationFile {
 
     const rules = [{
       test: /\.css$/i,
-      include: [
-        new RegExp(target.folders.source),
-        ...target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
-      ],
       use,
     }];
     // Reduce the rules.
@@ -278,6 +274,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         // `.svg` files inside a `fonts` folder.
         test: /\.svg(\?(v=\d+\.\d+\.\d+|\w+))?$/,
         include: [
+          /\/node_modules\/(?:.*?\/)?fonts\/.*?/i,
           new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
           ...target.includeModules.map((modName) => (
             new RegExp(`/node_modules/${modName}/(?:.*?/)?fonts/.*?`)
@@ -370,6 +367,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
          */
         /favicon\.\w+$/i,
         // Exclude svg files that were identified as fonts.
+        /\/node_modules\/(?:.*?\/)?fonts\/.*?/i,
         new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
         // Exclude svg files that were identified as fonts on modules being processed.
         ...target.includeModules.map((modName) => (
