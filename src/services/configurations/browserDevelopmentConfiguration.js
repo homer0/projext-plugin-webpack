@@ -199,7 +199,10 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
 
     // Reduce the configuration
     return this.events.reduce(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       config,
       params
     );

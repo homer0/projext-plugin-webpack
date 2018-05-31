@@ -93,7 +93,10 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
     };
     // Reduce the configuration.
     return this.events.reduce(
-      'webpack-node-production-configuration',
+      [
+        'webpack-node-production-configuration',
+        'webpack-node-configuration',
+      ],
       config,
       params
     );

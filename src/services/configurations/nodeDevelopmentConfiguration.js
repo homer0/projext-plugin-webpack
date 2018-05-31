@@ -105,7 +105,10 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
     };
     // Reduce the configuration.
     return this.events.reduce(
-      'webpack-node-development-configuration',
+      [
+        'webpack-node-development-configuration',
+        'webpack-node-configuration',
+      ],
       config,
       params
     );

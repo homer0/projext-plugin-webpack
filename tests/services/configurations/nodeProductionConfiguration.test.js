@@ -118,7 +118,10 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     );
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-node-production-configuration',
+      [
+        'webpack-node-production-configuration',
+        'webpack-node-configuration',
+      ],
       expectedConfig,
       params
     );

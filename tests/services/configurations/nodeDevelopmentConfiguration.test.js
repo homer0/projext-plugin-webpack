@@ -124,7 +124,10 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     .toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-node-development-configuration',
+      [
+        'webpack-node-development-configuration',
+        'webpack-node-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -202,7 +205,10 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     );
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-node-development-configuration',
+      [
+        'webpack-node-development-configuration',
+        'webpack-node-configuration',
+      ],
       expectedConfig,
       params
     );

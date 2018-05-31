@@ -148,7 +148,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-production-configuration',
+      [
+        'webpack-browser-production-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -241,7 +244,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-production-configuration',
+      [
+        'webpack-browser-production-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -321,7 +327,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(CompressionPlugin).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-production-configuration',
+      [
+        'webpack-browser-production-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -401,7 +410,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-production-configuration',
+      [
+        'webpack-browser-production-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
