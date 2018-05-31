@@ -1,6 +1,5 @@
 const mocks = {
   webpackNodeUtilsRunner: jest.fn(),
-  externals: jest.fn(() => 'externals-mock-result'),
   hotModuleReplacementPlugin: jest.fn(),
 };
 
@@ -20,6 +19,5 @@ class WebpackNodeUtilsRunnerMock {
 module.exports = {
   WebpackNodeUtilsRunner: WebpackNodeUtilsRunnerMock,
   WebpackNodeUtilsRunnerMockMock: mocks.webpackNodeUtilsRunner,
-  externals: mocks.externals,
   reset,
 };

@@ -25,14 +25,20 @@ const { name } = require('../package.json');
  */
 const loadPlugin = (app) => {
   /**
-   * These will be used when defining the external dependencies of a Node target. Since their names
-   * don't match a dependency of the `package.json`, if not defined, webpack would try to bundle
-   * the plugin and all its dependencies.
+   * This define the basic information of the plugin for other services to use:
+   * - The name of the plugin.
+   * - Where the `webpack.config.js` file is located.
+   * - The subpaths the plugin expose. Since they won't match a dependency on the `package.json`,
+   *   a Node target may want to include them while bundling.
    */
-  app.set('webpackDefaultExternals', () => [
-    `${name}/express`,
-    `${name}/jimpex`,
-  ]);
+  app.set('webpackPluginInfo', () => ({
+    name,
+    configuration: 'src/webpack.config.js',
+    external: [
+      'express',
+      'jimpex',
+    ],
+  }));
   // Register the main services of the build engine.
   app.register(webpackConfiguration);
   app.register(webpackBuildEngine);

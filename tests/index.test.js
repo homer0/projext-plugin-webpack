@@ -24,12 +24,16 @@ describe('plugin:projextWebpack', () => {
     [[, externalsFunction]] = app.set.mock.calls;
     result = externalsFunction();
     // Then
-    expect(result).toEqual([
-      `${pluginName}/express`,
-      `${pluginName}/jimpex`,
-    ]);
+    expect(result).toEqual({
+      name: pluginName,
+      configuration: 'src/webpack.config.js',
+      external: [
+        'express',
+        'jimpex',
+      ],
+    });
     expect(app.set).toHaveBeenCalledTimes(1);
-    expect(app.set).toHaveBeenCalledWith('webpackDefaultExternals', expect.any(Function));
+    expect(app.set).toHaveBeenCalledWith('webpackPluginInfo', expect.any(Function));
     expect(app.register).toHaveBeenCalledTimes([
       'webpackConfiguration',
       'webpackBuildEngine',

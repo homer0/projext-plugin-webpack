@@ -12,11 +12,13 @@ class WebpackBuildEngine {
    *                                                    method.
    * @param {Targets}              targets              To get a target information.
    * @param {WebpackConfiguration} webpackConfiguration To generate a configuration for a target.
+   * @param {WebpackPluginInfo}    webpackPluginInfo    To get the path to the configuration file.
    */
   constructor(
     environmentUtils,
     targets,
-    webpackConfiguration
+    webpackConfiguration,
+    webpackPluginInfo
   ) {
     /**
      * A local reference for the `environmentUtils` service.
@@ -33,6 +35,11 @@ class WebpackBuildEngine {
      * @type {WebpackConfiguration}
      */
     this.webpackConfiguration = webpackConfiguration;
+    /**
+     * A local reference for the plugin information.
+     * @type {WebpackPluginInfo}
+     */
+    this.webpackPluginInfo = webpackPluginInfo;
     /**
      * A dictionary of environment variables the service will include on the CLI command and\
      * that will be retrieved when generating the configuration.
@@ -66,8 +73,9 @@ class WebpackBuildEngine {
     });
 
     const config = path.join(
-      'node_modules/projext-plugin-webpack',
-      'src/webpack.config.js'
+      'node_modules',
+      this.webpackPluginInfo.name,
+      this.webpackPluginInfo.configuration
     );
 
     const options = [
@@ -156,7 +164,8 @@ const webpackBuildEngine = provider((app) => {
   app.set('webpackBuildEngine', () => new WebpackBuildEngine(
     app.get('environmentUtils'),
     app.get('targets'),
-    app.get('webpackConfiguration')
+    app.get('webpackConfiguration'),
+    app.get('webpackPluginInfo')
   ));
 });
 
