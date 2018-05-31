@@ -6821,9 +6821,9 @@ progress@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
 
-projext@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/projext/-/projext-3.0.5.tgz#95f5549d0abceb3d4cddfec247e24d80f173e0c2"
+projext@^4.0.0-beta.3:
+  version "4.0.0-beta.3"
+  resolved "http://local.npm/projext/-/projext-4.0.0-beta.3.tgz#110ffb9e84bf0f2982ef49621854c8133f591815"
   dependencies:
     babel-cli "6.26.0"
     babel-core "6.26.0"
@@ -6844,7 +6844,7 @@ projext@^3.0.5:
     prompt "1.0.0"
     shelljs "0.8.1"
     watchpack "1.4.0"
-    wootils "^1.1.2"
+    wootils "^1.2.0"
 
 promise-inflight@^1.0.1:
   version "1.0.1"
@@ -9059,6 +9059,16 @@ winston@2.1.x:
 wootils@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/wootils/-/wootils-1.1.2.tgz#85ce12644b8cf261232a05fad23b1a6d492c731d"
+  dependencies:
+    colors "1.1.2"
+    fs-extra "5.0.0"
+    jimple "1.5.0"
+    statuses "1.4.0"
+    urijs "1.19.0"
+
+wootils@^1.2.0:
+  version "1.2.0"
+  resolved "http://local.npm/wootils/-/wootils-1.2.0.tgz#b2d89e07c78dd999a010f9756f13a612b3f6a2b1"
   dependencies:
     colors "1.1.2"
     fs-extra "5.0.0"
