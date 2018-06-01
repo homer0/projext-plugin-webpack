@@ -38,7 +38,9 @@
       "source-map-loader": "0.2.3",
 
       "webpack-dev-middleware": "2.0.4",
-      "webpack-hot-middleware": "2.21.0"
+      "webpack-hot-middleware": "2.21.0",
+
+      "opener": "1.4.3"
     },
     "devDependencies": {
       "eslint": "4.16.0",
