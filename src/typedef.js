@@ -64,6 +64,16 @@
  */
 
 /**
+ * @external {TargetsFileRules}
+ * https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html
+ */
+
+/**
+ * @external {TargetFileRules}
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules
+ */
+
+/**
  * @external {TargetsHTML}
  * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html
  */
@@ -167,6 +177,8 @@
  * @typedef {Object} WebpackConfigurationParams
  * @property {Target} target
  * The target information.
+ * @property {TargetFileRules} targetRules
+ * The rules to find the different file types a target may use.
  * @property {Object} entry
  * A dictionary with the `entry` setting for a webpack configuration, generated with the target
  * information.

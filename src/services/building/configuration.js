@@ -11,6 +11,7 @@ class WebpackConfiguration {
    * @param {BuildVersion}               buildVersion          To load the project version.
    * @param {PathUtils}                  pathUtils             To generate the Webpack paths.
    * @param {Targets}                    targets               To get the target information.
+   * @param {TargetsFileRules}           targetsFileRules      To get the file rules of the target.
    * @param {TargetConfigurationCreator} targetConfiguration   To create an overwrite
    *                                                           configuration for the target.
    * @param {WebpackConfigurations}      webpackConfigurations A dictionary of configurations
@@ -20,6 +21,7 @@ class WebpackConfiguration {
     buildVersion,
     pathUtils,
     targets,
+    targetsFileRules,
     targetConfiguration,
     webpackConfigurations
   ) {
@@ -38,6 +40,11 @@ class WebpackConfiguration {
      * @type {Targets}
      */
     this.targets = targets;
+    /**
+     * A local reference for the `targetsFileRules` service.
+     * @type {TargetsFileRules}
+     */
+    this.targetsFileRules = targetsFileRules;
     /**
      * A local reference for the `targetConfiguration` function service.
      * @type {TargetConfigurationCreator}
@@ -120,6 +127,7 @@ class WebpackConfiguration {
 
     const params = {
       target,
+      targetRules: this.targetsFileRules.getRulesForTarget(target),
       entry: {
         [target.name]: entries,
       },
@@ -172,6 +180,7 @@ const webpackConfiguration = provider((app) => {
       app.get('buildVersion'),
       app.get('pathUtils'),
       app.get('targets'),
+      app.get('targetsFileRules'),
       app.get('targetConfiguration'),
       webpackConfigurations
     );
