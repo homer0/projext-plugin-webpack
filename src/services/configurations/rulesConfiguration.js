@@ -72,6 +72,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
   _getJSRules(params) {
     const { target, targetRules } = params;
@@ -111,6 +113,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
   _getSCSSRules(params) {
     const { target, targetRules } = params;
@@ -191,6 +195,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
   _getCSSRules(params) {
     const { target, targetRules } = params;
@@ -243,7 +249,9 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
-   * @todo This should probably use the `html-loader`
+   * @todo This should probably use the `html-loader`.
+   * @access protected
+   * @ignore
    */
   _getHTMLRules(params) {
     const rules = [{
@@ -275,8 +283,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
-   * @todo Check if `mimetype` is supported by the file loader and if there isn't a better loader
-   *       for handling fonts than the `file-loader`.
+   * @access protected
+   * @ignore
    */
   _getFontsRules(params) {
     const { target, targetRules, output: { fonts: name } } = params;
@@ -331,6 +339,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
   _getImagesRules(params) {
     const { target, targetRules, output: { images: name } } = params;
@@ -394,6 +404,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
   _getFaviconsRules(params) {
     const { target, targetRules } = params;

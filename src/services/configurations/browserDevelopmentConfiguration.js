@@ -221,6 +221,8 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
    * completed with their default values.
    * @param {Target} target The target information.
    * @return {TargetDevServerSettings}
+   * @access protected
+   * @ignore
    */
   _normalizeTargetDevServerSettings(target) {
     // Get a new copy of the config to work with.

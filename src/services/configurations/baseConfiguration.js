@@ -97,6 +97,8 @@ class WebpackBaseConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Object}
+   * @access protected
+   * @ignore
    */
   _getExternalDependencies(params) {
     const { target, buildType } = params;

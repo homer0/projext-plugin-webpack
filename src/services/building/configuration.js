@@ -57,53 +57,6 @@ class WebpackConfiguration {
     this.webpackConfigurations = webpackConfigurations;
   }
   /**
-   * Get a dictionary of definitions that will be replaced on the generated bundle. This is done
-   * using the `webpack.DefinePlugin` plugin.
-   * @param {Target} target The target information.
-   * @param {string} env    The `NODE_ENV` to define.
-   * @return {Object}
-   */
-  getDefinitions(target, env) {
-    const definitions = {
-      'process.env.NODE_ENV': `'${env}'`,
-      [this.buildVersion.getDefinitionVariable()]: JSON.stringify(this.buildVersion.getVersion()),
-    };
-
-    if (
-      target.is.browser &&
-      target.configuration &&
-      target.configuration.enabled
-    ) {
-      definitions[target.configuration.defineOn] = JSON.stringify(
-        this.targets.getBrowserTargetConfiguration(target)
-      );
-    }
-
-    return definitions;
-  }
-  /**
-   * In case the target is a library, this method will be called in order to get the extra output
-   * settings webpack needs.
-   * @param {Target} target The target information.
-   * @return {Object}
-   */
-  getLibraryOptions(target) {
-    const { libraryOptions } = target;
-    // Create the object for webpack.
-    const newOptions = Object.assign({
-      libraryTarget: 'commonjs2',
-    }, libraryOptions);
-
-    // Remove any option unsupported by the webpack schema
-    [
-      'compress',
-    ].forEach((invalidOption) => {
-      delete newOptions[invalidOption];
-    });
-
-    return newOptions;
-  }
-  /**
    * This method generates a complete Webpack configuration for a target.
    * @param {Target} target    The target information.
    * @param {string} buildType The intended build type: `production` or `development`.
@@ -131,7 +84,7 @@ class WebpackConfiguration {
       entry: {
         [target.name]: entries,
       },
-      definitions: this.getDefinitions(target, buildType),
+      definitions: this._getDefinitions(target, buildType),
       output: target.output[buildType],
       buildType,
     };
@@ -147,10 +100,61 @@ class WebpackConfiguration {
     config.output.path = this.pathUtils.join(config.output.path);
 
     if (target.library) {
-      config.output = extend(true, {}, config.output, this.getLibraryOptions(target));
+      config.output = extend(true, {}, config.output, this._getLibraryOptions(target));
     }
 
     return config;
+  }
+  /**
+   * Get a dictionary of definitions that will be replaced on the generated bundle. This is done
+   * using the `webpack.DefinePlugin` plugin.
+   * @param {Target} target The target information.
+   * @param {string} env    The `NODE_ENV` to define.
+   * @return {Object}
+   * @access protected
+   * @ignore
+   */
+  _getDefinitions(target, env) {
+    const definitions = {
+      'process.env.NODE_ENV': `'${env}'`,
+      [this.buildVersion.getDefinitionVariable()]: JSON.stringify(this.buildVersion.getVersion()),
+    };
+
+    if (
+      target.is.browser &&
+      target.configuration &&
+      target.configuration.enabled
+    ) {
+      definitions[target.configuration.defineOn] = JSON.stringify(
+        this.targets.getBrowserTargetConfiguration(target)
+      );
+    }
+
+    return definitions;
+  }
+  /**
+   * In case the target is a library, this method will be called in order to get the extra output
+   * settings webpack needs.
+   * @param {Target} target The target information.
+   * @return {Object}
+   * @access protected
+   * @ignore
+   */
+  _getLibraryOptions(target) {
+    const { libraryOptions } = target;
+    // Create the object for webpack.
+    const newOptions = Object.assign({
+      libraryTarget: 'commonjs2',
+    }, libraryOptions);
+
+    // Remove any option unsupported by the webpack schema
+    [
+      'compress',
+    ].forEach((invalidOption) => {
+      delete newOptions[invalidOption];
+    });
+
+    return newOptions;
   }
 }
 /**
