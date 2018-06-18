@@ -41,7 +41,7 @@ class WebpackBuildEngine {
      */
     this.webpackPluginInfo = webpackPluginInfo;
     /**
-     * A dictionary of environment variables the service will include on the CLI command and\
+     * A dictionary of environment variables the service will include on the CLI command and
      * that will be retrieved when generating the configuration.
      * The keys are the purpose and the values the actual names of the variables.
      * @type {Object}

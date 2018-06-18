@@ -84,11 +84,6 @@
  */
 
 /**
- * @external {BrowserTarget}
- * https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget
- */
-
-/**
  * @external {TargetConfigurationCreator}
  * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator
  */
@@ -151,17 +146,14 @@
  * @typedef {Object} WebpackConfigurationTargetOutput
  * @property {string} js
  * The filename format and path for the bundle, on the distribution directory.
- * @property {?string} css
+ * @property {string} css
  * The filename format and path for the generated stylesheet, on the distribution directory.
- * This path is only available for {@link BrowserTarget}s
- * @property {?string} images
+ * @property {string} images
  * The filename format and path for the images that are going to be copied to the distribution
  * directory.
- * This path is only available for {@link BrowserTarget}s
- * @property {?string} fonts
+ * @property {string} fonts
  * The filename format and path for the font files that are going to be copied to the distribution
  * directory.
- * This path is only available for {@link BrowserTarget}s
  */
 
 /**

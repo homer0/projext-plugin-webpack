@@ -54,7 +54,7 @@ class WebpackMiddlewares {
      */
     this._fileSystemsReady = {};
     /**
-     * A dictionary of deffered promises the service uses to return when asked for a file system
+     * A dictionary of deferred promises the service uses to return when asked for a file system
      * while its middleware hasn't finished compiling.
      * It uses the targets names as the keys.
      * @type {Object}

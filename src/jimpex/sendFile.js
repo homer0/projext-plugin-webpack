@@ -1,6 +1,6 @@
 const { provider } = require('jimple');
 /**
- * This service overwrites the `Jimpex` default `sendFile` so it will read the `frontendFs` service
+ * This service overwrites the `Jimpex` default `sendFile` so it will use the `frontendFs` service
  * to reads the file contents, thus using the virtual file system from the Webpack middleware.
  */
 class WebpackSendFile {
@@ -41,7 +41,7 @@ class WebpackSendFile {
 }
 /**
  * The service provider that once registered on the app container will set
- * `WebpackSendFile.sendFile` as the `sendFIle` service.
+ * `WebpackSendFile.sendFile` as the `sendFile` service.
  * @example
  * // Register it on the container
  * container.register(sendFile);
