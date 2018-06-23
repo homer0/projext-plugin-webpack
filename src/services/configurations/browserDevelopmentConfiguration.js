@@ -153,21 +153,8 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         port: devServerConfig.port,
         inline: !!devServerConfig.reload,
         open: false,
+        historyApiFallback: devServerConfig.historyApiFallback,
       };
-      /**
-       * This setting is specific to the webpack dev server and it allows web apps that use
-       * the history API to fallback to the server's root in case the app is loaded on a sub
-       * route, that way the custom routing can redirect the user.
-       * This is not yet documented on the projext configuration because I'm not entirely sure
-       * other dev servers can support it that easily, so for the moment if will be like a
-       * _"hidden option"_ for this plugin; While implementing the next build engine I'll go
-       * back and either document it as special setting for this plugin or adding to the
-       * projext main configuration.
-       * @todo Validate historyApiFallback
-       */
-      if (devServerConfig.historyApiFallback) {
-        config.devServer.historyApiFallback = devServerConfig.historyApiFallback;
-      }
       // If the configuration has a custom host, set it.
       if (devServerConfig.host !== 'localhost') {
         config.devServer.host = devServerConfig.host;
