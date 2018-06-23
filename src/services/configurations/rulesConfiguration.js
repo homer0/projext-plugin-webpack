@@ -243,7 +243,6 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
-   * @todo This should probably use the `html-loader`.
    * @access protected
    * @ignore
    */
