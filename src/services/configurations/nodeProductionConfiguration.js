@@ -67,6 +67,7 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
         // Avoid getting an empty `__dirname`.
         __dirname: false,
       },
+      mode: 'production',
     };
     // Reduce the configuration.
     return this.events.reduce(

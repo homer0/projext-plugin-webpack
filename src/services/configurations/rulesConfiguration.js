@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
 /**
@@ -9,7 +9,7 @@ const ConfigurationFile = require('../../abstracts/configurationFile');
 class WebpackRulesConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {BabelConfiguration} babelConfiguration Used to configure the `babel-loader`.
+   * @param {BabelConfiguration} babelConfiguration   Used to configure the `babel-loader`.
    * @param {Events}             events               To reduce each set of rules and the entire
    *                                                  configuration.
    * @param {PathUtils}          pathUtils            Required by `ConfigurationFile` in order to
@@ -133,7 +133,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     }
 
     let eventName = 'webpack-scss-rules-configuration-for-node';
-    let use = [
+    const use = [
       {
         loader: 'css-loader',
         query: cssLoaderConfig,
@@ -144,7 +144,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         options: {
           /**
            * This is necessary for the `resolve-url-loader` to be able to find and fix the
-           * relative paths for font files.
+           * relative paths for linked assets.
            */
           sourceMap: true,
           outputStyle: 'expanded',
@@ -159,11 +159,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         // ...add the style loader.
         use.unshift('style-loader');
       } else {
-        // ...otherwise, wrap the loaders on the plugin that creates a single stylesheet.
-        use = ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use,
-        });
+        // ...otherwise, push first the loader for th eplugin that creates a single stylesheet.
+        use.unshift(MiniCssExtractPlugin.loader);
       }
     }
 
@@ -202,7 +199,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     const { target, targetRules } = params;
     const cssRule = targetRules.css.getRule();
     let eventName = 'webpack-css-rules-configuration-for-node';
-    let use = [
+    const use = [
       'css-loader',
     ];
 
@@ -213,11 +210,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         // ...add the style loader.
         use.unshift('style-loader');
       } else {
-        // ...otherwise, wrap the loaders on the plugin that creates a single stylesheet.
-        use = ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use,
-        });
+        // ...otherwise, push first the loader for th eplugin that creates a single stylesheet.
+        use.unshift(MiniCssExtractPlugin.loader);
       }
     }
 

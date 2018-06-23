@@ -1,14 +1,15 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 const webpackMock = require('/tests/mocks/webpack.mock');
+const MiniCssExtractPluginMock = require('/tests/mocks/miniCssExtractPlugin.mock');
 const ConfigurationFileMock = require('/tests/mocks/configurationFile.mock');
 
 jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
+jest.mock('mini-css-extract-plugin', () => MiniCssExtractPluginMock);
 jest.mock('html-webpack-plugin');
 jest.mock('script-ext-html-webpack-plugin');
 jest.mock('compression-webpack-plugin');
-jest.mock('extract-text-webpack-plugin');
 jest.mock('uglifyjs-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('webpack');
@@ -18,7 +19,6 @@ require('jasmine-expect');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -31,7 +31,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
   beforeEach(() => {
     ConfigurationFileMock.reset();
     webpackMock.reset();
-    ExtractTextPlugin.mockReset();
+    MiniCssExtractPluginMock.reset();
     HtmlWebpackPlugin.mockReset();
     ScriptExtHtmlWebpackPlugin.mockReset();
     OptimizeCssAssetsPlugin.mockReset();
@@ -88,6 +88,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
     };
     const definitions = 'definitions';
     const entry = {
@@ -110,6 +111,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'production',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -124,8 +126,106 @@ describe('services/configurations:browserProductionConfiguration', () => {
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
+      target.html,
+      {
+        template: target.html.template,
+        inject: 'body',
+      }
+    ));
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
+      defaultAttribute: 'async',
+    });
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
+    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+      sourceMap: false,
+    });
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CompressionPlugin).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-browser-production-configuration',
+        'webpack-browser-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+  });
+
+  it('should create a configuration for a target that injects CSS', () => {
+    // Given
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {},
+      css: {
+        inject: true,
+      },
+    };
+    const definitions = 'definitions';
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      css: 'statics/css/build.css',
+    };
+    const params = {
+      target,
+      definitions,
+      entry,
+      output,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        publicPath: '/',
+      },
+      mode: 'production',
+      plugins: expect.any(Array),
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBrowserProductionConfiguration(
+      events,
+      pathUtils,
+      targetsHTML,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(0);
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -183,6 +283,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: {
         production: true,
       },
+      css: {},
     };
     const definitions = 'definitions';
     const entry = {
@@ -206,6 +307,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'production',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -220,8 +322,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -277,6 +381,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
     };
     const definitions = 'definitions';
     const entry = {
@@ -299,6 +404,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'production',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -313,8 +419,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
@@ -360,6 +468,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
     };
     const definitions = 'definitions';
     const entry = {
@@ -382,6 +491,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'production',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -396,8 +506,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);

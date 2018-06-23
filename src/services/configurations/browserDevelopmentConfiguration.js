@@ -1,7 +1,7 @@
 const extend = require('extend');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const opener = require('opener');
 const {
@@ -30,13 +30,18 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
    *                                                            target doesn't have one.
    * @param {WebpackBaseConfiguration} webpackBaseConfiguration The configuration this one will
    *                                                            extend.
+   * @param {WebpackPluginInfo}        webpackPluginInfo        To get the name of the plugin and
+   *                                                            use it on the webpack hook that
+   *                                                            logs the dev server URL when it
+   *                                                            finishes bundling.
    */
   constructor(
     appLogger,
     events,
     pathUtils,
     targetsHTML,
-    webpackBaseConfiguration
+    webpackBaseConfiguration,
+    webpackPluginInfo
   ) {
     super(
       pathUtils,
@@ -59,6 +64,11 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
      * @type {TargetsHTML}
      */
     this.targetsHTML = targetsHTML;
+    /**
+     * A local reference for the plugin information.
+     * @type {WebpackPluginInfo}
+     */
+    this.webpackPluginInfo = webpackPluginInfo;
     /**
      * Whether or not the browser was already opened.
      * @type {boolean}
@@ -87,7 +97,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       target,
       output,
     } = params;
-    // Define the basic stuff: entry and output.
+    // Define the basic stuff: entry, output and mode.
     const config = {
       entry: extend(true, {}, entry),
       output: {
@@ -95,6 +105,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
     };
     // If the target has source maps enabled...
     if (target.sourceMap.development) {
@@ -103,8 +114,6 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     }
     // Setup the plugins.
     config.plugins = [
-      // To push all the styles into one single file.
-      new ExtractTextPlugin(output.css),
       // To automatically inject the `script` tag on the target `html` file.
       new HtmlWebpackPlugin(Object.assign({}, target.html, {
         template: this.targetsHTML.getFilepath(target),
@@ -122,6 +131,17 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       new DefinePlugin(definitions),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
+      /**
+       * If the target doesn't inject the styles on runtime, add the plugin to push them all on
+       * a single file.
+       */
+      ...(
+        target.css.inject ?
+          [] :
+          [new MiniCssExtractPlugin({
+            filename: output.css,
+          })]
+      ),
     ];
     // Define a list of extra entries that may be need depending on the target HMR configuration.
     const hotEntries = [];
@@ -280,13 +300,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   _getDevServerPlugin(url, port) {
     return {
       apply: (compiler) => {
-        compiler.plugin('compile', () => {
+        const { name } = this.webpackPluginInfo;
+        compiler.hooks.compile.tap(`${name}-dev-server`, () => {
           this.appLogger.success(`Starting on port ${port}`);
           this.appLogger.info(url);
           this.appLogger.warning('waiting for Webpack...');
         });
-
-        compiler.plugin('done', () => {
+        compiler.hooks.done.tap(`${name}-dev-server`, () => {
           if (!this._devServerOpen) {
             this._devServerOpen = true;
             opener(url);
@@ -318,7 +338,8 @@ const webpackBrowserDevelopmentConfiguration = provider((app) => {
       app.get('events'),
       app.get('pathUtils'),
       app.get('targetsHTML'),
-      app.get('webpackBaseConfiguration')
+      app.get('webpackBaseConfiguration'),
+      app.get('webpackPluginInfo')
     )
   );
 });

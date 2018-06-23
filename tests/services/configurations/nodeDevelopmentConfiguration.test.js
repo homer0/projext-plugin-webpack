@@ -86,6 +86,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
         publicPath: '/',
       },
       watch: false,
+      mode: 'development',
       plugins: expect.any(Array),
       target: 'node',
       node: {
@@ -155,6 +156,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
         publicPath: '/',
       },
       watch: true,
+      mode: 'development',
       plugins: expect.any(Array),
       target: 'node',
       node: {

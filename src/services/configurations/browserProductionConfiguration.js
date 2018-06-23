@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { DefinePlugin } = require('webpack');
@@ -66,7 +66,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       target,
       output,
     } = params;
-    // Define the basic stuff: entry and output.
+    // Define the basic stuff: entry, output and mode.
     const config = {
       entry,
       output: {
@@ -74,6 +74,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'production',
     };
     // If the target has source maps enabled...
     if (target.sourceMap.production) {
@@ -81,8 +82,6 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     }
     // Setup the plugins.
     config.plugins = [
-      // To push all the styles into one single file.
-      new ExtractTextPlugin(output.css),
       // If the target is a library, it doesn't need HTML on production.
       ...(
         target.library ?
@@ -109,6 +108,17 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
       ...(!target.library || target.libraryOptions.compress ? [new CompressionPlugin()] : []),
+      /**
+       * If the target doesn't inject the styles on runtime, add the plugin to push them all on
+       * a single file.
+       */
+      ...(
+        target.css.inject ?
+          [] :
+          [new MiniCssExtractPlugin({
+            filename: output.css,
+          })]
+      ),
     ];
     // Reduce the configuration
     return this.events.reduce(
