@@ -1,5 +1,10 @@
 # projext plugin for webpack
 
+[![Travis](https://img.shields.io/travis/homer0/projext-plugin-webpack.svg?style=flat-square)](https://travis-ci.org/homer0/projext-plugin-webpack)
+[![Coveralls github](https://img.shields.io/coveralls/github/homer0/projext-plugin-webpack.svg?style=flat-square)](https://coveralls.io/github/homer0/projext-plugin-webpack?branch=master)
+[![David](https://img.shields.io/david/homer0/projext-plugin-webpack.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack)
+[![David](https://img.shields.io/david/dev/homer0/projext-plugin-webpack.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack)
+
 Allows [projext](https://yarnpkg.com/en/package/projext) to use [webpack](https://webpack.js.org) as a build engine.
 
 ## Introduction
@@ -402,19 +407,19 @@ Before doing anything, install the repository hooks:
 
 ```bash
 # You can either use npm or yarn, it doesn't matter
-npm run install-hooks
+yarn run hooks
 ```
 
 ### NPM/Yarn Tasks
 
 | Task                    | Description                         |
 |-------------------------|-------------------------------------|
-| `npm run install-hooks` | Install the GIT repository hooks.   |
-| `npm test`              | Run the project unit tests.         |
-| `npm run lint`          | Lint the modified files.            |
-| `npm run lint:full`     | Lint the project code.              |
-| `npm run docs`          | Generate the project documentation. |
-| `npm run todo`          | List all the pending to-do's.       |
+| `yarn run hooks`        | Install the GIT repository hooks.   |
+| `yarn test`             | Run the project unit tests.         |
+| `yarn run lint`         | Lint the modified files.            |
+| `yarn run lint:full`    | Lint the project code.              |
+| `yarn run docs`         | Generate the project documentation. |
+| `yarn run todo`         | List all the pending to-do's.       |
 
 ### Testing
 
