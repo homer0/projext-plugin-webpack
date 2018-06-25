@@ -18,7 +18,7 @@ const {
 
 const { name } = require('../package.json');
 /**
- * This is the method called by projext when loading the plugin and it takes care of registering
+ * This is the method called by projext when loading the plugin. It takes care of registering
  * the Webpack build engine service and all the other services the engine depends on.
  * @param {Projext} app The projext main container.
  * @ignore
@@ -43,7 +43,7 @@ const loadPlugin = (app) => {
   app.register(webpackConfiguration);
   app.register(webpackBuildEngine);
 
-  // Register the services for building the targets confirmations.
+  // Register the services for building the targets configurations.
   app.register(webpackBaseConfiguration);
   app.register(webpackBrowserDevelopmentConfiguration);
   app.register(webpackBrowserProductionConfiguration);
@@ -51,6 +51,7 @@ const loadPlugin = (app) => {
   app.register(webpackNodeDevelopmentConfiguration);
   app.register(webpackNodeProductionConfiguration);
 
+  // Register the service for server integration.
   app.register(webpackMiddlewares);
 };
 

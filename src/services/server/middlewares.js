@@ -54,7 +54,7 @@ class WebpackMiddlewares {
      */
     this._fileSystemsReady = {};
     /**
-     * A dictionary of deffered promises the service uses to return when asked for a file system
+     * A dictionary of deferred promises the service uses to return when asked for a file system
      * while its middleware hasn't finished compiling.
      * It uses the targets names as the keys.
      * @type {Object}
@@ -104,15 +104,15 @@ class WebpackMiddlewares {
     this._directories[targetToBuild] = this.targets.getTarget(targetToServe).paths.build;
     // Create the list of middlewares with just the dev middleware.
     const middlewares = [
-      () => this.devMiddleware(target),
+      () => this._devMiddleware(target),
     ];
     // If the target uses hot replacement...
     if (target.hot) {
       // ...pubsh the function that returns the hot middleware.
-      middlewares.push(() => this.hotMiddleware(target));
+      middlewares.push(() => this._hotMiddleware(target));
     }
     // Define the functions to get the file system promise and the middleware root directory.
-    const getFileSystem = () => this.fileSystem(target);
+    const getFileSystem = () => this._fileSystem(target);
     const getDirectory = () => this._directories[target.name];
 
     return {
@@ -125,26 +125,32 @@ class WebpackMiddlewares {
    * Get access to a target dev middleware.
    * @param {Target} target The target for which the middleware is.
    * @return {Middleware}
+   * @access protected
+   * @ignore
    */
-  devMiddleware(target) {
+  _devMiddleware(target) {
     return this._compile(target).devMiddleware;
   }
   /**
    * Get access to a target hot middleware.
    * @param {Target} target The target for which the middleware is.
    * @return {Middleware}
+   * @access protected
+   * @ignore
    */
-  hotMiddleware(target) {
+  _hotMiddleware(target) {
     return this._compile(target).hotMiddleware;
   }
   /**
    * Get access to a target dev middleware file system.
    * @param {Target} target The target owner of the middleware.
    * @return {Promise<FileSystem,Error>}
+   * @access protected
+   * @ignore
    */
-  fileSystem(target) {
+  _fileSystem(target) {
     return this._fileSystemsReady[target.name] ?
-      Promise.resolve(this._fileSystem(target)) :
+      Promise.resolve(this._getFileSystem(target)) :
       this._fileSystemsDeferreds[target.name].promise;
   }
   /**
@@ -152,9 +158,11 @@ class WebpackMiddlewares {
    * and returns its file system.
    * @param {Target} target The target owner of the middleware.
    * @return {FileSystem}
+   * @access protected
+   * @ignore
    */
-  _fileSystem(target) {
-    return this.devMiddleware(target).fileSystem;
+  _getFileSystem(target) {
+    return this._devMiddleware(target).fileSystem;
   }
   /**
    * This method gets called every time another method fromt the service needs to access a
@@ -172,8 +180,8 @@ class WebpackMiddlewares {
    *                                       by the target.
    * @property {string}      directory     The build directory of the target implementing the
    *                                       middleware.
-   * @ignore
    * @access protected
+   * @ignore
    */
   _compile(target) {
     if (!this._compiled.includes(target.name)) {
@@ -218,8 +226,8 @@ class WebpackMiddlewares {
    * the service know that the file system can accessed now.
    * @param {Target} target The target owner of the middleware.
    * @return {object} A webpack plugin.
-   * @ignore
    * @access protected
+   * @ignore
    */
   _getFileSystemStatusPlugin(target) {
     return {

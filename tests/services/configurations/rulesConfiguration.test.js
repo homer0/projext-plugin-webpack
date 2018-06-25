@@ -14,8 +14,51 @@ const {
 } = require('/src/services/configurations/rulesConfiguration');
 
 describe('services/configurations:rulesConfiguration', () => {
+  const getTargetRules = () => {
+    const fileTypes = [
+      'js',
+      'scss',
+      'css',
+      'fonts.common',
+      'fonts.svg',
+      'images',
+      'favicon',
+    ];
+
+    const targetRulesSettings = {};
+    const targetRules = {};
+    const targetRulesMocks = [];
+    fileTypes.forEach((type) => {
+      targetRulesSettings[type] = {
+        extension: `${type}-extension`,
+        files: {
+          include: [`${type}-include`],
+          exclude: [`${type}-exclude`],
+        },
+      };
+      const getRule = jest.fn(() => targetRulesSettings[type]);
+      targetRulesMocks.push(getRule);
+      const ruleInstance = { getRule };
+      if (type.includes('.')) {
+        const [typeName, subType] = type.split('.');
+        if (!targetRules[typeName]) {
+          targetRules[typeName] = {};
+        }
+        targetRules[typeName][subType] = ruleInstance;
+      } else {
+        targetRules[type] = ruleInstance;
+      }
+    });
+
+    return {
+      targetRules,
+      targetRulesSettings,
+      targetRulesMocks,
+    };
+  };
   const getExpectedRules = (
     target,
+    targetRulesSettings,
     babelConfig,
     extractResult = '',
     targetOutput = null
@@ -29,12 +72,9 @@ describe('services/configurations:rulesConfiguration', () => {
     const rules = {};
     // - JS Rules
     rules.jsRules = [{
-      test: expect.any(RegExp),
-      include: [
-        new RegExp(target.folders.source),
-        new RegExp('config'),
-        ...target.includeModules.map(() => expect.any(RegExp)),
-      ],
+      test: targetRulesSettings.js.extension,
+      include: targetRulesSettings.js.files.include,
+      exclude: targetRulesSettings.js.files.exclude,
       use: [{
         loader: 'babel-loader',
         options: babelConfig,
@@ -85,33 +125,34 @@ describe('services/configurations:rulesConfiguration', () => {
       use: scssUseWithModules,
     };
     // - - Rules
-    const scssInclude = [
-      new RegExp(target.folders.source),
-      ...target.includeModules.map(() => expect.any(RegExp)),
-    ];
     rules.scssRulesForBrowser = [{
-      test: expect.any(RegExp),
-      include: scssInclude,
+      test: targetRulesSettings.scss.extension,
+      include: targetRulesSettings.scss.files.include,
+      exclude: targetRulesSettings.scss.files.exclude,
       use: extractResult,
     }];
     rules.scssRulesForBrowserWithInject = [{
-      test: expect.any(RegExp),
-      include: scssInclude,
+      test: targetRulesSettings.scss.extension,
+      include: targetRulesSettings.scss.files.include,
+      exclude: targetRulesSettings.scss.files.exclude,
       use: scssUseWithInject,
     }];
     rules.scssRulesForBrowserWithModulesAndInject = [{
-      test: expect.any(RegExp),
-      include: scssInclude,
+      test: targetRulesSettings.scss.extension,
+      include: targetRulesSettings.scss.files.include,
+      exclude: targetRulesSettings.scss.files.exclude,
       use: scssUseWithModulesAndInject,
     }];
     rules.scssRulesForNode = [{
-      test: expect.any(RegExp),
-      include: scssInclude,
+      test: targetRulesSettings.scss.extension,
+      include: targetRulesSettings.scss.files.include,
+      exclude: targetRulesSettings.scss.files.exclude,
       use: scssUse,
     }];
     rules.scssRulesForNodeWithModules = [{
-      test: expect.any(RegExp),
-      include: scssInclude,
+      test: targetRulesSettings.scss.extension,
+      include: targetRulesSettings.scss.files.include,
+      exclude: targetRulesSettings.scss.files.exclude,
       use: scssUseWithModules,
     }];
     // - CSS Rules
@@ -129,15 +170,21 @@ describe('services/configurations:rulesConfiguration', () => {
     };
     // - - Rules
     rules.cssRulesForBrowser = [{
-      test: expect.any(RegExp),
+      test: targetRulesSettings.css.extension,
+      include: targetRulesSettings.css.files.include,
+      exclude: targetRulesSettings.css.files.exclude,
       use: extractResult,
     }];
     rules.cssRulesForBrowserWithInject = [{
-      test: expect.any(RegExp),
+      test: targetRulesSettings.css.extension,
+      include: targetRulesSettings.css.files.include,
+      exclude: targetRulesSettings.css.files.exclude,
       use: cssUseWithInject,
     }];
     rules.cssRulesForNode = [{
-      test: expect.any(RegExp),
+      test: targetRulesSettings.css.extension,
+      include: targetRulesSettings.css.files.include,
+      exclude: targetRulesSettings.css.files.exclude,
       use: cssUse,
     }];
     // - HTML Rules
@@ -151,52 +198,20 @@ describe('services/configurations:rulesConfiguration', () => {
     // - Fonts Rules
     rules.fontsRules = [
       {
-        test: expect.any(RegExp),
-        include: [
-          expect.any(RegExp),
-          expect.any(RegExp),
-          ...target.includeModules.map(() => expect.any(RegExp)),
-        ],
+        test: targetRulesSettings['fonts.common'].extension,
+        include: targetRulesSettings['fonts.common'].files.include,
+        exclude: targetRulesSettings['fonts.common'].files.exclude,
         use: [{
           loader: 'file-loader',
           options: {
             name: output.fonts,
-            mimetype: 'image/svg+xml',
           },
         }],
       },
       {
-        test: expect.any(RegExp),
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: output.fonts,
-            mimetype: 'application/font-woff',
-          },
-        }],
-      },
-      {
-        test: expect.any(RegExp),
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: output.fonts,
-            mimetype: 'application/font-woff',
-          },
-        }],
-      },
-      {
-        test: expect.any(RegExp),
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: output.fonts,
-            mimetype: 'application/octet-stream',
-          },
-        }],
-      },
-      {
-        test: expect.any(RegExp),
+        test: targetRulesSettings['fonts.svg'].extension,
+        include: targetRulesSettings['fonts.svg'].files.include,
+        exclude: targetRulesSettings['fonts.svg'].files.exclude,
         use: [{
           loader: 'file-loader',
           options: {
@@ -208,19 +223,14 @@ describe('services/configurations:rulesConfiguration', () => {
     // - Images Rules
     rules.imagesRules = [
       {
-        test: expect.any(RegExp),
-        exclude: expect.arrayContaining([
-          expect.any(RegExp),
-          expect.any(RegExp),
-          expect.any(RegExp),
-          ...target.includeModules.map(() => expect.any(RegExp)),
-        ]),
+        test: targetRulesSettings.images.extension,
+        include: targetRulesSettings.images.files.include,
+        exclude: targetRulesSettings.images.files.exclude,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: output.images,
-              digest: 'hex',
             },
           },
           {
@@ -233,14 +243,14 @@ describe('services/configurations:rulesConfiguration', () => {
     // - Favicon Rules
     rules.faviconRules = [
       {
-        test: expect.any(RegExp),
-        include: expect.any(RegExp),
+        test: targetRulesSettings.favicon.extension,
+        include: targetRulesSettings.favicon.files.include,
+        exclude: targetRulesSettings.favicon.files.exclude,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              digest: 'hex',
             },
           },
           {
@@ -296,9 +306,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventNames, rules) => rules),
     };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
+    const pathUtils = 'pathUtils';
     const projectConfiguration = 'projectConfiguration';
     const targetName = 'some-target';
     const target = {
@@ -316,12 +324,18 @@ describe('services/configurations:rulesConfiguration', () => {
         browser: false,
       },
     };
+    const {
+      targetRules,
+      targetRulesSettings,
+      targetRulesMocks,
+    } = getTargetRules();
     const params = {
       target,
+      targetRules,
       version,
       output,
     };
-    const expectedRules = getExpectedRules(target, babelConfig, '', output);
+    const expectedRules = getExpectedRules(target, targetRulesSettings, babelConfig, '', output);
     let sut = null;
     let result = null;
     // When
@@ -420,8 +434,9 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith('config');
+    targetRulesMocks.forEach((targetRuleMock) => {
+      expect(targetRuleMock).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should return the rules for a node target that uses CSS Modules', () => {
@@ -438,9 +453,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
+    const pathUtils = 'pathUtils';
     const projectConfiguration = 'projectConfiguration';
     const targetName = 'some-target';
     const target = {
@@ -460,12 +473,14 @@ describe('services/configurations:rulesConfiguration', () => {
         browser: false,
       },
     };
+    const { targetRules, targetRulesSettings } = getTargetRules();
     const params = {
       target,
+      targetRules,
       version,
       output,
     };
-    const expectedRules = getExpectedRules(target, babelConfig, '', output);
+    const expectedRules = getExpectedRules(target, targetRulesSettings, babelConfig, '', output);
     let sut = null;
     let result = null;
     // When
@@ -564,8 +579,6 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith('config');
   });
 
   it('should return the rules for a browser target', () => {
@@ -584,9 +597,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
+    const pathUtils = 'pathUtils';
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -603,12 +614,15 @@ describe('services/configurations:rulesConfiguration', () => {
         browser: true,
       },
     };
+    const { targetRules, targetRulesSettings } = getTargetRules();
     const params = {
       target,
+      targetRules,
       output,
     };
     const expectedRules = getExpectedRules(
       target,
+      targetRulesSettings,
       babelConfig,
       extractResult,
       output
@@ -711,8 +725,6 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith('config');
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
     expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.scssExtractOptions);
     expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
@@ -734,11 +746,8 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
+    const pathUtils = 'pathUtils';
     const targetName = 'some-target';
-    const includeModules = ['wootils', 'projext'];
     const target = {
       name: targetName,
       folders: {
@@ -748,18 +757,21 @@ describe('services/configurations:rulesConfiguration', () => {
         source: '/absolute/src/target',
       },
       css: {},
-      includeModules,
+      includeModules: ['wootils', 'projext'],
       is: {
         node: false,
         browser: true,
       },
     };
+    const { targetRules, targetRulesSettings } = getTargetRules();
     const params = {
       target,
+      targetRules,
       output,
     };
     const expectedRules = getExpectedRules(
       target,
+      targetRulesSettings,
       babelConfig,
       extractResult,
       output
@@ -778,9 +790,6 @@ describe('services/configurations:rulesConfiguration', () => {
     expressions = expressions.slice();
     expressions.splice(0, ['target source', 'configurations'].length);
     // Then
-    includeModules.forEach((moduleName, index) => {
-      expect(`/node_modules/${moduleName}`).toMatch(expressions[index]);
-    });
     expect(result).toEqual({
       rules: expect.any(Array),
     });
@@ -868,8 +877,6 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith('config');
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
     expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.scssExtractOptions);
     expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
@@ -891,9 +898,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
+    const pathUtils = 'pathUtils';
     const projectConfiguration = {
       paths: {
         output: {
@@ -920,12 +925,15 @@ describe('services/configurations:rulesConfiguration', () => {
         browser: true,
       },
     };
+    const { targetRules, targetRulesSettings } = getTargetRules();
     const params = {
       target,
+      targetRules,
       output,
     };
     const expectedRules = getExpectedRules(
       target,
+      targetRulesSettings,
       babelConfig,
       extractResult,
       output
@@ -1029,8 +1037,6 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith('config');
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
     expect(ExtractTextPlugin.extract)
     .toHaveBeenCalledWith(expectedRules.scssExtractOptionsWithModules);
@@ -1050,9 +1056,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
+    const pathUtils = 'pathUtils';
     const projectConfiguration = {
       paths: {
         output: {
@@ -1079,12 +1083,15 @@ describe('services/configurations:rulesConfiguration', () => {
         browser: true,
       },
     };
+    const { targetRules, targetRulesSettings } = getTargetRules();
     const params = {
       target,
+      targetRules,
       output,
     };
     const expectedRules = getExpectedRules(
       target,
+      targetRulesSettings,
       babelConfig,
       '',
       output
@@ -1188,8 +1195,6 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith('config');
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(0);
   });
 
@@ -1206,9 +1211,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
+    const pathUtils = 'pathUtils';
     const projectConfiguration = {
       paths: {
         output: {
@@ -1236,12 +1239,15 @@ describe('services/configurations:rulesConfiguration', () => {
         browser: true,
       },
     };
+    const { targetRules, targetRulesSettings } = getTargetRules();
     const params = {
       target,
+      targetRules,
       output,
     };
     const expectedRules = getExpectedRules(
       target,
+      targetRulesSettings,
       babelConfig,
       '',
       output
@@ -1345,8 +1351,6 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith('config');
     expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(0);
   });
 

@@ -6,16 +6,6 @@ Allows [projext](https://yarnpkg.com/en/package/projext) to use [webpack](https:
 
 [projext](https://yarnpkg.com/en/package/projext) allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin allows you to bundle your projext project targets using [webpack](https://webpack.js.org).
 
-### Node targets
-
-- It only handles Javascript files.
-- It uses [`webpack-node-utils`](https://yarnpkg.com/en/package/webpack-node-utils) to execute the target.
-
-### Browser targets
-
-- It handles Javascript files, stylesheets (CSS and SCSS), images, favicons and fonts.
-- It uses the [`webpack-dev-server`](https://yarnpkg.com/en/package/webpack-dev-server) to run the target.
-
 ## Information
 
 | -            | -                                                                             |
@@ -122,9 +112,11 @@ They can be easily extended/overwritten by creating a file on your project with 
 All the configurations receive a single object parameter with the following properties:
 
 - `target`: It has all the information for the target being bundled.
+- `targetRules`: The rules to find the target files on the file system.
 - `entry`: A dictionary with the `entry` setting for a webpack configuration, generated with the target information.
 - `output`: A dictionary with the filenames formats and paths of the different files the bundle can generate (`js`, `css`, `images` and `fonts`).
 - `definitions`: A dictionary of defined variables that will be replaced on the bundled code.
+- `buildType`: The indented build type (`development` or `production`).
 
 #### Base configuration
 
