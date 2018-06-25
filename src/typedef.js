@@ -155,6 +155,15 @@
  */
 
 /**
+ * @typedef {Object} WebpackPluginInfo
+ * @property {string} name          The name of the plugin.
+ * @property {string} configuration The path to the `webpack.config.js` file.
+ * @property {Array}  external      The list of subpaths the plugin exposes and that should be
+ *                                  handled as external dependencies, in order to avoid bundling
+ *                                  them.
+ */
+
+/**
  * @typedef {Object} WebpackConfigurationParams
  * @property {Target} target
  * The target information.
