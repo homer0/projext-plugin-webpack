@@ -3,5 +3,6 @@
   "unmockedModulePathPatterns": ["/node_modules/", "/mocks/"],
   "coveragePathIgnorePatterns": ["/node_modules/", "/mocks/"],
   "collectCoverage": true,
-  "timers": "fake"
+  "timers": "fake",
+  "testEnvironment": "node"
 }
