@@ -79,6 +79,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'production',
       plugins: expect.any(Array),
       target: 'node',
       node: {

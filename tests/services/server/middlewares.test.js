@@ -29,18 +29,21 @@ describe('services/server:middlewares', () => {
     const events = 'events';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackMiddlewares(
       events,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackMiddlewares);
     expect(sut.events).toBe(events);
     expect(sut.targets).toBe(targets);
     expect(sut.webpackConfiguration).toBe(webpackConfiguration);
+    expect(sut.webpackPluginInfo).toBe(webpackPluginInfo);
   });
 
   it('should generate the middleware information object for a target', () => {
@@ -63,10 +66,11 @@ describe('services/server:middlewares', () => {
       getTarget: jest.fn((name) => targetsList[name]),
     };
     const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     // When
-    sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
+    sut = new WebpackMiddlewares(events, targets, webpackConfiguration, webpackPluginInfo);
     result = sut.generate(targetToBuild.name, targetToServe.name);
     // Then
     expect(result).toEqual({
@@ -113,12 +117,13 @@ describe('services/server:middlewares', () => {
     const webpackConfiguration = {
       getConfig: jest.fn(() => webpackConfig),
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     let middleware = null;
     let middlewareResult = null;
     // When
-    sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
+    sut = new WebpackMiddlewares(events, targets, webpackConfiguration, webpackPluginInfo);
     result = sut.generate(targetToBuild.name, targetToServe.name);
     [middleware] = result.middlewares;
     middlewareResult = middleware();
@@ -196,6 +201,7 @@ describe('services/server:middlewares', () => {
     const webpackConfiguration = {
       getConfig: jest.fn(() => webpackConfig),
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     let middleware = null;
@@ -203,7 +209,7 @@ describe('services/server:middlewares', () => {
     let middlewareHot = null;
     let middlewareHotResult = null;
     // When
-    sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
+    sut = new WebpackMiddlewares(events, targets, webpackConfiguration, webpackPluginInfo);
     result = sut.generate(targetToBuild.name, targetToServe.name);
     [middleware, middlewareHot] = result.middlewares;
     middlewareResult = middleware();
@@ -285,8 +291,15 @@ describe('services/server:middlewares', () => {
     const webpackConfiguration = {
       getConfig: jest.fn(() => webpackConfig),
     };
+    const webpackPluginInfo = {
+      name: 'my-plugin',
+    };
     const compiler = {
-      plugin: jest.fn((name, fn) => fn()),
+      hooks: {
+        done: {
+          tap: jest.fn((name, fn) => fn()),
+        },
+      },
     };
     let sut = null;
     let result = null;
@@ -296,7 +309,7 @@ describe('services/server:middlewares', () => {
     let middleware = null;
     let middlewareResult = null;
     // When
-    sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
+    sut = new WebpackMiddlewares(events, targets, webpackConfiguration, webpackPluginInfo);
     result = sut.generate(targetToBuild.name, targetToServe.name);
     getFileSystemFn = result.getFileSystem;
     [middleware] = result.middlewares;
@@ -310,8 +323,11 @@ describe('services/server:middlewares', () => {
       // Then
       expect(fileSystem).toBe(devMiddleware.fileSystem);
       expect(middlewareResult).toEqual(devMiddleware);
-      expect(compiler.plugin).toHaveBeenCalledTimes(1);
-      expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
+      expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
+      expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
+        `${webpackPluginInfo.name}-middleware`,
+        expect.any(Function)
+      );
       return getFileSystemFn();
     })
     .then((fileSystem) => {
@@ -359,12 +375,13 @@ describe('services/server:middlewares', () => {
     const webpackConfiguration = {
       getConfig: jest.fn(() => webpackConfig),
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     let directoryResult = null;
     let middleware = null;
     // When
-    sut = new WebpackMiddlewares(events, targets, webpackConfiguration);
+    sut = new WebpackMiddlewares(events, targets, webpackConfiguration, webpackPluginInfo);
     result = sut.generate(targetToBuild.name, targetToServe.name);
     [middleware] = result.middlewares;
     middleware();
@@ -393,5 +410,6 @@ describe('services/server:middlewares', () => {
     expect(sut.events).toBe('events');
     expect(sut.targets).toBe('targets');
     expect(sut.webpackConfiguration).toBe('webpackConfiguration');
+    expect(sut.webpackPluginInfo).toBe('webpackPluginInfo');
   });
 });

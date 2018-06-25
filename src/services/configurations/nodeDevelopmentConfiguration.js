@@ -81,6 +81,7 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
         // Avoid getting an empty `__dirname`.
         __dirname: false,
       },
+      mode: 'development',
     };
     // Reduce the configuration.
     return this.events.reduce(

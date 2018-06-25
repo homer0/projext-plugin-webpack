@@ -1,13 +1,13 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 const ConfigurationFileMock = require('/tests/mocks/configurationFile.mock');
+const MiniCssExtractPluginMock = require('/tests/mocks/miniCssExtractPlugin.mock');
 
 jest.mock('jimple', () => JimpleMock);
-jest.mock('extract-text-webpack-plugin');
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
+jest.mock('mini-css-extract-plugin', () => MiniCssExtractPluginMock);
 jest.unmock('/src/services/configurations/rulesConfiguration');
 
 require('jasmine-expect');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {
   WebpackRulesConfiguration,
   webpackRulesConfiguration,
@@ -60,9 +60,11 @@ describe('services/configurations:rulesConfiguration', () => {
     target,
     targetRulesSettings,
     babelConfig,
-    extractResult = '',
+    extractResult,
     targetOutput = null
   ) => {
+    // Set the mock for the Mini CSS extract
+    MiniCssExtractPluginMock.mocks.loader.mockImplementation(() => extractResult);
     // Define the dictionary of paths for the static files.
     const output = targetOutput || {
       images: expect.any(String),
@@ -81,7 +83,7 @@ describe('services/configurations:rulesConfiguration', () => {
       }],
     }];
     // - SCSS Rules
-    const scssUse = [
+    const scssUseBase = [
       {
         loader: 'css-loader',
         query: expect.any(Object),
@@ -92,11 +94,15 @@ describe('services/configurations:rulesConfiguration', () => {
         options: expect.any(Object),
       },
     ];
+    const scssUse = [
+      extractResult,
+      ...scssUseBase,
+    ];
     const scssUseWithInject = [
       'style-loader',
-      ...scssUse,
+      ...scssUseBase,
     ];
-    const scssUseWithModules = [
+    const scssUseBaseWithModules = [
       {
         loader: 'css-loader',
         query: {
@@ -111,25 +117,26 @@ describe('services/configurations:rulesConfiguration', () => {
         options: expect.any(Object),
       },
     ];
+    const scssUseWithModules = [
+      extractResult,
+      ...scssUseBaseWithModules,
+    ];
     const scssUseWithModulesAndInject = [
       'style-loader',
-      ...scssUseWithModules,
+      ...scssUseBaseWithModules,
     ];
-    // - - Extract options
-    rules.scssExtractOptions = {
-      fallback: expect.any(String),
-      use: scssUse,
-    };
-    rules.scssExtractOptionsWithModules = {
-      fallback: expect.any(String),
-      use: scssUseWithModules,
-    };
     // - - Rules
     rules.scssRulesForBrowser = [{
       test: targetRulesSettings.scss.extension,
       include: targetRulesSettings.scss.files.include,
       exclude: targetRulesSettings.scss.files.exclude,
-      use: extractResult,
+      use: scssUse,
+    }];
+    rules.scssRulesForBrowserWithModules = [{
+      test: targetRulesSettings.scss.extension,
+      include: targetRulesSettings.scss.files.include,
+      exclude: targetRulesSettings.scss.files.exclude,
+      use: scssUseWithModules,
     }];
     rules.scssRulesForBrowserWithInject = [{
       test: targetRulesSettings.scss.extension,
@@ -147,33 +154,32 @@ describe('services/configurations:rulesConfiguration', () => {
       test: targetRulesSettings.scss.extension,
       include: targetRulesSettings.scss.files.include,
       exclude: targetRulesSettings.scss.files.exclude,
-      use: scssUse,
+      use: scssUseBase,
     }];
     rules.scssRulesForNodeWithModules = [{
       test: targetRulesSettings.scss.extension,
       include: targetRulesSettings.scss.files.include,
       exclude: targetRulesSettings.scss.files.exclude,
-      use: scssUseWithModules,
+      use: scssUseBaseWithModules,
     }];
     // - CSS Rules
-    const cssUse = [
+    const cssUseBase = [
       'css-loader',
+    ];
+    const cssUse = [
+      extractResult,
+      ...cssUseBase,
     ];
     const cssUseWithInject = [
       'style-loader',
-      ...cssUse,
+      ...cssUseBase,
     ];
-    // - - Extract options
-    rules.cssExtractOptions = {
-      fallback: 'style-loader',
-      use: cssUse,
-    };
     // - - Rules
     rules.cssRulesForBrowser = [{
       test: targetRulesSettings.css.extension,
       include: targetRulesSettings.css.files.include,
       exclude: targetRulesSettings.css.files.exclude,
-      use: extractResult,
+      use: cssUse,
     }];
     rules.cssRulesForBrowserWithInject = [{
       test: targetRulesSettings.css.extension,
@@ -185,7 +191,7 @@ describe('services/configurations:rulesConfiguration', () => {
       test: targetRulesSettings.css.extension,
       include: targetRulesSettings.css.files.include,
       exclude: targetRulesSettings.css.files.exclude,
-      use: cssUse,
+      use: cssUseBase,
     }];
     // - HTML Rules
     rules.htmlRules = [{
@@ -266,7 +272,7 @@ describe('services/configurations:rulesConfiguration', () => {
 
   beforeEach(() => {
     ConfigurationFileMock.reset();
-    ExtractTextPlugin.extract.mockReset();
+    MiniCssExtractPluginMock.reset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -335,7 +341,13 @@ describe('services/configurations:rulesConfiguration', () => {
       version,
       output,
     };
-    const expectedRules = getExpectedRules(target, targetRulesSettings, babelConfig, '', output);
+    const expectedRules = getExpectedRules(
+      target,
+      targetRulesSettings,
+      babelConfig,
+      'mini-css-extract',
+      output
+    );
     let sut = null;
     let result = null;
     // When
@@ -480,7 +492,13 @@ describe('services/configurations:rulesConfiguration', () => {
       version,
       output,
     };
-    const expectedRules = getExpectedRules(target, targetRulesSettings, babelConfig, '', output);
+    const expectedRules = getExpectedRules(
+      target,
+      targetRulesSettings,
+      babelConfig,
+      'mini-css-extract',
+      output
+    );
     let sut = null;
     let result = null;
     // When
@@ -583,13 +601,11 @@ describe('services/configurations:rulesConfiguration', () => {
 
   it('should return the rules for a browser target', () => {
     // Given
-    const extractResult = 'extract';
+    const extractResult = 'mini-css-extract';
     const output = {
       fonts: 'statics/fonts/[name].[ext]',
       images: 'statics/images/[name].[ext]',
     };
-    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
-    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     const babelConfig = 'babel';
     const babelConfiguration = {
       getConfigForTarget: jest.fn(() => babelConfig),
@@ -725,20 +741,16 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.scssExtractOptions);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
+    expect(MiniCssExtractPluginMock.mocks.loader).toHaveBeenCalledTimes(['scss', 'css'].length);
   });
 
-  it('should return the rules for a browser target that transpiles a node module', () => {
+  it('should return the rules for a browser target that transpiles a \'node_module\'', () => {
     // Given
-    const extractResult = 'extract';
+    const extractResult = 'mini-css-extract';
     const output = {
       fonts: 'statics/fonts/[name].[ext]',
       images: 'statics/images/[name].[ext]',
     };
-    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
-    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     const babelConfig = 'babel';
     const babelConfiguration = {
       getConfigForTarget: jest.fn(() => babelConfig),
@@ -877,20 +889,16 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.scssExtractOptions);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
+    expect(MiniCssExtractPluginMock.mocks.loader).toHaveBeenCalledTimes(['scss', 'css'].length);
   });
 
   it('should return the rules for a browser target that uses CSS modules', () => {
     // Given
-    const extractResult = 'extract';
+    const extractResult = 'mini-css-extract';
     const output = {
       fonts: 'statics/fonts/[name].[ext]',
       images: 'statics/images/[name].[ext]',
     };
-    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
-    ExtractTextPlugin.extract.mockImplementationOnce(() => extractResult);
     const babelConfig = 'babel';
     const babelConfiguration = {
       getConfigForTarget: jest.fn(() => babelConfig),
@@ -976,7 +984,7 @@ describe('services/configurations:rulesConfiguration', () => {
         'webpack-scss-rules-configuration-for-browser',
         'webpack-scss-rules-configuration',
       ],
-      expectedRules.scssRulesForBrowser,
+      expectedRules.scssRulesForBrowserWithModules,
       params
     );
     expect(events.reduce).toHaveBeenCalledWith(
@@ -1037,10 +1045,7 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(['scss', 'css'].length);
-    expect(ExtractTextPlugin.extract)
-    .toHaveBeenCalledWith(expectedRules.scssExtractOptionsWithModules);
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledWith(expectedRules.cssExtractOptions);
+    expect(MiniCssExtractPluginMock.mocks.loader).toHaveBeenCalledTimes(['scss', 'css'].length);
   });
 
   it('should return the rules for a browser target that injects the CSS on the HTML', () => {
@@ -1195,7 +1200,7 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(0);
+    expect(MiniCssExtractPluginMock.mocks.loader).toHaveBeenCalledTimes(0);
   });
 
   it('should return the rules for a browser target that uses CSS modules and inject', () => {
@@ -1351,7 +1356,7 @@ describe('services/configurations:rulesConfiguration', () => {
       },
       params
     );
-    expect(ExtractTextPlugin.extract).toHaveBeenCalledTimes(0);
+    expect(MiniCssExtractPluginMock.mocks.loader).toHaveBeenCalledTimes(0);
   });
 
   it('should include a provider for the DIC', () => {

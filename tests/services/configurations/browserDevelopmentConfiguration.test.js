@@ -1,13 +1,14 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 const webpackMock = require('/tests/mocks/webpack.mock');
+const MiniCssExtractPluginMock = require('/tests/mocks/miniCssExtractPlugin.mock');
 const ConfigurationFileMock = require('/tests/mocks/configurationFile.mock');
 
 jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
+jest.mock('mini-css-extract-plugin', () => MiniCssExtractPluginMock);
 jest.mock('html-webpack-plugin');
 jest.mock('script-ext-html-webpack-plugin');
-jest.mock('extract-text-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('webpack');
 jest.mock('opener');
@@ -16,7 +17,6 @@ jest.unmock('/src/services/configurations/browserDevelopmentConfiguration');
 require('jasmine-expect');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const opener = require('opener');
 
@@ -29,7 +29,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   beforeEach(() => {
     ConfigurationFileMock.reset();
     webpackMock.reset();
-    ExtractTextPlugin.mockReset();
+    MiniCssExtractPluginMock.reset();
     HtmlWebpackPlugin.mockReset();
     ScriptExtHtmlWebpackPlugin.mockReset();
     OptimizeCssAssetsPlugin.mockReset();
@@ -43,6 +43,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const pathUtils = 'pathUtils';
     const targetsHTML = 'targetsHTML';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackBrowserDevelopmentConfiguration(
@@ -50,7 +51,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackBrowserDevelopmentConfiguration);
@@ -64,6 +66,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(sut.appLogger).toBe(appLogger);
     expect(sut.events).toBe(events);
     expect(sut.targetsHTML).toBe(targetsHTML);
+    expect(sut.webpackPluginInfo).toBe(webpackPluginInfo);
   });
 
   it('should create a configuration', () => {
@@ -77,6 +80,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
     const target = {
       name: 'targetName',
       folders: {
@@ -89,6 +93,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
     };
     const definitions = 'definitions';
     const entry = {
@@ -111,6 +116,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -121,13 +127,114 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
+      target.html,
+      {
+        template: target.html.template,
+        inject: 'body',
+      }
+    ));
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
+      defaultAttribute: 'async',
+    });
+    expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(0);
+    expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(0);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+  });
+
+  it('should create a configuration for a target that injects CSS', () => {
+    // Given
+    const appLogger = 'appLogger';
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {},
+      css: {
+        inject: true,
+      },
+    };
+    const definitions = 'definitions';
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      css: 'statics/css/build.css',
+    };
+    const params = {
+      target,
+      definitions,
+      entry,
+      output,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        publicPath: '/',
+      },
+      mode: 'development',
+      plugins: expect.any(Array),
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBrowserDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      targetsHTML,
+      webpackBaseConfiguration,
+      webpackPluginInfo
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(0);
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -170,6 +277,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
     const target = {
       name: 'targetName',
       folders: {
@@ -184,6 +292,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       sourceMap: {
         development: true,
       },
+      css: {},
       hot: true,
     };
     const definitions = 'definitions';
@@ -212,6 +321,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       devtool: 'source-map',
       plugins: expect.any(Array),
     };
@@ -223,13 +333,16 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -264,7 +377,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   it('should create a configuration for building and running the dev server', () => {
     // Given
     const compiler = {
-      plugin: jest.fn(),
+      hooks: {
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
     };
     const appLogger = {
       success: jest.fn(),
@@ -279,6 +399,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-plugin',
+    };
     const target = {
       name: 'targetName',
       runOnDevelopment: true,
@@ -298,6 +421,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
       hot: true,
     };
     const definitions = 'definitions';
@@ -341,6 +465,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -354,13 +479,16 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -393,13 +521,18 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
-    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
-    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
-    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
-    [
-      [, devSeverPluginCompile],
-      [, devSeverPluginDone],
-    ] = compiler.plugin.mock.calls;
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
+    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
     expect(appLogger.info).toHaveBeenCalledTimes(1);
@@ -419,7 +552,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   it('should create a configuration for the dev server with historyApiFallback', () => {
     // Given
     const compiler = {
-      plugin: jest.fn(),
+      hooks: {
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
     };
     const appLogger = {
       success: jest.fn(),
@@ -434,6 +574,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-plugin',
+    };
     const target = {
       name: 'targetName',
       runOnDevelopment: true,
@@ -454,6 +597,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
       hot: true,
     };
     const definitions = 'definitions';
@@ -498,6 +642,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -511,13 +656,16 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -550,13 +698,18 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
-    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
-    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
-    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
-    [
-      [, devSeverPluginCompile],
-      [, devSeverPluginDone],
-    ] = compiler.plugin.mock.calls;
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
+    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
     expect(appLogger.info).toHaveBeenCalledTimes(1);
@@ -572,7 +725,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   it('should create a configuration for building and running the dev server (SSL)', () => {
     // Given
     const compiler = {
-      plugin: jest.fn(),
+      hooks: {
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
     };
     const appLogger = {
       success: jest.fn(),
@@ -589,6 +749,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-plugin',
+    };
     const target = {
       name: 'targetName',
       runOnDevelopment: true,
@@ -611,6 +774,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = 'babel-polyfill';
@@ -650,6 +814,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -663,13 +828,16 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -702,13 +870,18 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
-    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
-    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
-    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
-    [
-      [, devSeverPluginCompile],
-      [, devSeverPluginDone],
-    ] = compiler.plugin.mock.calls;
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
+    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
     expect(appLogger.info).toHaveBeenCalledTimes(1);
@@ -724,7 +897,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   it('should create a configuration for running the dev server with a custom host', () => {
     // Given
     const compiler = {
-      plugin: jest.fn(),
+      hooks: {
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
     };
     const appLogger = {
       success: jest.fn(),
@@ -741,6 +921,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-plugin',
+    };
     const target = {
       name: 'targetName',
       runOnDevelopment: true,
@@ -763,6 +946,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
       hot: true,
     };
     const definitions = 'definitions';
@@ -808,6 +992,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -821,13 +1006,16 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -862,13 +1050,18 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
-    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
-    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
-    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
-    [
-      [, devSeverPluginCompile],
-      [, devSeverPluginDone],
-    ] = compiler.plugin.mock.calls;
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
+    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
     expect(appLogger.info).toHaveBeenCalledTimes(1);
@@ -884,7 +1077,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   it('should create a configuration for running the dev server while proxied', () => {
     // Given
     const compiler = {
-      plugin: jest.fn(),
+      hooks: {
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
     };
     const appLogger = {
       success: jest.fn(),
@@ -901,6 +1101,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-plugin',
+    };
     const target = {
       name: 'targetName',
       runOnDevelopment: true,
@@ -924,6 +1127,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
       hot: true,
     };
     const definitions = 'definitions';
@@ -968,6 +1172,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -981,13 +1186,16 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -1020,13 +1228,18 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
-    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
-    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
-    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
-    [
-      [, devSeverPluginCompile],
-      [, devSeverPluginDone],
-    ] = compiler.plugin.mock.calls;
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
+    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
     expect(appLogger.info).toHaveBeenCalledTimes(1);
@@ -1042,7 +1255,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
   it('should create a configuration for running the dev server proxied with a custom host', () => {
     // Given
     const compiler = {
-      plugin: jest.fn(),
+      hooks: {
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
     };
     const appLogger = {
       success: jest.fn(),
@@ -1059,6 +1279,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
     };
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-plugin',
+    };
     const target = {
       name: 'targetName',
       runOnDevelopment: true,
@@ -1082,6 +1305,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         template: 'index.html',
       },
       sourceMap: {},
+      css: {},
       hot: true,
     };
     const definitions = 'definitions';
@@ -1126,6 +1350,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
+      mode: 'development',
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -1139,13 +1364,16 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       events,
       pathUtils,
       targetsHTML,
-      webpackBaseConfiguration
+      webpackBaseConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfig(params);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(ExtractTextPlugin).toHaveBeenCalledTimes(1);
-    expect(ExtractTextPlugin).toHaveBeenCalledWith(output.css);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
       target.html,
@@ -1178,13 +1406,18 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
 
     devSeverPlugin = result.plugins.slice().pop();
     devSeverPlugin.apply(compiler);
-    expect(compiler.plugin).toHaveBeenCalledTimes(['compile', 'done'].length);
-    expect(compiler.plugin).toHaveBeenCalledWith('compile', expect.any(Function));
-    expect(compiler.plugin).toHaveBeenCalledWith('done', expect.any(Function));
-    [
-      [, devSeverPluginCompile],
-      [, devSeverPluginDone],
-    ] = compiler.plugin.mock.calls;
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
+    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
+      `${webpackPluginInfo.name}-dev-server`,
+      expect.any(Function)
+    );
+    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
+    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
     expect(appLogger.info).toHaveBeenCalledTimes(1);
@@ -1217,5 +1450,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(sut.appLogger).toBe('appLogger');
     expect(sut.events).toBe('events');
     expect(sut.targetsHTML).toBe('targetsHTML');
+    expect(sut.webpackPluginInfo).toBe('webpackPluginInfo');
   });
 });
