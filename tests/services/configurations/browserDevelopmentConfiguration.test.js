@@ -10,6 +10,7 @@ jest.mock('script-ext-html-webpack-plugin');
 jest.mock('extract-text-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('webpack');
+jest.mock('opener');
 jest.unmock('/src/services/configurations/browserDevelopmentConfiguration');
 
 require('jasmine-expect');
@@ -17,6 +18,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const opener = require('opener');
 
 const {
   WebpackBrowserDevelopmentConfiguration,
@@ -31,6 +33,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     HtmlWebpackPlugin.mockReset();
     ScriptExtHtmlWebpackPlugin.mockReset();
     OptimizeCssAssetsPlugin.mockReset();
+    opener.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -265,6 +268,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const appLogger = {
       success: jest.fn(),
+      info: jest.fn(),
       warning: jest.fn(),
     };
     const events = {
@@ -315,18 +319,19 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry,
       output,
     };
+    const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
       devServer: {
         port: target.devServer.port,
         inline: false,
-        open: true,
+        open: false,
         hot: true,
         publicPath: '/',
       },
       entry: {
         [target.name]: [
           babelPolyfillEntry,
-          'webpack-dev-server/client?http://localhost:2509',
+          `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
         ],
@@ -397,10 +402,18 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     ] = compiler.plugin.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
     expect(appLogger.warning).toHaveBeenCalledTimes(1);
     devSeverPluginDone();
     jest.runAllTimers();
+    expect(opener).toHaveBeenCalledTimes(1);
+    expect(opener).toHaveBeenCalledWith(expectedURL);
     expect(appLogger.success).toHaveBeenCalledTimes(2);
+    devSeverPluginDone();
+    jest.runAllTimers();
+    expect(opener).toHaveBeenCalledTimes(1);
+    expect(appLogger.success).toHaveBeenCalledTimes(3);
   });
 
   it('should create a configuration for the dev server with historyApiFallback', () => {
@@ -410,6 +423,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const appLogger = {
       success: jest.fn(),
+      info: jest.fn(),
       warning: jest.fn(),
     };
     const events = {
@@ -461,11 +475,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry,
       output,
     };
+    const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
       devServer: {
         port: target.devServer.port,
         inline: false,
-        open: true,
+        open: false,
         hot: true,
         publicPath: '/',
         historyApiFallback: true,
@@ -473,7 +488,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry: {
         [target.name]: [
           babelPolyfillEntry,
-          'webpack-dev-server/client?http://localhost:2509',
+          `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
         ],
@@ -544,10 +559,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     ] = compiler.plugin.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
     expect(appLogger.warning).toHaveBeenCalledTimes(1);
     devSeverPluginDone();
     jest.runAllTimers();
     expect(appLogger.success).toHaveBeenCalledTimes(2);
+    expect(opener).toHaveBeenCalledTimes(1);
+    expect(opener).toHaveBeenCalledWith(expectedURL);
   });
 
   it('should create a configuration for building and running the dev server (SSL)', () => {
@@ -557,6 +576,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const appLogger = {
       success: jest.fn(),
+      info: jest.fn(),
       warning: jest.fn(),
     };
     const events = {
@@ -611,11 +631,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry,
       output,
     };
+    const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
       devServer: {
         port: target.devServer.port,
         inline: false,
-        open: true,
+        open: false,
         https: target.devServer.ssl,
       },
       entry: {
@@ -690,10 +711,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     ] = compiler.plugin.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
     expect(appLogger.warning).toHaveBeenCalledTimes(1);
     devSeverPluginDone();
     jest.runAllTimers();
     expect(appLogger.success).toHaveBeenCalledTimes(2);
+    expect(opener).toHaveBeenCalledTimes(1);
+    expect(opener).toHaveBeenCalledWith(expectedURL);
   });
 
   it('should create a configuration for running the dev server with a custom host', () => {
@@ -703,6 +728,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const appLogger = {
       success: jest.fn(),
+      info: jest.fn(),
       warning: jest.fn(),
     };
     const events = {
@@ -758,11 +784,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry,
       output,
     };
+    const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
       devServer: {
         port: target.devServer.port,
         inline: false,
-        open: true,
+        open: false,
         hot: true,
         publicPath: '/',
         host: target.devServer.host,
@@ -771,7 +798,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry: {
         [target.name]: [
           babelPolyfillEntry,
-          `webpack-dev-server/client?https://${target.devServer.host}:${target.devServer.port}`,
+          `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
         ],
@@ -844,10 +871,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     ] = compiler.plugin.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
     expect(appLogger.warning).toHaveBeenCalledTimes(1);
     devSeverPluginDone();
     jest.runAllTimers();
     expect(appLogger.success).toHaveBeenCalledTimes(2);
+    expect(opener).toHaveBeenCalledTimes(1);
+    expect(opener).toHaveBeenCalledWith(expectedURL);
   });
 
   it('should create a configuration for running the dev server while proxied', () => {
@@ -857,6 +888,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const appLogger = {
       success: jest.fn(),
+      info: jest.fn(),
       warning: jest.fn(),
     };
     const events = {
@@ -913,11 +945,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry,
       output,
     };
+    const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
       devServer: {
         port: target.devServer.port,
         inline: false,
-        open: true,
+        open: false,
         hot: true,
         publicPath: '/',
         public: target.devServer.host,
@@ -925,7 +958,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry: {
         [target.name]: [
           babelPolyfillEntry,
-          `webpack-dev-server/client?http://${target.devServer.host}:${target.devServer.port}`,
+          `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
         ],
@@ -996,10 +1029,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     ] = compiler.plugin.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
     expect(appLogger.warning).toHaveBeenCalledTimes(1);
     devSeverPluginDone();
     jest.runAllTimers();
     expect(appLogger.success).toHaveBeenCalledTimes(2);
+    expect(opener).toHaveBeenCalledTimes(1);
+    expect(opener).toHaveBeenCalledWith(expectedURL);
   });
 
   it('should create a configuration for running the dev server proxied with a custom host', () => {
@@ -1009,6 +1046,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const appLogger = {
       success: jest.fn(),
+      info: jest.fn(),
       warning: jest.fn(),
     };
     const events = {
@@ -1065,11 +1103,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry,
       output,
     };
+    const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
       devServer: {
         port: target.devServer.port,
         inline: false,
-        open: true,
+        open: false,
         hot: true,
         publicPath: '/',
         public: target.devServer.proxied.host,
@@ -1077,7 +1116,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       entry: {
         [target.name]: [
           babelPolyfillEntry,
-          `webpack-dev-server/client?http://${target.devServer.host}:${target.devServer.port}`,
+          `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
         ],
@@ -1148,10 +1187,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     ] = compiler.plugin.mock.calls;
     devSeverPluginCompile();
     expect(appLogger.success).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledTimes(1);
+    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
     expect(appLogger.warning).toHaveBeenCalledTimes(1);
     devSeverPluginDone();
     jest.runAllTimers();
     expect(appLogger.success).toHaveBeenCalledTimes(2);
+    expect(opener).toHaveBeenCalledTimes(1);
+    expect(opener).toHaveBeenCalledWith(expectedURL);
   });
 
   it('should include a provider for the DIC', () => {

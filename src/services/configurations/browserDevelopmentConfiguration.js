@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const opener = require('opener');
 const {
   NoEmitOnErrorsPlugin,
   DefinePlugin,
@@ -58,6 +59,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
      * @type {TargetsHTML}
      */
     this.targetsHTML = targetsHTML;
+    /**
+     * Whether or not the browser was already opened.
+     * @type {boolean}
+     * @access protected
+     * @ignore
+     */
+    this._devServerOpen = false;
   }
   /**
    * Create the configuration with the `entry`, the `output` and the plugins specifics for a
@@ -124,7 +132,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       config.devServer = {
         port: devServerConfig.port,
         inline: !!devServerConfig.reload,
-        open: true,
+        open: false,
       };
       /**
        * This setting is specific to the webpack dev server and it allows web apps that use
@@ -170,8 +178,8 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
           'webpack/hot/only-dev-server',
         ]);
       }
-      // Push the fake plugin that logs the dev server statuses.
-      config.plugins.push(this._getDevServerLogger(config.devServer));
+      // Push the fake plugin that logs the dev server statuses and opens the browser.
+      config.plugins.push(this._getDevServerPlugin(devServerConfig.url, devServerConfig.port));
     } else if (target.hot) {
       /**
        * If the target requires HMR but is not running with the dev server, it means that there's
@@ -261,22 +269,26 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   /**
    * Creates a _'fake Webpack plugin'_ that detects when the bundle is being compiled in order to
    * log messages with the dev server information.
-   * @param {object} devServer      The target dev server configuration.
-   * @param {number} devServer.port The port in which the dev server is running.
+   * @param {string} url  The URL where the dev server is running.
+   * @param {number} port The port number the dev server is ussing.
    * @return {object} A webpack plugin.
    * @ignore
    * @access protected
    */
-  _getDevServerLogger(devServer) {
-    const { port } = devServer;
+  _getDevServerPlugin(url, port) {
     return {
       apply: (compiler) => {
         compiler.plugin('compile', () => {
           this.appLogger.success(`Starting on port ${port}`);
+          this.appLogger.info(url);
           this.appLogger.warning('waiting for Webpack...');
         });
 
         compiler.plugin('done', () => {
+          if (!this._devServerOpen) {
+            this._devServerOpen = true;
+            opener(url);
+          }
           // Awful hack, but the webpack output gets on the same line
           setTimeout(() => {
             this.appLogger.success(`Your app is running on the port ${port}`);
