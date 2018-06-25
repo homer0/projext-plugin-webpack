@@ -111,7 +111,10 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     ];
     // Reduce the configuration
     return this.events.reduce(
-      'webpack-browser-production-configuration',
+      [
+        'webpack-browser-production-configuration',
+        'webpack-browser-configuration',
+      ],
       config,
       params
     );

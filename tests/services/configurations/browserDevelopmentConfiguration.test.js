@@ -145,7 +145,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -244,7 +247,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -370,7 +376,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -514,7 +523,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -657,7 +669,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(pathUtils.join).toHaveBeenCalledWith(target.devServer.ssl.cert);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -808,7 +823,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(pathUtils.join).toHaveBeenCalledWith(target.devServer.ssl.cert);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -957,7 +975,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
@@ -1106,7 +1127,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
-      'webpack-browser-development-configuration',
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
       expectedConfig,
       params
     );
