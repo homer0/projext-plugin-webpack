@@ -104,6 +104,12 @@
  */
 
 /**
+ * @external {ChildProcess}
+ * https://nodejs.org/api/child_process.html#child_process_class_childprocess
+ * @ignore
+ */
+
+/**
  * @typedef {function} DevMiddlewareGetDirectory
  * @return {string}
  * The build directory of the target implementing the dev middleware.
@@ -230,4 +236,24 @@
  * @typedef {Object} Provider
  * @property {ProviderRegisterMethod} register
  * The method that gets called when registering the provider.
+ */
+
+/**
+ * @typedef {Object} ProjextWebpackBundleRunnerOptions
+ * @property {?string} entry  The name of the webpack entry to execute. If not specified will
+ *                            fallback to the first one on the list provided by webpack.
+ * @property {?string} name   The _"instance name"_, used to register the listeners on the webpack
+ *                            event hooks.
+ *                            Its default value is `projext-webpack-plugin-bundle-runner`.
+ * @property {?Logger} logger A custom logger to output the plugin's information messages.
+ */
+
+/**
+ * @typedef {Object} ProjextWebpackOpenDevServerOptions
+ * @property {boolean} openBrowser Whether or not to open the browser when the bundle is ready.
+ *                                 Its default value is `true`.
+ * @property {?string} name        The _"instance name"_, used to register the listeners on the
+ *                                 webpack event hooks.
+ *                                 Its default value is `projext-webpack-plugin-open-dev-server`.
+ * @property {?Logger} logger      A custom logger to output the plugin's information messages.
  */

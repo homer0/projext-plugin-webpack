@@ -1,10 +1,10 @@
-const webpackNodeUtils = require('webpack-node-utils');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
+const { ProjextWebpackBundleRunner } = require('../../plugins');
 /**
  * Creates the specifics of a Webpack configuration for a Node target development build.
  * @extends {ConfigurationFile}
@@ -12,14 +12,18 @@ const ConfigurationFile = require('../../abstracts/configurationFile');
 class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {Events}                       events                   To reduce the configuration.
-   * @param {PathUtils}                    pathUtils                Required by `ConfigurationFile`
-   *                                                                in order to build the path to
-   *                                                                the overwrite file.
-   * @param {WebpackBaseConfiguration}     webpackBaseConfiguration The configuration this one will
-   *                                                                extend.
+   * @param {Logger}                   appLogger                To send the plugin that executes
+   *                                                            the bundle in order to log
+   *                                                            information messages.
+   * @param {Events}                   events                   To reduce the configuration.
+   * @param {PathUtils}                pathUtils                Required by `ConfigurationFile`
+   *                                                            in order to build the path to
+   *                                                            the overwrite file.
+   * @param {WebpackBaseConfiguration} webpackBaseConfiguration The configuration this one will
+   *                                                            extend.
    */
   constructor(
+    appLogger,
     events,
     pathUtils,
     webpackBaseConfiguration
@@ -30,6 +34,11 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       true,
       webpackBaseConfiguration
     );
+    /**
+     * A local reference for the `appLogger` service.
+     * @type {Logger}
+     */
+    this.appLogger = appLogger;
     /**
      * A local reference for the `events` service.
      * @type {Events}
@@ -63,8 +72,10 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
     if (target.runOnDevelopment) {
       // ...watch the source files.
       watch = true;
-      // Push the plugin that executes the target.
-      plugins.push(new webpackNodeUtils.WebpackNodeUtilsRunner());
+      // Push the plugin that executes the target bundle.
+      plugins.push(new ProjextWebpackBundleRunner({
+        logger: this.appLogger,
+      }));
     }
     // Define the rest of the configuration.
     const config = {
@@ -108,6 +119,7 @@ const webpackNodeDevelopmentConfiguration = provider((app) => {
   app.set(
     'webpackNodeDevelopmentConfiguration',
     () => new WebpackNodeDevelopmentConfiguration(
+      app.get('appLogger'),
       app.get('events'),
       app.get('pathUtils'),
       app.get('webpackBaseConfiguration')
