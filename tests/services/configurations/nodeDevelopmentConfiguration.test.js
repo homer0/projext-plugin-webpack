@@ -1,17 +1,16 @@
 const JimpleMock = require('/tests/mocks/jimple.mock');
 const webpackMock = require('/tests/mocks/webpack.mock');
-const webpackNodeUtilsMock = require('/tests/mocks/webpackNodeUtils.mock');
 const ConfigurationFileMock = require('/tests/mocks/configurationFile.mock');
 
 jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
-jest.mock('webpack-node-utils', () => webpackNodeUtilsMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.unmock('/src/services/configurations/nodeDevelopmentConfiguration');
 
 require('jasmine-expect');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const { ProjextWebpackBundleRunner } = require('/src/plugins');
 
 const {
   WebpackNodeDevelopmentConfiguration,
@@ -22,18 +21,20 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
   beforeEach(() => {
     ConfigurationFileMock.reset();
     webpackMock.reset();
-    webpackNodeUtilsMock.reset();
     OptimizeCssAssetsPlugin.mockReset();
+    ProjextWebpackBundleRunner.mockClear();
   });
 
   it('should be instantiated with all its dependencies', () => {
     // Given
+    const appLogger = 'appLogger';
     const events = 'events';
     const pathUtils = 'pathUtils';
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     let sut = null;
     // When
     sut = new WebpackNodeDevelopmentConfiguration(
+      appLogger,
       events,
       pathUtils,
       webpackBaseConfiguration
@@ -47,11 +48,13 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       true,
       webpackBaseConfiguration
     );
+    expect(sut.appLogger).toBe(appLogger);
     expect(sut.events).toBe(events);
   });
 
   it('should create a configuration', () => {
     // Given
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -97,6 +100,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     let result = null;
     // When
     sut = new WebpackNodeDevelopmentConfiguration(
+      appLogger,
       events,
       pathUtils,
       webpackBaseConfiguration
@@ -106,8 +110,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
-    expect(webpackNodeUtilsMock.WebpackNodeUtilsRunnerMockMock)
-    .toHaveBeenCalledTimes(0);
+    expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -121,6 +124,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
 
   it('should create a configuration to run the target', () => {
     // Given
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -167,6 +171,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     let result = null;
     // When
     sut = new WebpackNodeDevelopmentConfiguration(
+      appLogger,
       events,
       pathUtils,
       webpackBaseConfiguration
@@ -176,8 +181,10 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
-    expect(webpackNodeUtilsMock.WebpackNodeUtilsRunnerMockMock)
-    .toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackBundleRunner).toHaveBeenCalledWith({
+      logger: appLogger,
+    });
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -206,6 +213,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(serviceName).toBe('webpackNodeDevelopmentConfiguration');
     expect(serviceFn).toBeFunction();
     expect(sut).toBeInstanceOf(WebpackNodeDevelopmentConfiguration);
+    expect(sut.appLogger).toBe('appLogger');
     expect(sut.events).toBe('events');
   });
 });

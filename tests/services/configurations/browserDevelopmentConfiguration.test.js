@@ -18,7 +18,7 @@ require('jasmine-expect');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const opener = require('opener');
+const { ProjextWebpackOpenDevServer } = require('/src/plugins');
 
 const {
   WebpackBrowserDevelopmentConfiguration,
@@ -33,7 +33,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     HtmlWebpackPlugin.mockReset();
     ScriptExtHtmlWebpackPlugin.mockReset();
     OptimizeCssAssetsPlugin.mockReset();
-    opener.mockReset();
+    ProjextWebpackOpenDevServer.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -376,21 +376,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
 
   it('should create a configuration for building and running the dev server', () => {
     // Given
-    const compiler = {
-      hooks: {
-        compile: {
-          tap: jest.fn(),
-        },
-        done: {
-          tap: jest.fn(),
-        },
-      },
-    };
-    const appLogger = {
-      success: jest.fn(),
-      info: jest.fn(),
-      warning: jest.fn(),
-    };
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -470,9 +456,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     let sut = null;
     let result = null;
-    let devSeverPlugin = null;
-    let devSeverPluginCompile = null;
-    let devSeverPluginDone = null;
     // When
     sut = new WebpackBrowserDevelopmentConfiguration(
       appLogger,
@@ -518,54 +501,15 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
     expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
-
-    devSeverPlugin = result.plugins.slice().pop();
-    devSeverPlugin.apply(compiler);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
-    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
-    devSeverPluginCompile();
-    expect(appLogger.success).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
-    expect(appLogger.warning).toHaveBeenCalledTimes(1);
-    devSeverPluginDone();
-    jest.runAllTimers();
-    expect(opener).toHaveBeenCalledTimes(1);
-    expect(opener).toHaveBeenCalledWith(expectedURL);
-    expect(appLogger.success).toHaveBeenCalledTimes(2);
-    devSeverPluginDone();
-    jest.runAllTimers();
-    expect(opener).toHaveBeenCalledTimes(1);
-    expect(appLogger.success).toHaveBeenCalledTimes(3);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
+      logger: appLogger,
+    });
   });
 
   it('should create a configuration for the dev server with historyApiFallback', () => {
     // Given
-    const compiler = {
-      hooks: {
-        compile: {
-          tap: jest.fn(),
-        },
-        done: {
-          tap: jest.fn(),
-        },
-      },
-    };
-    const appLogger = {
-      success: jest.fn(),
-      info: jest.fn(),
-      warning: jest.fn(),
-    };
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -647,9 +591,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     let sut = null;
     let result = null;
-    let devSeverPlugin = null;
-    let devSeverPluginCompile = null;
-    let devSeverPluginDone = null;
     // When
     sut = new WebpackBrowserDevelopmentConfiguration(
       appLogger,
@@ -695,50 +636,15 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
     expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
-
-    devSeverPlugin = result.plugins.slice().pop();
-    devSeverPlugin.apply(compiler);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
-    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
-    devSeverPluginCompile();
-    expect(appLogger.success).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
-    expect(appLogger.warning).toHaveBeenCalledTimes(1);
-    devSeverPluginDone();
-    jest.runAllTimers();
-    expect(appLogger.success).toHaveBeenCalledTimes(2);
-    expect(opener).toHaveBeenCalledTimes(1);
-    expect(opener).toHaveBeenCalledWith(expectedURL);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
+      logger: appLogger,
+    });
   });
 
   it('should create a configuration for building and running the dev server (SSL)', () => {
     // Given
-    const compiler = {
-      hooks: {
-        compile: {
-          tap: jest.fn(),
-        },
-        done: {
-          tap: jest.fn(),
-        },
-      },
-    };
-    const appLogger = {
-      success: jest.fn(),
-      info: jest.fn(),
-      warning: jest.fn(),
-    };
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -819,9 +725,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     let sut = null;
     let result = null;
-    let devSeverPlugin = null;
-    let devSeverPluginCompile = null;
-    let devSeverPluginDone = null;
     // When
     sut = new WebpackBrowserDevelopmentConfiguration(
       appLogger,
@@ -867,50 +770,15 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
     expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
-
-    devSeverPlugin = result.plugins.slice().pop();
-    devSeverPlugin.apply(compiler);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
-    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
-    devSeverPluginCompile();
-    expect(appLogger.success).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
-    expect(appLogger.warning).toHaveBeenCalledTimes(1);
-    devSeverPluginDone();
-    jest.runAllTimers();
-    expect(appLogger.success).toHaveBeenCalledTimes(2);
-    expect(opener).toHaveBeenCalledTimes(1);
-    expect(opener).toHaveBeenCalledWith(expectedURL);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
+      logger: appLogger,
+    });
   });
 
   it('should create a configuration for running the dev server with a custom host', () => {
     // Given
-    const compiler = {
-      hooks: {
-        compile: {
-          tap: jest.fn(),
-        },
-        done: {
-          tap: jest.fn(),
-        },
-      },
-    };
-    const appLogger = {
-      success: jest.fn(),
-      info: jest.fn(),
-      warning: jest.fn(),
-    };
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -997,9 +865,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     let sut = null;
     let result = null;
-    let devSeverPlugin = null;
-    let devSeverPluginCompile = null;
-    let devSeverPluginDone = null;
     // When
     sut = new WebpackBrowserDevelopmentConfiguration(
       appLogger,
@@ -1047,50 +912,15 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
     expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
-
-    devSeverPlugin = result.plugins.slice().pop();
-    devSeverPlugin.apply(compiler);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
-    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
-    devSeverPluginCompile();
-    expect(appLogger.success).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
-    expect(appLogger.warning).toHaveBeenCalledTimes(1);
-    devSeverPluginDone();
-    jest.runAllTimers();
-    expect(appLogger.success).toHaveBeenCalledTimes(2);
-    expect(opener).toHaveBeenCalledTimes(1);
-    expect(opener).toHaveBeenCalledWith(expectedURL);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
+      logger: appLogger,
+    });
   });
 
   it('should create a configuration for running the dev server while proxied', () => {
     // Given
-    const compiler = {
-      hooks: {
-        compile: {
-          tap: jest.fn(),
-        },
-        done: {
-          tap: jest.fn(),
-        },
-      },
-    };
-    const appLogger = {
-      success: jest.fn(),
-      info: jest.fn(),
-      warning: jest.fn(),
-    };
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -1177,9 +1007,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     let sut = null;
     let result = null;
-    let devSeverPlugin = null;
-    let devSeverPluginCompile = null;
-    let devSeverPluginDone = null;
     // When
     sut = new WebpackBrowserDevelopmentConfiguration(
       appLogger,
@@ -1225,50 +1052,15 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
     expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
-
-    devSeverPlugin = result.plugins.slice().pop();
-    devSeverPlugin.apply(compiler);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
-    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
-    devSeverPluginCompile();
-    expect(appLogger.success).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
-    expect(appLogger.warning).toHaveBeenCalledTimes(1);
-    devSeverPluginDone();
-    jest.runAllTimers();
-    expect(appLogger.success).toHaveBeenCalledTimes(2);
-    expect(opener).toHaveBeenCalledTimes(1);
-    expect(opener).toHaveBeenCalledWith(expectedURL);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
+      logger: appLogger,
+    });
   });
 
   it('should create a configuration for running the dev server proxied with a custom host', () => {
     // Given
-    const compiler = {
-      hooks: {
-        compile: {
-          tap: jest.fn(),
-        },
-        done: {
-          tap: jest.fn(),
-        },
-      },
-    };
-    const appLogger = {
-      success: jest.fn(),
-      info: jest.fn(),
-      warning: jest.fn(),
-    };
+    const appLogger = 'appLogger';
     const events = {
       reduce: jest.fn((eventName, loaders) => loaders),
     };
@@ -1355,9 +1147,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     let sut = null;
     let result = null;
-    let devSeverPlugin = null;
-    let devSeverPluginCompile = null;
-    let devSeverPluginDone = null;
     // When
     sut = new WebpackBrowserDevelopmentConfiguration(
       appLogger,
@@ -1403,31 +1192,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
     expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
-
-    devSeverPlugin = result.plugins.slice().pop();
-    devSeverPlugin.apply(compiler);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.compile.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    expect(compiler.hooks.done.tap).toHaveBeenCalledTimes(1);
-    expect(compiler.hooks.done.tap).toHaveBeenCalledWith(
-      `${webpackPluginInfo.name}-dev-server`,
-      expect.any(Function)
-    );
-    [[, devSeverPluginCompile]] = compiler.hooks.compile.tap.mock.calls;
-    [[, devSeverPluginDone]] = compiler.hooks.done.tap.mock.calls;
-    devSeverPluginCompile();
-    expect(appLogger.success).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledTimes(1);
-    expect(appLogger.info).toHaveBeenCalledWith(expectedURL);
-    expect(appLogger.warning).toHaveBeenCalledTimes(1);
-    devSeverPluginDone();
-    jest.runAllTimers();
-    expect(appLogger.success).toHaveBeenCalledTimes(2);
-    expect(opener).toHaveBeenCalledTimes(1);
-    expect(opener).toHaveBeenCalledWith(expectedURL);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
+      logger: appLogger,
+    });
   });
 
   it('should include a provider for the DIC', () => {

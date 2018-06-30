@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const opener = require('opener');
 const {
   NoEmitOnErrorsPlugin,
   DefinePlugin,
@@ -12,6 +11,7 @@ const {
 } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
+const { ProjextWebpackOpenDevServer } = require('../../plugins');
 /**
  * Creates the specifics of a Webpack configuration for a browser target development build.
  * @extends {ConfigurationFile}
@@ -19,8 +19,8 @@ const ConfigurationFile = require('../../abstracts/configurationFile');
 class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {Logger}                   appLogger                To inform the user when the build
-   *                                                            is running on the dev server.
+   * @param {Logger}                   appLogger                To send to the dev server plugin
+   *                                                            in order to log its events.
    * @param {Events}                   events                   To reduce the configuration.
    * @param {PathUtils}                pathUtils                Required by `ConfigurationFile`
    *                                                            in order to build the path to the
@@ -69,13 +69,6 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
      * @type {WebpackPluginInfo}
      */
     this.webpackPluginInfo = webpackPluginInfo;
-    /**
-     * Whether or not the browser was already opened.
-     * @type {boolean}
-     * @access protected
-     * @ignore
-     */
-    this._devServerOpen = false;
   }
   /**
    * Create the configuration with the `entry`, the `output` and the plugins specifics for a
@@ -185,8 +178,10 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
           'webpack/hot/only-dev-server',
         ]);
       }
-      // Push the fake plugin that logs the dev server statuses and opens the browser.
-      config.plugins.push(this._getDevServerPlugin(devServerConfig.url, devServerConfig.port));
+      // Push the plugin that logs the dev server statuses and opens the browser.
+      config.plugins.push(new ProjextWebpackOpenDevServer(devServerConfig.url, {
+        logger: this.appLogger,
+      }));
     } else if (target.hot) {
       /**
        * If the target requires HMR but is not running with the dev server, it means that there's
@@ -274,37 +269,6 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     config.url = `${protocol}://${config.host}:${config.port}`;
 
     return config;
-  }
-  /**
-   * Creates a _'fake Webpack plugin'_ that detects when the bundle is being compiled in order to
-   * log messages with the dev server information.
-   * @param {string} url  The URL where the dev server is running.
-   * @param {number} port The port number the dev server is ussing.
-   * @return {object} A webpack plugin.
-   * @ignore
-   * @access protected
-   */
-  _getDevServerPlugin(url, port) {
-    return {
-      apply: (compiler) => {
-        const { name } = this.webpackPluginInfo;
-        compiler.hooks.compile.tap(`${name}-dev-server`, () => {
-          this.appLogger.success(`Starting on port ${port}`);
-          this.appLogger.info(url);
-          this.appLogger.warning('waiting for Webpack...');
-        });
-        compiler.hooks.done.tap(`${name}-dev-server`, () => {
-          if (!this._devServerOpen) {
-            this._devServerOpen = true;
-            opener(url);
-          }
-          // Awful hack, but the webpack output gets on the same line
-          setTimeout(() => {
-            this.appLogger.success(`Your app is running on the port ${port}`);
-          }, 0);
-        });
-      },
-    };
   }
 }
 /**
