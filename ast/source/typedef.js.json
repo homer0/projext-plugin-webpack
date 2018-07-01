@@ -1,28 +1,28 @@
 {
   "type": "File",
   "start": 0,
-  "end": 6434,
+  "end": 8219,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 221,
+      "line": 260,
       "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 6434,
+    "end": 8219,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 221,
+        "line": 260,
         "column": 0
       }
     },
@@ -241,9 +241,9 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @external {TargetsHTML}\n * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html\n ",
+        "value": "*\n * @external {TargetsFileRules}\n * https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html\n ",
         "start": 1352,
-        "end": 1481,
+        "end": 1513,
         "loc": {
           "start": {
             "line": 66,
@@ -257,9 +257,9 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n ",
-        "start": 1483,
-        "end": 1589,
+        "value": "*\n * @external {TargetFileRules}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules\n ",
+        "start": 1515,
+        "end": 1639,
         "loc": {
           "start": {
             "line": 71,
@@ -273,9 +273,9 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @external {BrowserTarget}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget\n ",
-        "start": 1591,
-        "end": 1711,
+        "value": "*\n * @external {TargetsHTML}\n * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html\n ",
+        "start": 1641,
+        "end": 1770,
         "loc": {
           "start": {
             "line": 76,
@@ -289,9 +289,9 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @external {TargetConfigurationCreator}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator\n ",
-        "start": 1713,
-        "end": 1859,
+        "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n ",
+        "start": 1772,
+        "end": 1878,
         "loc": {
           "start": {
             "line": 81,
@@ -305,9 +305,9 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @external {ProjectConfigurationSettings}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings\n ",
-        "start": 1861,
-        "end": 2011,
+        "value": "*\n * @external {TargetConfigurationCreator}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator\n ",
+        "start": 1880,
+        "end": 2026,
         "loc": {
           "start": {
             "line": 86,
@@ -321,9 +321,9 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @external {BabelConfiguration}\n * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html\n ",
-        "start": 2013,
-        "end": 2170,
+        "value": "*\n * @external {ProjectConfigurationSettings}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings\n ",
+        "start": 2028,
+        "end": 2178,
         "loc": {
           "start": {
             "line": 91,
@@ -337,9 +337,9 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @external {Middleware}\n * http://expressjs.com/en/guide/using-middleware.html\n ",
-        "start": 2172,
-        "end": 2260,
+        "value": "*\n * @external {BabelConfiguration}\n * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html\n ",
+        "start": 2180,
+        "end": 2337,
         "loc": {
           "start": {
             "line": 96,
@@ -353,16 +353,48 @@
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @typedef {function} DevMiddlewareGetDirectory\n * @return {string}\n * The build directory of the target implementing the dev middleware.\n ",
-        "start": 2262,
-        "end": 2408,
+        "value": "*\n * @external {Middleware}\n * http://expressjs.com/en/guide/using-middleware.html\n ",
+        "start": 2339,
+        "end": 2427,
         "loc": {
           "start": {
             "line": 101,
             "column": 0
           },
           "end": {
-            "line": 105,
+            "line": 104,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @external {ChildProcess}\n * https://nodejs.org/api/child_process.html#child_process_class_childprocess\n * @ignore\n ",
+        "start": 2429,
+        "end": 2553,
+        "loc": {
+          "start": {
+            "line": 106,
+            "column": 0
+          },
+          "end": {
+            "line": 110,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @typedef {function} DevMiddlewareGetDirectory\n * @return {string}\n * The build directory of the target implementing the dev middleware.\n ",
+        "start": 2555,
+        "end": 2701,
+        "loc": {
+          "start": {
+            "line": 112,
+            "column": 0
+          },
+          "end": {
+            "line": 116,
             "column": 3
           }
         }
@@ -370,15 +402,15 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {function} DevMiddlewareGetFileSystem\n * @return {Promise<FileSystem,Error>}\n * The reason this is resolved on a promise is to avoid trying to accessing files before they are\n * generated.\n ",
-        "start": 2410,
-        "end": 2618,
+        "start": 2703,
+        "end": 2911,
         "loc": {
           "start": {
-            "line": 107,
+            "line": 118,
             "column": 0
           },
           "end": {
-            "line": 112,
+            "line": 123,
             "column": 3
           }
         }
@@ -386,15 +418,15 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {Object} MiddlewaresInformation\n * @property {Array} middlewares\n * A list of functions that when executed return a Node middleware.\n * @property {DevMiddlewareGetDirectory} getDirectory\n * To access the target implementing the middleware build directory.\n * @property {DevMiddlewareGetFileSystem} getFileSystem\n * To access the webpack dev middleware _\"virtual filesystem\"_.\n ",
-        "start": 2620,
-        "end": 3015,
+        "start": 2913,
+        "end": 3308,
         "loc": {
           "start": {
-            "line": 114,
+            "line": 125,
             "column": 0
           },
           "end": {
-            "line": 122,
+            "line": 133,
             "column": 3
           }
         }
@@ -402,15 +434,15 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {Object} WebpackConfigurationsByEnvironment\n * @property {ConfigurationFile} production\n * The configuration service for a the target type production build.\n * @property {ConfigurationFile} development\n * The configuration service for a the target type development build.\n ",
-        "start": 3017,
-        "end": 3308,
+        "start": 3310,
+        "end": 3601,
         "loc": {
           "start": {
-            "line": 124,
+            "line": 135,
             "column": 0
           },
           "end": {
-            "line": 130,
+            "line": 141,
             "column": 3
           }
         }
@@ -418,47 +450,63 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {Object} WebpackConfigurations\n * @property {WebpackConfigurationsByEnvironment} node\n * The build types configurations for a Node target.\n * @property {WebpackConfigurationsByEnvironment} browser\n * The build types configurations for a browser target.\n ",
-        "start": 3310,
-        "end": 3582,
+        "start": 3603,
+        "end": 3875,
         "loc": {
           "start": {
-            "line": 132,
+            "line": 143,
             "column": 0
           },
           "end": {
-            "line": 138,
+            "line": 149,
             "column": 3
           }
         }
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @typedef {Object} WebpackConfigurationTargetOutput\n * @property {string} js\n * The filename format and path for the bundle, on the distribution directory.\n * @property {?string} css\n * The filename format and path for the generated stylesheet, on the distribution directory.\n * This path is only available for {@link BrowserTarget}s\n * @property {?string} images\n * The filename format and path for the images that are going to be copied to the distribution\n * directory.\n * This path is only available for {@link BrowserTarget}s\n * @property {?string} fonts\n * The filename format and path for the font files that are going to be copied to the distribution\n * directory.\n * This path is only available for {@link BrowserTarget}s\n ",
-        "start": 3584,
-        "end": 4324,
+        "value": "*\n * @typedef {Object} WebpackConfigurationTargetOutput\n * @property {string} js\n * The filename format and path for the bundle, on the distribution directory.\n * @property {string} css\n * The filename format and path for the generated stylesheet, on the distribution directory.\n * @property {string} images\n * The filename format and path for the images that are going to be copied to the distribution\n * directory.\n * @property {string} fonts\n * The filename format and path for the font files that are going to be copied to the distribution\n * directory.\n ",
+        "start": 3877,
+        "end": 4440,
         "loc": {
           "start": {
-            "line": 140,
+            "line": 151,
             "column": 0
           },
           "end": {
-            "line": 155,
+            "line": 163,
             "column": 3
           }
         }
       },
       {
         "type": "CommentBlock",
-        "value": "*\n * @typedef {Object} WebpackConfigurationParams\n * @property {Target} target\n * The target information.\n * @property {Object} entry\n * A dictionary with the `entry` setting for a webpack configuration, generated with the target\n * information.\n * @property {WebpackConfigurationTargetOutput} output\n * A dictionary with the filenames formats and paths of the different files the bundle can\n * generate.\n * @property {Object} definitions\n * A dictionary of defined variables that will be replaced on the bundled code.\n * @property {string} buildType\n * The intended built type: `development` or `production`.\n ",
-        "start": 4326,
-        "end": 4941,
+        "value": "*\n * @typedef {Object} WebpackPluginInfo\n * @property {string} name          The name of the plugin.\n * @property {string} configuration The path to the `webpack.config.js` file.\n * @property {Array}  external      The list of subpaths the plugin exposes and that should be\n *                                  handled as external dependencies, in order to avoid bundling\n *                                  them.\n ",
+        "start": 4442,
+        "end": 4860,
         "loc": {
           "start": {
-            "line": 157,
+            "line": 165,
             "column": 0
           },
           "end": {
-            "line": 171,
+            "line": 172,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @typedef {Object} WebpackConfigurationParams\n * @property {Target} target\n * The target information.\n * @property {TargetFileRules} targetRules\n * The rules to find the different file types a target may use.\n * @property {Object} entry\n * A dictionary with the `entry` setting for a webpack configuration, generated with the target\n * information.\n * @property {WebpackConfigurationTargetOutput} output\n * A dictionary with the filenames formats and paths of the different files the bundle can\n * generate.\n * @property {Object} definitions\n * A dictionary of defined variables that will be replaced on the bundled code.\n * @property {string} buildType\n * The intended built type: `development` or `production`.\n ",
+        "start": 4862,
+        "end": 5584,
+        "loc": {
+          "start": {
+            "line": 174,
+            "column": 0
+          },
+          "end": {
+            "line": 190,
             "column": 3
           }
         }
@@ -466,15 +514,15 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {Object} TargetDevServerSSLSettings\n * @property {string} key\n * The path to the SSL key (`.key`).\n * @property {string} cert\n * The path to the SSL certificate (`.crt`).\n * @property {string} ca\n * The path to the SSL public file (`.pem`).\n ",
-        "start": 4943,
-        "end": 5203,
+        "start": 5586,
+        "end": 5846,
         "loc": {
           "start": {
-            "line": 173,
+            "line": 192,
             "column": 0
           },
           "end": {
-            "line": 181,
+            "line": 200,
             "column": 3
           }
         }
@@ -482,15 +530,15 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {Object} TargetDevServerProxiedSettings\n * @property {boolean} enabled\n * Whether or not the dev server is being proxied.\n * @property {string} host\n * The host used to proxy the dev server.\n * @property {boolean} https\n * Whether or not the proxied host uses `https`.\n ",
-        "start": 5205,
-        "end": 5493,
+        "start": 5848,
+        "end": 6136,
         "loc": {
           "start": {
-            "line": 183,
+            "line": 202,
             "column": 0
           },
           "end": {
-            "line": 191,
+            "line": 210,
             "column": 3
           }
         }
@@ -498,15 +546,15 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {Object} TargetDevServerSettings\n * @property {number} port\n * The server port.\n * @property {string} host\n * The dev server hostname.\n * @property {string} url\n * The complete URL for the dev server.\n * @property {boolean} reload\n * Whether or not to reload the server when the code changes.\n * @property {?TargetDevServerSSLSettings} ssl\n * The paths to the files to enable SSL on the dev server.\n * @property {?TargetDevServerProxiedSettings} [proxied]\n * When the dev server is being proxied (using `nginx` for example), there are certain\n * functionalities, like hot module replacement and live reload, that need to be aware of this.\n ",
-        "start": 5495,
-        "end": 6153,
+        "start": 6138,
+        "end": 6796,
         "loc": {
           "start": {
-            "line": 193,
+            "line": 212,
             "column": 0
           },
           "end": {
-            "line": 208,
+            "line": 227,
             "column": 3
           }
         }
@@ -514,15 +562,15 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {function} ProviderRegisterMethod\n * @param {Jimple} app\n * A reference to the dependency injection container.\n ",
-        "start": 6155,
-        "end": 6285,
+        "start": 6798,
+        "end": 6928,
         "loc": {
           "start": {
-            "line": 210,
+            "line": 229,
             "column": 0
           },
           "end": {
-            "line": 214,
+            "line": 233,
             "column": 3
           }
         }
@@ -530,15 +578,47 @@
       {
         "type": "CommentBlock",
         "value": "*\n * @typedef {Object} Provider\n * @property {ProviderRegisterMethod} register\n * The method that gets called when registering the provider.\n ",
-        "start": 6287,
-        "end": 6433,
+        "start": 6930,
+        "end": 7076,
         "loc": {
           "start": {
-            "line": 216,
+            "line": 235,
             "column": 0
           },
           "end": {
-            "line": 220,
+            "line": 239,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @typedef {Object} ProjextWebpackBundleRunnerOptions\n * @property {?string} entry  The name of the webpack entry to execute. If not specified will\n *                            fallback to the first one on the list provided by webpack.\n * @property {?string} name   The _\"instance name\"_, used to register the listeners on the webpack\n *                            event hooks.\n *                            Its default value is `projext-webpack-plugin-bundle-runner`.\n * @property {?Logger} logger A custom logger to output the plugin's information messages.\n ",
+        "start": 7078,
+        "end": 7647,
+        "loc": {
+          "start": {
+            "line": 241,
+            "column": 0
+          },
+          "end": {
+            "line": 249,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @typedef {Object} ProjextWebpackOpenDevServerOptions\n * @property {boolean} openBrowser Whether or not to open the browser when the bundle is ready.\n *                                 Its default value is `true`.\n * @property {?string} name        The _\"instance name\"_, used to register the listeners on the\n *                                 webpack event hooks.\n *                                 Its default value is `projext-webpack-plugin-open-dev-server`.\n * @property {?Logger} logger      A custom logger to output the plugin's information messages.\n ",
+        "start": 7649,
+        "end": 8218,
+        "loc": {
+          "start": {
+            "line": 251,
+            "column": 0
+          },
+          "end": {
+            "line": 259,
             "column": 3
           }
         }
@@ -756,9 +836,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {TargetsHTML}\n * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html\n ",
+      "value": "*\n * @external {TargetsFileRules}\n * https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html\n ",
       "start": 1352,
-      "end": 1481,
+      "end": 1513,
       "loc": {
         "start": {
           "line": 66,
@@ -772,9 +852,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n ",
-      "start": 1483,
-      "end": 1589,
+      "value": "*\n * @external {TargetFileRules}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules\n ",
+      "start": 1515,
+      "end": 1639,
       "loc": {
         "start": {
           "line": 71,
@@ -788,9 +868,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {BrowserTarget}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget\n ",
-      "start": 1591,
-      "end": 1711,
+      "value": "*\n * @external {TargetsHTML}\n * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html\n ",
+      "start": 1641,
+      "end": 1770,
       "loc": {
         "start": {
           "line": 76,
@@ -804,9 +884,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {TargetConfigurationCreator}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator\n ",
-      "start": 1713,
-      "end": 1859,
+      "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n ",
+      "start": 1772,
+      "end": 1878,
       "loc": {
         "start": {
           "line": 81,
@@ -820,9 +900,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {ProjectConfigurationSettings}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings\n ",
-      "start": 1861,
-      "end": 2011,
+      "value": "*\n * @external {TargetConfigurationCreator}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator\n ",
+      "start": 1880,
+      "end": 2026,
       "loc": {
         "start": {
           "line": 86,
@@ -836,9 +916,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {BabelConfiguration}\n * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html\n ",
-      "start": 2013,
-      "end": 2170,
+      "value": "*\n * @external {ProjectConfigurationSettings}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings\n ",
+      "start": 2028,
+      "end": 2178,
       "loc": {
         "start": {
           "line": 91,
@@ -852,9 +932,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {Middleware}\n * http://expressjs.com/en/guide/using-middleware.html\n ",
-      "start": 2172,
-      "end": 2260,
+      "value": "*\n * @external {BabelConfiguration}\n * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html\n ",
+      "start": 2180,
+      "end": 2337,
       "loc": {
         "start": {
           "line": 96,
@@ -868,16 +948,48 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {function} DevMiddlewareGetDirectory\n * @return {string}\n * The build directory of the target implementing the dev middleware.\n ",
-      "start": 2262,
-      "end": 2408,
+      "value": "*\n * @external {Middleware}\n * http://expressjs.com/en/guide/using-middleware.html\n ",
+      "start": 2339,
+      "end": 2427,
       "loc": {
         "start": {
           "line": 101,
           "column": 0
         },
         "end": {
-          "line": 105,
+          "line": 104,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {ChildProcess}\n * https://nodejs.org/api/child_process.html#child_process_class_childprocess\n * @ignore\n ",
+      "start": 2429,
+      "end": 2553,
+      "loc": {
+        "start": {
+          "line": 106,
+          "column": 0
+        },
+        "end": {
+          "line": 110,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {function} DevMiddlewareGetDirectory\n * @return {string}\n * The build directory of the target implementing the dev middleware.\n ",
+      "start": 2555,
+      "end": 2701,
+      "loc": {
+        "start": {
+          "line": 112,
+          "column": 0
+        },
+        "end": {
+          "line": 116,
           "column": 3
         }
       }
@@ -885,15 +997,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {function} DevMiddlewareGetFileSystem\n * @return {Promise<FileSystem,Error>}\n * The reason this is resolved on a promise is to avoid trying to accessing files before they are\n * generated.\n ",
-      "start": 2410,
-      "end": 2618,
+      "start": 2703,
+      "end": 2911,
       "loc": {
         "start": {
-          "line": 107,
+          "line": 118,
           "column": 0
         },
         "end": {
-          "line": 112,
+          "line": 123,
           "column": 3
         }
       }
@@ -901,15 +1013,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} MiddlewaresInformation\n * @property {Array} middlewares\n * A list of functions that when executed return a Node middleware.\n * @property {DevMiddlewareGetDirectory} getDirectory\n * To access the target implementing the middleware build directory.\n * @property {DevMiddlewareGetFileSystem} getFileSystem\n * To access the webpack dev middleware _\"virtual filesystem\"_.\n ",
-      "start": 2620,
-      "end": 3015,
+      "start": 2913,
+      "end": 3308,
       "loc": {
         "start": {
-          "line": 114,
+          "line": 125,
           "column": 0
         },
         "end": {
-          "line": 122,
+          "line": 133,
           "column": 3
         }
       }
@@ -917,15 +1029,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} WebpackConfigurationsByEnvironment\n * @property {ConfigurationFile} production\n * The configuration service for a the target type production build.\n * @property {ConfigurationFile} development\n * The configuration service for a the target type development build.\n ",
-      "start": 3017,
-      "end": 3308,
+      "start": 3310,
+      "end": 3601,
       "loc": {
         "start": {
-          "line": 124,
+          "line": 135,
           "column": 0
         },
         "end": {
-          "line": 130,
+          "line": 141,
           "column": 3
         }
       }
@@ -933,47 +1045,63 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} WebpackConfigurations\n * @property {WebpackConfigurationsByEnvironment} node\n * The build types configurations for a Node target.\n * @property {WebpackConfigurationsByEnvironment} browser\n * The build types configurations for a browser target.\n ",
-      "start": 3310,
-      "end": 3582,
+      "start": 3603,
+      "end": 3875,
       "loc": {
         "start": {
-          "line": 132,
+          "line": 143,
           "column": 0
         },
         "end": {
-          "line": 138,
+          "line": 149,
           "column": 3
         }
       }
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {Object} WebpackConfigurationTargetOutput\n * @property {string} js\n * The filename format and path for the bundle, on the distribution directory.\n * @property {?string} css\n * The filename format and path for the generated stylesheet, on the distribution directory.\n * This path is only available for {@link BrowserTarget}s\n * @property {?string} images\n * The filename format and path for the images that are going to be copied to the distribution\n * directory.\n * This path is only available for {@link BrowserTarget}s\n * @property {?string} fonts\n * The filename format and path for the font files that are going to be copied to the distribution\n * directory.\n * This path is only available for {@link BrowserTarget}s\n ",
-      "start": 3584,
-      "end": 4324,
+      "value": "*\n * @typedef {Object} WebpackConfigurationTargetOutput\n * @property {string} js\n * The filename format and path for the bundle, on the distribution directory.\n * @property {string} css\n * The filename format and path for the generated stylesheet, on the distribution directory.\n * @property {string} images\n * The filename format and path for the images that are going to be copied to the distribution\n * directory.\n * @property {string} fonts\n * The filename format and path for the font files that are going to be copied to the distribution\n * directory.\n ",
+      "start": 3877,
+      "end": 4440,
       "loc": {
         "start": {
-          "line": 140,
+          "line": 151,
           "column": 0
         },
         "end": {
-          "line": 155,
+          "line": 163,
           "column": 3
         }
       }
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {Object} WebpackConfigurationParams\n * @property {Target} target\n * The target information.\n * @property {Object} entry\n * A dictionary with the `entry` setting for a webpack configuration, generated with the target\n * information.\n * @property {WebpackConfigurationTargetOutput} output\n * A dictionary with the filenames formats and paths of the different files the bundle can\n * generate.\n * @property {Object} definitions\n * A dictionary of defined variables that will be replaced on the bundled code.\n * @property {string} buildType\n * The intended built type: `development` or `production`.\n ",
-      "start": 4326,
-      "end": 4941,
+      "value": "*\n * @typedef {Object} WebpackPluginInfo\n * @property {string} name          The name of the plugin.\n * @property {string} configuration The path to the `webpack.config.js` file.\n * @property {Array}  external      The list of subpaths the plugin exposes and that should be\n *                                  handled as external dependencies, in order to avoid bundling\n *                                  them.\n ",
+      "start": 4442,
+      "end": 4860,
       "loc": {
         "start": {
-          "line": 157,
+          "line": 165,
           "column": 0
         },
         "end": {
-          "line": 171,
+          "line": 172,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {Object} WebpackConfigurationParams\n * @property {Target} target\n * The target information.\n * @property {TargetFileRules} targetRules\n * The rules to find the different file types a target may use.\n * @property {Object} entry\n * A dictionary with the `entry` setting for a webpack configuration, generated with the target\n * information.\n * @property {WebpackConfigurationTargetOutput} output\n * A dictionary with the filenames formats and paths of the different files the bundle can\n * generate.\n * @property {Object} definitions\n * A dictionary of defined variables that will be replaced on the bundled code.\n * @property {string} buildType\n * The intended built type: `development` or `production`.\n ",
+      "start": 4862,
+      "end": 5584,
+      "loc": {
+        "start": {
+          "line": 174,
+          "column": 0
+        },
+        "end": {
+          "line": 190,
           "column": 3
         }
       }
@@ -981,15 +1109,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} TargetDevServerSSLSettings\n * @property {string} key\n * The path to the SSL key (`.key`).\n * @property {string} cert\n * The path to the SSL certificate (`.crt`).\n * @property {string} ca\n * The path to the SSL public file (`.pem`).\n ",
-      "start": 4943,
-      "end": 5203,
+      "start": 5586,
+      "end": 5846,
       "loc": {
         "start": {
-          "line": 173,
+          "line": 192,
           "column": 0
         },
         "end": {
-          "line": 181,
+          "line": 200,
           "column": 3
         }
       }
@@ -997,15 +1125,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} TargetDevServerProxiedSettings\n * @property {boolean} enabled\n * Whether or not the dev server is being proxied.\n * @property {string} host\n * The host used to proxy the dev server.\n * @property {boolean} https\n * Whether or not the proxied host uses `https`.\n ",
-      "start": 5205,
-      "end": 5493,
+      "start": 5848,
+      "end": 6136,
       "loc": {
         "start": {
-          "line": 183,
+          "line": 202,
           "column": 0
         },
         "end": {
-          "line": 191,
+          "line": 210,
           "column": 3
         }
       }
@@ -1013,15 +1141,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} TargetDevServerSettings\n * @property {number} port\n * The server port.\n * @property {string} host\n * The dev server hostname.\n * @property {string} url\n * The complete URL for the dev server.\n * @property {boolean} reload\n * Whether or not to reload the server when the code changes.\n * @property {?TargetDevServerSSLSettings} ssl\n * The paths to the files to enable SSL on the dev server.\n * @property {?TargetDevServerProxiedSettings} [proxied]\n * When the dev server is being proxied (using `nginx` for example), there are certain\n * functionalities, like hot module replacement and live reload, that need to be aware of this.\n ",
-      "start": 5495,
-      "end": 6153,
+      "start": 6138,
+      "end": 6796,
       "loc": {
         "start": {
-          "line": 193,
+          "line": 212,
           "column": 0
         },
         "end": {
-          "line": 208,
+          "line": 227,
           "column": 3
         }
       }
@@ -1029,15 +1157,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {function} ProviderRegisterMethod\n * @param {Jimple} app\n * A reference to the dependency injection container.\n ",
-      "start": 6155,
-      "end": 6285,
+      "start": 6798,
+      "end": 6928,
       "loc": {
         "start": {
-          "line": 210,
+          "line": 229,
           "column": 0
         },
         "end": {
-          "line": 214,
+          "line": 233,
           "column": 3
         }
       }
@@ -1045,15 +1173,47 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} Provider\n * @property {ProviderRegisterMethod} register\n * The method that gets called when registering the provider.\n ",
-      "start": 6287,
-      "end": 6433,
+      "start": 6930,
+      "end": 7076,
       "loc": {
         "start": {
-          "line": 216,
+          "line": 235,
           "column": 0
         },
         "end": {
-          "line": 220,
+          "line": 239,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {Object} ProjextWebpackBundleRunnerOptions\n * @property {?string} entry  The name of the webpack entry to execute. If not specified will\n *                            fallback to the first one on the list provided by webpack.\n * @property {?string} name   The _\"instance name\"_, used to register the listeners on the webpack\n *                            event hooks.\n *                            Its default value is `projext-webpack-plugin-bundle-runner`.\n * @property {?Logger} logger A custom logger to output the plugin's information messages.\n ",
+      "start": 7078,
+      "end": 7647,
+      "loc": {
+        "start": {
+          "line": 241,
+          "column": 0
+        },
+        "end": {
+          "line": 249,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {Object} ProjextWebpackOpenDevServerOptions\n * @property {boolean} openBrowser Whether or not to open the browser when the bundle is ready.\n *                                 Its default value is `true`.\n * @property {?string} name        The _\"instance name\"_, used to register the listeners on the\n *                                 webpack event hooks.\n *                                 Its default value is `projext-webpack-plugin-open-dev-server`.\n * @property {?Logger} logger      A custom logger to output the plugin's information messages.\n ",
+      "start": 7649,
+      "end": 8218,
+      "loc": {
+        "start": {
+          "line": 251,
+          "column": 0
+        },
+        "end": {
+          "line": 259,
           "column": 3
         }
       }
@@ -1270,9 +1430,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {TargetsHTML}\n * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html\n ",
+      "value": "*\n * @external {TargetsFileRules}\n * https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html\n ",
       "start": 1352,
-      "end": 1481,
+      "end": 1513,
       "loc": {
         "start": {
           "line": 66,
@@ -1286,9 +1446,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n ",
-      "start": 1483,
-      "end": 1589,
+      "value": "*\n * @external {TargetFileRules}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules\n ",
+      "start": 1515,
+      "end": 1639,
       "loc": {
         "start": {
           "line": 71,
@@ -1302,9 +1462,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {BrowserTarget}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget\n ",
-      "start": 1591,
-      "end": 1711,
+      "value": "*\n * @external {TargetsHTML}\n * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html\n ",
+      "start": 1641,
+      "end": 1770,
       "loc": {
         "start": {
           "line": 76,
@@ -1318,9 +1478,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {TargetConfigurationCreator}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator\n ",
-      "start": 1713,
-      "end": 1859,
+      "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n ",
+      "start": 1772,
+      "end": 1878,
       "loc": {
         "start": {
           "line": 81,
@@ -1334,9 +1494,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {ProjectConfigurationSettings}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings\n ",
-      "start": 1861,
-      "end": 2011,
+      "value": "*\n * @external {TargetConfigurationCreator}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator\n ",
+      "start": 1880,
+      "end": 2026,
       "loc": {
         "start": {
           "line": 86,
@@ -1350,9 +1510,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {BabelConfiguration}\n * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html\n ",
-      "start": 2013,
-      "end": 2170,
+      "value": "*\n * @external {ProjectConfigurationSettings}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings\n ",
+      "start": 2028,
+      "end": 2178,
       "loc": {
         "start": {
           "line": 91,
@@ -1366,9 +1526,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @external {Middleware}\n * http://expressjs.com/en/guide/using-middleware.html\n ",
-      "start": 2172,
-      "end": 2260,
+      "value": "*\n * @external {BabelConfiguration}\n * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html\n ",
+      "start": 2180,
+      "end": 2337,
       "loc": {
         "start": {
           "line": 96,
@@ -1382,16 +1542,48 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {function} DevMiddlewareGetDirectory\n * @return {string}\n * The build directory of the target implementing the dev middleware.\n ",
-      "start": 2262,
-      "end": 2408,
+      "value": "*\n * @external {Middleware}\n * http://expressjs.com/en/guide/using-middleware.html\n ",
+      "start": 2339,
+      "end": 2427,
       "loc": {
         "start": {
           "line": 101,
           "column": 0
         },
         "end": {
-          "line": 105,
+          "line": 104,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {ChildProcess}\n * https://nodejs.org/api/child_process.html#child_process_class_childprocess\n * @ignore\n ",
+      "start": 2429,
+      "end": 2553,
+      "loc": {
+        "start": {
+          "line": 106,
+          "column": 0
+        },
+        "end": {
+          "line": 110,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {function} DevMiddlewareGetDirectory\n * @return {string}\n * The build directory of the target implementing the dev middleware.\n ",
+      "start": 2555,
+      "end": 2701,
+      "loc": {
+        "start": {
+          "line": 112,
+          "column": 0
+        },
+        "end": {
+          "line": 116,
           "column": 3
         }
       }
@@ -1399,15 +1591,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {function} DevMiddlewareGetFileSystem\n * @return {Promise<FileSystem,Error>}\n * The reason this is resolved on a promise is to avoid trying to accessing files before they are\n * generated.\n ",
-      "start": 2410,
-      "end": 2618,
+      "start": 2703,
+      "end": 2911,
       "loc": {
         "start": {
-          "line": 107,
+          "line": 118,
           "column": 0
         },
         "end": {
-          "line": 112,
+          "line": 123,
           "column": 3
         }
       }
@@ -1415,15 +1607,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} MiddlewaresInformation\n * @property {Array} middlewares\n * A list of functions that when executed return a Node middleware.\n * @property {DevMiddlewareGetDirectory} getDirectory\n * To access the target implementing the middleware build directory.\n * @property {DevMiddlewareGetFileSystem} getFileSystem\n * To access the webpack dev middleware _\"virtual filesystem\"_.\n ",
-      "start": 2620,
-      "end": 3015,
+      "start": 2913,
+      "end": 3308,
       "loc": {
         "start": {
-          "line": 114,
+          "line": 125,
           "column": 0
         },
         "end": {
-          "line": 122,
+          "line": 133,
           "column": 3
         }
       }
@@ -1431,15 +1623,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} WebpackConfigurationsByEnvironment\n * @property {ConfigurationFile} production\n * The configuration service for a the target type production build.\n * @property {ConfigurationFile} development\n * The configuration service for a the target type development build.\n ",
-      "start": 3017,
-      "end": 3308,
+      "start": 3310,
+      "end": 3601,
       "loc": {
         "start": {
-          "line": 124,
+          "line": 135,
           "column": 0
         },
         "end": {
-          "line": 130,
+          "line": 141,
           "column": 3
         }
       }
@@ -1447,47 +1639,63 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} WebpackConfigurations\n * @property {WebpackConfigurationsByEnvironment} node\n * The build types configurations for a Node target.\n * @property {WebpackConfigurationsByEnvironment} browser\n * The build types configurations for a browser target.\n ",
-      "start": 3310,
-      "end": 3582,
+      "start": 3603,
+      "end": 3875,
       "loc": {
         "start": {
-          "line": 132,
+          "line": 143,
           "column": 0
         },
         "end": {
-          "line": 138,
+          "line": 149,
           "column": 3
         }
       }
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {Object} WebpackConfigurationTargetOutput\n * @property {string} js\n * The filename format and path for the bundle, on the distribution directory.\n * @property {?string} css\n * The filename format and path for the generated stylesheet, on the distribution directory.\n * This path is only available for {@link BrowserTarget}s\n * @property {?string} images\n * The filename format and path for the images that are going to be copied to the distribution\n * directory.\n * This path is only available for {@link BrowserTarget}s\n * @property {?string} fonts\n * The filename format and path for the font files that are going to be copied to the distribution\n * directory.\n * This path is only available for {@link BrowserTarget}s\n ",
-      "start": 3584,
-      "end": 4324,
+      "value": "*\n * @typedef {Object} WebpackConfigurationTargetOutput\n * @property {string} js\n * The filename format and path for the bundle, on the distribution directory.\n * @property {string} css\n * The filename format and path for the generated stylesheet, on the distribution directory.\n * @property {string} images\n * The filename format and path for the images that are going to be copied to the distribution\n * directory.\n * @property {string} fonts\n * The filename format and path for the font files that are going to be copied to the distribution\n * directory.\n ",
+      "start": 3877,
+      "end": 4440,
       "loc": {
         "start": {
-          "line": 140,
+          "line": 151,
           "column": 0
         },
         "end": {
-          "line": 155,
+          "line": 163,
           "column": 3
         }
       }
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {Object} WebpackConfigurationParams\n * @property {Target} target\n * The target information.\n * @property {Object} entry\n * A dictionary with the `entry` setting for a webpack configuration, generated with the target\n * information.\n * @property {WebpackConfigurationTargetOutput} output\n * A dictionary with the filenames formats and paths of the different files the bundle can\n * generate.\n * @property {Object} definitions\n * A dictionary of defined variables that will be replaced on the bundled code.\n * @property {string} buildType\n * The intended built type: `development` or `production`.\n ",
-      "start": 4326,
-      "end": 4941,
+      "value": "*\n * @typedef {Object} WebpackPluginInfo\n * @property {string} name          The name of the plugin.\n * @property {string} configuration The path to the `webpack.config.js` file.\n * @property {Array}  external      The list of subpaths the plugin exposes and that should be\n *                                  handled as external dependencies, in order to avoid bundling\n *                                  them.\n ",
+      "start": 4442,
+      "end": 4860,
       "loc": {
         "start": {
-          "line": 157,
+          "line": 165,
           "column": 0
         },
         "end": {
-          "line": 171,
+          "line": 172,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {Object} WebpackConfigurationParams\n * @property {Target} target\n * The target information.\n * @property {TargetFileRules} targetRules\n * The rules to find the different file types a target may use.\n * @property {Object} entry\n * A dictionary with the `entry` setting for a webpack configuration, generated with the target\n * information.\n * @property {WebpackConfigurationTargetOutput} output\n * A dictionary with the filenames formats and paths of the different files the bundle can\n * generate.\n * @property {Object} definitions\n * A dictionary of defined variables that will be replaced on the bundled code.\n * @property {string} buildType\n * The intended built type: `development` or `production`.\n ",
+      "start": 4862,
+      "end": 5584,
+      "loc": {
+        "start": {
+          "line": 174,
+          "column": 0
+        },
+        "end": {
+          "line": 190,
           "column": 3
         }
       }
@@ -1495,15 +1703,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} TargetDevServerSSLSettings\n * @property {string} key\n * The path to the SSL key (`.key`).\n * @property {string} cert\n * The path to the SSL certificate (`.crt`).\n * @property {string} ca\n * The path to the SSL public file (`.pem`).\n ",
-      "start": 4943,
-      "end": 5203,
+      "start": 5586,
+      "end": 5846,
       "loc": {
         "start": {
-          "line": 173,
+          "line": 192,
           "column": 0
         },
         "end": {
-          "line": 181,
+          "line": 200,
           "column": 3
         }
       }
@@ -1511,15 +1719,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} TargetDevServerProxiedSettings\n * @property {boolean} enabled\n * Whether or not the dev server is being proxied.\n * @property {string} host\n * The host used to proxy the dev server.\n * @property {boolean} https\n * Whether or not the proxied host uses `https`.\n ",
-      "start": 5205,
-      "end": 5493,
+      "start": 5848,
+      "end": 6136,
       "loc": {
         "start": {
-          "line": 183,
+          "line": 202,
           "column": 0
         },
         "end": {
-          "line": 191,
+          "line": 210,
           "column": 3
         }
       }
@@ -1527,15 +1735,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} TargetDevServerSettings\n * @property {number} port\n * The server port.\n * @property {string} host\n * The dev server hostname.\n * @property {string} url\n * The complete URL for the dev server.\n * @property {boolean} reload\n * Whether or not to reload the server when the code changes.\n * @property {?TargetDevServerSSLSettings} ssl\n * The paths to the files to enable SSL on the dev server.\n * @property {?TargetDevServerProxiedSettings} [proxied]\n * When the dev server is being proxied (using `nginx` for example), there are certain\n * functionalities, like hot module replacement and live reload, that need to be aware of this.\n ",
-      "start": 5495,
-      "end": 6153,
+      "start": 6138,
+      "end": 6796,
       "loc": {
         "start": {
-          "line": 193,
+          "line": 212,
           "column": 0
         },
         "end": {
-          "line": 208,
+          "line": 227,
           "column": 3
         }
       }
@@ -1543,15 +1751,15 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {function} ProviderRegisterMethod\n * @param {Jimple} app\n * A reference to the dependency injection container.\n ",
-      "start": 6155,
-      "end": 6285,
+      "start": 6798,
+      "end": 6928,
       "loc": {
         "start": {
-          "line": 210,
+          "line": 229,
           "column": 0
         },
         "end": {
-          "line": 214,
+          "line": 233,
           "column": 3
         }
       }
@@ -1559,15 +1767,47 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {Object} Provider\n * @property {ProviderRegisterMethod} register\n * The method that gets called when registering the provider.\n ",
-      "start": 6287,
-      "end": 6433,
+      "start": 6930,
+      "end": 7076,
       "loc": {
         "start": {
-          "line": 216,
+          "line": 235,
           "column": 0
         },
         "end": {
-          "line": 220,
+          "line": 239,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {Object} ProjextWebpackBundleRunnerOptions\n * @property {?string} entry  The name of the webpack entry to execute. If not specified will\n *                            fallback to the first one on the list provided by webpack.\n * @property {?string} name   The _\"instance name\"_, used to register the listeners on the webpack\n *                            event hooks.\n *                            Its default value is `projext-webpack-plugin-bundle-runner`.\n * @property {?Logger} logger A custom logger to output the plugin's information messages.\n ",
+      "start": 7078,
+      "end": 7647,
+      "loc": {
+        "start": {
+          "line": 241,
+          "column": 0
+        },
+        "end": {
+          "line": 249,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @typedef {Object} ProjextWebpackOpenDevServerOptions\n * @property {boolean} openBrowser Whether or not to open the browser when the bundle is ready.\n *                                 Its default value is `true`.\n * @property {?string} name        The _\"instance name\"_, used to register the listeners on the\n *                                 webpack event hooks.\n *                                 Its default value is `projext-webpack-plugin-open-dev-server`.\n * @property {?Logger} logger      A custom logger to output the plugin's information messages.\n ",
+      "start": 7649,
+      "end": 8218,
+      "loc": {
+        "start": {
+          "line": 251,
+          "column": 0
+        },
+        "end": {
+          "line": 259,
           "column": 3
         }
       }
@@ -1585,15 +1825,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 6434,
-      "end": 6434,
+      "start": 8219,
+      "end": 8219,
       "loc": {
         "start": {
-          "line": 221,
+          "line": 260,
           "column": 0
         },
         "end": {
-          "line": 221,
+          "line": 260,
           "column": 0
         }
       }

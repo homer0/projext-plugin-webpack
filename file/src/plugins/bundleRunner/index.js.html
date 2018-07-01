@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/plugins/bundleRunner/index.js | projext-plugin-webpack</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Allows projext to use webpack as a build engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="projext-plugin-webpack"><meta property="twitter:description" content="Allows projext to use webpack as a build engine."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/homer0/projext-plugin-webpack"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useExpress">useExpress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useJimpex">useJimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetDirectory">DevMiddlewareGetDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DevMiddlewareGetFileSystem">DevMiddlewareGetFileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerSSLSettings">TargetDevServerSSLSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerSettings">TargetDevServerSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationTargetOutput">WebpackConfigurationTargetOutput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurations">WebpackConfigurations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationsByEnvironment">WebpackConfigurationsByEnvironment</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebpackPluginInfo">WebpackPluginInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/building/buildVersion.js~BuildVersion.html">BuildVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/environmentUtils.js~EnvironmentUtils.html">EnvironmentUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/errorHandler.js~ErrorHandler.html">ErrorHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://expressjs.com">Express</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://nodejs.org/api/fs.html">FileSystem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimpex">Jimpex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules">TargetFileRules</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html">Targets</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html">TargetsFileRules</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html">TargetsHTML</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#abstracts">abstracts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jimpex">jimpex</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/frontendFs.js~WebpackFrontendFs.html">WebpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jimpex/sendFile.js~WebpackSendFile.html">WebpackSendFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-webpackFrontendFs">webpackFrontendFs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackSendFile">webpackSendFile</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBuildEngine">webpackBuildEngine</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-configurations">services/configurations</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html">WebpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html">WebpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/browserProductionConfiguration.js~WebpackBrowserProductionConfiguration.html">WebpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html">WebpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html">WebpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html">WebpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBaseConfiguration">webpackBaseConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserDevelopmentConfiguration">webpackBrowserDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackBrowserProductionConfiguration">webpackBrowserProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeDevelopmentConfiguration">webpackNodeDevelopmentConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackNodeProductionConfiguration">webpackNodeProductionConfiguration</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackRulesConfiguration">webpackRulesConfiguration</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-server">services/server</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/server/middlewares.js~WebpackMiddlewares.html">WebpackMiddlewares</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackMiddlewares">webpackMiddlewares</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/bundleRunner/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const path = require(&apos;path&apos;);
+const { fork } = require(&apos;child_process&apos;);
+const extend = require(&apos;extend&apos;);
+const ProjextWebpackUtils = require(&apos;../utils&apos;);
+/**
+ * This is a webpack plugin that executes a Node bundle when it finishes compiling.
+ */
+class ProjextWebpackBundleRunner {
+  /**
+   * @param {ProjextWebpackBundleRunnerOptions} [options={}] Settings to customize the plugin
+   *                                                         behaviour.
+   */
+  constructor(options = {}) {
+    /**
+     * The plugin options.
+     * @type {ProjextWebpackBundleRunnerOptions}
+     * @access protected
+     * @ignore
+     */
+    this._options = extend(
+      true,
+      {
+        entry: null,
+        name: &apos;projext-webpack-plugin-bundle-runner&apos;,
+        logger: null,
+      },
+      options
+    );
+    /**
+     * A logger to output the plugin&apos;s information messages.
+     * @type {Logger}
+     * @access protected
+     * @ignore
+     */
+    this._logger = ProjextWebpackUtils.createLogger(this._options.name, this._options.logger);
+    /**
+     * The absolute path for the entry file that will be executed. This will be assigned after
+     * webpack emits its assets.
+     * @type {?string}
+     * @access protected
+     * @ignore
+     */
+    this._entryPath = null;
+    /**
+     * Once the bundle is executed, this property will hold the reference for the process.
+     * @type {?ChildProcess}
+     * @access protected
+     * @ignore
+     */
+    this._instance = null;
+    /**
+     * This flag is used during the process in which the plugin finds the file to execute.
+     * Since the process runs every time webpack emits assets, which happens every time the build
+     * is updated, the flag is needed in order to prevent it from running more than once.
+     * @type {boolean}
+     * @access protected
+     * @ignore
+     */
+    this._setupReady = false;
+  }
+  /**
+   * Gets the plugin options.
+   * @return {ProjextWebpackBundleRunnerOptions}
+   */
+  getOptions() {
+    return this._options;
+  }
+  /**
+   * This is called by webpack when the plugin is being processed. The method takes care of adding
+   * the required listener to the webpack hooks in order to get the file, execute it and stop it.
+   * @param {Object} compiler The compiler information provided by webpack.
+   */
+  apply(compiler) {
+    const { name } = this._options;
+    compiler.hooks.afterEmit.tapAsync(name, this._onAssetsEmitted.bind(this));
+    compiler.hooks.compile.tap(name, this._onCompilationStarts.bind(this));
+    compiler.hooks.done.tap(name, this._onCompilationEnds.bind(this));
+  }
+  /**
+   * This is called by webpack every time assets are emitted. The first time the method is called,
+   * it will validate the entries and try to obtain the path to the file that will be executed.
+   * @param {Object}   compilation A dictionary with the assets information. Provided by webpack.
+   * @param {Function} callback    A function the method needs to call so webpack can continue the
+   *                               process.
+   * @access protected
+   * @ignore
+   */
+  _onAssetsEmitted(compilation, callback) {
+    // Check if the assets weren&apos;t already validated.
+    if (!this._setupReady) {
+      // Make sure this block won&apos;t run again.
+      this._setupReady = true;
+
+      // Get the assets dictionary emitted by webpack.
+      const { assets } = compilation;
+      // Transform the dictionary into an array and clear invalid entries.
+      const entries = Object.keys(assets).filter((asset) =&gt; (
+        // No need for HMR entries.
+        !asset.includes(&apos;hot-update&apos;) &amp;&amp;
+        // Remove it if doesn&apos;t provide a path for a file.
+        compilation.assets[asset].existsAt &amp;&amp;
+        // Remove it if the file path is not for JS file.
+        compilation.assets[asset].existsAt.match(/\.jsx?$/i)
+      ));
+      // Get the _&quot;specified&quot;_ entry from the plugin options.
+      let { entry } = this._options;
+      if (entry &amp;&amp; !entries.includes(entry)) {
+        // If an entry was specified but is not on the list, show an error.
+        this._logger.error(`The required entry (${entry}) doesn&apos;t exist`);
+        entry = null;
+        // And show the list of available entries.
+        this._logAvailableEntries(entries);
+      } else if (!entry &amp;&amp; entries.length === 1) {
+        // If no entry was specified, but there&apos;s only one, use it.
+        [entry] = entries;
+        // Prevent the output from being added on the same line as webpack messages.
+        setTimeout(() =&gt; {
+          this._logger.success(`Using the only available entry: ${entry}`);
+        }, 1);
+      } else if (!entry &amp;&amp; entries.length &gt; 1) {
+        // If no entry was specified and there are more than one, use the first one.
+        [entry] = entries;
+        // Prevent the output from being added on the same line as webpack messages.
+        setTimeout(() =&gt; {
+          this._logger.warning(`Doing fallback to the first entry: ${entry}`);
+          // And show the list of available entries.
+          this._logAvailableEntries(entries);
+        }, 1);
+      } else {
+        /**
+         * If this was reached, it means that an entry was specified and it was on the entries
+         * list.
+         */
+        setTimeout(() =&gt; {
+          this._logger.success(`Using the selected entry: ${entry}`);
+        }, 1);
+      }
+      // After validating the entry, update the reference on the plugin options.
+      this._options.entry = entry;
+      // If after the validation, there&apos;s still an entry to use...
+      if (entry) {
+        // ...resolve its file path and save it on a local property.
+        this._entryPath = path.resolve(compilation.assets[entry].existsAt);
+        // Prevent the output from being added on the same line as webpack messages.
+        setTimeout(() =&gt; {
+          this._logger.success(`Entry file: ${this._entryPath}`);
+        }, 1);
+      }
+    }
+    // Invoke the callback to continue the webpack process.
+    callback();
+  }
+  /**
+   * This is called by webpack when it starts compiling the bundle. If there&apos;s a child process
+   * running for the bundle, it will stop it and delete the reference.
+   * @access protected
+   * @ignore
+   */
+  _onCompilationStarts() {
+    // Make sure the child process is running.
+    if (this._instance) {
+      // Prevent the output from being added on the same line as webpack messages.
+      setTimeout(() =&gt; {
+        this._logger.info(&apos;Stopping the bundle execution&apos;);
+      }, 1);
+      // Kill the child process.
+      this._instance.kill();
+      // Remove its reference from the plugin.
+      this._instance = null;
+    }
+  }
+  /**
+   * This is called by webpack when it finishes compiling the bundle. If an entry was selected
+   * on the assets hook, and there&apos;s no child process already running, fork a new one.
+   * @access protected
+   * @ignore
+   */
+  _onCompilationEnds() {
+    // Make sure an entry was selected and there&apos;s no child process already running.
+    if (this._options.entry &amp;&amp; !this._instance) {
+      // Fork a new instance of the bundle.
+      this._instance = fork(this._entryPath);
+      // Prevent the output from being added on the same line as webpack messages.
+      setTimeout(() =&gt; {
+        this._logger.success(&apos;Starting the bundle execution&apos;);
+      }, 1);
+    }
+  }
+  /**
+   * This is called during the assets hook event if no entry was specified and there&apos;s more than
+   * one, or if the specified entry wasn&apos;t found. The method logs the list of available entries
+   * that can be used with the plugin.
+   * @param {Array} entries The list of available entries.
+   * @access protected
+   * @ignore
+   */
+  _logAvailableEntries(entries) {
+    const list = entries.join(&apos;, &apos;);
+    this._logger.info(`These are the available entries: ${list}`);
+  }
+}
+
+module.exports = ProjextWebpackBundleRunner;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

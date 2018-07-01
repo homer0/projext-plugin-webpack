@@ -6,6 +6,24 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "projext-plugin-webpack/src/plugins/bundlerunner/index.js~projextwebpackbundlerunner",
+    "class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html",
+    "<span>ProjextWebpackBundleRunner</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/plugins/bundleRunner/index.js</span>",
+    "class"
+  ],
+  [
+    "projext-plugin-webpack/src/plugins/opendevserver/index.js~projextwebpackopendevserver",
+    "class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html",
+    "<span>ProjextWebpackOpenDevServer</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/plugins/openDevServer/index.js</span>",
+    "class"
+  ],
+  [
+    "projext-plugin-webpack/src/plugins/utils.js~projextwebpackutils",
+    "class/src/plugins/utils.js~ProjextWebpackUtils.html",
+    "<span>ProjextWebpackUtils</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/plugins/utils.js</span>",
+    "class"
+  ],
+  [
     "projext-plugin-webpack/src/services/configurations/baseconfiguration.js~webpackbaseconfiguration",
     "class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html",
     "<span>WebpackBaseConfiguration</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/services/configurations/baseConfiguration.js</span>",
@@ -438,24 +456,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/abstracts/configurationfile.js~configurationfile#_config",
-    "class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-_config",
-    "src/abstracts/configurationFile.js~ConfigurationFile#_config",
-    "member"
-  ],
-  [
-    "src/abstracts/configurationfile.js~configurationfile#_fileconfig",
-    "class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-_fileConfig",
-    "src/abstracts/configurationFile.js~ConfigurationFile#_fileConfig",
-    "member"
-  ],
-  [
-    "src/abstracts/configurationfile.js~configurationfile#_fileconfigloaded",
-    "class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-_fileConfigLoaded",
-    "src/abstracts/configurationFile.js~ConfigurationFile#_fileConfigLoaded",
-    "member"
-  ],
-  [
     "src/abstracts/configurationfile.js~configurationfile#asfactory",
     "class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-asFactory",
     "src/abstracts/configurationFile.js~ConfigurationFile#asFactory",
@@ -480,9 +480,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/abstracts/configurationfile.js~configurationfile#overwritepath",
-    "class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-overwritePath",
-    "src/abstracts/configurationFile.js~ConfigurationFile#overwritePath",
+    "src/abstracts/configurationfile.js~configurationfile#overwritepaths",
+    "class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-overwritePaths",
+    "src/abstracts/configurationFile.js~ConfigurationFile#overwritePaths",
     "member"
   ],
   [
@@ -588,6 +588,84 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/plugins/bundlerunner/index.js",
+    "file/src/plugins/bundleRunner/index.js.html",
+    "src/plugins/bundleRunner/index.js",
+    "file"
+  ],
+  [
+    "src/plugins/bundlerunner/index.js~projextwebpackbundlerunner#apply",
+    "class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html#instance-method-apply",
+    "src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner#apply",
+    "method"
+  ],
+  [
+    "src/plugins/bundlerunner/index.js~projextwebpackbundlerunner#constructor",
+    "class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html#instance-constructor-constructor",
+    "src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner#constructor",
+    "method"
+  ],
+  [
+    "src/plugins/bundlerunner/index.js~projextwebpackbundlerunner#getoptions",
+    "class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html#instance-method-getOptions",
+    "src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner#getOptions",
+    "method"
+  ],
+  [
+    "src/plugins/index.js",
+    "file/src/plugins/index.js.html",
+    "src/plugins/index.js",
+    "file"
+  ],
+  [
+    "src/plugins/opendevserver/index.js",
+    "file/src/plugins/openDevServer/index.js.html",
+    "src/plugins/openDevServer/index.js",
+    "file"
+  ],
+  [
+    "src/plugins/opendevserver/index.js~projextwebpackopendevserver#_url",
+    "class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html#instance-member-_url",
+    "src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer#_url",
+    "member"
+  ],
+  [
+    "src/plugins/opendevserver/index.js~projextwebpackopendevserver#apply",
+    "class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html#instance-method-apply",
+    "src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer#apply",
+    "method"
+  ],
+  [
+    "src/plugins/opendevserver/index.js~projextwebpackopendevserver#constructor",
+    "class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html#instance-constructor-constructor",
+    "src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer#constructor",
+    "method"
+  ],
+  [
+    "src/plugins/opendevserver/index.js~projextwebpackopendevserver#getoptions",
+    "class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html#instance-method-getOptions",
+    "src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer#getOptions",
+    "method"
+  ],
+  [
+    "src/plugins/opendevserver/index.js~projextwebpackopendevserver#geturl",
+    "class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html#instance-method-getURL",
+    "src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer#getURL",
+    "method"
+  ],
+  [
+    "src/plugins/utils.js",
+    "file/src/plugins/utils.js.html",
+    "src/plugins/utils.js",
+    "file"
+  ],
+  [
+    "src/plugins/utils.js~projextwebpackutils.createlogger",
+    "class/src/plugins/utils.js~ProjextWebpackUtils.html#static-method-createLogger",
+    "src/plugins/utils.js~ProjextWebpackUtils.createLogger",
+    "method"
+  ],
+  [
     "src/services/building/configuration.js",
     "file/src/services/building/configuration.js.html",
     "src/services/building/configuration.js",
@@ -612,18 +690,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/services/building/configuration.js~webpackconfiguration#getdefinitions",
-    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-method-getDefinitions",
-    "src/services/building/configuration.js~WebpackConfiguration#getDefinitions",
-    "method"
-  ],
-  [
-    "src/services/building/configuration.js~webpackconfiguration#getlibraryoptions",
-    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-method-getLibraryOptions",
-    "src/services/building/configuration.js~WebpackConfiguration#getLibraryOptions",
-    "method"
-  ],
-  [
     "src/services/building/configuration.js~webpackconfiguration#pathutils",
     "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-member-pathUtils",
     "src/services/building/configuration.js~WebpackConfiguration#pathUtils",
@@ -639,6 +705,12 @@ window.esdocSearchIndex = [
     "src/services/building/configuration.js~webpackconfiguration#targets",
     "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-member-targets",
     "src/services/building/configuration.js~WebpackConfiguration#targets",
+    "member"
+  ],
+  [
+    "src/services/building/configuration.js~webpackconfiguration#targetsfilerules",
+    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-member-targetsFileRules",
+    "src/services/building/configuration.js~WebpackConfiguration#targetsFileRules",
     "member"
   ],
   [
@@ -660,12 +732,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/services/building/engine.js~webpackbuildengine#envvars",
-    "class/src/services/building/engine.js~WebpackBuildEngine.html#instance-member-envVars",
-    "src/services/building/engine.js~WebpackBuildEngine#envVars",
-    "member"
-  ],
-  [
     "src/services/building/engine.js~webpackbuildengine#environmentutils",
     "class/src/services/building/engine.js~WebpackBuildEngine.html#instance-member-environmentUtils",
     "src/services/building/engine.js~WebpackBuildEngine#environmentUtils",
@@ -684,18 +750,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/services/building/engine.js~webpackbuildengine#getenvvarsasstring",
-    "class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getEnvVarsAsString",
-    "src/services/building/engine.js~WebpackBuildEngine#getEnvVarsAsString",
-    "method"
-  ],
-  [
-    "src/services/building/engine.js~webpackbuildengine#getenvvarsvalues",
-    "class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getEnvVarsValues",
-    "src/services/building/engine.js~WebpackBuildEngine#getEnvVarsValues",
-    "method"
-  ],
-  [
     "src/services/building/engine.js~webpackbuildengine#getwebpackconfig",
     "class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getWebpackConfig",
     "src/services/building/engine.js~WebpackBuildEngine#getWebpackConfig",
@@ -711,6 +765,12 @@ window.esdocSearchIndex = [
     "src/services/building/engine.js~webpackbuildengine#webpackconfiguration",
     "class/src/services/building/engine.js~WebpackBuildEngine.html#instance-member-webpackConfiguration",
     "src/services/building/engine.js~WebpackBuildEngine#webpackConfiguration",
+    "member"
+  ],
+  [
+    "src/services/building/engine.js~webpackbuildengine#webpackplugininfo",
+    "class/src/services/building/engine.js~WebpackBuildEngine.html#instance-member-webpackPluginInfo",
+    "src/services/building/engine.js~WebpackBuildEngine#webpackPluginInfo",
     "member"
   ],
   [
@@ -744,6 +804,18 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/services/configurations/baseconfiguration.js~webpackbaseconfiguration#packageinfo",
+    "class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html#instance-member-packageInfo",
+    "src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration#packageInfo",
+    "member"
+  ],
+  [
+    "src/services/configurations/baseconfiguration.js~webpackbaseconfiguration#webpackplugininfo",
+    "class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html#instance-member-webpackPluginInfo",
+    "src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration#webpackPluginInfo",
+    "member"
+  ],
+  [
     "src/services/configurations/baseconfiguration.js~webpackbaseconfiguration#webpackrulesconfiguration",
     "class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html#instance-member-webpackRulesConfiguration",
     "src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration#webpackRulesConfiguration",
@@ -754,12 +826,6 @@ window.esdocSearchIndex = [
     "file/src/services/configurations/browserDevelopmentConfiguration.js.html",
     "src/services/configurations/browserDevelopmentConfiguration.js",
     "file"
-  ],
-  [
-    "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#_normalizetargetdevserversettings",
-    "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html#instance-method-_normalizeTargetDevServerSettings",
-    "src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration#_normalizeTargetDevServerSettings",
-    "method"
   ],
   [
     "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#applogger",
@@ -789,6 +855,12 @@ window.esdocSearchIndex = [
     "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#targetshtml",
     "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html#instance-member-targetsHTML",
     "src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration#targetsHTML",
+    "member"
+  ],
+  [
+    "src/services/configurations/browserdevelopmentconfiguration.js~webpackbrowserdevelopmentconfiguration#webpackplugininfo",
+    "class/src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration.html#instance-member-webpackPluginInfo",
+    "src/services/configurations/browserDevelopmentConfiguration.js~WebpackBrowserDevelopmentConfiguration#webpackPluginInfo",
     "member"
   ],
   [
@@ -834,6 +906,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration#applogger",
+    "class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html#instance-member-appLogger",
+    "src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration#appLogger",
+    "member"
+  ],
+  [
     "src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration#constructor",
     "class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html#instance-constructor-constructor",
     "src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration#constructor",
@@ -849,12 +927,6 @@ window.esdocSearchIndex = [
     "src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration#events",
     "class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html#instance-member-events",
     "src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration#events",
-    "member"
-  ],
-  [
-    "src/services/configurations/nodedevelopmentconfiguration.js~webpacknodedevelopmentconfiguration#webpackdefaultexternals",
-    "class/src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration.html#instance-member-webpackDefaultExternals",
-    "src/services/configurations/nodeDevelopmentConfiguration.js~WebpackNodeDevelopmentConfiguration#webpackDefaultExternals",
     "member"
   ],
   [
@@ -882,22 +954,10 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/services/configurations/nodeproductionconfiguration.js~webpacknodeproductionconfiguration#webpackdefaultexternals",
-    "class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html#instance-member-webpackDefaultExternals",
-    "src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration#webpackDefaultExternals",
-    "member"
-  ],
-  [
     "src/services/configurations/rulesconfiguration.js",
     "file/src/services/configurations/rulesConfiguration.js.html",
     "src/services/configurations/rulesConfiguration.js",
     "file"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#_reduceconfig",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-_reduceConfig",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#_reduceConfig",
-    "method"
   ],
   [
     "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#babelconfiguration",
@@ -924,48 +984,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#getcssrules",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-getCSSRules",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#getCSSRules",
-    "method"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#getfaviconsrules",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-getFaviconsRules",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#getFaviconsRules",
-    "method"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#getfontsrules",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-getFontsRules",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#getFontsRules",
-    "method"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#gethtmlrules",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-getHTMLRules",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#getHTMLRules",
-    "method"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#getimagesrules",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-getImagesRules",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#getImagesRules",
-    "method"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#getjsrules",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-getJSRules",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#getJSRules",
-    "method"
-  ],
-  [
-    "src/services/configurations/rulesconfiguration.js~webpackrulesconfiguration#getscssrules",
-    "class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-method-getSCSSRules",
-    "src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration#getSCSSRules",
-    "method"
-  ],
-  [
     "src/services/server/index.js",
     "file/src/services/server/index.js.html",
     "src/services/server/index.js",
@@ -978,21 +996,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/services/server/middlewares.js~webpackmiddlewares#_filesystem",
-    "class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-method-_fileSystem",
-    "src/services/server/middlewares.js~WebpackMiddlewares#_fileSystem",
-    "method"
-  ],
-  [
     "src/services/server/middlewares.js~webpackmiddlewares#constructor",
     "class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-constructor-constructor",
     "src/services/server/middlewares.js~WebpackMiddlewares#constructor",
-    "method"
-  ],
-  [
-    "src/services/server/middlewares.js~webpackmiddlewares#devmiddleware",
-    "class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-method-devMiddleware",
-    "src/services/server/middlewares.js~WebpackMiddlewares#devMiddleware",
     "method"
   ],
   [
@@ -1002,21 +1008,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/services/server/middlewares.js~webpackmiddlewares#filesystem",
-    "class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-method-fileSystem",
-    "src/services/server/middlewares.js~WebpackMiddlewares#fileSystem",
-    "method"
-  ],
-  [
     "src/services/server/middlewares.js~webpackmiddlewares#generate",
     "class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-method-generate",
     "src/services/server/middlewares.js~WebpackMiddlewares#generate",
-    "method"
-  ],
-  [
-    "src/services/server/middlewares.js~webpackmiddlewares#hotmiddleware",
-    "class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-method-hotMiddleware",
-    "src/services/server/middlewares.js~WebpackMiddlewares#hotMiddleware",
     "method"
   ],
   [
@@ -1032,6 +1026,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/services/server/middlewares.js~webpackmiddlewares#webpackplugininfo",
+    "class/src/services/server/middlewares.js~WebpackMiddlewares.html#instance-member-webpackPluginInfo",
+    "src/services/server/middlewares.js~WebpackMiddlewares#webpackPluginInfo",
+    "member"
+  ],
+  [
     "src/typedef.js",
     "file/src/typedef.js.html",
     "src/typedef.js",
@@ -1041,12 +1041,6 @@ window.esdocSearchIndex = [
     "src/typedef.js~babelconfiguration",
     "https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html",
     "src/typedef.js~BabelConfiguration",
-    "external"
-  ],
-  [
-    "src/typedef.js~browsertarget",
-    "https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget",
-    "src/typedef.js~BrowserTarget",
     "external"
   ],
   [
@@ -1146,6 +1140,18 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "src/typedef.js~projextwebpackbundlerunneroptions",
+    "typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions",
+    "src/typedef.js~ProjextWebpackBundleRunnerOptions",
+    "typedef"
+  ],
+  [
+    "src/typedef.js~projextwebpackopendevserveroptions",
+    "typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions",
+    "src/typedef.js~ProjextWebpackOpenDevServerOptions",
+    "typedef"
+  ],
+  [
     "src/typedef.js~provider",
     "typedef/index.html#static-typedef-Provider",
     "src/typedef.js~Provider",
@@ -1194,9 +1200,21 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/typedef.js~targetfilerules",
+    "https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules",
+    "src/typedef.js~TargetFileRules",
+    "external"
+  ],
+  [
     "src/typedef.js~targets",
     "https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html",
     "src/typedef.js~Targets",
+    "external"
+  ],
+  [
+    "src/typedef.js~targetsfilerules",
+    "https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html",
+    "src/typedef.js~TargetsFileRules",
     "external"
   ],
   [
@@ -1227,6 +1245,12 @@ window.esdocSearchIndex = [
     "src/typedef.js~webpackconfigurationsbyenvironment",
     "typedef/index.html#static-typedef-WebpackConfigurationsByEnvironment",
     "src/typedef.js~WebpackConfigurationsByEnvironment",
+    "typedef"
+  ],
+  [
+    "src/typedef.js~webpackplugininfo",
+    "typedef/index.html#static-typedef-WebpackPluginInfo",
+    "src/typedef.js~WebpackPluginInfo",
     "typedef"
   ]
 ]
