@@ -22,6 +22,7 @@ describe('services/building:configuration', () => {
     const buildVersion = 'buildVersion';
     const pathUtils = 'pathUtils';
     const targets = 'targets';
+    const targetsFileRules = 'targetsFileRules';
     const targetConfiguration = 'targetConfiguration';
     const webpackConfigurations = 'webpackConfigurations';
     let sut = null;
@@ -30,6 +31,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -38,6 +40,7 @@ describe('services/building:configuration', () => {
     expect(sut.buildVersion).toBe(buildVersion);
     expect(sut.pathUtils).toBe(pathUtils);
     expect(sut.targets).toBe(targets);
+    expect(sut.targetsFileRules).toBe(targetsFileRules);
     expect(sut.targetConfiguration).toBe(targetConfiguration);
     expect(sut.webpackConfigurations).toBe(webpackConfigurations);
   });
@@ -47,6 +50,7 @@ describe('services/building:configuration', () => {
     const buildVersion = 'buildVersion';
     const pathUtils = 'pathUtils';
     const targets = 'targets';
+    const targetsFileRules = 'targetsFileRules';
     const targetConfiguration = 'targetConfiguration';
     const target = {
       type: 'random-type',
@@ -58,6 +62,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -71,6 +76,7 @@ describe('services/building:configuration', () => {
     const buildVersion = 'buildVersion';
     const pathUtils = 'pathUtils';
     const targets = 'targets';
+    const targetsFileRules = 'targetsFileRules';
     const targetConfiguration = 'targetConfiguration';
     const target = {
       type: 'node',
@@ -85,6 +91,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -113,6 +120,10 @@ describe('services/building:configuration', () => {
       getConfig: jest.fn(() => config),
     };
     const targets = 'targets';
+    const targetRules = 'target-rule';
+    const targetsFileRules = {
+      getRulesForTarget: jest.fn(() => targetRules),
+    };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
     const target = {
@@ -151,6 +162,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -159,6 +171,8 @@ describe('services/building:configuration', () => {
     expect(result).toEqual(config);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
     expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(targetsFileRules.getRulesForTarget).toHaveBeenCalledTimes(1);
+    expect(targetsFileRules.getRulesForTarget).toHaveBeenCalledWith(target);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -180,6 +194,7 @@ describe('services/building:configuration', () => {
         [versionVariable]: `"${version}"`,
       },
       output: target.output[buildType],
+      targetRules,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -207,6 +222,10 @@ describe('services/building:configuration', () => {
       getConfig: jest.fn(() => config),
     };
     const targets = 'targets';
+    const targetRules = 'target-rule';
+    const targetsFileRules = {
+      getRulesForTarget: jest.fn(() => targetRules),
+    };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
     const target = {
@@ -245,6 +264,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -274,6 +294,7 @@ describe('services/building:configuration', () => {
         [versionVariable]: `"${version}"`,
       },
       output: target.output[buildType],
+      targetRules,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -303,6 +324,10 @@ describe('services/building:configuration', () => {
     };
     const targets = {
       getBrowserTargetConfiguration: jest.fn(() => targetBrowserConfig),
+    };
+    const targetRules = 'target-rule';
+    const targetsFileRules = {
+      getRulesForTarget: jest.fn(() => targetRules),
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
@@ -342,6 +367,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -372,6 +398,7 @@ describe('services/building:configuration', () => {
         [versionVariable]: `"${version}"`,
         [target.configuration.defineOn]: JSON.stringify(targetBrowserConfig),
       },
+      targetRules,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -399,6 +426,10 @@ describe('services/building:configuration', () => {
       getConfig: jest.fn(() => config),
     };
     const targets = 'targets';
+    const targetRules = 'target-rule';
+    const targetsFileRules = {
+      getRulesForTarget: jest.fn(() => targetRules),
+    };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
     const target = {
@@ -439,6 +470,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -471,6 +503,7 @@ describe('services/building:configuration', () => {
         [versionVariable]: `"${version}"`,
       },
       output: target.output[buildType],
+      targetRules,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -496,6 +529,10 @@ describe('services/building:configuration', () => {
       getConfig: jest.fn(() => config),
     };
     const targets = 'targets';
+    const targetRules = 'target-rule';
+    const targetsFileRules = {
+      getRulesForTarget: jest.fn(() => targetRules),
+    };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
     const target = {
@@ -541,6 +578,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -570,6 +608,7 @@ describe('services/building:configuration', () => {
         [versionVariable]: `"${version}"`,
       },
       output: target.output[buildType],
+      targetRules,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -595,6 +634,10 @@ describe('services/building:configuration', () => {
       getConfig: jest.fn(() => config),
     };
     const targets = 'targets';
+    const targetRules = 'target-rule';
+    const targetsFileRules = {
+      getRulesForTarget: jest.fn(() => targetRules),
+    };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
     const target = {
@@ -642,6 +685,7 @@ describe('services/building:configuration', () => {
       buildVersion,
       pathUtils,
       targets,
+      targetsFileRules,
       targetConfiguration,
       webpackConfigurations
     );
@@ -671,6 +715,7 @@ describe('services/building:configuration', () => {
         [versionVariable]: `"${version}"`,
       },
       output: target.output[buildType],
+      targetRules,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -697,6 +742,7 @@ describe('services/building:configuration', () => {
     expect(sut.pathUtils).toBe('pathUtils');
     expect(sut.buildVersion).toBe('buildVersion');
     expect(sut.targets).toBe('targets');
+    expect(sut.targetsFileRules).toBe('targetsFileRules');
     expect(sut.targetConfiguration).toBe('targetConfiguration');
     expect(sut.webpackConfigurations).toEqual({
       node: {

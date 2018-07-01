@@ -4,17 +4,21 @@ const webpackRealHotMiddleware = require('webpack-hot-middleware');
 const { provider } = require('jimple');
 const { deferred } = require('wootils/shared');
 /**
- * This service creates and manages middlewares for Webpack server implementations.
+ * This service creates and manages middlewares for webpack server implementations.
  */
 class WebpackMiddlewares {
   /**
    * Class constructor.
    * @param {Events}               events               To reduce the middlewares configuration.
    * @param {Targets}              targets              To get targets information.
-   * @param {WebpackConfiguration} webpackConfiguration To get a target Webpack configuration in
+   * @param {WebpackConfiguration} webpackConfiguration To get a target webpack configuration in
    *                                                    order to instantiate the middlewares.
+   * @param {WebpackPluginInfo}    webpackPluginInfo    To get the name of the plugin and use it
+   *                                                    on the webpack hook that resolves the
+   *                                                    file system when the middleware finishes
+   *                                                    bundling.
    */
-  constructor(events, targets, webpackConfiguration) {
+  constructor(events, targets, webpackConfiguration, webpackPluginInfo) {
     /**
      * A local reference for the `events` service.
      * @type {Events}
@@ -31,6 +35,11 @@ class WebpackMiddlewares {
      */
     this.webpackConfiguration = webpackConfiguration;
     /**
+     * A local reference for the plugin information.
+     * @type {WebpackPluginInfo}
+     */
+    this.webpackPluginInfo = webpackPluginInfo;
+    /**
      * A dictionary with the dev middlewares. It uses the targets names as the keys.
      * @type {Object}
      * @ignore
@@ -46,7 +55,7 @@ class WebpackMiddlewares {
     this._hotMiddlewares = {};
     /**
      * A dictionary of flags that indicate if a target middleware file system is ready to be used.
-     * A middleware file system is not ready until Webpack finishes compiling the code.
+     * A middleware file system is not ready until webpack finishes compiling the code.
      * It uses the targets names as the keys.
      * @type {Object}
      * @ignore
@@ -54,7 +63,7 @@ class WebpackMiddlewares {
      */
     this._fileSystemsReady = {};
     /**
-     * A dictionary of deffered promises the service uses to return when asked for a file system
+     * A dictionary of deferred promises the service uses to return when asked for a file system
      * while its middleware hasn't finished compiling.
      * It uses the targets names as the keys.
      * @type {Object}
@@ -104,15 +113,15 @@ class WebpackMiddlewares {
     this._directories[targetToBuild] = this.targets.getTarget(targetToServe).paths.build;
     // Create the list of middlewares with just the dev middleware.
     const middlewares = [
-      () => this.devMiddleware(target),
+      () => this._devMiddleware(target),
     ];
     // If the target uses hot replacement...
     if (target.hot) {
       // ...pubsh the function that returns the hot middleware.
-      middlewares.push(() => this.hotMiddleware(target));
+      middlewares.push(() => this._hotMiddleware(target));
     }
     // Define the functions to get the file system promise and the middleware root directory.
-    const getFileSystem = () => this.fileSystem(target);
+    const getFileSystem = () => this._fileSystem(target);
     const getDirectory = () => this._directories[target.name];
 
     return {
@@ -125,26 +134,32 @@ class WebpackMiddlewares {
    * Get access to a target dev middleware.
    * @param {Target} target The target for which the middleware is.
    * @return {Middleware}
+   * @access protected
+   * @ignore
    */
-  devMiddleware(target) {
+  _devMiddleware(target) {
     return this._compile(target).devMiddleware;
   }
   /**
    * Get access to a target hot middleware.
    * @param {Target} target The target for which the middleware is.
    * @return {Middleware}
+   * @access protected
+   * @ignore
    */
-  hotMiddleware(target) {
+  _hotMiddleware(target) {
     return this._compile(target).hotMiddleware;
   }
   /**
    * Get access to a target dev middleware file system.
    * @param {Target} target The target owner of the middleware.
    * @return {Promise<FileSystem,Error>}
+   * @access protected
+   * @ignore
    */
-  fileSystem(target) {
+  _fileSystem(target) {
     return this._fileSystemsReady[target.name] ?
-      Promise.resolve(this._fileSystem(target)) :
+      Promise.resolve(this._getFileSystem(target)) :
       this._fileSystemsDeferreds[target.name].promise;
   }
   /**
@@ -152,9 +167,11 @@ class WebpackMiddlewares {
    * and returns its file system.
    * @param {Target} target The target owner of the middleware.
    * @return {FileSystem}
+   * @access protected
+   * @ignore
    */
-  _fileSystem(target) {
-    return this.devMiddleware(target).fileSystem;
+  _getFileSystem(target) {
+    return this._devMiddleware(target).fileSystem;
   }
   /**
    * This method gets called every time another method fromt the service needs to access a
@@ -166,14 +183,14 @@ class WebpackMiddlewares {
    * return.
    * @param {Target} target The target for which the middlewares are for.
    * @return {object}
-   * @property {middleware}  devMiddleware An instance of the Webpack dev middleware created for
+   * @property {middleware}  devMiddleware An instance of the webpack dev middleware created for
    *                                       the target.
-   * @property {?middleware} hotMiddleware An instance of the Webpack hot middleware, if needed
+   * @property {?middleware} hotMiddleware An instance of the webpack hot middleware, if needed
    *                                       by the target.
    * @property {string}      directory     The build directory of the target implementing the
    *                                       middleware.
-   * @ignore
    * @access protected
+   * @ignore
    */
   _compile(target) {
     if (!this._compiled.includes(target.name)) {
@@ -214,17 +231,18 @@ class WebpackMiddlewares {
     };
   }
   /**
-   * Creates a _'fake Webpack plugin'_ that detects when the bundle finishes compiling and let
+   * Creates a _'fake webpack plugin'_ that detects when the bundle finishes compiling and let
    * the service know that the file system can accessed now.
    * @param {Target} target The target owner of the middleware.
    * @return {object} A webpack plugin.
-   * @ignore
    * @access protected
+   * @ignore
    */
   _getFileSystemStatusPlugin(target) {
     return {
       apply: (compiler) => {
-        compiler.plugin('done', () => {
+        const { name } = this.webpackPluginInfo;
+        compiler.hooks.done.tap(`${name}-middleware`, () => {
           // Mark the file system as ready.
           this._fileSystemsReady[target.name] = true;
           // Resolve the deferred promise.
@@ -250,7 +268,8 @@ const webpackMiddlewares = provider((app) => {
   app.set('webpackMiddlewares', () => new WebpackMiddlewares(
     app.get('events'),
     app.get('targets'),
-    app.get('webpackConfiguration')
+    app.get('webpackConfiguration'),
+    app.get('webpackPluginInfo')
   ));
 });
 

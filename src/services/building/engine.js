@@ -12,11 +12,13 @@ class WebpackBuildEngine {
    *                                                    method.
    * @param {Targets}              targets              To get a target information.
    * @param {WebpackConfiguration} webpackConfiguration To generate a configuration for a target.
+   * @param {WebpackPluginInfo}    webpackPluginInfo    To get the path to the configuration file.
    */
   constructor(
     environmentUtils,
     targets,
-    webpackConfiguration
+    webpackConfiguration,
+    webpackPluginInfo
   ) {
     /**
      * A local reference for the `environmentUtils` service.
@@ -34,7 +36,12 @@ class WebpackBuildEngine {
      */
     this.webpackConfiguration = webpackConfiguration;
     /**
-     * A dictionary of environment variables the service will include on the CLI command and\
+     * A local reference for the plugin information.
+     * @type {WebpackPluginInfo}
+     */
+    this.webpackPluginInfo = webpackPluginInfo;
+    /**
+     * A dictionary of environment variables the service will include on the CLI command and
      * that will be retrieved when generating the configuration.
      * The keys are the purpose and the values the actual names of the variables.
      * @type {Object}
@@ -43,8 +50,10 @@ class WebpackBuildEngine {
      * @property {string} run    Whether or not to execute the target. This will be like a fake
      *                           boolean as the CLI doesn't support boolean variables, so its value
      *                           will be either `'true'` or `'false'`.
+     * @access protected
+     * @ignore
      */
-    this.envVars = {
+    this._envVars = {
       target: 'PROJEXT_WEBPACK_TARGET',
       type: 'PROJEXT_WEBPACK_BUILD_TYPE',
       run: 'PROJEXT_WEBPACK_RUN',
@@ -59,15 +68,16 @@ class WebpackBuildEngine {
    * @return {string}
    */
   getBuildCommand(target, buildType, forceRun = false) {
-    const vars = this.getEnvVarsAsString({
+    const vars = this._getEnvVarsAsString({
       target: target.name,
       type: buildType,
       run: forceRun,
     });
 
     const config = path.join(
-      'node_modules/projext-plugin-webpack',
-      'src/webpack.config.js'
+      'node_modules',
+      this.webpackPluginInfo.name,
+      this.webpackPluginInfo.configuration
     );
 
     const options = [
@@ -99,7 +109,7 @@ class WebpackBuildEngine {
    * @throws {Error} If the environment variables are not present.
    */
   getWebpackConfig() {
-    const vars = this.getEnvVarsValues();
+    const vars = this._getEnvVarsValues();
     if (!vars.target || !vars.type) {
       throw new Error('This file can only be run by using the `build` command');
     }
@@ -116,27 +126,31 @@ class WebpackBuildEngine {
    * Given a dictionary with the environment variables purpose and values, this method generates
    * a string with the variables real names and values.
    * @example
-   * console.log(getEnvVarsAsString{
+   * console.log(_getEnvVarsAsString{
    *   target: 'my-target',
    *   type: 'development',
    * });
    * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`
    * @param {object} values A dictionary with the purpose(alias) of the variables as keys.
    * @return {string}
+   * @access protected
+   * @ignore
    */
-  getEnvVarsAsString(values) {
+  _getEnvVarsAsString(values) {
     return Object.keys(values)
-    .map((name) => `${this.envVars[name]}=${values[name]}`)
+    .map((name) => `${this._envVars[name]}=${values[name]}`)
     .join(' ');
   }
   /**
    * Load the environment variables and returns them on a dictionary.
    * @return {object} The dictionary will have the purpose(alias) of the variables as keys.
+   * @access protected
+   * @ignore
    */
-  getEnvVarsValues() {
+  _getEnvVarsValues() {
     const vars = {};
-    Object.keys(this.envVars).forEach((name) => {
-      vars[name] = this.environmentUtils.get(this.envVars[name]);
+    Object.keys(this._envVars).forEach((name) => {
+      vars[name] = this.environmentUtils.get(this._envVars[name]);
     });
 
     return vars;
@@ -156,7 +170,8 @@ const webpackBuildEngine = provider((app) => {
   app.set('webpackBuildEngine', () => new WebpackBuildEngine(
     app.get('environmentUtils'),
     app.get('targets'),
-    app.get('webpackConfiguration')
+    app.get('webpackConfiguration'),
+    app.get('webpackPluginInfo')
   ));
 });
 

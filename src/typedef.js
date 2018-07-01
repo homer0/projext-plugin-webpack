@@ -64,6 +64,16 @@
  */
 
 /**
+ * @external {TargetsFileRules}
+ * https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html
+ */
+
+/**
+ * @external {TargetFileRules}
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules
+ */
+
+/**
  * @external {TargetsHTML}
  * https://homer0.github.io/projext/class/src/services/targets/targetsHTML.js~TargetsHTML.html
  */
@@ -71,11 +81,6 @@
 /**
  * @external {Target}
  * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target
- */
-
-/**
- * @external {BrowserTarget}
- * https://homer0.github.io/projext/typedef/index.html#static-typedef-BrowserTarget
  */
 
 /**
@@ -96,6 +101,12 @@
 /**
  * @external {Middleware}
  * http://expressjs.com/en/guide/using-middleware.html
+ */
+
+/**
+ * @external {ChildProcess}
+ * https://nodejs.org/api/child_process.html#child_process_class_childprocess
+ * @ignore
  */
 
 /**
@@ -141,23 +152,31 @@
  * @typedef {Object} WebpackConfigurationTargetOutput
  * @property {string} js
  * The filename format and path for the bundle, on the distribution directory.
- * @property {?string} css
+ * @property {string} css
  * The filename format and path for the generated stylesheet, on the distribution directory.
- * This path is only available for {@link BrowserTarget}s
- * @property {?string} images
+ * @property {string} images
  * The filename format and path for the images that are going to be copied to the distribution
  * directory.
- * This path is only available for {@link BrowserTarget}s
- * @property {?string} fonts
+ * @property {string} fonts
  * The filename format and path for the font files that are going to be copied to the distribution
  * directory.
- * This path is only available for {@link BrowserTarget}s
+ */
+
+/**
+ * @typedef {Object} WebpackPluginInfo
+ * @property {string} name          The name of the plugin.
+ * @property {string} configuration The path to the `webpack.config.js` file.
+ * @property {Array}  external      The list of subpaths the plugin exposes and that should be
+ *                                  handled as external dependencies, in order to avoid bundling
+ *                                  them.
  */
 
 /**
  * @typedef {Object} WebpackConfigurationParams
  * @property {Target} target
  * The target information.
+ * @property {TargetFileRules} targetRules
+ * The rules to find the different file types a target may use.
  * @property {Object} entry
  * A dictionary with the `entry` setting for a webpack configuration, generated with the target
  * information.
@@ -217,4 +236,24 @@
  * @typedef {Object} Provider
  * @property {ProviderRegisterMethod} register
  * The method that gets called when registering the provider.
+ */
+
+/**
+ * @typedef {Object} ProjextWebpackBundleRunnerOptions
+ * @property {?string} entry  The name of the webpack entry to execute. If not specified will
+ *                            fallback to the first one on the list provided by webpack.
+ * @property {?string} name   The _"instance name"_, used to register the listeners on the webpack
+ *                            event hooks.
+ *                            Its default value is `projext-webpack-plugin-bundle-runner`.
+ * @property {?Logger} logger A custom logger to output the plugin's information messages.
+ */
+
+/**
+ * @typedef {Object} ProjextWebpackOpenDevServerOptions
+ * @property {boolean} openBrowser Whether or not to open the browser when the bundle is ready.
+ *                                 Its default value is `true`.
+ * @property {?string} name        The _"instance name"_, used to register the listeners on the
+ *                                 webpack event hooks.
+ *                                 Its default value is `projext-webpack-plugin-open-dev-server`.
+ * @property {?Logger} logger      A custom logger to output the plugin's information messages.
  */

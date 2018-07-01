@@ -15,18 +15,21 @@ describe('services/building:engine', () => {
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackBuildEngine);
     expect(sut.environmentUtils).toBe(environmentUtils);
     expect(sut.targets).toBe(targets);
     expect(sut.webpackConfiguration).toBe(webpackConfiguration);
+    expect(sut.webpackPluginInfo).toBe(webpackPluginInfo);
   });
 
   it('should return the command to build a target', () => {
@@ -34,6 +37,10 @@ describe('services/building:engine', () => {
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
     const buildType = 'development';
     const target = {
       name: 'some-target',
@@ -43,18 +50,21 @@ describe('services/building:engine', () => {
     };
     let sut = null;
     let result = null;
+    const expectedConfigPath = 'node_modules' +
+      `/${webpackPluginInfo.name}/${webpackPluginInfo.configuration}`;
     // When
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     result = sut.getBuildCommand(target, buildType);
     // Then
     expect(result).toMatch(/PROJEXT_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack/);
     expect(result).toMatch(/PROJEXT_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack/);
     expect(result).toMatch(/PROJEXT_WEBPACK_RUN=(?:true|false).*?webpack/);
-    expect(result).toMatch(/webpack --config ([\w_\-/]*?)webpack\.config\.js/);
+    expect(result).toMatch(new RegExp(`webpack --config ${expectedConfigPath}`));
     expect(result).toMatch(/webpack --config.*?--progress/);
     expect(result).toMatch(/webpack --config.*?--profile/);
     expect(result).toMatch(/webpack --config.*?--colors/);
@@ -65,6 +75,10 @@ describe('services/building:engine', () => {
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
     const buildType = 'development';
     const target = {
       name: 'some-target',
@@ -75,18 +89,21 @@ describe('services/building:engine', () => {
     };
     let sut = null;
     let result = null;
+    const expectedConfigPath = 'node_modules' +
+      `/${webpackPluginInfo.name}/${webpackPluginInfo.configuration}`;
     // When
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     result = sut.getBuildCommand(target, buildType);
     // Then
     expect(result).toMatch(/PROJEXT_WEBPACK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
     expect(result).toMatch(/PROJEXT_WEBPACK_BUILD_TYPE=(?:\w+).*?webpack-dev-server/);
     expect(result).toMatch(/PROJEXT_WEBPACK_RUN=(?:true|false).*?webpack-dev-server/);
-    expect(result).toMatch(/webpack-dev-server --config ([\w_\-/]*?)webpack\.config\.js/);
+    expect(result).toMatch(new RegExp(`webpack-dev-server --config ${expectedConfigPath}`));
     expect(result).toMatch(/webpack-dev-server --config.*?--progress/);
     expect(result).toMatch(/webpack-dev-server --config.*?--profile/);
     expect(result).toMatch(/webpack-dev-server --config.*?--colors/);
@@ -97,6 +114,10 @@ describe('services/building:engine', () => {
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
     const buildType = 'development';
     const target = {
       name: 'some-target',
@@ -111,7 +132,8 @@ describe('services/building:engine', () => {
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     result = sut.getBuildCommand(target, buildType, true);
     // Then
@@ -134,13 +156,18 @@ describe('services/building:engine', () => {
     const webpackConfiguration = {
       getConfig: jest.fn(() => config),
     };
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
     let sut = null;
     let result = null;
     // When
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     result = sut.getConfiguration(target, buildType);
     // Then
@@ -173,13 +200,18 @@ describe('services/building:engine', () => {
     const webpackConfiguration = {
       getConfig: jest.fn(() => config),
     };
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
     let sut = null;
     let result = null;
     // When
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     result = sut.getWebpackConfig();
     // Then
@@ -218,13 +250,18 @@ describe('services/building:engine', () => {
     const webpackConfiguration = {
       getConfig: jest.fn(() => config),
     };
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
     let sut = null;
     let result = null;
     // When
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     result = sut.getWebpackConfig();
     // Then
@@ -245,7 +282,7 @@ describe('services/building:engine', () => {
     });
   });
 
-  it('should thro an error when getting a configuration without the env variables', () => {
+  it('should throw an error when getting a configuration without the env variables', () => {
     // Given
     const envVarsNames = [
       'PROJEXT_WEBPACK_TARGET',
@@ -257,12 +294,14 @@ describe('services/building:engine', () => {
     };
     const targets = 'targets';
     const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackBuildEngine(
       environmentUtils,
       targets,
-      webpackConfiguration
+      webpackConfiguration,
+      webpackPluginInfo
     );
     // Then
     expect(() => sut.getWebpackConfig()).toThrow(/can only be run by using the `build` command/);
@@ -292,5 +331,6 @@ describe('services/building:engine', () => {
     expect(sut.environmentUtils).toBe('environmentUtils');
     expect(sut.targets).toBe('targets');
     expect(sut.webpackConfiguration).toBe('webpackConfiguration');
+    expect(sut.webpackPluginInfo).toBe('webpackPluginInfo');
   });
 });

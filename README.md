@@ -1,20 +1,15 @@
 # projext plugin for webpack
 
+[![Travis](https://img.shields.io/travis/homer0/projext-plugin-webpack.svg?style=flat-square)](https://travis-ci.org/homer0/projext-plugin-webpack)
+[![Coveralls github](https://img.shields.io/coveralls/github/homer0/projext-plugin-webpack.svg?style=flat-square)](https://coveralls.io/github/homer0/projext-plugin-webpack?branch=master)
+[![David](https://img.shields.io/david/homer0/projext-plugin-webpack.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack)
+[![David](https://img.shields.io/david/dev/homer0/projext-plugin-webpack.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack)
+
 Allows [projext](https://yarnpkg.com/en/package/projext) to use [webpack](https://webpack.js.org) as a build engine.
 
 ## Introduction
 
 [projext](https://yarnpkg.com/en/package/projext) allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin allows you to bundle your projext project targets using [webpack](https://webpack.js.org).
-
-### Node targets
-
-- It only handles Javascript files.
-- It uses [`webpack-node-utils`](https://yarnpkg.com/en/package/webpack-node-utils) to execute the target.
-
-### Browser targets
-
-- It handles Javascript files, stylesheets (CSS and SCSS), images, favicons and fonts.
-- It uses the [`webpack-dev-server`](https://yarnpkg.com/en/package/webpack-dev-server) to run the target.
 
 ## Information
 
@@ -122,9 +117,11 @@ They can be easily extended/overwritten by creating a file on your project with 
 All the configurations receive a single object parameter with the following properties:
 
 - `target`: It has all the information for the target being bundled.
+- `targetRules`: The rules to find the target files on the file system.
 - `entry`: A dictionary with the `entry` setting for a webpack configuration, generated with the target information.
 - `output`: A dictionary with the filenames formats and paths of the different files the bundle can generate (`js`, `css`, `images` and `fonts`).
 - `definitions`: A dictionary of defined variables that will be replaced on the bundled code.
+- `buildType`: The indented build type (`development` or `production`).
 
 #### Base configuration
 
@@ -410,19 +407,19 @@ Before doing anything, install the repository hooks:
 
 ```bash
 # You can either use npm or yarn, it doesn't matter
-npm run install-hooks
+yarn run hooks
 ```
 
 ### NPM/Yarn Tasks
 
 | Task                    | Description                         |
 |-------------------------|-------------------------------------|
-| `npm run install-hooks` | Install the GIT repository hooks.   |
-| `npm test`              | Run the project unit tests.         |
-| `npm run lint`          | Lint the modified files.            |
-| `npm run lint:full`     | Lint the project code.              |
-| `npm run docs`          | Generate the project documentation. |
-| `npm run todo`          | List all the pending to-do's.       |
+| `yarn run hooks`        | Install the GIT repository hooks.   |
+| `yarn test`             | Run the project unit tests.         |
+| `yarn run lint`         | Lint the modified files.            |
+| `yarn run lint:full`    | Lint the project code.              |
+| `yarn run docs`         | Generate the project documentation. |
+| `yarn run todo`         | List all the pending to-do's.       |
 
 ### Testing
 

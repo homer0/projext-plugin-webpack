@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
 /**
@@ -9,7 +9,7 @@ const ConfigurationFile = require('../../abstracts/configurationFile');
 class WebpackRulesConfiguration extends ConfigurationFile {
   /**
    * Class constructor.
-   * @param {BabelConfiguration} babelConfiguration Used to configure the `babel-loader`.
+   * @param {BabelConfiguration} babelConfiguration   Used to configure the `babel-loader`.
    * @param {Events}             events               To reduce each set of rules and the entire
    *                                                  configuration.
    * @param {PathUtils}          pathUtils            Required by `ConfigurationFile` in order to
@@ -43,19 +43,19 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    */
   createConfig(params) {
     const rules = [
-      ...this.getJSRules(params),
-      ...this.getSCSSRules(params),
-      ...this.getCSSRules(params),
-      ...this.getHTMLRules(params),
-      ...this.getFontsRules(params),
-      ...this.getImagesRules(params),
-      ...this.getFaviconsRules(params),
+      ...this._getJSRules(params),
+      ...this._getSCSSRules(params),
+      ...this._getCSSRules(params),
+      ...this._getHTMLRules(params),
+      ...this._getFontsRules(params),
+      ...this._getImagesRules(params),
+      ...this._getFaviconsRules(params),
     ];
 
     const eventName = params.target.is.node ?
       'webpack-rules-configuration-for-node' :
       'webpack-rules-configuration-for-browser';
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-rules-configuration'],
       { rules },
       params
@@ -72,16 +72,19 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
-  getJSRules(params) {
-    const { target } = params;
+  _getJSRules(params) {
+    const { target, targetRules } = params;
+    const jsRule = targetRules.js.getRule();
     const rules = [{
-      test: /\.jsx?$/i,
-      // Only check for files on the target source directory and the configurations folder.
+      test: jsRule.extension,
       include: [
-        new RegExp(target.folders.source),
-        new RegExp(this.pathUtils.join('config')),
-        ...target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
+        ...jsRule.files.include,
+      ],
+      exclude: [
+        ...jsRule.files.exclude,
       ],
       use: [{
         loader: 'babel-loader',
@@ -93,7 +96,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     const eventName = target.is.node ?
       'webpack-js-rules-configuration-for-node' :
       'webpack-js-rules-configuration-for-browser';
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-js-rules-configuration'],
       rules,
       params
@@ -110,9 +113,12 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
-  getSCSSRules(params) {
-    const { target } = params;
+  _getSCSSRules(params) {
+    const { target, targetRules } = params;
+    const scssRule = targetRules.scss.getRule();
     // Set the base configuration for the CSS loader.
     const cssLoaderConfig = {
       // `2` because there are two other loaders after it: `resolve-url-loader` and `sass-loader`.
@@ -127,7 +133,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     }
 
     let eventName = 'webpack-scss-rules-configuration-for-node';
-    let use = [
+    const use = [
       {
         loader: 'css-loader',
         query: cssLoaderConfig,
@@ -138,7 +144,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         options: {
           /**
            * This is necessary for the `resolve-url-loader` to be able to find and fix the
-           * relative paths for font files.
+           * relative paths for linked assets.
            */
           sourceMap: true,
           outputStyle: 'expanded',
@@ -153,24 +159,23 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         // ...add the style loader.
         use.unshift('style-loader');
       } else {
-        // ...otherwise, wrap the loaders on the plugin that creates a single stylesheet.
-        use = ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use,
-        });
+        // ...otherwise, push first the loader for th eplugin that creates a single stylesheet.
+        use.unshift(MiniCssExtractPlugin.loader);
       }
     }
 
     const rules = [{
-      test: /\.scss$/i,
+      test: scssRule.extension,
       include: [
-        new RegExp(target.folders.source),
-        ...target.includeModules.map((name) => new RegExp(`/node_modules/${name}`)),
+        ...scssRule.files.include,
+      ],
+      exclude: [
+        ...scssRule.files.exclude,
       ],
       use,
     }];
     // Reduce the rules.
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-scss-rules-configuration'],
       rules,
       params
@@ -187,11 +192,14 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
-  getCSSRules(params) {
-    const { target } = params;
+  _getCSSRules(params) {
+    const { target, targetRules } = params;
+    const cssRule = targetRules.css.getRule();
     let eventName = 'webpack-css-rules-configuration-for-node';
-    let use = [
+    const use = [
       'css-loader',
     ];
 
@@ -202,20 +210,23 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         // ...add the style loader.
         use.unshift('style-loader');
       } else {
-        // ...otherwise, wrap the loaders on the plugin that creates a single stylesheet.
-        use = ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use,
-        });
+        // ...otherwise, push first the loader for th eplugin that creates a single stylesheet.
+        use.unshift(MiniCssExtractPlugin.loader);
       }
     }
 
     const rules = [{
-      test: /\.css$/i,
+      test: cssRule.extension,
+      include: [
+        ...cssRule.files.include,
+      ],
+      exclude: [
+        ...cssRule.files.exclude,
+      ],
       use,
     }];
     // Reduce the rules.
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-css-rules-configuration'],
       rules,
       params
@@ -232,9 +243,10 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
-   * @todo This should probably use the `html-loader`
+   * @access protected
+   * @ignore
    */
-  getHTMLRules(params) {
+  _getHTMLRules(params) {
     const rules = [{
       test: /\.html?$/,
       // Avoid template files.
@@ -247,7 +259,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     const eventName = params.target.is.node ?
       'webpack-html-rules-configuration-for-node' :
       'webpack-html-rules-configuration-for-browser';
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-html-rules-configuration'],
       rules,
       params
@@ -264,80 +276,46 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
-   * @todo Check if `mimetype` is supported by the file loader and if there isn't a better loader
-   *       for handling fonts than the `file-loader`.
+   * @access protected
+   * @ignore
    */
-  getFontsRules(params) {
-    const { target, output: { fonts: name } } = params;
+  _getFontsRules(params) {
+    const { target, targetRules, output: { fonts: name } } = params;
+    const commonFontsRule = targetRules.fonts.common.getRule();
+    const svgFontsRule = targetRules.fonts.svg.getRule();
+    const use = [{
+      loader: 'file-loader',
+      options: {
+        name,
+      },
+    }];
     const rules = [
       {
-        // `.svg` files inside a `fonts` folder.
-        test: /\.svg(\?(v=\d+\.\d+\.\d+|\w+))?$/,
+        test: commonFontsRule.extension,
         include: [
-          /\/node_modules\/(?:.*?\/)?fonts\/.*?/i,
-          new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
-          ...target.includeModules.map((modName) => (
-            new RegExp(`/node_modules/${modName}/(?:.*?/)?fonts/.*?`)
-          )),
+          ...commonFontsRule.files.include,
         ],
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name,
-            mimetype: 'image/svg+xml',
-          },
-        }],
+        exclude: [
+          ...commonFontsRule.files.exclude,
+        ],
+        use,
       },
       {
-        // `.woff` files.
-        test: /\.woff(\?(v=\d+\.\d+\.\d+|\w+))?$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name,
-            mimetype: 'application/font-woff',
-          },
-        }],
-      },
-      {
-        /**
-         * `.woff2` files.
-         * @todo This one and `.woff` should be merged and the regex updated.
-         */
-        test: /\.woff2(\?(v=\d+\.\d+\.\d+|\w+))?$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name,
-            mimetype: 'application/font-woff',
-          },
-        }],
-      },
-      {
-        // `.ttf` files.
-        test: /\.ttf(\?(v=\d+\.\d+\.\d+|\w+))?$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name,
-            mimetype: 'application/octet-stream',
-          },
-        }],
-      },
-      {
-        // `.eot` files.
-        test: /\.eot(\?(v=\d+\.\d+\.\d+|\w+))?$/,
-        use: [{
-          loader: 'file-loader',
-          options: { name },
-        }],
+        test: svgFontsRule.extension,
+        include: [
+          ...svgFontsRule.files.include,
+        ],
+        exclude: [
+          ...svgFontsRule.files.exclude,
+        ],
+        use,
       },
     ];
     // Reduce the rules.
-    const eventName = params.target.is.node ?
+    const eventName = target.is.node ?
       'webpack-fonts-rules-configuration-for-node' :
       'webpack-fonts-rules-configuration-for-browser';
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-fonts-rules-configuration'],
       rules,
       params
@@ -354,32 +332,25 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
-  getImagesRules(params) {
-    const { target, output: { images: name } } = params;
+  _getImagesRules(params) {
+    const { target, targetRules, output: { images: name } } = params;
+    const imagesRule = targetRules.images.getRule();
     const rules = [{
-      test: /\.(jpe?g|png|gif|svg|ico)$/i,
+      test: imagesRule.extension,
+      include: [
+        ...imagesRule.files.include,
+      ],
       exclude: [
-        /**
-         * This excludes names that match `favicon` because there are specific rules for favicons.
-         * The reason is that favicons need to be on the root directory for the browser to
-         * automatically detect them, and they only include optimization options for `png`.
-         */
-        /favicon\.\w+$/i,
-        // Exclude svg files that were identified as fonts.
-        /\/node_modules\/(?:.*?\/)?fonts\/.*?/i,
-        new RegExp(`${target.paths.source}/(?:.*?/)?fonts/.*?`, 'i'),
-        // Exclude svg files that were identified as fonts on modules being processed.
-        ...target.includeModules.map((modName) => (
-          new RegExp(`/node_modules/${modName}/(?:.*?/)?fonts/.*?`)
-        )),
+        ...imagesRule.files.exclude,
       ],
       use: [
         {
           loader: 'file-loader',
           options: {
             name,
-            digest: 'hex',
           },
         },
         {
@@ -403,10 +374,10 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       ],
     }];
     // Reduce the rules.
-    const eventName = params.target.is.node ?
+    const eventName = target.is.node ?
       'webpack-images-rules-configuration-for-node' :
       'webpack-images-rules-configuration-for-browser';
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-images-rules-configuration'],
       rules,
       params
@@ -426,18 +397,25 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    *                                            target information, its entry settings, output
    *                                            paths, etc.
    * @return {Array}
+   * @access protected
+   * @ignore
    */
-  getFaviconsRules(params) {
+  _getFaviconsRules(params) {
+    const { target, targetRules } = params;
+    const faviconRule = targetRules.favicon.getRule();
     const rules = [{
-      test: /\.(png|ico)$/i,
-      // Only apply to files that match the `favicon` name/path.
-      include: /favicon\.\w+$/i,
+      test: faviconRule.extension,
+      include: [
+        ...faviconRule.files.include,
+      ],
+      exclude: [
+        ...faviconRule.files.exclude,
+      ],
       use: [
         {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            digest: 'hex',
           },
         },
         {
@@ -455,30 +433,13 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       ],
     }];
     // Reduce the rules.
-    const eventName = params.target.is.node ?
+    const eventName = target.is.node ?
       'webpack-favicons-rules-configuration-for-node' :
       'webpack-favicons-rules-configuration-for-browser';
-    return this._reduceConfig(
+    return this.events.reduce(
       [eventName, 'webpack-favicons-rules-configuration'],
       rules,
       params
-    );
-  }
-  /**
-   * Processes a list of reducer events for rules configurations.
-   * @param {Array}                      events A list of events names.
-   * @param {Object|Array}               config The configuration to reduce.
-   * @param {WebpackConfigurationParams} params A dictionary generated by the top service building
-   *                                            the configuration and that includes things like the
-   *                                            target information, its entry settings, output
-   *                                            paths, etc.
-   * @return {Object|Array}
-   * @todo Remove this once `EventsHub` adds support for it.
-   */
-  _reduceConfig(events, config, params) {
-    return events.reduce(
-      (currentConfig, eventName) => this.events.reduce(eventName, currentConfig, params),
-      config
     );
   }
 }
