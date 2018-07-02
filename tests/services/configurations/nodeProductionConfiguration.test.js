@@ -40,7 +40,10 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     expect(sut.constructorMock).toHaveBeenCalledTimes(1);
     expect(sut.constructorMock).toHaveBeenCalledWith(
       pathUtils,
-      'webpack/node.production.config.js',
+      [
+        'config/webpack/node.production.config.js',
+        'config/webpack/node.config.js',
+      ],
       true,
       webpackBaseConfiguration
     );
