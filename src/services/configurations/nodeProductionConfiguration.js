@@ -25,7 +25,10 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
   ) {
     super(
       pathUtils,
-      'webpack/node.production.config.js',
+      [
+        'config/webpack/node.production.config.js',
+        'config/webpack/node.config.js',
+      ],
       true,
       webpackBaseConfiguration
     );

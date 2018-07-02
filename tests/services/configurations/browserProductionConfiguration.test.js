@@ -58,7 +58,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(sut.constructorMock).toHaveBeenCalledTimes(1);
     expect(sut.constructorMock).toHaveBeenCalledWith(
       pathUtils,
-      'webpack/browser.production.config.js',
+      [
+        'config/webpack/browser.production.config.js',
+        'config/webpack/browser.config.js',
+      ],
       true,
       webpackBaseConfiguration
     );
