@@ -30,7 +30,10 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
   ) {
     super(
       pathUtils,
-      'webpack/node.development.config.js',
+      [
+        'config/webpack/node.development.config.js',
+        'config/webpack/node.config.js',
+      ],
       true,
       webpackBaseConfiguration
     );

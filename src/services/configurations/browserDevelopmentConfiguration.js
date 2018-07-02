@@ -45,7 +45,10 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   ) {
     super(
       pathUtils,
-      'webpack/browser.development.config.js',
+      [
+        'config/webpack/browser.development.config.js',
+        'config/webpack/browser.config.js',
+      ],
       true,
       webpackBaseConfiguration
     );

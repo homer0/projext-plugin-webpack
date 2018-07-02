@@ -32,7 +32,10 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
   ) {
     super(
       pathUtils,
-      'webpack/browser.production.config.js',
+      [
+        'config/webpack/browser.production.config.js',
+        'config/webpack/browser.config.js',
+      ],
       true,
       webpackBaseConfiguration
     );
