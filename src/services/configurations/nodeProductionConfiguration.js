@@ -1,4 +1,5 @@
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
@@ -51,7 +52,12 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
    * @return {object}
    */
   createConfig(params) {
-    const { entry, target, output } = params;
+    const {
+      entry,
+      target,
+      output,
+      copy,
+    } = params;
     const config = {
       entry,
       output: {
@@ -64,6 +70,8 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
         new NoEmitOnErrorsPlugin(),
         // To optimize the SCSS and remove repeated declarations.
         new OptimizeCssAssetsPlugin(),
+        // Copy the files the target specified on its settings.
+        new CopyWebpackPlugin(copy),
       ],
       target: 'node',
       node: {

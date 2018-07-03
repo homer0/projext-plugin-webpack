@@ -110,6 +110,20 @@
  */
 
 /**
+ * @typedef {function} TargetFileToCopyTransform
+ * @param {string} contents The original contents of the file.
+ * @return {Promise<string,Error>} The updated contents.
+ */
+
+/**
+ * @typedef {Object} TargetFileToCopy
+ * @property {string}                     from      The file origin path.
+ * @property {string}                     to        The file destination path.
+ * @property {?TargetFileToCopyTransform} transform A custom function to modify the contents of
+ *                                                  the file to copy.
+ */
+
+/**
  * @typedef {function} DevMiddlewareGetDirectory
  * @return {string}
  * The build directory of the target implementing the dev middleware.
@@ -187,6 +201,9 @@
  * A dictionary of defined variables that will be replaced on the bundled code.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
+ * @property {Array} copy
+ * A list of {@link TargetFileToCopy} with the information of files that need to be copied during
+ * the bundling process.
  */
 
 /**

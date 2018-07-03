@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
   DefinePlugin,
@@ -89,6 +90,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
   createConfig(params) {
     const {
       definitions,
+      copy,
       entry,
       target,
       output,
@@ -127,6 +129,8 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       new DefinePlugin(definitions),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
+      // Copy the files the target specified on its settings.
+      new CopyWebpackPlugin(copy),
       /**
        * If the target doesn't inject the styles on runtime, add the plugin to push them all on
        * a single file.
