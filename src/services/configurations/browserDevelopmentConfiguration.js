@@ -188,6 +188,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       // Push the plugin that logs the dev server statuses and opens the browser.
       config.plugins.push(new ProjextWebpackOpenDevServer(devServerConfig.url, {
         logger: this.appLogger,
+        openBrowser: devServerConfig.open,
       }));
     } else if (target.hot) {
       /**
