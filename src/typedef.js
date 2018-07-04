@@ -84,6 +84,11 @@
  */
 
 /**
+ * @external {TargetExtraFile}
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetExtraFile
+ */
+
+/**
  * @external {TargetConfigurationCreator}
  * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator
  */
@@ -107,20 +112,6 @@
  * @external {ChildProcess}
  * https://nodejs.org/api/child_process.html#child_process_class_childprocess
  * @ignore
- */
-
-/**
- * @typedef {function} TargetFileToCopyTransform
- * @param {string} contents The original contents of the file.
- * @return {Promise<string,Error>} The updated contents.
- */
-
-/**
- * @typedef {Object} TargetFileToCopy
- * @property {string}                     from      The file origin path.
- * @property {string}                     to        The file destination path.
- * @property {?TargetFileToCopyTransform} transform A custom function to modify the contents of
- *                                                  the file to copy.
  */
 
 /**
@@ -202,7 +193,7 @@
  * @property {string} buildType
  * The intended built type: `development` or `production`.
  * @property {Array} copy
- * A list of {@link TargetFileToCopy} with the information of files that need to be copied during
+ * A list of {@link TargetExtraFile} with the information of files that need to be copied during
  * the bundling process.
  */
 
