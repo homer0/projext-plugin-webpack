@@ -12,6 +12,7 @@ jest.mock('script-ext-html-webpack-plugin');
 jest.mock('compression-webpack-plugin');
 jest.mock('uglifyjs-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
+jest.mock('copy-webpack-plugin');
 jest.mock('webpack');
 jest.unmock('/src/services/configurations/browserProductionConfiguration');
 
@@ -21,6 +22,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const {
   WebpackBrowserProductionConfiguration,
@@ -37,6 +39,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     OptimizeCssAssetsPlugin.mockReset();
     UglifyJSPlugin.mockReset();
     CompressionPlugin.mockReset();
+    CopyWebpackPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -101,11 +104,13 @@ describe('services/configurations:browserProductionConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -152,6 +157,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -200,11 +207,13 @@ describe('services/configurations:browserProductionConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -248,6 +257,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -296,11 +307,13 @@ describe('services/configurations:browserProductionConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       devtool: 'source-map',
@@ -348,6 +361,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: true,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -394,11 +409,13 @@ describe('services/configurations:browserProductionConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -435,6 +452,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(CompressionPlugin).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -481,11 +500,13 @@ describe('services/configurations:browserProductionConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -522,6 +543,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(

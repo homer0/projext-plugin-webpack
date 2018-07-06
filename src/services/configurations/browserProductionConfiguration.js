@@ -4,6 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
@@ -65,6 +66,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
   createConfig(params) {
     const {
       definitions,
+      copy,
       entry,
       target,
       output,
@@ -111,6 +113,8 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
       ...(!target.library || target.libraryOptions.compress ? [new CompressionPlugin()] : []),
+      // Copy the files the target specified on its settings.
+      new CopyWebpackPlugin(copy),
       /**
        * If the target doesn't inject the styles on runtime, add the plugin to push them all on
        * a single file.

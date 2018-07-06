@@ -84,6 +84,11 @@
  */
 
 /**
+ * @external {TargetExtraFile}
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetExtraFile
+ */
+
+/**
  * @external {TargetConfigurationCreator}
  * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator
  */
@@ -187,6 +192,9 @@
  * A dictionary of defined variables that will be replaced on the bundled code.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
+ * @property {Array} copy
+ * A list of {@link TargetExtraFile} with the information of files that need to be copied during
+ * the bundling process.
  */
 
 /**

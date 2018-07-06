@@ -78,6 +78,11 @@ class WebpackConfiguration {
       entries.unshift('babel-polyfill');
     }
 
+    const copy = [];
+    if (target.is.browser || target.bundle) {
+      copy.push(...this.targets.getFilesToCopy(target, buildType));
+    }
+
     const params = {
       target,
       targetRules: this.targetsFileRules.getRulesForTarget(target),
@@ -86,6 +91,7 @@ class WebpackConfiguration {
       },
       definitions: this._getDefinitions(target, buildType),
       output: target.output[buildType],
+      copy,
       buildType,
     };
 

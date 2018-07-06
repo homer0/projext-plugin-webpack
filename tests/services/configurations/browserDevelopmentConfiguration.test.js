@@ -10,6 +10,7 @@ jest.mock('mini-css-extract-plugin', () => MiniCssExtractPluginMock);
 jest.mock('html-webpack-plugin');
 jest.mock('script-ext-html-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
+jest.mock('copy-webpack-plugin');
 jest.mock('webpack');
 jest.mock('opener');
 jest.unmock('/src/services/configurations/browserDevelopmentConfiguration');
@@ -18,6 +19,7 @@ require('jasmine-expect');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { ProjextWebpackOpenDevServer } = require('/src/plugins');
 
 const {
@@ -33,6 +35,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     HtmlWebpackPlugin.mockReset();
     ScriptExtHtmlWebpackPlugin.mockReset();
     OptimizeCssAssetsPlugin.mockReset();
+    CopyWebpackPlugin.mockReset();
     ProjextWebpackOpenDevServer.mockReset();
   });
 
@@ -106,11 +109,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -158,6 +163,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -207,11 +214,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -256,6 +265,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -306,11 +317,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry: {
@@ -364,6 +377,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -426,11 +441,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -493,6 +510,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -560,11 +579,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -628,6 +649,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -698,11 +721,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -760,6 +785,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(target.devServer.ssl.cert);
     expect(events.reduce).toHaveBeenCalledTimes(1);
@@ -833,11 +860,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -902,6 +931,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(target.devServer.ssl.cert);
     expect(events.reduce).toHaveBeenCalledTimes(1);
@@ -976,11 +1007,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -1044,6 +1077,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
@@ -1116,11 +1151,13 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
       css: 'statics/css/build.css',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       definitions,
       entry,
       output,
+      copy,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -1184,6 +1221,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
