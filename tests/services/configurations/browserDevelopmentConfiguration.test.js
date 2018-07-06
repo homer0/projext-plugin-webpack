@@ -411,6 +411,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       runOnDevelopment: true,
       devServer: {
         port: 2509,
+        open: true,
         host: 'localhost',
         ssl: {},
         proxied: {},
@@ -526,6 +527,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
+      openBrowser: target.devServer.open,
     });
   });
 
@@ -549,6 +551,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       devServer: {
         port: 2509,
         host: 'localhost',
+        open: false,
         ssl: {},
         proxied: {},
         historyApiFallback: true,
@@ -665,6 +668,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
+      openBrowser: target.devServer.open,
     });
   });
 
@@ -690,6 +694,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       devServer: {
         port: 2509,
         host: 'localhost',
+        open: false,
         ssl: {
           key: null,
           cert: 'some/file.crt',
@@ -803,6 +808,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
+      openBrowser: target.devServer.open,
     });
   });
 
@@ -828,6 +834,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       devServer: {
         port: 2509,
         host: 'my-host',
+        open: true,
         ssl: {
           key: null,
           cert: 'some/file.crt',
@@ -949,6 +956,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
+      openBrowser: target.devServer.open,
     });
   });
 
@@ -974,6 +982,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       devServer: {
         port: 2509,
         host: 'localhost',
+        open: false,
         ssl: {},
         proxied: {
           enabled: true,
@@ -1093,6 +1102,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
+      openBrowser: target.devServer.open,
     });
   });
 
@@ -1118,6 +1128,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       devServer: {
         port: 2509,
         host: 'localhost',
+        open: true,
         ssl: {},
         proxied: {
           enabled: true,
@@ -1237,6 +1248,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
+      openBrowser: target.devServer.open,
     });
   });
 
