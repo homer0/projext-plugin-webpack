@@ -63,6 +63,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetExtraFile">TargetExtraFile</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules">TargetFileRules</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html">Targets</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html">TargetsFileRules</a></span></span></li>
@@ -99,6 +100,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/services/configurations/nodeDevelopmentConfiguration.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const OptimizeCssAssetsPlugin = require(&apos;optimize-css-assets-webpack-plugin&apos;);
+const CopyWebpackPlugin = require(&apos;copy-webpack-plugin&apos;);
 const {
   NoEmitOnErrorsPlugin,
 } = require(&apos;webpack&apos;);
@@ -130,7 +132,10 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
   ) {
     super(
       pathUtils,
-      &apos;webpack/node.development.config.js&apos;,
+      [
+        &apos;config/webpack/node.development.config.js&apos;,
+        &apos;config/webpack/node.config.js&apos;,
+      ],
       true,
       webpackBaseConfiguration
     );
@@ -158,7 +163,12 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
    * @return {object}
    */
   createConfig(params) {
-    const { entry, target, output } = params;
+    const {
+      entry,
+      target,
+      output,
+      copy,
+    } = params;
     // By default it doesn&apos;t watch the source files.
     let watch = false;
     // Setup the basic plugins.
@@ -167,6 +177,8 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       new NoEmitOnErrorsPlugin(),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
+      // Copy the files the target specified on its settings.
+      new CopyWebpackPlugin(copy),
     ];
     // If the target needs to run on development...
     if (target.runOnDevelopment) {

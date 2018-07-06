@@ -63,6 +63,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/function/index.html#static-function-rootRequire">RootRequire</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetConfigurationCreator">TargetConfigurationCreator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetExtraFile">TargetExtraFile</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules">TargetFileRules</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targets.js~Targets.html">Targets</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/services/targets/targetsFileRules/targetsFileRules.js~TargetsFileRules.html">TargetsFileRules</a></span></span></li>
@@ -104,6 +105,7 @@ const CompressionPlugin = require(&apos;compression-webpack-plugin&apos;);
 const MiniCssExtractPlugin = require(&apos;mini-css-extract-plugin&apos;);
 const UglifyJSPlugin = require(&apos;uglifyjs-webpack-plugin&apos;);
 const OptimizeCssAssetsPlugin = require(&apos;optimize-css-assets-webpack-plugin&apos;);
+const CopyWebpackPlugin = require(&apos;copy-webpack-plugin&apos;);
 const { DefinePlugin } = require(&apos;webpack&apos;);
 const { provider } = require(&apos;jimple&apos;);
 const ConfigurationFile = require(&apos;../../abstracts/configurationFile&apos;);
@@ -132,7 +134,10 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
   ) {
     super(
       pathUtils,
-      &apos;webpack/browser.production.config.js&apos;,
+      [
+        &apos;config/webpack/browser.production.config.js&apos;,
+        &apos;config/webpack/browser.config.js&apos;,
+      ],
       true,
       webpackBaseConfiguration
     );
@@ -162,6 +167,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
   createConfig(params) {
     const {
       definitions,
+      copy,
       entry,
       target,
       output,
@@ -208,6 +214,8 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
       ...(!target.library || target.libraryOptions.compress ? [new CompressionPlugin()] : []),
+      // Copy the files the target specified on its settings.
+      new CopyWebpackPlugin(copy),
       /**
        * If the target doesn&apos;t inject the styles on runtime, add the plugin to push them all on
        * a single file.

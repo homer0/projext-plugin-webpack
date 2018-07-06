@@ -1200,6 +1200,12 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/typedef.js~targetextrafile",
+    "https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetExtraFile",
+    "src/typedef.js~TargetExtraFile",
+    "external"
+  ],
+  [
     "src/typedef.js~targetfilerules",
     "https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetFileRules",
     "src/typedef.js~TargetFileRules",
