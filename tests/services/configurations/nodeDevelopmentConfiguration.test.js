@@ -6,10 +6,12 @@ jest.mock('jimple', () => JimpleMock);
 jest.mock('webpack', () => webpackMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
 jest.mock('optimize-css-assets-webpack-plugin');
+jest.mock('copy-webpack-plugin');
 jest.unmock('/src/services/configurations/nodeDevelopmentConfiguration');
 
 require('jasmine-expect');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { ProjextWebpackBundleRunner } = require('/src/plugins');
 
 const {
@@ -23,6 +25,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     webpackMock.reset();
     OptimizeCssAssetsPlugin.mockReset();
     ProjextWebpackBundleRunner.mockClear();
+    CopyWebpackPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -79,10 +82,12 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     const output = {
       js: 'statics/js/build.js',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -113,6 +118,8 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -150,10 +157,12 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     const output = {
       js: 'statics/js/build.js',
     };
+    const copy = ['file-to-copy'];
     const params = {
       target,
       entry,
       output,
+      copy,
     };
     const expectedConfig = {
       entry,
@@ -184,6 +193,8 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(result).toEqual(expectedConfig);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledWith({
       logger: appLogger,

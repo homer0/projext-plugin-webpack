@@ -1,4 +1,5 @@
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
@@ -61,7 +62,12 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
    * @return {object}
    */
   createConfig(params) {
-    const { entry, target, output } = params;
+    const {
+      entry,
+      target,
+      output,
+      copy,
+    } = params;
     // By default it doesn't watch the source files.
     let watch = false;
     // Setup the basic plugins.
@@ -70,6 +76,8 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       new NoEmitOnErrorsPlugin(),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
+      // Copy the files the target specified on its settings.
+      new CopyWebpackPlugin(copy),
     ];
     // If the target needs to run on development...
     if (target.runOnDevelopment) {

@@ -2,12 +2,12 @@
     "name": "projext-plugin-webpack",
     "description": "Allows projext to use webpack as a build engine.",
     "homepage": "https://homer0.github.io/projext-plugin-webpack/",
-    "version": "5.1.0",
+    "version": "5.2.0",
     "repository": "homer0/projext-plugin-webpack",
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
     "dependencies": {
-      "projext": "^4.0.0",
+      "projext": "^4.1.0",
       "wootils": "^1.3.2",
       "jimple": "1.5.0",
       "fs-extra": "6.0.1",
@@ -22,6 +22,7 @@
       "compression-webpack-plugin": "1.1.11",
       "uglifyjs-webpack-plugin": "1.2.6",
       "optimize-css-assets-webpack-plugin": "4.0.2",
+      "copy-webpack-plugin": "4.5.2",
 
       "babel-core": "6.26.3",
       "node-sass": "4.9.0",
