@@ -50,28 +50,35 @@ class WebpackBuildEngine {
      * @property {string} run    Whether or not to execute the target. This will be like a fake
      *                           boolean as the CLI doesn't support boolean variables, so its value
      *                           will be either `'true'` or `'false'`.
+     * @property {string} watch  Whether or not to watch the target files. This will be like a fake
+     *                           boolean as the CLI doesn't support boolean variables, so its value
+     *                           will be either `'true'` or `'false'`.
      * @access protected
      * @ignore
      */
     this._envVars = {
-      target: 'PROJEXT_WEBPACK_TARGET',
-      type: 'PROJEXT_WEBPACK_BUILD_TYPE',
-      run: 'PROJEXT_WEBPACK_RUN',
+      target: 'PXTWPK_TARGET',
+      type: 'PXTWPK_TYPE',
+      run: 'PXTWPK_RUN',
+      watch: 'PXTWPK_WATCH',
     };
   }
   /**
    * Get the CLI build command to bundle a target.
-   * @param  {Target}  target           The target information.
-   * @param  {string}  buildType        The intended build type: `development` or `production`.
-   * @param  {boolean} [forceRun=false] Force the target to run even if the `runOnDevelopment`
-   *                                    setting is `false`.
+   * @param {Target}  target             The target information.
+   * @param {string}  buildType          The intended build type: `development` or `production`.
+   * @param {boolean} [forceRun=false]   Force the target to run even if the `runOnDevelopment`
+   *                                     setting is `false`.
+   * @param {boolean} [forceWatch=false] Force webpack to use the watch mode even if the `watch`
+   *                                     setting for the required build type is set to `false`.
    * @return {string}
    */
-  getBuildCommand(target, buildType, forceRun = false) {
+  getBuildCommand(target, buildType, forceRun = false, forceWatch = false) {
     const vars = this._getEnvVarsAsString({
       target: target.name,
       type: buildType,
       run: forceRun,
+      watch: forceWatch,
     });
 
     const config = path.join(
@@ -94,13 +101,14 @@ class WebpackBuildEngine {
     return `${vars} ${command} --config ${config} ${options}`;
   }
   /**
-   * Get a Webpack configuration for a target.
-   * @param {Target} target    The target configuration.
-   * @param {string} buildType The intended build type: `development` or `production`.
+   * Get a webpack configuration for a target.
+   * @param {Target}  target    The target configuration.
+   * @param {string}  buildType The intended build type: `development` or `production`.
+   * @param {boolean} watch     Whether or not the webpack watch mode should be enabled.
    * @return {object}
    */
-  getConfiguration(target, buildType) {
-    return this.webpackConfiguration.getConfig(target, buildType);
+  getConfiguration(target, buildType, watch) {
+    return this.webpackConfiguration.getConfig(target, buildType, watch);
   }
   /**
    * Get a Webpack configuration by reading the environment variables sent by the CLI command
@@ -120,7 +128,9 @@ class WebpackBuildEngine {
       target.runOnDevelopment = true;
     }
 
-    return this.getConfiguration(target, type);
+    const watch = vars.watch === 'true' || target.watch[type];
+
+    return this.getConfiguration(target, type, watch);
   }
   /**
    * Given a dictionary with the environment variables purpose and values, this method generates
