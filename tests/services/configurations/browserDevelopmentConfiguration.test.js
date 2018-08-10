@@ -110,12 +110,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedConfig = {
       entry,
@@ -215,12 +217,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedConfig = {
       entry,
@@ -318,12 +322,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = true;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedConfig = {
       entry: {
@@ -373,6 +379,113 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     });
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+  });
+
+  it('should create a configuration with watch mode', () => {
+    // Given
+    const appLogger = 'appLogger';
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {
+        development: true,
+      },
+      css: {},
+    };
+    const definitions = 'definitions';
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      css: 'statics/css/build.css',
+    };
+    const copy = ['file-to-copy'];
+    const watch = true;
+    const params = {
+      target,
+      definitions,
+      entry,
+      output,
+      copy,
+      watch,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        publicPath: '/',
+      },
+      mode: 'development',
+      devtool: 'source-map',
+      plugins: expect.any(Array),
+      watch: true,
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBrowserDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      targetsHTML,
+      webpackBaseConfiguration,
+      webpackPluginInfo
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
+      target.html,
+      {
+        template: target.html.template,
+        inject: 'body',
+      }
+    ));
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
+      defaultAttribute: 'async',
+    });
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
@@ -443,12 +556,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -583,12 +698,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -727,12 +844,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -868,12 +987,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -1017,12 +1138,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -1163,12 +1286,14 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {

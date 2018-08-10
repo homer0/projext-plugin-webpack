@@ -83,11 +83,13 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedConfig = {
       entry,
@@ -158,11 +160,13 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
     };
     const copy = ['file-to-copy'];
+    const watch = false;
     const params = {
       target,
       entry,
       output,
       copy,
+      watch,
     };
     const expectedConfig = {
       entry,
@@ -199,6 +203,82 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledWith({
       logger: appLogger,
     });
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-node-development-configuration',
+        'webpack-node-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+  });
+
+  it('should create a configuration to watch the target', () => {
+    // Given
+    const appLogger = 'appLogger';
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      excludeModules: [],
+      runOnDevelopment: false,
+    };
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+    };
+    const copy = ['file-to-copy'];
+    const watch = true;
+    const params = {
+      target,
+      entry,
+      output,
+      copy,
+      watch,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        publicPath: '/',
+      },
+      watch: true,
+      mode: 'development',
+      plugins: expect.any(Array),
+      target: 'node',
+      node: {
+        __dirname: false,
+      },
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackNodeDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [

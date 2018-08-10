@@ -94,6 +94,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
+      watch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -197,6 +198,12 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
        * required entry to the list.
        */
       hotEntries.push('webpack-hot-middleware/client?reload=true');
+    } else if (watch) {
+      /**
+       * If the target is not running nor it requires HMR (which means is not being served either),
+       * and the watch parameter is `true`, enable the watch mode.
+       */
+      config.watch = true;
     }
     // If there are entries for HMR...
     if (hotEntries.length) {

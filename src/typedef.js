@@ -195,6 +195,8 @@
  * @property {Array} copy
  * A list of {@link TargetExtraFile} with the information of files that need to be copied during
  * the bundling process.
+ * @property {boolean} watch
+ * Whether or not webpack should use the watch mode.
  */
 
 /**
