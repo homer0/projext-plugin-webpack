@@ -126,6 +126,7 @@ describe('services/building:configuration', () => {
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
+    const watch = false;
     const target = {
       type: 'node',
       name: 'target',
@@ -166,7 +167,7 @@ describe('services/building:configuration', () => {
       targetConfiguration,
       webpackConfigurations
     );
-    result = sut.getConfig(target, buildType);
+    result = sut.getConfig(target, buildType, watch);
     // Then
     expect(result).toEqual(config);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
@@ -196,6 +197,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: [],
+      watch,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -230,6 +232,7 @@ describe('services/building:configuration', () => {
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
+    const watch = true;
     const target = {
       type: 'node',
       name: 'target',
@@ -271,7 +274,7 @@ describe('services/building:configuration', () => {
       targetConfiguration,
       webpackConfigurations
     );
-    result = sut.getConfig(target, buildType);
+    result = sut.getConfig(target, buildType, watch);
     // Then
     expect(result).toEqual(config);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
@@ -301,6 +304,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: filesToCopy,
+      watch,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -339,6 +343,7 @@ describe('services/building:configuration', () => {
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
+    const watch = true;
     const target = {
       type: 'browser',
       name: 'target',
@@ -379,7 +384,7 @@ describe('services/building:configuration', () => {
       targetConfiguration,
       webpackConfigurations
     );
-    result = sut.getConfig(target, buildType);
+    result = sut.getConfig(target, buildType, watch);
     // Then
     expect(result).toEqual(config);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
@@ -407,6 +412,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: filesToCopy,
+      watch,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -447,6 +453,7 @@ describe('services/building:configuration', () => {
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
+    const watch = false;
     const target = {
       type: 'browser',
       name: 'target',
@@ -487,7 +494,7 @@ describe('services/building:configuration', () => {
       targetConfiguration,
       webpackConfigurations
     );
-    result = sut.getConfig(target, buildType);
+    result = sut.getConfig(target, buildType, watch);
     // Then
     expect(result).toEqual(config);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
@@ -516,6 +523,7 @@ describe('services/building:configuration', () => {
       },
       targetRules,
       copy: filesToCopy,
+      watch,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -551,6 +559,7 @@ describe('services/building:configuration', () => {
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
+    const watch = false;
     const target = {
       type: 'node',
       name: 'target',
@@ -593,7 +602,7 @@ describe('services/building:configuration', () => {
       targetConfiguration,
       webpackConfigurations
     );
-    result = sut.getConfig(target, buildType);
+    result = sut.getConfig(target, buildType, watch);
     // Then
     expect(result).toEqual(config);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
@@ -624,6 +633,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: [],
+      watch,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -655,6 +665,7 @@ describe('services/building:configuration', () => {
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
+    const watch = false;
     const target = {
       type: 'node',
       name: 'target',
@@ -702,7 +713,7 @@ describe('services/building:configuration', () => {
       targetConfiguration,
       webpackConfigurations
     );
-    result = sut.getConfig(target, buildType);
+    result = sut.getConfig(target, buildType, watch);
     // Then
     expect(result).toEqual(expectedConfig);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
@@ -730,6 +741,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: [],
+      watch,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -761,6 +773,7 @@ describe('services/building:configuration', () => {
     };
     const targetConfiguration = jest.fn(() => targetConfig);
     const buildType = 'development';
+    const watch = false;
     const target = {
       type: 'node',
       name: 'target',
@@ -810,7 +823,7 @@ describe('services/building:configuration', () => {
       targetConfiguration,
       webpackConfigurations
     );
-    result = sut.getConfig(target, buildType);
+    result = sut.getConfig(target, buildType, watch);
     // Then
     expect(result).toEqual(expectedConfig);
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
@@ -838,6 +851,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: [],
+      watch,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
