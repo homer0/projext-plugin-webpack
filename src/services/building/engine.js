@@ -140,7 +140,7 @@ class WebpackBuildEngine {
    *   target: 'my-target',
    *   type: 'development',
    * });
-   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`
+   * // will output `PXTWPK_TARGET=my-target PXTWPK_TYPE=development`
    * @param {object} values A dictionary with the purpose(alias) of the variables as keys.
    * @return {string}
    * @access protected
