@@ -95,6 +95,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
       sourceMap: {},
       css: {},
+      uglifyOnProduction: true,
     };
     const definitions = 'definitions';
     const entry = {
@@ -175,6 +176,110 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
   });
 
+  it('should create a configuration with the uglifier disabled', () => {
+    // Given
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {},
+      css: {},
+      uglifyOnProduction: false,
+    };
+    const definitions = 'definitions';
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      css: 'statics/css/build.css',
+    };
+    const copy = ['file-to-copy'];
+    const watch = false;
+    const params = {
+      target,
+      definitions,
+      entry,
+      output,
+      copy,
+      watch,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        publicPath: '/',
+      },
+      mode: 'production',
+      optimization: {
+        minimize: false,
+      },
+      plugins: expect.any(Array),
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBrowserProductionConfiguration(
+      events,
+      pathUtils,
+      targetsHTML,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
+      target.html,
+      {
+        template: target.html.template,
+        inject: 'body',
+      }
+    ));
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
+      defaultAttribute: 'async',
+    });
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
+    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(UglifyJSPlugin).toHaveBeenCalledTimes(0);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(CompressionPlugin).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-browser-production-configuration',
+        'webpack-browser-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+  });
+
   it('should create a configuration with watch mode', () => {
     // Given
     const events = {
@@ -198,6 +303,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
       sourceMap: {},
       css: {},
+      uglifyOnProduction: true,
     };
     const definitions = 'definitions';
     const entry = {
@@ -304,6 +410,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: {
         inject: true,
       },
+      uglifyOnProduction: true,
     };
     const definitions = 'definitions';
     const entry = {
@@ -406,6 +513,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
         production: true,
       },
       css: {},
+      uglifyOnProduction: true,
     };
     const definitions = 'definitions';
     const entry = {
@@ -510,6 +618,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
       sourceMap: {},
       css: {},
+      uglifyOnProduction: true,
     };
     const definitions = 'definitions';
     const entry = {
@@ -603,6 +712,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
       sourceMap: {},
       css: {},
+      uglifyOnProduction: true,
     };
     const definitions = 'definitions';
     const entry = {
