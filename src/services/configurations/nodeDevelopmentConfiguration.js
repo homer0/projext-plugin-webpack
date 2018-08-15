@@ -86,8 +86,9 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       // Push the plugin that executes the target bundle.
       plugins.push(new ProjextWebpackBundleRunner({
         logger: this.appLogger,
+        inspect: target.inspect,
       }));
-    } else if (params.watch) {
+    } else if (target.watch.development) {
       // Enable the watch mode if required.
       watch = true;
     }

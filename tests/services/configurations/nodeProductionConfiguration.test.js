@@ -66,6 +66,9 @@ describe('services/configurations:nodeProductionConfiguration', () => {
         build: 'build-folder',
       },
       excludeModules: [],
+      watch: {
+        production: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
@@ -74,13 +77,11 @@ describe('services/configurations:nodeProductionConfiguration', () => {
       js: 'statics/js/build.js',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -95,7 +96,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
       node: {
         __dirname: false,
       },
-      watch,
+      watch: target.watch.production,
     };
     let sut = null;
     let result = null;

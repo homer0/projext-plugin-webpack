@@ -100,6 +100,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       sourceMap: {},
       css: {},
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -110,14 +113,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -207,6 +208,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: {
         inject: true,
       },
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -217,14 +221,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -312,6 +314,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       css: {},
       hot: true,
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -322,14 +327,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = true;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry: {
@@ -425,6 +428,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         development: true,
       },
       css: {},
+      watch: {
+        development: true,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -435,14 +441,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = true;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -541,6 +545,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       sourceMap: {},
       css: {},
       hot: true,
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = 'babel-polyfill';
@@ -556,14 +563,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -683,6 +688,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       sourceMap: {},
       css: {},
       hot: true,
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = 'babel-polyfill';
@@ -698,14 +706,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -829,6 +835,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       sourceMap: {},
       css: {},
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = 'babel-polyfill';
@@ -844,14 +853,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -972,6 +979,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       sourceMap: {},
       css: {},
       hot: true,
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = 'babel-polyfill';
@@ -987,14 +997,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedURL = `https://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -1123,6 +1131,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       sourceMap: {},
       css: {},
       hot: true,
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = 'babel-polyfill';
@@ -1138,14 +1149,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {
@@ -1271,6 +1280,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       sourceMap: {},
       css: {},
       hot: true,
+      watch: {
+        development: false,
+      },
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = 'babel-polyfill';
@@ -1286,14 +1298,12 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedURL = `http://${target.devServer.host}:${target.devServer.port}`;
     const expectedConfig = {

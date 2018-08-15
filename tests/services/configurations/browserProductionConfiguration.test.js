@@ -96,6 +96,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: {},
       css: {},
       uglifyOnProduction: true,
+      watch: {
+        production: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -106,14 +109,12 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -200,6 +201,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: {},
       css: {},
       uglifyOnProduction: false,
+      watch: {
+        production: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -210,14 +214,12 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -304,6 +306,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: {},
       css: {},
       uglifyOnProduction: true,
+      watch: {
+        production: true,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -314,14 +319,12 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = true;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -332,7 +335,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
       mode: 'production',
       plugins: expect.any(Array),
-      watch,
+      watch: target.watch.production,
     };
     let sut = null;
     let result = null;
@@ -411,6 +414,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
         inject: true,
       },
       uglifyOnProduction: true,
+      watch: {
+        production: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -421,14 +427,12 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -514,6 +518,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
       css: {},
       uglifyOnProduction: true,
+      watch: {
+        production: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -524,14 +531,12 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       devtool: 'source-map',
@@ -619,6 +624,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: {},
       css: {},
       uglifyOnProduction: true,
+      watch: {
+        production: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -629,14 +637,12 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -713,6 +719,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       sourceMap: {},
       css: {},
       uglifyOnProduction: true,
+      watch: {
+        production: false,
+      },
     };
     const definitions = 'definitions';
     const entry = {
@@ -723,14 +732,12 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,

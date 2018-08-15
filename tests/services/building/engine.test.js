@@ -63,7 +63,9 @@ describe('services/building:engine', () => {
     // Then
     expect(result).toMatch(/PXTWPK_TARGET=(?:[\w0-9-_]*?).*?webpack/);
     expect(result).toMatch(/PXTWPK_TYPE=(?:\w+).*?webpack/);
-    expect(result).toMatch(/PXTWPK_RUN=(?:true|false).*?webpack/);
+    expect(result).toMatch(/PXTWPK_RUN=false.*?webpack/);
+    expect(result).toMatch(/PXTWPK_WATCH=false.*?webpack/);
+    expect(result).toMatch(/PXTWPK_INSPECT=false.*?webpack/);
     expect(result).toMatch(new RegExp(`webpack --config ${expectedConfigPath}`));
     expect(result).toMatch(/webpack --config.*?--progress/);
     expect(result).toMatch(/webpack --config.*?--profile/);
@@ -102,7 +104,9 @@ describe('services/building:engine', () => {
     // Then
     expect(result).toMatch(/PXTWPK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
     expect(result).toMatch(/PXTWPK_TYPE=(?:\w+).*?webpack-dev-server/);
-    expect(result).toMatch(/PXTWPK_RUN=(?:true|false).*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_RUN=false.*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_WATCH=false.*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_INSPECT=false.*?webpack-dev-server/);
     expect(result).toMatch(new RegExp(`webpack-dev-server --config ${expectedConfigPath}`));
     expect(result).toMatch(/webpack-dev-server --config.*?--progress/);
     expect(result).toMatch(/webpack-dev-server --config.*?--profile/);
@@ -139,20 +143,105 @@ describe('services/building:engine', () => {
     // Then
     expect(result).toMatch(/PXTWPK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
     expect(result).toMatch(/PXTWPK_TYPE=(?:\w+).*?webpack-dev-server/);
-    expect(result).toMatch(/PXTWPK_RUN=(?:true|false).*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_RUN=true.*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_WATCH=false.*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_INSPECT=false.*?webpack-dev-server/);
     expect(result).toMatch(/webpack-dev-server --config ([\w_\-/]*?)webpack\.config\.js/);
     expect(result).toMatch(/webpack-dev-server --config.*?--progress/);
     expect(result).toMatch(/webpack-dev-server --config.*?--profile/);
     expect(result).toMatch(/webpack-dev-server --config.*?--colors/);
   });
 
-  it('should return a target Webpack configuration from the configurations service', () => {
+  it('should return the command to build and `force` watch a target', () => {
+    // Given
+    const environmentUtils = 'environmentUtils';
+    const targets = 'targets';
+    const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
+    const buildType = 'development';
+    const target = {
+      name: 'some-target',
+      is: {
+        browser: true,
+      },
+      watch: {
+        [buildType]: false,
+      },
+      runOnDevelopment: false,
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBuildEngine(
+      environmentUtils,
+      targets,
+      webpackConfiguration,
+      webpackPluginInfo
+    );
+    result = sut.getBuildCommand(target, buildType, false, true);
+    // Then
+    expect(result).toMatch(/PXTWPK_TARGET=(?:[\w0-9-_]*?).*?webpack/);
+    expect(result).toMatch(/PXTWPK_TYPE=(?:\w+).*?webpack/);
+    expect(result).toMatch(/PXTWPK_RUN=false.*?webpack/);
+    expect(result).toMatch(/PXTWPK_WATCH=true.*?webpack/);
+    expect(result).toMatch(/PXTWPK_INSPECT=false.*?webpack/);
+    expect(result).toMatch(/webpack --config ([\w_\-/]*?)webpack\.config\.js/);
+    expect(result).toMatch(/webpack --config.*?--progress/);
+    expect(result).toMatch(/webpack --config.*?--profile/);
+    expect(result).toMatch(/webpack --config.*?--colors/);
+  });
+
+  it('should return the command to build and `force` inspect a target', () => {
+    // Given
+    const environmentUtils = 'environmentUtils';
+    const targets = 'targets';
+    const webpackConfiguration = 'webpackConfiguration';
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
+    const buildType = 'development';
+    const target = {
+      name: 'some-target',
+      is: {
+        browser: true,
+      },
+      runOnDevelopment: false,
+      inspect: {
+        enabled: false,
+      },
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBuildEngine(
+      environmentUtils,
+      targets,
+      webpackConfiguration,
+      webpackPluginInfo
+    );
+    result = sut.getBuildCommand(target, buildType, true, false, true);
+    // Then
+    expect(result).toMatch(/PXTWPK_TARGET=(?:[\w0-9-_]*?).*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_TYPE=(?:\w+).*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_RUN=true.*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_WATCH=false.*?webpack-dev-server/);
+    expect(result).toMatch(/PXTWPK_INSPECT=true.*?webpack-dev-server/);
+    expect(result).toMatch(/webpack-dev-server --config ([\w_\-/]*?)webpack\.config\.js/);
+    expect(result).toMatch(/webpack-dev-server --config.*?--progress/);
+    expect(result).toMatch(/webpack-dev-server --config.*?--profile/);
+    expect(result).toMatch(/webpack-dev-server --config.*?--colors/);
+  });
+
+  it('should return a target webpack configuration from the configurations service', () => {
     // Given
     const environmentUtils = 'environmentUtils';
     const targets = 'targets';
     const target = 'some-target';
     const buildType = 'production';
-    const watch = false;
     const config = 'config';
     const webpackConfiguration = {
       getConfig: jest.fn(() => config),
@@ -170,19 +259,20 @@ describe('services/building:engine', () => {
       webpackConfiguration,
       webpackPluginInfo
     );
-    result = sut.getConfiguration(target, buildType, watch);
+    result = sut.getConfiguration(target, buildType);
     // Then
     expect(result).toBe(config);
     expect(webpackConfiguration.getConfig).toHaveBeenCalledTimes(1);
-    expect(webpackConfiguration.getConfig).toHaveBeenCalledWith(target, buildType, watch);
+    expect(webpackConfiguration.getConfig).toHaveBeenCalledWith(target, buildType);
   });
 
-  it('should return a target Webpack configuration', () => {
+  it('should return a target webpack configuration', () => {
     // Given
     const targetName = 'some-target';
     const buildType = 'development';
     const run = false;
     const watch = false;
+    const inspect = false;
     const target = {
       name: targetName,
       watch: {
@@ -194,6 +284,7 @@ describe('services/building:engine', () => {
       PXTWPK_TYPE: buildType,
       PXTWPK_RUN: run.toString(),
       PXTWPK_WATCH: watch.toString(),
+      PXTWPK_INSPECT: inspect.toString(),
     };
     const envVarsNames = Object.keys(envVars);
     const environmentUtils = {
@@ -223,7 +314,7 @@ describe('services/building:engine', () => {
     // Then
     expect(result).toBe(config);
     expect(webpackConfiguration.getConfig).toHaveBeenCalledTimes(1);
-    expect(webpackConfiguration.getConfig).toHaveBeenCalledWith(target, buildType, false);
+    expect(webpackConfiguration.getConfig).toHaveBeenCalledWith(target, buildType);
     expect(targets.getTarget).toHaveBeenCalledTimes(1);
     expect(targets.getTarget).toHaveBeenCalledWith(targetName);
     expect(environmentUtils.get).toHaveBeenCalledTimes(envVarsNames.length);
@@ -232,16 +323,20 @@ describe('services/building:engine', () => {
     });
   });
 
-  it('should return a Webpack configuration for running a target', () => {
+  it('should return a webpack configuration for running a target', () => {
     // Given
     const targetName = 'some-target';
     const buildType = 'development';
     const run = true;
     const watch = true;
+    const inspect = false;
     const target = {
       name: targetName,
       watch: {
         [buildType]: watch,
+      },
+      inspect: {
+        enabled: false,
       },
     };
     const envVars = {
@@ -249,6 +344,7 @@ describe('services/building:engine', () => {
       PXTWPK_TYPE: buildType,
       PXTWPK_RUN: run.toString(),
       PXTWPK_WATCH: watch.toString(),
+      PXTWPK_INSPECT: inspect.toString(),
     };
     const envVarsNames = Object.keys(envVars);
     const environmentUtils = {
@@ -286,8 +382,77 @@ describe('services/building:engine', () => {
           runOnDevelopment: true,
         }
       ),
-      buildType,
-      watch
+      buildType
+    );
+    expect(targets.getTarget).toHaveBeenCalledTimes(1);
+    expect(targets.getTarget).toHaveBeenCalledWith(targetName);
+    expect(environmentUtils.get).toHaveBeenCalledTimes(envVarsNames.length);
+    envVarsNames.forEach((envVar) => {
+      expect(environmentUtils.get).toHaveBeenCalledWith(envVar);
+    });
+  });
+
+  it('should return a webpack configuration for running and inspecting a target', () => {
+    // Given
+    const targetName = 'some-target';
+    const buildType = 'development';
+    const run = true;
+    const watch = true;
+    const inspect = true;
+    const target = {
+      name: targetName,
+      watch: {
+        [buildType]: watch,
+      },
+      inspect: {},
+    };
+    const envVars = {
+      PXTWPK_TARGET: targetName,
+      PXTWPK_TYPE: buildType,
+      PXTWPK_RUN: run.toString(),
+      PXTWPK_WATCH: watch.toString(),
+      PXTWPK_INSPECT: inspect.toString(),
+    };
+    const envVarsNames = Object.keys(envVars);
+    const environmentUtils = {
+      get: jest.fn((varName) => envVars[varName]),
+    };
+    const targets = {
+      getTarget: jest.fn(() => target),
+    };
+    const config = 'config';
+    const webpackConfiguration = {
+      getConfig: jest.fn(() => config),
+    };
+    const webpackPluginInfo = {
+      name: 'my-projext-plugin-webpack',
+      configuration: 'my-webpack.config.jsx',
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBuildEngine(
+      environmentUtils,
+      targets,
+      webpackConfiguration,
+      webpackPluginInfo
+    );
+    result = sut.getWebpackConfig();
+    // Then
+    expect(result).toBe(config);
+    expect(webpackConfiguration.getConfig).toHaveBeenCalledTimes(1);
+    expect(webpackConfiguration.getConfig).toHaveBeenCalledWith(
+      Object.assign(
+        {},
+        target,
+        {
+          runOnDevelopment: true,
+          inspect: {
+            enabled: true,
+          },
+        }
+      ),
+      buildType
     );
     expect(targets.getTarget).toHaveBeenCalledTimes(1);
     expect(targets.getTarget).toHaveBeenCalledWith(targetName);
@@ -304,6 +469,7 @@ describe('services/building:engine', () => {
       'PXTWPK_TYPE',
       'PXTWPK_RUN',
       'PXTWPK_WATCH',
+      'PXTWPK_INSPECT',
     ];
     const environmentUtils = {
       get: jest.fn(),

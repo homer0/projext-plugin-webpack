@@ -57,7 +57,6 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
       target,
       output,
       copy,
-      watch,
     } = params;
     const config = {
       entry,
@@ -80,7 +79,7 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
         __dirname: false,
       },
       mode: 'production',
-      watch,
+      watch: target.watch.production,
     };
     // Reduce the configuration.
     return this.events.reduce(

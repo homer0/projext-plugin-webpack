@@ -60,12 +60,11 @@ class WebpackConfiguration {
    * This method generates a complete webpack configuration for a target.
    * @param {Target}  target    The target information.
    * @param {string}  buildType The intended build type: `production` or `development`.
-   * @param {boolean} watch     Whether or not webpack should use the watch mode.
    * @return {Object}
    * @throws {Error} If there's no base configuration for the target type.
    * @throws {Error} If there's no base configuration for the target type and build type.
    */
-  getConfig(target, buildType, watch) {
+  getConfig(target, buildType) {
     const targetType = target.type;
     if (!this.webpackConfigurations[targetType]) {
       throw new Error(`There's no configuration for the selected target type: ${targetType}`);
@@ -94,7 +93,6 @@ class WebpackConfiguration {
       output: target.output[buildType],
       copy,
       buildType,
-      watch,
     };
 
     let config = this.targetConfiguration(
