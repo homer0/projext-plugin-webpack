@@ -23,9 +23,23 @@ class ProjextWebpackBundleRunner {
         entry: null,
         name: 'projext-webpack-plugin-bundle-runner',
         logger: null,
+        inspect: {
+          enabled: false,
+          host: '0.0.0.0',
+          port: 9229,
+          command: 'inspect',
+          ndb: false,
+        },
       },
       options
     );
+    /**
+     * The options that are going to be sent to the `fork` function.
+     * @type {Object}
+     * @access protected
+     * @ignore
+     */
+    this._forkOptions = this._createForkOptions();
     /**
      * A logger to output the plugin's information messages.
      * @type {Logger}
@@ -75,6 +89,31 @@ class ProjextWebpackBundleRunner {
     compiler.hooks.afterEmit.tapAsync(name, this._onAssetsEmitted.bind(this));
     compiler.hooks.compile.tap(name, this._onCompilationStarts.bind(this));
     compiler.hooks.done.tap(name, this._onCompilationEnds.bind(this));
+  }
+  /**
+   * Generates the options for the `fork` function by evluating the inspect options.
+   * @return {Object}
+   * @access protected
+   * @ignore
+   */
+  _createForkOptions() {
+    const result = {};
+    const {
+      enabled,
+      host,
+      port,
+      command,
+      ndb,
+    } = this._options.inspect;
+    if (enabled) {
+      if (ndb) {
+        result.execPath = 'ndb';
+      } else {
+        result.execArgv = [`--${command}=${host}:${port}`];
+      }
+    }
+
+    return result;
   }
   /**
    * This is called by webpack every time assets are emitted. The first time the method is called,
@@ -179,7 +218,7 @@ class ProjextWebpackBundleRunner {
     // Make sure an entry was selected and there's no child process already running.
     if (this._options.entry && !this._instance) {
       // Fork a new instance of the bundle.
-      this._instance = fork(this._entryPath);
+      this._instance = fork(this._entryPath, [], this._forkOptions);
       // Prevent the output from being added on the same line as webpack messages.
       setTimeout(() => {
         this._logger.success('Starting the bundle execution');

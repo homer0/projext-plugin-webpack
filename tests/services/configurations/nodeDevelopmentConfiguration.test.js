@@ -75,6 +75,9 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
         source: 'source-path',
       },
       excludeModules: [],
+      watch: {
+        development: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
@@ -83,13 +86,11 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -98,7 +99,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
-      watch: false,
+      watch: target.watch.development,
       mode: 'development',
       plugins: expect.any(Array),
       target: 'node',
@@ -152,6 +153,12 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       },
       excludeModules: [],
       runOnDevelopment: true,
+      watch: {
+        development: false,
+      },
+      inspect: {
+        enabled: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
@@ -160,13 +167,11 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
     };
     const copy = ['file-to-copy'];
-    const watch = false;
     const params = {
       target,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -202,6 +207,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledWith({
       logger: appLogger,
+      inspect: target.inspect,
     });
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -232,6 +238,9 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       },
       excludeModules: [],
       runOnDevelopment: false,
+      watch: {
+        development: true,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
@@ -240,13 +249,11 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       js: 'statics/js/build.js',
     };
     const copy = ['file-to-copy'];
-    const watch = true;
     const params = {
       target,
       entry,
       output,
       copy,
-      watch,
     };
     const expectedConfig = {
       entry,
@@ -255,7 +262,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
         filename: output.js,
         publicPath: '/',
       },
-      watch: true,
+      watch: target.watch.development,
       mode: 'development',
       plugins: expect.any(Array),
       target: 'node',

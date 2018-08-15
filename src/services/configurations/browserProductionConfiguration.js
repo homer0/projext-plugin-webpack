@@ -70,7 +70,6 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
-      watch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -141,7 +140,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       ),
     ];
     // Enable the watch mode if required...
-    if (watch) {
+    if (target.watch.production) {
       config.watch = true;
     }
 
