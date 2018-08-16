@@ -66,6 +66,9 @@ describe('services/configurations:nodeProductionConfiguration', () => {
         build: 'build-folder',
       },
       excludeModules: [],
+      watch: {
+        production: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
@@ -93,6 +96,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
       node: {
         __dirname: false,
       },
+      watch: target.watch.production,
     };
     let sut = null;
     let result = null;

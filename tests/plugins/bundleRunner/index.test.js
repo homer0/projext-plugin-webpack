@@ -26,6 +26,13 @@ describe('plugins:bundleRunner', () => {
       entry: null,
       name: 'projext-webpack-plugin-bundle-runner',
       logger: null,
+      inspect: {
+        enabled: false,
+        host: '0.0.0.0',
+        port: 9229,
+        command: 'inspect',
+        ndb: false,
+      },
     });
     expect(ProjextWebpackUtils.createLogger).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackUtils.createLogger).toHaveBeenCalledWith(
@@ -48,6 +55,13 @@ describe('plugins:bundleRunner', () => {
       entry: null,
       name: 'projext-webpack-plugin-bundle-runner',
       logger,
+      inspect: {
+        enabled: false,
+        host: '0.0.0.0',
+        port: 9229,
+        command: 'inspect',
+        ndb: false,
+      },
     });
     expect(ProjextWebpackUtils.createLogger).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackUtils.createLogger).toHaveBeenCalledWith(
@@ -329,7 +343,127 @@ describe('plugins:bundleRunner', () => {
     expect(logger.success).toHaveBeenCalledWith('Starting the bundle execution');
     expect(callback).toHaveBeenCalledTimes(1);
     expect(fork).toHaveBeenCalledTimes(1);
-    expect(fork).toHaveBeenCalledWith(resolvedEntry);
+    expect(fork).toHaveBeenCalledWith(resolvedEntry, [], {});
+  });
+
+  it('should execute the bundle when the compilation ends and enable the Node inspector', () => {
+    // Given
+    const logger = {
+      success: jest.fn(),
+    };
+    ProjextWebpackUtils.createLogger.mockImplementationOnce(() => logger);
+    const compiler = {
+      hooks: {
+        afterEmit: {
+          tapAsync: jest.fn(),
+        },
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
+    };
+    const entry = 'my-entry';
+    const inspect = {
+      enabled: true,
+      host: '0.0.0.0',
+      port: 9229,
+      command: 'inspect',
+      ndb: false,
+    };
+    const compilation = {
+      assets: {
+        [entry]: {
+          existsAt: 'other-asset.js',
+        },
+      },
+    };
+    const resolvedEntry = path.resolve(compilation.assets[entry].existsAt);
+    const callback = jest.fn();
+    let sut = null;
+    let onAssetsEmitted = null;
+    let onCompilationEnds = null;
+    // When
+    sut = new ProjextWebpackBundleRunner({ entry, inspect });
+    sut.apply(compiler);
+    [[, onAssetsEmitted]] = compiler.hooks.afterEmit.tapAsync.mock.calls;
+    [[, onCompilationEnds]] = compiler.hooks.done.tap.mock.calls;
+    onAssetsEmitted(compilation, callback);
+    jest.runAllTimers();
+    onCompilationEnds();
+    jest.runAllTimers();
+    // Then
+    expect(logger.success).toHaveBeenCalledTimes(3);
+    expect(logger.success).toHaveBeenCalledWith(`Using the selected entry: ${entry}`);
+    expect(logger.success).toHaveBeenCalledWith(`Entry file: ${resolvedEntry}`);
+    expect(logger.success).toHaveBeenCalledWith('Starting the bundle execution');
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(fork).toHaveBeenCalledTimes(1);
+    expect(fork).toHaveBeenCalledWith(resolvedEntry, [], {
+      execArgv: [`--${inspect.command}=${inspect.host}:${inspect.port}`],
+    });
+  });
+
+  it('should execute the bundle when the compilation ends and enable the ndb inspector', () => {
+    // Given
+    const logger = {
+      success: jest.fn(),
+    };
+    ProjextWebpackUtils.createLogger.mockImplementationOnce(() => logger);
+    const compiler = {
+      hooks: {
+        afterEmit: {
+          tapAsync: jest.fn(),
+        },
+        compile: {
+          tap: jest.fn(),
+        },
+        done: {
+          tap: jest.fn(),
+        },
+      },
+    };
+    const entry = 'my-entry';
+    const inspect = {
+      enabled: true,
+      host: '0.0.0.0',
+      port: 9229,
+      command: 'inspect',
+      ndb: true,
+    };
+    const compilation = {
+      assets: {
+        [entry]: {
+          existsAt: 'other-asset.js',
+        },
+      },
+    };
+    const resolvedEntry = path.resolve(compilation.assets[entry].existsAt);
+    const callback = jest.fn();
+    let sut = null;
+    let onAssetsEmitted = null;
+    let onCompilationEnds = null;
+    // When
+    sut = new ProjextWebpackBundleRunner({ entry, inspect });
+    sut.apply(compiler);
+    [[, onAssetsEmitted]] = compiler.hooks.afterEmit.tapAsync.mock.calls;
+    [[, onCompilationEnds]] = compiler.hooks.done.tap.mock.calls;
+    onAssetsEmitted(compilation, callback);
+    jest.runAllTimers();
+    onCompilationEnds();
+    jest.runAllTimers();
+    // Then
+    expect(logger.success).toHaveBeenCalledTimes(3);
+    expect(logger.success).toHaveBeenCalledWith(`Using the selected entry: ${entry}`);
+    expect(logger.success).toHaveBeenCalledWith(`Entry file: ${resolvedEntry}`);
+    expect(logger.success).toHaveBeenCalledWith('Starting the bundle execution');
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(fork).toHaveBeenCalledTimes(1);
+    expect(fork).toHaveBeenCalledWith(resolvedEntry, [], {
+      execPath: 'ndb',
+    });
   });
 
   it('shouldn\'t execute the bundle if it\'s already running', () => {
@@ -383,7 +517,7 @@ describe('plugins:bundleRunner', () => {
     expect(logger.success).toHaveBeenCalledWith('Starting the bundle execution');
     expect(callback).toHaveBeenCalledTimes(1);
     expect(fork).toHaveBeenCalledTimes(1);
-    expect(fork).toHaveBeenCalledWith(resolvedEntry);
+    expect(fork).toHaveBeenCalledWith(resolvedEntry, [], {});
   });
 
   it('shouldn\'t execute the bundle if no entry was selected', () => {
@@ -495,7 +629,7 @@ describe('plugins:bundleRunner', () => {
     expect(logger.info).toHaveBeenCalledWith('Stopping the bundle execution');
     expect(callback).toHaveBeenCalledTimes(1);
     expect(fork).toHaveBeenCalledTimes(1);
-    expect(fork).toHaveBeenCalledWith(resolvedEntry);
+    expect(fork).toHaveBeenCalledWith(resolvedEntry, [], {});
     expect(instance.kill).toHaveBeenCalledTimes(1);
   });
 
@@ -560,7 +694,7 @@ describe('plugins:bundleRunner', () => {
     expect(logger.info).toHaveBeenCalledWith('Stopping the bundle execution');
     expect(callback).toHaveBeenCalledTimes(1);
     expect(fork).toHaveBeenCalledTimes(1);
-    expect(fork).toHaveBeenCalledWith(resolvedEntry);
+    expect(fork).toHaveBeenCalledWith(resolvedEntry, [], {});
     expect(instance.kill).toHaveBeenCalledTimes(1);
   });
 });

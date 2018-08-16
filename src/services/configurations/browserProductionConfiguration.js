@@ -85,6 +85,12 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     if (target.sourceMap.production) {
       config.devtool = 'source-map';
     }
+    // If the code won't be uglified, remove the optimization flag.
+    if (!target.uglifyOnProduction) {
+      config.optimization = {
+        minimize: false,
+      };
+    }
     // Setup the plugins.
     config.plugins = [
       // If the target is a library, it doesn't need HTML on production.
@@ -105,10 +111,16 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       ),
       // To add the _'browser env variables'_.
       new DefinePlugin(definitions),
-      // To uglify the code.
-      new UglifyJSPlugin({
-        sourceMap: !!target.sourceMap.production,
-      }),
+      // Uglify the code if necessary.
+      ...(
+        target.uglifyOnProduction ?
+          [
+            new UglifyJSPlugin({
+              sourceMap: !!target.sourceMap.production,
+            }),
+          ] :
+          []
+      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
@@ -127,6 +139,11 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           })]
       ),
     ];
+    // Enable the watch mode if required...
+    if (target.watch.production) {
+      config.watch = true;
+    }
+
     // Reduce the configuration
     return this.events.reduce(
       [

@@ -99,6 +99,11 @@
  */
 
 /**
+ * @external {NodeInspectorSettings}
+ * https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings
+ */
+
+/**
  * @external {BabelConfiguration}
  * https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html
  */
@@ -248,12 +253,15 @@
 
 /**
  * @typedef {Object} ProjextWebpackBundleRunnerOptions
- * @property {?string} entry  The name of the webpack entry to execute. If not specified will
- *                            fallback to the first one on the list provided by webpack.
- * @property {?string} name   The _"instance name"_, used to register the listeners on the webpack
- *                            event hooks.
- *                            Its default value is `projext-webpack-plugin-bundle-runner`.
- * @property {?Logger} logger A custom logger to output the plugin's information messages.
+ * @property {?string}                entry   The name of the webpack entry to execute. If not
+ *                                            specified will fallback to the first one on the list
+ *                                            provided by webpack.
+ * @property {?string}                name    The _"instance name"_, used to register the listeners
+ *                                            on the webpack event hooks. Its default value is
+ *                                            `projext-webpack-plugin-bundle-runner`.
+ * @property {?Logger}                logger  A custom logger to output the plugin's information
+ *                                            messages.
+ * @property {?NodeInspectorSettings} inspect The custom settings for the Node Inspector.
  */
 
 /**
