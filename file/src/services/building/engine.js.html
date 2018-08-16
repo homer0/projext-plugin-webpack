@@ -57,6 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings">NodeInspectorSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
@@ -146,33 +147,53 @@ class WebpackBuildEngine {
      * that will be retrieved when generating the configuration.
      * The keys are the purpose and the values the actual names of the variables.
      * @type {Object}
-     * @property {string} target The name of the target being builded.
-     * @property {string} type   The intended build type: `development` or `production`.
-     * @property {string} run    Whether or not to execute the target. This will be like a fake
-     *                           boolean as the CLI doesn&apos;t support boolean variables, so its value
-     *                           will be either `&apos;true&apos;` or `&apos;false&apos;`.
+     * @property {string} target  The name of the target being builded.
+     * @property {string} type    The intended build type: `development` or `production`.
+     * @property {string} run     Whether or not to execute the target. This will be like a fake
+     *                            boolean as the CLI doesn&apos;t support boolean variables, so its
+     *                            value will be either `&apos;true&apos;` or `&apos;false&apos;`.
+     * @property {string} watch   Whether or not to watch the target files. This will be like a
+     *                            fake boolean as the CLI doesn&apos;t support boolean variables, so
+     *                            its value will be either `&apos;true&apos;` or `&apos;false&apos;`.
+     * @property {string} inspect Whether or not to enable the Node inspector. This will be like a
+     *                            fake boolean as the CLI doesn&apos;t support boolean variables, so its
+     *                            value will be either `&apos;true&apos;` or `&apos;false&apos;`.
      * @access protected
      * @ignore
      */
     this._envVars = {
-      target: &apos;PROJEXT_WEBPACK_TARGET&apos;,
-      type: &apos;PROJEXT_WEBPACK_BUILD_TYPE&apos;,
-      run: &apos;PROJEXT_WEBPACK_RUN&apos;,
+      target: &apos;PXTWPK_TARGET&apos;,
+      type: &apos;PXTWPK_TYPE&apos;,
+      run: &apos;PXTWPK_RUN&apos;,
+      watch: &apos;PXTWPK_WATCH&apos;,
+      inspect: &apos;PXTWPK_INSPECT&apos;,
     };
   }
   /**
    * Get the CLI build command to bundle a target.
-   * @param  {Target}  target           The target information.
-   * @param  {string}  buildType        The intended build type: `development` or `production`.
-   * @param  {boolean} [forceRun=false] Force the target to run even if the `runOnDevelopment`
-   *                                    setting is `false`.
+   * @param {Target}  target               The target information.
+   * @param {string}  buildType            The intended build type: `development` or `production`.
+   * @param {boolean} [forceRun=false]     Force the target to run even if the `runOnDevelopment`
+   *                                       setting is `false`.
+   * @param {boolean} [forceWatch=false]   Force webpack to use the watch mode even if the `watch`
+   *                                       setting for the required build type is set to `false`.
+   * @param {boolean} [forceInspect=false] Enables the Node inspector even if the target setting
+   *                                       is set to `false`.
    * @return {string}
    */
-  getBuildCommand(target, buildType, forceRun = false) {
+  getBuildCommand(
+    target,
+    buildType,
+    forceRun = false,
+    forceWatch = false,
+    forceInspect = false
+  ) {
     const vars = this._getEnvVarsAsString({
       target: target.name,
       type: buildType,
       run: forceRun,
+      watch: forceWatch,
+      inspect: forceInspect,
     });
 
     const config = path.join(
@@ -195,7 +216,7 @@ class WebpackBuildEngine {
     return `${vars} ${command} --config ${config} ${options}`;
   }
   /**
-   * Get a Webpack configuration for a target.
+   * Get a webpack configuration for a target.
    * @param {Target} target    The target configuration.
    * @param {string} buildType The intended build type: `development` or `production`.
    * @return {object}
@@ -215,10 +236,17 @@ class WebpackBuildEngine {
       throw new Error(&apos;This file can only be run by using the `build` command&apos;);
     }
 
-    const { type, run } = vars;
+    const { type, run, inspect } = vars;
     const target = Object.assign({}, this.targets.getTarget(vars.target));
     if (run === &apos;true&apos;) {
       target.runOnDevelopment = true;
+      if (inspect === &apos;true&apos;) {
+        target.inspect.enabled = true;
+      }
+    }
+
+    if (vars.watch === &apos;true&apos;) {
+      target.watch[type] = true;
     }
 
     return this.getConfiguration(target, type);
@@ -231,7 +259,7 @@ class WebpackBuildEngine {
    *   target: &apos;my-target&apos;,
    *   type: &apos;development&apos;,
    * });
-   * // will output `PROJEXT_WEBPACK_TARGET=my-target PROJEXT_WEBPACK_BUILD_TYPE=development`
+   * // will output `PXTWPK_TARGET=my-target PXTWPK_TYPE=development`
    * @param {object} values A dictionary with the purpose(alias) of the variables as keys.
    * @return {string}
    * @access protected

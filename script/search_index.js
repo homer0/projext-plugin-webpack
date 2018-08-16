@@ -1122,6 +1122,12 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/typedef.js~nodeinspectorsettings",
+    "https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings",
+    "src/typedef.js~NodeInspectorSettings",
+    "external"
+  ],
+  [
     "src/typedef.js~pathutils",
     "https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html",
     "src/typedef.js~PathUtils",

@@ -57,6 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings">NodeInspectorSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
@@ -124,9 +125,23 @@ class ProjextWebpackBundleRunner {
         entry: null,
         name: &apos;projext-webpack-plugin-bundle-runner&apos;,
         logger: null,
+        inspect: {
+          enabled: false,
+          host: &apos;0.0.0.0&apos;,
+          port: 9229,
+          command: &apos;inspect&apos;,
+          ndb: false,
+        },
       },
       options
     );
+    /**
+     * The options that are going to be sent to the `fork` function.
+     * @type {Object}
+     * @access protected
+     * @ignore
+     */
+    this._forkOptions = this._createForkOptions();
     /**
      * A logger to output the plugin&apos;s information messages.
      * @type {Logger}
@@ -176,6 +191,31 @@ class ProjextWebpackBundleRunner {
     compiler.hooks.afterEmit.tapAsync(name, this._onAssetsEmitted.bind(this));
     compiler.hooks.compile.tap(name, this._onCompilationStarts.bind(this));
     compiler.hooks.done.tap(name, this._onCompilationEnds.bind(this));
+  }
+  /**
+   * Generates the options for the `fork` function by evluating the inspect options.
+   * @return {Object}
+   * @access protected
+   * @ignore
+   */
+  _createForkOptions() {
+    const result = {};
+    const {
+      enabled,
+      host,
+      port,
+      command,
+      ndb,
+    } = this._options.inspect;
+    if (enabled) {
+      if (ndb) {
+        result.execPath = &apos;ndb&apos;;
+      } else {
+        result.execArgv = [`--${command}=${host}:${port}`];
+      }
+    }
+
+    return result;
   }
   /**
    * This is called by webpack every time assets are emitted. The first time the method is called,
@@ -280,7 +320,7 @@ class ProjextWebpackBundleRunner {
     // Make sure an entry was selected and there&apos;s no child process already running.
     if (this._options.entry &amp;&amp; !this._instance) {
       // Fork a new instance of the bundle.
-      this._instance = fork(this._entryPath);
+      this._instance = fork(this._entryPath, [], this._forkOptions);
       // Prevent the output from being added on the same line as webpack messages.
       setTimeout(() =&gt; {
         this._logger.success(&apos;Starting the bundle execution&apos;);

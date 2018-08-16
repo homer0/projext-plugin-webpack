@@ -57,6 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings">NodeInspectorSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
@@ -318,7 +319,7 @@ a target using Webpack.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getBuildCommand">getBuildCommand</a></span></span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html#instance-method-getBuildCommand">getBuildCommand</a></span></span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, forceWatch: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, forceInspect: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
         </p>
       </div>
       <div>
@@ -353,7 +354,7 @@ a target using Webpack.</p>
       <div>
         
         
-        <div data-ice="description"><p>Get a Webpack configuration for a target.</p>
+        <div data-ice="description"><p>Get a webpack configuration for a target.</p>
 </div>
       </div>
     </td>
@@ -676,11 +677,11 @@ a target using Webpack.</p>
     
     
     
-    <span class="code" data-ice="name">getBuildCommand</span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="code" data-ice="name">getBuildCommand</span><span class="code" data-ice="signature">(target: <span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-Target">Target</a></span>, buildType: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, forceRun: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, forceWatch: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>, forceInspect: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/building/engine.js.html#lineNumber70">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/building/engine.js.html#lineNumber82">source</a></span></span>
     </span>
   </h3>
 
@@ -720,7 +721,25 @@ a target using Webpack.</p>
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: false</li></ul></td>
       <td data-ice="description"><p>Force the target to run even if the <code>runOnDevelopment</code>
-                                   setting is <code>false</code>.</p>
+                                      setting is <code>false</code>.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">forceWatch</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: false</li></ul></td>
+      <td data-ice="description"><p>Force webpack to use the watch mode even if the <code>watch</code>
+                                      setting for the required build type is set to <code>false</code>.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">forceInspect</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: false</li></ul></td>
+      <td data-ice="description"><p>Enables the Node inspector even if the target setting
+                                      is set to <code>false</code>.</p>
 </td>
     </tr>
 </tbody>
@@ -769,14 +788,14 @@ a target using Webpack.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/building/engine.js.html#lineNumber102">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/building/engine.js.html#lineNumber122">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Get a Webpack configuration for a target.</p>
+  <div data-ice="description"><p>Get a webpack configuration for a target.</p>
 </div>
 
   
@@ -849,7 +868,7 @@ a target using Webpack.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/building/engine.js.html#lineNumber111">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/building/engine.js.html#lineNumber131">source</a></span></span>
     </span>
   </h3>
 

@@ -1,7 +1,7 @@
 {
   "coverage": "100%",
-  "expectCount": 149,
-  "actualCount": 149,
+  "expectCount": 151,
+  "actualCount": 151,
   "files": {
     "src/abstracts/configurationFile.js": {
       "expectCount": 13,
@@ -34,8 +34,8 @@
       "undocumentLines": []
     },
     "src/plugins/bundleRunner/index.js": {
-      "expectCount": 13,
-      "actualCount": 13,
+      "expectCount": 15,
+      "actualCount": 15,
       "undocumentLines": []
     },
     "src/plugins/openDevServer/index.js": {

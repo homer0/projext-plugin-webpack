@@ -57,6 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings">NodeInspectorSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
@@ -186,6 +187,12 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     if (target.sourceMap.production) {
       config.devtool = &apos;source-map&apos;;
     }
+    // If the code won&apos;t be uglified, remove the optimization flag.
+    if (!target.uglifyOnProduction) {
+      config.optimization = {
+        minimize: false,
+      };
+    }
     // Setup the plugins.
     config.plugins = [
       // If the target is a library, it doesn&apos;t need HTML on production.
@@ -206,10 +213,16 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       ),
       // To add the _&apos;browser env variables&apos;_.
       new DefinePlugin(definitions),
-      // To uglify the code.
-      new UglifyJSPlugin({
-        sourceMap: !!target.sourceMap.production,
-      }),
+      // Uglify the code if necessary.
+      ...(
+        target.uglifyOnProduction ?
+          [
+            new UglifyJSPlugin({
+              sourceMap: !!target.sourceMap.production,
+            }),
+          ] :
+          []
+      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
@@ -228,6 +241,11 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           })]
       ),
     ];
+    // Enable the watch mode if required...
+    if (target.watch.production) {
+      config.watch = true;
+    }
+
     // Reduce the configuration
     return this.events.reduce(
       [

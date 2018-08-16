@@ -57,6 +57,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://yarnpkg.com/en/package/jimple">Jimple</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="http://expressjs.com/en/guide/using-middleware.html">Middleware</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings">NodeInspectorSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-ProjectConfigurationSettings">ProjectConfigurationSettings</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
@@ -750,24 +751,33 @@ generated.</p>
       <td data-ice="name" class="code" data-depth="0">entry</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"><ul><li>nullable: true</li></ul></td>
-      <td data-ice="description"><p>The name of the webpack entry to execute. If not specified will
-                           fallback to the first one on the list provided by webpack.</p>
+      <td data-ice="description"><p>The name of the webpack entry to execute. If not
+                                           specified will fallback to the first one on the list
+                                           provided by webpack.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">name</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"><ul><li>nullable: true</li></ul></td>
-      <td data-ice="description"><p>The <em>&quot;instance name&quot;</em>, used to register the listeners on the webpack
-                           event hooks.
-                           Its default value is <code>projext-webpack-plugin-bundle-runner</code>.</p>
+      <td data-ice="description"><p>The <em>&quot;instance name&quot;</em>, used to register the listeners
+                                           on the webpack event hooks. Its default value is
+                                           <code>projext-webpack-plugin-bundle-runner</code>.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">logger</td>
       <td data-ice="type" class="code"><span><a href="https://homer0.github.io/wootils/class/wootils/node/logger.js~Logger.html">Logger</a></span></td>
       <td data-ice="appendix"><ul><li>nullable: true</li></ul></td>
-      <td data-ice="description"><p>A custom logger to output the plugin&apos;s information messages.</p>
+      <td data-ice="description"><p>A custom logger to output the plugin&apos;s information
+                                           messages.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">inspect</td>
+      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/projext/typedef/index.html#static-typedef-NodeInspectorSettings">NodeInspectorSettings</a></span></td>
+      <td data-ice="appendix"><ul><li>nullable: true</li></ul></td>
+      <td data-ice="description"><p>The custom settings for the Node Inspector.</p>
 </td>
     </tr>
 </tbody>
