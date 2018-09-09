@@ -186,10 +186,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         ]);
       }
       // Push the plugin that logs the dev server statuses and opens the browser.
-      config.plugins.push(new ProjextWebpackOpenDevServer(devServerConfig.url, {
-        logger: this.appLogger,
-        openBrowser: devServerConfig.open,
-      }));
+      config.plugins.push(new ProjextWebpackOpenDevServer(
+        (devServerConfig.proxied ? devServerConfig.proxied.url : devServerConfig.url),
+        {
+          logger: this.appLogger,
+          openBrowser: devServerConfig.open,
+        }
+      ));
     } else if (target.hot) {
       /**
        * If the target requires HMR but is not running with the dev server, it means that there's
@@ -264,15 +267,29 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     if (!hasASSLFile) {
       delete config.ssl;
     }
+    /**
+     * Define whether to build a proxied URL for the plugin that opens the browser or not. The
+     * reason for this is that when the server is proxied but the host is not defined, it will use
+     * the dev server host, and in that case, it should include the port too, something that
+     * wouldn't be necessary when the proxied host is specified.
+     */
+    let buildProxiedURL = true;
     // If the server is being proxied...
     if (config.proxied.enabled) {
       // ...if no `host` was specified, use the one defined for the server.
       if (config.proxied.host === null) {
         config.proxied.host = config.host;
+        buildProxiedURL = false;
       }
       // If no `https` option was specified, set it to `true` if at least one SSL file was sent.
       if (config.proxied.https === null) {
         config.proxied.https = hasASSLFile;
+      }
+      // If a custom proxied host was specified, build the new URL.
+      if (buildProxiedURL) {
+        // Build the proxied URL.
+        const proxiedProtocol = config.proxied.https ? 'https' : 'http';
+        config.proxied.url = `${proxiedProtocol}://${config.proxied.host}`;
       }
     } else {
       // ...otherwise, just remove the setting.
@@ -281,6 +298,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
 
     const protocol = config.ssl ? 'https' : 'http';
     config.url = `${protocol}://${config.host}:${config.port}`;
+    /**
+     * If the server is proxied, but without a custom host, copy the dev server URL into the
+     * proxied settings.
+     */
+    if (config.proxied && !buildProxiedURL) {
+      config.proxied.url = config.url;
+    }
 
     return config;
   }

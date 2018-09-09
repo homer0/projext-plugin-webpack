@@ -220,6 +220,8 @@
  * The host used to proxy the dev server.
  * @property {boolean} https
  * Whether or not the proxied host uses `https`.
+ * @property {string} url
+ * The complete URL being used to proxy the dev server.
  */
 
 /**
