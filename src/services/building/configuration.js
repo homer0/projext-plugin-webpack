@@ -75,7 +75,7 @@ class WebpackConfiguration {
     const entryFile = path.join(target.paths.source, target.entry[buildType]);
     const entries = [entryFile];
     if (target.babel.polyfill) {
-      entries.unshift('babel-polyfill');
+      entries.unshift('@babel/polyfill');
     }
 
     const copy = [];

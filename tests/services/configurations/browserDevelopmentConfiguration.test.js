@@ -550,7 +550,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = 'babel-polyfill';
+    const babelPolyfillEntry = '@babel/polyfill';
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -693,7 +693,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = 'babel-polyfill';
+    const babelPolyfillEntry = '@babel/polyfill';
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -840,7 +840,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = 'babel-polyfill';
+    const babelPolyfillEntry = '@babel/polyfill';
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -984,7 +984,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = 'babel-polyfill';
+    const babelPolyfillEntry = '@babel/polyfill';
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -1136,7 +1136,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = 'babel-polyfill';
+    const babelPolyfillEntry = '@babel/polyfill';
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -1285,7 +1285,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = 'babel-polyfill';
+    const babelPolyfillEntry = '@babel/polyfill';
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -1435,7 +1435,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = 'babel-polyfill';
+    const babelPolyfillEntry = '@babel/polyfill';
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [

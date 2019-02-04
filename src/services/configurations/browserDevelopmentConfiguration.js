@@ -214,7 +214,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       // Get the list of entries for the target.
       const entries = config.entry[entryName];
       // Check if the `babel-polyfill` is present, since it always needs to be first.
-      const polyfillIndex = entries.indexOf('babel-polyfill');
+      const polyfillIndex = entries.indexOf('@babel/polyfill');
       // If the `babel-polyfill` is present...
       if (polyfillIndex > -1) {
         // ...push all the _"hot entries"_ after it.

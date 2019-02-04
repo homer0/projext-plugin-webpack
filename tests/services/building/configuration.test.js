@@ -613,7 +613,7 @@ describe('services/building:configuration', () => {
       buildType,
       entry: {
         [target.name]: [
-          'babel-polyfill',
+          '@babel/polyfill',
           path.join(target.paths.source, target.entry[buildType]),
         ],
       },
