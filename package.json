@@ -7,7 +7,7 @@
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
     "dependencies": {
-      "projext": "^6.0.0-alpha.1",
+      "projext": "homer0/projext#next",
       "wootils": "^1.4.0",
       "jimple": "1.5.0",
       "fs-extra": "7.0.1",
