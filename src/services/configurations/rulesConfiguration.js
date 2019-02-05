@@ -122,7 +122,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     // Set the base configuration for the CSS loader.
     const cssLoaderConfig = {
       // `2` because there are two other loaders after it: `resolve-url-loader` and `sass-loader`.
-      importRules: 2,
+      importLoaders: 2,
     };
     // If the target uses CSS modules...
     if (target.css.modules) {
@@ -136,7 +136,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     const use = [
       {
         loader: 'css-loader',
-        query: cssLoaderConfig,
+        options: cssLoaderConfig,
       },
       'resolve-url-loader',
       {
@@ -355,7 +355,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         },
         {
           loader: 'image-webpack-loader',
-          query: {
+          options: {
             mozjpeg: {
               progressive: true,
             },
@@ -420,7 +420,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
         },
         {
           loader: 'image-webpack-loader',
-          query: {
+          options: {
             optipng: {
               optimizationLevel: 7,
             },

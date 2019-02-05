@@ -86,7 +86,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const scssUseBase = [
       {
         loader: 'css-loader',
-        query: expect.any(Object),
+        options: expect.any(Object),
       },
       'resolve-url-loader',
       {
@@ -105,8 +105,8 @@ describe('services/configurations:rulesConfiguration', () => {
     const scssUseBaseWithModules = [
       {
         loader: 'css-loader',
-        query: {
-          importRules: 2,
+        options: {
+          importLoaders: 2,
           modules: true,
           localIdentName: '[name]__[local]___[hash:base64:5]',
         },
@@ -241,7 +241,7 @@ describe('services/configurations:rulesConfiguration', () => {
           },
           {
             loader: 'image-webpack-loader',
-            query: expect.any(Object),
+            options: expect.any(Object),
           },
         ],
       },
@@ -261,7 +261,7 @@ describe('services/configurations:rulesConfiguration', () => {
           },
           {
             loader: 'image-webpack-loader',
-            query: expect.any(Object),
+            options: expect.any(Object),
           },
         ],
       },
