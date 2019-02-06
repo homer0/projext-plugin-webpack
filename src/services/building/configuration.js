@@ -84,7 +84,7 @@ class WebpackConfiguration {
     }
 
     const output = Object.assign({}, target.output[buildType]);
-    if (!output.jsChunks) {
+    if (!output.jsChunks || output.jsChunks === true) {
       output.jsChunks = this._generateChunkName(output.js);
     }
 
