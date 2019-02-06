@@ -98,6 +98,7 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch,

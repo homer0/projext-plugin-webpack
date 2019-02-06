@@ -75,6 +75,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -88,6 +89,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'production',
