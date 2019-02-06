@@ -17,7 +17,7 @@ Allows [projext](https://yarnpkg.com/en/package/projext) to use [webpack](https:
 |--------------|-------------------------------------------------------------------------------|
 | Package      | projext-plugin-webpack                                                        |
 | Description  | Allows projext to use webpack as a build engine.                              |
-| Node Version | >= v6.10.0                                                                    |
+| Node Version | >= v8.0.0                                                                    |
 
 ## Usage
 
