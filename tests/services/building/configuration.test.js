@@ -193,7 +193,9 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: target.output[buildType],
+      output: Object.assign({}, target.output[buildType], {
+        jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
+      }),
       targetRules,
       copy: [],
     });
@@ -298,7 +300,9 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: target.output[buildType],
+      output: Object.assign({}, target.output[buildType], {
+        jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
+      }),
       targetRules,
       copy: filesToCopy,
     });
@@ -351,6 +355,7 @@ describe('services/building:configuration', () => {
       output: {
         [buildType]: {
           js: 'js/target/file.2509.js',
+          jsChunks: 'js/target/file.2509.[name].js',
           css: 'css/target/file.2509.css',
           fonts: 'fonts/target/[name].2509.[ext]',
           images: 'images/target/[name].2509.[ext]',
@@ -508,7 +513,9 @@ describe('services/building:configuration', () => {
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
-      output: target.output[buildType],
+      output: Object.assign({}, target.output[buildType], {
+        jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
+      }),
       definitions: {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
@@ -621,7 +628,9 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: target.output[buildType],
+      output: Object.assign({}, target.output[buildType], {
+        jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
+      }),
       targetRules,
       copy: [],
     });
@@ -727,7 +736,9 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: target.output[buildType],
+      output: Object.assign({}, target.output[buildType], {
+        jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
+      }),
       targetRules,
       copy: [],
     });
@@ -835,7 +846,9 @@ describe('services/building:configuration', () => {
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
-      output: target.output[buildType],
+      output: Object.assign({}, target.output[buildType], {
+        jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
+      }),
       targetRules,
       copy: [],
     });

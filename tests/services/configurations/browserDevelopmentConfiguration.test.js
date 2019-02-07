@@ -110,6 +110,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -125,6 +126,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -218,6 +220,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -233,6 +236,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -324,6 +328,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -344,6 +349,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -438,6 +444,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -453,6 +460,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -560,6 +568,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -590,6 +599,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -703,6 +713,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -734,6 +745,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -850,6 +862,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -877,6 +890,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -994,6 +1008,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -1026,6 +1041,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -1146,6 +1162,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -1177,6 +1194,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -1295,6 +1313,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -1327,6 +1346,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',
@@ -1445,6 +1465,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
@@ -1477,6 +1498,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'development',

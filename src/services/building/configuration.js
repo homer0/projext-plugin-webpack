@@ -83,6 +83,11 @@ class WebpackConfiguration {
       copy.push(...this.targets.getFilesToCopy(target, buildType));
     }
 
+    const output = Object.assign({}, target.output[buildType]);
+    if (typeof output.jsChunks !== 'string') {
+      output.jsChunks = this._generateChunkName(output.js);
+    }
+
     const params = {
       target,
       targetRules: this.targetsFileRules.getRulesForTarget(target),
@@ -90,7 +95,7 @@ class WebpackConfiguration {
         [target.name]: entries,
       },
       definitions: this._getDefinitions(target, buildType),
-      output: target.output[buildType],
+      output,
       copy,
       buildType,
     };
@@ -161,6 +166,18 @@ class WebpackConfiguration {
     });
 
     return newOptions;
+  }
+  /**
+   * This is a small helper function that parses the default path of the JS file webpack will
+   * emmit and adds a `[name]` placeholder for webpack to replace with the chunk name.
+   * @param {string} jsPath The original path for the JS file.
+   * @return {string}
+   * @access protected
+   * @ignore
+   */
+  _generateChunkName(jsPath) {
+    const parsed = path.parse(jsPath);
+    return path.join(parsed.dir, `${parsed.name}.[name]${parsed.ext}`);
   }
 }
 /**

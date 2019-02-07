@@ -84,6 +84,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -97,6 +98,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch: target.watch.development,
@@ -165,6 +167,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -178,6 +181,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch: true,
@@ -247,6 +251,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -260,6 +265,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch: target.watch.development,

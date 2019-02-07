@@ -8,7 +8,7 @@
     "license": "MIT",
     "dependencies": {
       "projext": "homer0/projext#next",
-      "wootils": "^1.4.0",
+      "wootils": "^2.0.0",
       "jimple": "1.5.0",
       "fs-extra": "7.0.1",
       "extend": "3.0.2",
@@ -52,7 +52,7 @@
       "jest-ex": "^6.0.0",
       "jest-cli": "24.0.0",
       "jasmine-expect": "4.0.1",
-      "jimpex": "^2.1.1",
+      "jimpex": "^3.0.0",
       "esdoc": "1.1.0",
       "esdoc-standard-plugin": "1.0.0",
       "esdoc-node": "1.0.4",
