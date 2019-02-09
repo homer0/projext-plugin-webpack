@@ -82,6 +82,11 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
       mode: 'production',
       watch: target.watch.production,
     };
+    // If the target has source maps enabled...
+    if (target.sourceMap.production) {
+      // ...configure the devtool
+      config.devtool = 'source-map';
+    }
     // Reduce the configuration.
     return this.events.reduce(
       [
