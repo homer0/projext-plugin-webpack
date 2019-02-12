@@ -85,7 +85,7 @@ describe('services/configurations:baseConfiguration', () => {
     };
     const expectedConfig = {
       resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         modules: ['./', 'node_modules'],
       },
       module: {
@@ -171,7 +171,7 @@ describe('services/configurations:baseConfiguration', () => {
     };
     const expectedConfig = {
       resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         modules: ['./', 'node_modules'],
       },
       module: {
@@ -262,7 +262,7 @@ describe('services/configurations:baseConfiguration', () => {
     };
     const expectedConfig = {
       resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         modules: ['./', 'node_modules'],
       },
       module: {
@@ -332,7 +332,7 @@ describe('services/configurations:baseConfiguration', () => {
     const params = { target };
     const expectedConfig = {
       resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         modules: ['./', 'node_modules'],
       },
       module: {

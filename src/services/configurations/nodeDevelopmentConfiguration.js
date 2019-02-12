@@ -98,6 +98,7 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch,
@@ -109,6 +110,11 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       },
       mode: 'development',
     };
+    // If the target has source maps enabled...
+    if (target.sourceMap.development) {
+      // ...configure the devtool
+      config.devtool = 'source-map';
+    }
     // Reduce the configuration.
     return this.events.reduce(
       [

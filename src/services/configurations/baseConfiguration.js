@@ -67,7 +67,7 @@ class WebpackBaseConfiguration extends ConfigurationFile {
     const { rules } = this.webpackRulesConfiguration.getConfig(params);
     const config = {
       resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         modules: ['./', 'node_modules'],
       },
       module: {

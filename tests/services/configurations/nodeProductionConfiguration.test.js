@@ -69,12 +69,16 @@ describe('services/configurations:nodeProductionConfiguration', () => {
       watch: {
         production: false,
       },
+      sourceMap: {
+        production: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -88,6 +92,7 @@ describe('services/configurations:nodeProductionConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       mode: 'production',
@@ -97,6 +102,83 @@ describe('services/configurations:nodeProductionConfiguration', () => {
         __dirname: false,
       },
       watch: target.watch.production,
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackNodeProductionConfiguration(
+      events,
+      pathUtils,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-node-production-configuration',
+        'webpack-node-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+  });
+
+  it('should create a configuration and enable source maps', () => {
+    // Given
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      excludeModules: [],
+      watch: {
+        production: false,
+      },
+      sourceMap: {
+        production: true,
+      },
+    };
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
+    };
+    const copy = ['file-to-copy'];
+    const params = {
+      target,
+      entry,
+      output,
+      copy,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        chunkFilename: output.jsChunks,
+        publicPath: '/',
+      },
+      mode: 'production',
+      plugins: expect.any(Array),
+      target: 'node',
+      node: {
+        __dirname: false,
+      },
+      watch: target.watch.production,
+      devtool: 'source-map',
     };
     let sut = null;
     let result = null;

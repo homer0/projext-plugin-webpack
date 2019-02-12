@@ -78,12 +78,16 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       watch: {
         development: false,
       },
+      sourceMap: {
+        development: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -97,6 +101,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch: target.watch.development,
@@ -106,6 +111,89 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       node: {
         __dirname: false,
       },
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackNodeDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(0);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-node-development-configuration',
+        'webpack-node-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+  });
+
+  it('should create a configuration and enable source maps', () => {
+    // Given
+    const appLogger = 'appLogger';
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      excludeModules: [],
+      watch: {
+        development: false,
+      },
+      sourceMap: {
+        development: true,
+      },
+    };
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
+    };
+    const copy = ['file-to-copy'];
+    const params = {
+      target,
+      entry,
+      output,
+      copy,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        chunkFilename: output.jsChunks,
+        publicPath: '/',
+      },
+      watch: target.watch.development,
+      mode: 'development',
+      plugins: expect.any(Array),
+      target: 'node',
+      node: {
+        __dirname: false,
+      },
+      devtool: 'source-map',
     };
     let sut = null;
     let result = null;
@@ -159,12 +247,16 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       inspect: {
         enabled: false,
       },
+      sourceMap: {
+        development: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -178,6 +270,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch: true,
@@ -241,12 +334,16 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       watch: {
         development: true,
       },
+      sourceMap: {
+        development: false,
+      },
     };
     const entry = {
       [target.name]: ['index.js'],
     };
     const output = {
       js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
     const params = {
@@ -260,6 +357,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: '/',
       },
       watch: target.watch.development,
