@@ -223,6 +223,12 @@ module.exports = (params) => ({
 
 That change will only be applied when building the target `myApp` on a production build.
 
+### Images optimization
+
+By default, this plugin used to include [`image-webpack-loader`](https://yarnpkg.com/en/package/image-webpack-loader) but the package wasn't being updated often and the requirement of `libpng` was something that caused issues for some of the users' environments.
+
+Now, this plugin only uses the loader if the implementation has `image-webpack-loader` on its `package.json` `dependencies`/`devDependencies`.
+
 ## Making a plugin
 
 If you want to write a plugin that works with this one (like a framework plugin), there are a lot of reducer events you can listen for and use to modify the webpack configuration:
