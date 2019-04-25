@@ -239,10 +239,6 @@ describe('services/configurations:rulesConfiguration', () => {
               name: output.images,
             },
           },
-          {
-            loader: 'image-webpack-loader',
-            options: expect.any(Object),
-          },
         ],
       },
     ];
@@ -258,10 +254,6 @@ describe('services/configurations:rulesConfiguration', () => {
             options: {
               name: '[name].[ext]',
             },
-          },
-          {
-            loader: 'image-webpack-loader',
-            options: expect.any(Object),
           },
         ],
       },
@@ -279,12 +271,14 @@ describe('services/configurations:rulesConfiguration', () => {
     // Given
     const babelConfiguration = 'babelConfiguration';
     const events = 'events';
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
     let sut = null;
     // When
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
+      packageInfo,
       pathUtils
     );
     // Then
@@ -312,8 +306,8 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventNames, rules) => rules),
     };
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -354,8 +348,8 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
-      pathUtils,
-      projectConfiguration
+      packageInfo,
+      pathUtils
     );
     result = sut.getConfig(params);
     // Then
@@ -465,8 +459,8 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
-    const projectConfiguration = 'projectConfiguration';
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -505,8 +499,8 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
-      pathUtils,
-      projectConfiguration
+      packageInfo,
+      pathUtils
     );
     result = sut.getConfig(params);
     // Then
@@ -613,6 +607,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
     const targetName = 'some-target';
     const target = {
@@ -650,6 +645,325 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
+      packageInfo,
+      pathUtils
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual({
+      rules: expect.any(Array),
+    });
+    expect(events.reduce).toHaveBeenCalledTimes([
+      'getJSRules',
+      'getSCSSRules',
+      'getCSSRules',
+      'getHTMLRules',
+      'getFontsRules',
+      'getImagesRules',
+      'getFaviconsRules',
+      'createConfig',
+    ].length);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-js-rules-configuration-for-browser',
+        'webpack-js-rules-configuration',
+      ],
+      expectedRules.jsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-scss-rules-configuration-for-browser',
+        'webpack-scss-rules-configuration',
+      ],
+      expectedRules.scssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-css-rules-configuration-for-browser',
+        'webpack-css-rules-configuration',
+      ],
+      expectedRules.cssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-html-rules-configuration-for-browser',
+        'webpack-html-rules-configuration',
+      ],
+      expectedRules.htmlRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-fonts-rules-configuration-for-browser',
+        'webpack-fonts-rules-configuration',
+      ],
+      expectedRules.fontsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-images-rules-configuration-for-browser',
+        'webpack-images-rules-configuration',
+      ],
+      expectedRules.imagesRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-favicons-rules-configuration-for-browser',
+        'webpack-favicons-rules-configuration',
+      ],
+      expectedRules.faviconRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-rules-configuration-for-browser',
+        'webpack-rules-configuration',
+      ],
+      {
+        rules: [
+          ...expectedRules.jsRules,
+          ...expectedRules.scssRulesForBrowser,
+          ...expectedRules.cssRulesForBrowser,
+          ...expectedRules.htmlRules,
+          ...expectedRules.fontsRules,
+          ...expectedRules.imagesRules,
+          ...expectedRules.faviconRules,
+        ],
+      },
+      params
+    );
+    expect(MiniCssExtractPluginMock.mocks.loader).toHaveBeenCalledTimes(['scss', 'css'].length);
+  });
+
+  it('should return the rules for a browser target with the image loader installed', () => {
+    // Given
+    const extractResult = 'mini-css-extract';
+    const output = {
+      fonts: 'statics/fonts/[name].[ext]',
+      images: 'statics/images/[name].[ext]',
+    };
+    const babelConfig = 'babel';
+    const babelConfiguration = {
+      getConfigForTarget: jest.fn(() => babelConfig),
+    };
+    const events = {
+      reduce: jest.fn((eventName, rules) => rules),
+    };
+    const packageInfo = {
+      dependencies: {
+        'image-webpack-loader': 'latest',
+      },
+    };
+    const pathUtils = 'pathUtils';
+    const targetName = 'some-target';
+    const target = {
+      name: targetName,
+      folders: {
+        source: 'src/target',
+      },
+      paths: {
+        source: '/absolute/src/target',
+      },
+      css: {},
+      includeModules: [],
+      is: {
+        node: false,
+        browser: true,
+      },
+    };
+    const { targetRules, targetRulesSettings } = getTargetRules();
+    const params = {
+      target,
+      targetRules,
+      output,
+    };
+    const expectedRules = getExpectedRules(
+      target,
+      targetRulesSettings,
+      babelConfig,
+      extractResult,
+      output
+    );
+    expectedRules.imagesRules[0].use.push({
+      loader: 'image-webpack-loader',
+      options: expect.any(Object),
+    });
+    expectedRules.faviconRules[0].use.push({
+      loader: 'image-webpack-loader',
+      options: expect.any(Object),
+    });
+    let sut = null;
+    let result = null;
+
+    // When
+    sut = new WebpackRulesConfiguration(
+      babelConfiguration,
+      events,
+      packageInfo,
+      pathUtils
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual({
+      rules: expect.any(Array),
+    });
+    expect(events.reduce).toHaveBeenCalledTimes([
+      'getJSRules',
+      'getSCSSRules',
+      'getCSSRules',
+      'getHTMLRules',
+      'getFontsRules',
+      'getImagesRules',
+      'getFaviconsRules',
+      'createConfig',
+    ].length);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-js-rules-configuration-for-browser',
+        'webpack-js-rules-configuration',
+      ],
+      expectedRules.jsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-scss-rules-configuration-for-browser',
+        'webpack-scss-rules-configuration',
+      ],
+      expectedRules.scssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-css-rules-configuration-for-browser',
+        'webpack-css-rules-configuration',
+      ],
+      expectedRules.cssRulesForBrowser,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-html-rules-configuration-for-browser',
+        'webpack-html-rules-configuration',
+      ],
+      expectedRules.htmlRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-fonts-rules-configuration-for-browser',
+        'webpack-fonts-rules-configuration',
+      ],
+      expectedRules.fontsRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-images-rules-configuration-for-browser',
+        'webpack-images-rules-configuration',
+      ],
+      expectedRules.imagesRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-favicons-rules-configuration-for-browser',
+        'webpack-favicons-rules-configuration',
+      ],
+      expectedRules.faviconRules,
+      params
+    );
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-rules-configuration-for-browser',
+        'webpack-rules-configuration',
+      ],
+      {
+        rules: [
+          ...expectedRules.jsRules,
+          ...expectedRules.scssRulesForBrowser,
+          ...expectedRules.cssRulesForBrowser,
+          ...expectedRules.htmlRules,
+          ...expectedRules.fontsRules,
+          ...expectedRules.imagesRules,
+          ...expectedRules.faviconRules,
+        ],
+      },
+      params
+    );
+    expect(MiniCssExtractPluginMock.mocks.loader).toHaveBeenCalledTimes(['scss', 'css'].length);
+  });
+
+  it('should return the rules for a browser target with the image loader installed (dev)', () => {
+    // Given
+    const extractResult = 'mini-css-extract';
+    const output = {
+      fonts: 'statics/fonts/[name].[ext]',
+      images: 'statics/images/[name].[ext]',
+    };
+    const babelConfig = 'babel';
+    const babelConfiguration = {
+      getConfigForTarget: jest.fn(() => babelConfig),
+    };
+    const events = {
+      reduce: jest.fn((eventName, rules) => rules),
+    };
+    const packageInfo = {
+      devDependencies: {
+        'image-webpack-loader': 'latest',
+      },
+    };
+    const pathUtils = 'pathUtils';
+    const targetName = 'some-target';
+    const target = {
+      name: targetName,
+      folders: {
+        source: 'src/target',
+      },
+      paths: {
+        source: '/absolute/src/target',
+      },
+      css: {},
+      includeModules: [],
+      is: {
+        node: false,
+        browser: true,
+      },
+    };
+    const { targetRules, targetRulesSettings } = getTargetRules();
+    const params = {
+      target,
+      targetRules,
+      output,
+    };
+    const expectedRules = getExpectedRules(
+      target,
+      targetRulesSettings,
+      babelConfig,
+      extractResult,
+      output
+    );
+    expectedRules.imagesRules[0].use.push({
+      loader: 'image-webpack-loader',
+      options: expect.any(Object),
+    });
+    expectedRules.faviconRules[0].use.push({
+      loader: 'image-webpack-loader',
+      options: expect.any(Object),
+    });
+    let sut = null;
+    let result = null;
+
+    // When
+    sut = new WebpackRulesConfiguration(
+      babelConfiguration,
+      events,
+      packageInfo,
       pathUtils
     );
     result = sut.getConfig(params);
@@ -758,6 +1072,7 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
     const targetName = 'some-target';
     const target = {
@@ -795,6 +1110,7 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
+      packageInfo,
       pathUtils
     );
     result = sut.getConfig(params);
@@ -906,15 +1222,8 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
-    const projectConfiguration = {
-      paths: {
-        output: {
-          fonts: 'statics/fonts',
-          images: 'statics/images',
-        },
-      },
-    };
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -953,8 +1262,8 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
-      pathUtils,
-      projectConfiguration
+      packageInfo,
+      pathUtils
     );
     result = sut.getConfig(params);
     // Then
@@ -1061,15 +1370,8 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
-    const projectConfiguration = {
-      paths: {
-        output: {
-          fonts: 'statics/fonts',
-          images: 'statics/images',
-        },
-      },
-    };
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -1108,8 +1410,8 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
-      pathUtils,
-      projectConfiguration
+      packageInfo,
+      pathUtils
     );
     result = sut.getConfig(params);
     // Then
@@ -1216,15 +1518,8 @@ describe('services/configurations:rulesConfiguration', () => {
     const events = {
       reduce: jest.fn((eventName, rules) => rules),
     };
+    const packageInfo = {};
     const pathUtils = 'pathUtils';
-    const projectConfiguration = {
-      paths: {
-        output: {
-          fonts: 'statics/fonts',
-          images: 'statics/images',
-        },
-      },
-    };
     const targetName = 'some-target';
     const target = {
       name: targetName,
@@ -1264,8 +1559,8 @@ describe('services/configurations:rulesConfiguration', () => {
     sut = new WebpackRulesConfiguration(
       babelConfiguration,
       events,
-      pathUtils,
-      projectConfiguration
+      packageInfo,
+      pathUtils
     );
     result = sut.getConfig(params);
     // Then

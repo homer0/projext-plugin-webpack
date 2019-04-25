@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { DefinePlugin } = require('webpack');
@@ -86,12 +86,21 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     if (target.sourceMap.production) {
       config.devtool = 'source-map';
     }
-    // If the code won't be uglified, remove the optimization flag.
-    if (!target.uglifyOnProduction) {
+    // Enable or not uglification for the target bundle.
+    if (target.uglifyOnProduction) {
+      config.optimization = {
+        minimizer: [
+          new TerserPlugin({
+            sourceMap: !!target.sourceMap.production,
+          }),
+        ],
+      };
+    } else {
       config.optimization = {
         minimize: false,
       };
     }
+
     // Setup the plugins.
     config.plugins = [
       // If the target is a library, it doesn't need HTML on production.
@@ -112,16 +121,6 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       ),
       // To add the _'browser env variables'_.
       new DefinePlugin(definitions),
-      // Uglify the code if necessary.
-      ...(
-        target.uglifyOnProduction ?
-          [
-            new UglifyJSPlugin({
-              sourceMap: !!target.sourceMap.production,
-            }),
-          ] :
-          []
-      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.

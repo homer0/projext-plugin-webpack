@@ -10,7 +10,7 @@ jest.mock('mini-css-extract-plugin', () => MiniCssExtractPluginMock);
 jest.mock('html-webpack-plugin');
 jest.mock('script-ext-html-webpack-plugin');
 jest.mock('compression-webpack-plugin');
-jest.mock('uglifyjs-webpack-plugin');
+jest.mock('terser-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('copy-webpack-plugin');
 jest.mock('webpack');
@@ -20,7 +20,7 @@ require('jasmine-expect');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -37,7 +37,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     HtmlWebpackPlugin.mockReset();
     ScriptExtHtmlWebpackPlugin.mockReset();
     OptimizeCssAssetsPlugin.mockReset();
-    UglifyJSPlugin.mockReset();
+    TerserPlugin.mockReset();
     CompressionPlugin.mockReset();
     CopyWebpackPlugin.mockReset();
   });
@@ -126,6 +126,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
         publicPath: '/',
       },
       mode: 'production',
+      optimization: {
+        minimizer: expect.any(Array),
+      },
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -158,8 +161,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
-    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
-    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+    expect(TerserPlugin).toHaveBeenCalledTimes(1);
+    expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
@@ -268,7 +271,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
-    expect(UglifyJSPlugin).toHaveBeenCalledTimes(0);
+    expect(TerserPlugin).toHaveBeenCalledTimes(0);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -340,6 +343,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
         publicPath: '/',
       },
       mode: 'production',
+      optimization: {
+        minimizer: expect.any(Array),
+      },
       plugins: expect.any(Array),
       watch: target.watch.production,
     };
@@ -373,8 +379,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
-    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
-    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+    expect(TerserPlugin).toHaveBeenCalledTimes(1);
+    expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
@@ -450,6 +456,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
         publicPath: '/',
       },
       mode: 'production',
+      optimization: {
+        minimizer: expect.any(Array),
+      },
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -479,8 +488,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
-    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
-    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+    expect(TerserPlugin).toHaveBeenCalledTimes(1);
+    expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
@@ -557,6 +566,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
         publicPath: '/',
       },
       mode: 'production',
+      optimization: {
+        minimizer: expect.any(Array),
+      },
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -589,8 +601,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
-    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
-    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+    expect(TerserPlugin).toHaveBeenCalledTimes(1);
+    expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: true,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
@@ -664,6 +676,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
         publicPath: '/',
       },
       mode: 'production',
+      optimization: {
+        minimizer: expect.any(Array),
+      },
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -686,8 +701,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
-    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
-    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+    expect(TerserPlugin).toHaveBeenCalledTimes(1);
+    expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
@@ -761,6 +776,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
         publicPath: '/',
       },
       mode: 'production',
+      optimization: {
+        minimizer: expect.any(Array),
+      },
       plugins: expect.any(Array),
     };
     let sut = null;
@@ -783,8 +801,8 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
-    expect(UglifyJSPlugin).toHaveBeenCalledTimes(1);
-    expect(UglifyJSPlugin).toHaveBeenCalledWith({
+    expect(TerserPlugin).toHaveBeenCalledTimes(1);
+    expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
     });
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
