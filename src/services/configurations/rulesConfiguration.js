@@ -12,10 +12,11 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    * @param {BabelConfiguration} babelConfiguration   Used to configure the `babel-loader`.
    * @param {Events}             events               To reduce each set of rules and the entire
    *                                                  configuration.
+   * @param {Object}             packageInfo          To read the dependencies list.
    * @param {PathUtils}          pathUtils            Required by `ConfigurationFile` in order to
    *                                                  build the path to the overwrite file.
    */
-  constructor(babelConfiguration, events, pathUtils) {
+  constructor(babelConfiguration, events, packageInfo, pathUtils) {
     super(pathUtils, 'webpack/rules.config.js');
     /**
      * A local reference for the `babelConfiguration` service.
@@ -27,6 +28,21 @@ class WebpackRulesConfiguration extends ConfigurationFile {
      * @type {Events}
      */
     this.events = events;
+    /**
+     * The name of the loader for image optimization. This is on a property because the service
+     * will eveluate if the loader is installed before adding specific rules for it.
+     * @type {String}
+     * @access protected
+     * @ignore
+     */
+    this._imageLoaderName = 'image-webpack-loader';
+    /**
+     * Whether or not the implementation has the load for image optimization installed.
+     * @type {Boolean}
+     * @access protected
+     * @ignore
+     */
+    this._hasImageLoader = this._detectImageLoader(packageInfo);
   }
   /**
    * Creates the rules configuration for the required target.
@@ -60,6 +76,24 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       { rules },
       params
     );
+  }
+  /**
+   * Checks whether or not a `package.json` includes the image loader as a dependency or dev
+   * dependency.
+   * @param {Object} packageInfo The contents of a `package.json`.
+   * @return {Boolean}
+   * @access protected
+   * @ignore
+   */
+  _detectImageLoader(packageInfo) {
+    const names = [];
+    ['dependencies', 'devDependencies'].forEach((dependencyType) => {
+      if (packageInfo[dependencyType]) {
+        names.push(...Object.keys(packageInfo[dependencyType]));
+      }
+    });
+
+    return names.some((name) => name === this._imageLoaderName);
   }
   /**
    * Defines the list of rules for Javascript files.
@@ -338,6 +372,32 @@ class WebpackRulesConfiguration extends ConfigurationFile {
   _getImagesRules(params) {
     const { target, targetRules, output: { images: name } } = params;
     const imagesRule = targetRules.images.getRule();
+    const use = [{
+      loader: 'file-loader',
+      options: {
+        name,
+      },
+    }];
+    if (this._hasImageLoader) {
+      use.push({
+        loader: this._imageLoaderName,
+        options: {
+          mozjpeg: {
+            progressive: true,
+          },
+          gifsicle: {
+            interlaced: false,
+          },
+          optipng: {
+            optimizationLevel: 7,
+          },
+          pngquant: {
+            quality: '75-90',
+            speed: 3,
+          },
+        },
+      });
+    }
     const rules = [{
       test: imagesRule.extension,
       include: [
@@ -346,32 +406,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       exclude: [
         ...imagesRule.files.exclude,
       ],
-      use: [
-        {
-          loader: 'file-loader',
-          options: {
-            name,
-          },
-        },
-        {
-          loader: 'image-webpack-loader',
-          options: {
-            mozjpeg: {
-              progressive: true,
-            },
-            gifsicle: {
-              interlaced: false,
-            },
-            optipng: {
-              optimizationLevel: 7,
-            },
-            pngquant: {
-              quality: '75-90',
-              speed: 3,
-            },
-          },
-        },
-      ],
+      use,
     }];
     // Reduce the rules.
     const eventName = target.is.node ?
@@ -403,6 +438,26 @@ class WebpackRulesConfiguration extends ConfigurationFile {
   _getFaviconsRules(params) {
     const { target, targetRules } = params;
     const faviconRule = targetRules.favicon.getRule();
+    const use = [{
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]',
+      },
+    }];
+    if (this._hasImageLoader) {
+      use.push({
+        loader: this._imageLoaderName,
+        options: {
+          optipng: {
+            optimizationLevel: 7,
+          },
+          pngquant: {
+            quality: '75-90',
+            speed: 3,
+          },
+        },
+      });
+    }
     const rules = [{
       test: faviconRule.extension,
       include: [
@@ -411,26 +466,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       exclude: [
         ...faviconRule.files.exclude,
       ],
-      use: [
-        {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-          },
-        },
-        {
-          loader: 'image-webpack-loader',
-          options: {
-            optipng: {
-              optimizationLevel: 7,
-            },
-            pngquant: {
-              quality: '75-90',
-              speed: 3,
-            },
-          },
-        },
-      ],
+      use,
     }];
     // Reduce the rules.
     const eventName = target.is.node ?
@@ -457,6 +493,7 @@ const webpackRulesConfiguration = provider((app) => {
   app.set('webpackRulesConfiguration', () => new WebpackRulesConfiguration(
     app.get('babelConfiguration'),
     app.get('events'),
+    app.get('packageInfo'),
     app.get('pathUtils')
   ));
 });
