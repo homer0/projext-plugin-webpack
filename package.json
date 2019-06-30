@@ -2,7 +2,7 @@
     "name": "projext-plugin-webpack",
     "description": "Allows projext to use webpack as a build engine.",
     "homepage": "https://homer0.github.io/projext-plugin-webpack/",
-    "version": "8.0.2",
+    "version": "8.0.3",
     "repository": "homer0/projext-plugin-webpack",
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
@@ -20,7 +20,7 @@
       "html-webpack-plugin": "^3.2.0",
       "script-ext-html-webpack-plugin": "^2.1.3",
       "compression-webpack-plugin": "2.0.0",
-      "terser-webpack-plugin": "^1.3.0",
+      "terser-webpack-plugin": "1.3.0",
       "optimize-css-assets-webpack-plugin": "^5.0.1",
       "copy-webpack-plugin": "^5.0.3",
 
@@ -39,6 +39,8 @@
 
       "webpack-dev-middleware": "^3.7.0",
       "webpack-hot-middleware": "^2.25.0",
+
+      "terser": "4.0.0",
 
       "opener": "^1.5.1"
     },
