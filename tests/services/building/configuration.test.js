@@ -216,7 +216,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
-      watch: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -329,7 +329,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: filesToCopy,
-      watch: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -442,7 +442,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: filesToCopy,
-      watch: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -563,7 +563,7 @@ describe('services/building:configuration', () => {
       },
       targetRules,
       copy: filesToCopy,
-      watch: targetBrowserConfigFiles,
+      additionalWatch: targetBrowserConfigFiles,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -683,7 +683,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
-      watch: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -798,7 +798,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
-      watch: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -915,7 +915,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
-      watch: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);

@@ -97,11 +97,11 @@ class WebpackConfiguration {
     }
 
     const definitions = this._getDefinitions(target, buildType);
-    const watch = [];
+    const additionalWatch = [];
     if (target.is.browser && target.configuration && target.configuration.enabled) {
       const browserConfig = this.targets.getBrowserTargetConfiguration(target);
       definitions[target.configuration.defineOn] = JSON.stringify(browserConfig.configuration);
-      watch.push(...browserConfig.files);
+      additionalWatch.push(...browserConfig.files);
     }
 
     const params = {
@@ -114,7 +114,7 @@ class WebpackConfiguration {
       output,
       copy,
       buildType,
-      watch,
+      additionalWatch,
     };
 
     let config = this.targetConfiguration(

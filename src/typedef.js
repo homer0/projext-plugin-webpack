@@ -202,7 +202,7 @@
  * @property {Array} copy
  * A list of {@link TargetExtraFile} with the information of files that need to be copied during
  * the bundling process.
- * @property {Array} watch
+ * @property {Array} additionalWatch
  * A list of additional paths webpack should watch for in order to restart the bundle.
  */
 
