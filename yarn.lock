@@ -8077,10 +8077,10 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projext@7.0.0-alpha.1:
-  version "7.0.0-alpha.1"
-  resolved "http://local.npm/projext/-/projext-7.0.0-alpha.1.tgz#1a7ecf6fdbfa80c779ac3f25a63d6caf960c7603"
-  integrity sha512-suapKmWhYg+Rw46prRgghIiSzacAmo2eP10wbfN/ZniGLDRVAAywMt3Vcamyp7oO9TXY9G/OpjFX9N9whwBzEg==
+projext@7.0.0-alpha.2:
+  version "7.0.0-alpha.2"
+  resolved "http://local.npm/projext/-/projext-7.0.0-alpha.2.tgz#fb4b61bda238dbc6b6df0da2b751889a40d395e1"
+  integrity sha512-+4IejyoSpjxInZSXJB0t3Bbub+X9HDj5UsmImBOZC3glkEHdwoEvERt80qyqI21Ci7JmgQdrKct6Waa2lTVguA==
   dependencies:
     "@babel/cli" "7.5.5"
     "@babel/core" "7.5.5"
