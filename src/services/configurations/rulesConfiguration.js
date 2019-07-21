@@ -160,10 +160,10 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     };
     // If the target uses CSS modules...
     if (target.css.modules) {
-      // ...enable them on the CSS loader configuration.
-      cssLoaderConfig.modules = true;
-      // Add the modules name format.
-      cssLoaderConfig.localIdentName = '[name]__[local]___[hash:base64:5]';
+      // ...enable them on the CSS loader configuration and add the name format.
+      cssLoaderConfig.modules = {
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      };
     }
 
     let eventName = 'webpack-scss-rules-configuration-for-node';
