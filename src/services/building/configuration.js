@@ -134,10 +134,18 @@ class WebpackConfiguration {
    * @ignore
    */
   _getDefinitions(target, env) {
-    const definitions = {
-      'process.env.NODE_ENV': `'${env}'`,
-      [this.buildVersion.getDefinitionVariable()]: JSON.stringify(this.buildVersion.getVersion()),
-    };
+    const targetVariables = this.targets.loadTargetDotEnvFile(target, env);
+    const definitions = Object.keys(targetVariables).reduce(
+      (current, variableName) => Object.assign({}, current, {
+        [`process.env.${variableName}`]: JSON.stringify(targetVariables[variableName]),
+      }),
+      {}
+    );
+
+    definitions['process.env.NODE_ENV'] = `'${env}'`;
+    definitions[this.buildVersion.getDefinitionVariable()] = JSON.stringify(
+      this.buildVersion.getVersion()
+    );
 
     if (
       target.is.browser &&

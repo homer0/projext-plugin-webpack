@@ -126,7 +126,13 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = 'targets';
+    const envVarName = 'ROSARIO';
+    const envVarValue = 'Charito';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({
+        [envVarName]: envVarValue,
+      })),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -191,6 +197,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -199,6 +207,7 @@ describe('services/building:configuration', () => {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
       definitions: {
+        [`process.env.${envVarName}`]: `"${envVarValue}"`,
         'process.env.NODE_ENV': `'${buildType}'`,
         [versionVariable]: `"${version}"`,
       },
@@ -234,6 +243,7 @@ describe('services/building:configuration', () => {
     const filesToCopy = ['copy'];
     const targets = {
       getFilesToCopy: jest.fn(() => filesToCopy),
+      loadTargetDotEnvFile: jest.fn(() => ({})),
     };
     const targetRules = 'target-rule';
     const targetsFileRules = {
@@ -300,6 +310,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -347,6 +359,7 @@ describe('services/building:configuration', () => {
     const filesToCopy = ['copy'];
     const targets = {
       getFilesToCopy: jest.fn(() => filesToCopy),
+      loadTargetDotEnvFile: jest.fn(() => ({})),
     };
     const targetRules = 'target-rule';
     const targetsFileRules = {
@@ -411,6 +424,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -457,6 +472,7 @@ describe('services/building:configuration', () => {
     const filesToCopy = ['copy'];
     const targets = {
       getFilesToCopy: jest.fn(() => filesToCopy),
+      loadTargetDotEnvFile: jest.fn(() => ({})),
       getBrowserTargetConfiguration: jest.fn(() => targetBrowserConfig),
     };
     const targetRules = 'target-rule';
@@ -521,6 +537,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -566,7 +584,9 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = 'targets';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({})),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -634,6 +654,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -677,7 +699,9 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = 'targets';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({})),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -747,6 +771,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -787,7 +813,9 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = '';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({})),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -859,6 +887,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
