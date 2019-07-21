@@ -96,16 +96,25 @@ class WebpackConfiguration {
       output.jsChunks = this._generateChunkName(output.js);
     }
 
+    const definitions = this._getDefinitions(target, buildType);
+    const watch = [];
+    if (target.is.browser && target.configuration && target.configuration.enabled) {
+      const browserConfig = this.targets.getBrowserTargetConfiguration(target);
+      definitions[target.configuration.defineOn] = JSON.stringify(browserConfig.configuration);
+      watch.push(...browserConfig.files);
+    }
+
     const params = {
       target,
       targetRules: this.targetsFileRules.getRulesForTarget(target),
       entry: {
         [target.name]: entries,
       },
-      definitions: this._getDefinitions(target, buildType),
+      definitions,
       output,
       copy,
       buildType,
+      watch,
     };
 
     let config = this.targetConfiguration(
@@ -146,16 +155,6 @@ class WebpackConfiguration {
     definitions[this.buildVersion.getDefinitionVariable()] = JSON.stringify(
       this.buildVersion.getVersion()
     );
-
-    if (
-      target.is.browser &&
-      target.configuration &&
-      target.configuration.enabled
-    ) {
-      definitions[target.configuration.defineOn] = JSON.stringify(
-        this.targets.getBrowserTargetConfiguration(target)
-      );
-    }
 
     return definitions;
   }

@@ -216,6 +216,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
+      watch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -328,6 +329,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: filesToCopy,
+      watch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -440,6 +442,7 @@ describe('services/building:configuration', () => {
       output: target.output[buildType],
       targetRules,
       copy: filesToCopy,
+      watch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -469,11 +472,15 @@ describe('services/building:configuration', () => {
     const targetBrowserConfig = {
       someProp: 'someValue',
     };
+    const targetBrowserConfigFiles = ['some-config-file'];
     const filesToCopy = ['copy'];
     const targets = {
       getFilesToCopy: jest.fn(() => filesToCopy),
       loadTargetDotEnvFile: jest.fn(() => ({})),
-      getBrowserTargetConfiguration: jest.fn(() => targetBrowserConfig),
+      getBrowserTargetConfiguration: jest.fn(() => ({
+        configuration: targetBrowserConfig,
+        files: targetBrowserConfigFiles,
+      })),
     };
     const targetRules = 'target-rule';
     const targetsFileRules = {
@@ -556,6 +563,7 @@ describe('services/building:configuration', () => {
       },
       targetRules,
       copy: filesToCopy,
+      watch: targetBrowserConfigFiles,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -675,6 +683,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
+      watch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -789,6 +798,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
+      watch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -905,6 +915,7 @@ describe('services/building:configuration', () => {
       }),
       targetRules,
       copy: [],
+      watch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
