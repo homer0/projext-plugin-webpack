@@ -195,8 +195,8 @@
  * @property {WebpackConfigurationTargetOutput} output
  * A dictionary with the filenames formats and paths of the different files the bundle can
  * generate.
- * @property {Object} definitions
- * A dictionary of defined variables that will be replaced on the bundled code.
+ * @property {Function():Object} definitions
+ * A function that generates a dictionary of variables that will be replaced on the bundled code.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
  * @property {Array} copy
@@ -278,4 +278,11 @@
  *                                 webpack event hooks.
  *                                 Its default value is `projext-webpack-plugin-open-dev-server`.
  * @property {?Logger} logger      A custom logger to output the plugin's information messages.
+ */
+
+/**
+ * @typedef {Object} ProjextWebpackRuntimeDefinitionsOptions
+ * @property {?string} name The _"instance name"_, used to register the listeners on the
+ *                          webpack event hooks. Its default value is
+ *                          `projext-webpack-plugin-runtime-definitions`.
  */
