@@ -22,7 +22,10 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
-const { ProjextWebpackOpenDevServer } = require('/src/plugins');
+const {
+  ProjextWebpackOpenDevServer,
+  ProjextWebpackRuntimeDefinitions,
+} = require('/src/plugins');
 
 const {
   WebpackBrowserDevelopmentConfiguration,
@@ -40,6 +43,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     CopyWebpackPlugin.mockReset();
     ExtraWatchWebpackPlugin.mockReset();
     ProjextWebpackOpenDevServer.mockReset();
+    ProjextWebpackRuntimeDefinitions.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -170,8 +174,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -283,8 +287,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -403,8 +407,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -516,8 +520,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -659,8 +663,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -809,8 +813,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -956,8 +960,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1113,8 +1117,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1270,8 +1274,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1426,8 +1430,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1582,8 +1586,8 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.HotModuleReplacementPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);

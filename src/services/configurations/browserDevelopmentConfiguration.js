@@ -7,13 +7,15 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
-  DefinePlugin,
   HotModuleReplacementPlugin,
   NamedModulesPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
-const { ProjextWebpackOpenDevServer } = require('../../plugins');
+const {
+  ProjextWebpackOpenDevServer,
+  ProjextWebpackRuntimeDefinitions,
+} = require('../../plugins');
 /**
  * Creates the specifics of a Webpack configuration for a browser target development build.
  * @extends {ConfigurationFile}
@@ -129,7 +131,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       // To avoid pushing assets with errors.
       new NoEmitOnErrorsPlugin(),
       // To add the _'browser env variables'_.
-      new DefinePlugin(definitions),
+      new ProjextWebpackRuntimeDefinitions(definitions),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // Copy the files the target specified on its settings.

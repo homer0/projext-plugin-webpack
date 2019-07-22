@@ -6,9 +6,9 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
-const { DefinePlugin } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
+const { ProjextWebpackRuntimeDefinitions } = require('../../plugins');
 /**
  * Creates the specifics of a Webpack configuration for a browser target production build.
  * @extends {ConfigurationFile}
@@ -122,7 +122,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           ]
       ),
       // To add the _'browser env variables'_.
-      new DefinePlugin(definitions),
+      new ProjextWebpackRuntimeDefinitions(definitions),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
