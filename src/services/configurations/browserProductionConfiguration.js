@@ -1,3 +1,4 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -122,7 +123,13 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           ]
       ),
       // To add the _'browser env variables'_.
-      new ProjextWebpackRuntimeDefinitions(definitions),
+      new ProjextWebpackRuntimeDefinitions(
+        Object.keys(entry).reduce(
+          (current, key) => [...current, ...entry[key].filter((file) => path.isAbsolute(file))],
+          []
+        ),
+        definitions
+      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.

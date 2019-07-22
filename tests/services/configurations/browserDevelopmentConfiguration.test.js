@@ -112,8 +112,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -175,7 +176,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -228,8 +232,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -288,7 +293,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(0);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -339,8 +347,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -408,7 +417,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -458,8 +470,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -521,7 +534,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     });
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -582,7 +598,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
-    const targetEntry = 'index.js';
+    const targetEntry = '/index.js';
     const entry = {
       [target.name]: [
         babelPolyfillEntry,
@@ -664,7 +680,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [targetEntry],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -731,7 +750,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
-    const targetEntry = 'index.js';
+    const targetEntry = '/index.js';
     const entry = {
       [target.name]: [
         babelPolyfillEntry,
@@ -814,7 +833,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [targetEntry],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -884,7 +906,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
-    const targetEntry = 'index.js';
+    const targetEntry = '/index.js';
     const entry = {
       [target.name]: [
         babelPolyfillEntry,
@@ -961,7 +983,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     });
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [targetEntry],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1034,7 +1059,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
-    const targetEntry = 'index.js';
+    const targetEntry = '/index.js';
     const entry = {
       [target.name]: [
         babelPolyfillEntry,
@@ -1118,7 +1143,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [targetEntry],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1192,7 +1220,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
-    const targetEntry = 'index.js';
+    const targetEntry = '/index.js';
     const entry = {
       [target.name]: [
         babelPolyfillEntry,
@@ -1275,7 +1303,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [targetEntry],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1347,7 +1378,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
-    const targetEntry = 'index.js';
+    const targetEntry = '/index.js';
     const entry = {
       [target.name]: [
         babelPolyfillEntry,
@@ -1431,7 +1462,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [targetEntry],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
@@ -1503,7 +1537,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     };
     const definitions = 'definitions';
     const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
-    const targetEntry = 'index.js';
+    const targetEntry = '/index.js';
     const entry = {
       [target.name]: [
         babelPolyfillEntry,
@@ -1587,7 +1621,10 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(webpackMock.NamedModulesPluginMock).toHaveBeenCalledTimes(1);
     expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [targetEntry],
+      definitions
+    );
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);

@@ -6,13 +6,34 @@ const { DefinePlugin } = require('webpack');
  */
 class ProjextWebpackRuntimeDefinitions {
   /**
+   * @param {Array}                                   files         The list of files that need to
+   *                                                                change in order to reload
+   *                                                                the definitions.
    * @param {Function():Object}                       definitionsFn When this function is called,
    *                                                                it should return the object
    *                                                                with the definitions.
    * @param {ProjextWebpackRuntimeDefinitionsOptions} [options={}]  The options to customize the
    *                                                                plugin instance.
+   * @throws {Error} If `files` is not an Array.
+   * @throws {Error} If `files` is empty.
+   * @throws {Error} If `definitionsFn` is not a function.
    */
-  constructor(definitionsFn, options = {}) {
+  constructor(files, definitionsFn, options = {}) {
+    if (!Array.isArray(files) || !files.length) {
+      throw new Error('You need to provide a valid files list');
+    }
+
+    if (typeof definitionsFn !== 'function') {
+      throw new Error('You need to provide a valid definitions function');
+    }
+
+    /**
+     * The list of files that need to change in order to reload the definitions.
+     * @type {Array}
+     * @access protected
+     * @ignore
+     */
+    this._files = files;
     /**
      * The function that will generate the definitions.
      * @type {Function():Object}
@@ -85,7 +106,7 @@ class ProjextWebpackRuntimeDefinitions {
       (settings, key) => Object.assign({}, settings, {
         [key]: DefinePlugin.runtimeValue(
           () => this._getValue(key),
-          true
+          this._files
         ),
       }),
       {}

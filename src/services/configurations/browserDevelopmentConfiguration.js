@@ -1,4 +1,5 @@
-const extend = require('extend');
+const path = require('path');
+const ObjectUtils = require('wootils/shared/objectUtils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -101,7 +102,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
-      entry: extend(true, {}, entry),
+      entry: ObjectUtils.copy(entry),
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
@@ -131,7 +132,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       // To avoid pushing assets with errors.
       new NoEmitOnErrorsPlugin(),
       // To add the _'browser env variables'_.
-      new ProjextWebpackRuntimeDefinitions(definitions),
+      new ProjextWebpackRuntimeDefinitions(
+        Object.keys(entry).reduce(
+          (current, key) => [...current, ...entry[key].filter((file) => path.isAbsolute(file))],
+          []
+        ),
+        definitions
+      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // Copy the files the target specified on its settings.
@@ -257,7 +264,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
    */
   _normalizeTargetDevServerSettings(target) {
     // Get a new copy of the config to work with.
-    const config = extend(true, {}, target.devServer);
+    const config = ObjectUtils.copy(target.devServer);
     /**
      * Set a flag to know if at least one SSL file was sent.
      * This flag is also used when reading the `proxied` settings to determine the default

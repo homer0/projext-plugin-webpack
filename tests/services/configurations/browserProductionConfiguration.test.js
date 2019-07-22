@@ -106,8 +106,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -167,7 +168,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -222,8 +226,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -283,7 +288,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(0);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
@@ -332,8 +340,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -394,7 +403,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -448,8 +460,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -506,7 +519,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -560,8 +576,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -622,7 +639,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
       defaultAttribute: 'async',
     });
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: true,
@@ -674,8 +694,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -725,7 +746,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -777,8 +801,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -828,7 +853,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
-    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
