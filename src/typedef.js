@@ -179,6 +179,8 @@
  * @property {Array}  external      The list of subpaths the plugin exposes and that should be
  *                                  handled as external dependencies, in order to avoid bundling
  *                                  them.
+ * @property {string} babelPolyfill The name of the file that imports the required modules to
+ *                                  act as the old Babel polyfill.
  */
 
 /**

@@ -530,6 +530,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
+      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -558,7 +559,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = '@babel/polyfill';
+    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -674,6 +675,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
+      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -703,7 +705,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = '@babel/polyfill';
+    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -822,6 +824,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
+      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -852,7 +855,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = '@babel/polyfill';
+    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -967,6 +970,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
+      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -998,7 +1002,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = '@babel/polyfill';
+    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -1120,6 +1124,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
+      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1152,7 +1157,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = '@babel/polyfill';
+    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -1271,6 +1276,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
+      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1303,7 +1309,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = '@babel/polyfill';
+    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [
@@ -1423,6 +1429,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
+      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1455,7 +1462,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = '@babel/polyfill';
+    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = 'index.js';
     const entry = {
       [target.name]: [

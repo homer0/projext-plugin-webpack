@@ -31,6 +31,7 @@ describe('plugin:projextWebpack', () => {
         'express',
         'jimpex',
       ],
+      babelPolyfill: 'polyfill.js',
     });
     expect(app.set).toHaveBeenCalledTimes(1);
     expect(app.set).toHaveBeenCalledWith('webpackPluginInfo', expect.any(Function));

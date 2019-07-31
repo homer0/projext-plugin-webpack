@@ -25,6 +25,7 @@ describe('services/building:configuration', () => {
     const targetsFileRules = 'targetsFileRules';
     const targetConfiguration = 'targetConfiguration';
     const webpackConfigurations = 'webpackConfigurations';
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -33,7 +34,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackConfiguration);
@@ -43,6 +45,7 @@ describe('services/building:configuration', () => {
     expect(sut.targetsFileRules).toBe(targetsFileRules);
     expect(sut.targetConfiguration).toBe(targetConfiguration);
     expect(sut.webpackConfigurations).toBe(webpackConfigurations);
+    expect(sut.webpackPluginInfo).toBe(webpackPluginInfo);
   });
 
   it('should throw an error when trying to build a target with an invalid type', () => {
@@ -56,6 +59,7 @@ describe('services/building:configuration', () => {
       type: 'random-type',
     };
     const webpackConfigurations = {};
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -64,7 +68,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     // Then
     expect(() => sut.getConfig(target))
@@ -85,6 +90,7 @@ describe('services/building:configuration', () => {
     const webpackConfigurations = {
       node: {},
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -93,7 +99,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     // Then
     expect(() => sut.getConfig(target, buildType))
@@ -155,6 +162,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     // When
@@ -164,7 +172,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -262,6 +271,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     // When
@@ -271,7 +281,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -373,6 +384,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     // When
@@ -382,7 +394,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -481,6 +494,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     // When
@@ -490,7 +504,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -589,6 +604,10 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = {
+      name: 'plugin',
+      babelPolyfill: 'da-polyfill.js',
+    };
     let sut = null;
     let result = null;
     // When
@@ -598,7 +617,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -620,7 +640,7 @@ describe('services/building:configuration', () => {
       buildType,
       entry: {
         [target.name]: [
-          '@babel/polyfill',
+          `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`,
           path.join(target.paths.source, target.entry[buildType]),
         ],
       },
@@ -694,6 +714,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     const expectedConfig = {
       output: {
         path: 'some-output-path',
@@ -709,7 +730,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -804,6 +826,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     const expectedConfig = {
       output: {
         path: 'some-output-path',
@@ -819,7 +842,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -889,5 +913,6 @@ describe('services/building:configuration', () => {
         production: 'webpackBrowserProductionConfiguration',
       },
     });
+    expect(sut.webpackPluginInfo).toBe('webpackPluginInfo');
   });
 });
