@@ -25,6 +25,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const { ProjextWebpackRuntimeDefinitions } = require('/src/plugins');
 
 const {
   WebpackBrowserProductionConfiguration,
@@ -43,6 +44,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     CompressionPlugin.mockReset();
     CopyWebpackPlugin.mockReset();
     ExtraWatchWebpackPlugin.mockReset();
+    ProjextWebpackRuntimeDefinitions.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -104,8 +106,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -164,8 +167,11 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
       defaultAttribute: 'async',
     });
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -220,8 +226,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -280,8 +287,11 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
       defaultAttribute: 'async',
     });
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(0);
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
@@ -330,8 +340,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -391,8 +402,11 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
       defaultAttribute: 'async',
     });
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -446,8 +460,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -503,8 +518,11 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
       defaultAttribute: 'async',
     });
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -558,8 +576,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -619,8 +638,11 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
       defaultAttribute: 'async',
     });
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: true,
@@ -672,8 +694,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -722,8 +745,11 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
@@ -775,8 +801,9 @@ describe('services/configurations:browserProductionConfiguration', () => {
       },
     };
     const definitions = 'definitions';
+    const entryFile = '/index.js';
     const entry = {
-      [target.name]: ['index.js'],
+      [target.name]: [entryFile],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -825,8 +852,11 @@ describe('services/configurations:browserProductionConfiguration', () => {
     });
     expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(0);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledTimes(1);
-    expect(webpackMock.DefinePluginMock).toHaveBeenCalledWith(definitions);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
     expect(TerserPlugin).toHaveBeenCalledTimes(1);
     expect(TerserPlugin).toHaveBeenCalledWith({
       sourceMap: false,
