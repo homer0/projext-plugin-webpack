@@ -409,18 +409,10 @@ This is called after generating the configuration for a browser target productio
 
 ## Development
 
-Before doing anything, install the repository hooks:
-
-```bash
-# You can either use npm or yarn, it doesn't matter
-yarn run hooks
-```
-
 ### NPM/Yarn Tasks
 
 | Task                    | Description                         |
 |-------------------------|-------------------------------------|
-| `yarn run hooks`        | Install the GIT repository hooks.   |
 | `yarn test`             | Run the project unit tests.         |
 | `yarn run lint`         | Lint the modified files.            |
 | `yarn run lint:full`    | Lint the project code.              |
