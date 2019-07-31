@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
@@ -70,6 +71,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
+      additionalWatch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -137,6 +139,12 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           [new MiniCssExtractPlugin({
             filename: output.css,
           })]
+      ),
+      // If there are additionals files to watch, add the plugin for it.
+      ...(
+        additionalWatch.length ?
+          [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
       ),
     ];
     // Enable the watch mode if required...

@@ -4,6 +4,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
   DefinePlugin,
@@ -94,6 +95,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
+      additionalWatch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -142,6 +144,12 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
           [new MiniCssExtractPlugin({
             filename: output.css,
           })]
+      ),
+      // If there are additionals files to watch, add the plugin for it.
+      ...(
+        additionalWatch.length ?
+          [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
       ),
     ];
     // Define a list of extra entries that may be need depending on the target HMR configuration.

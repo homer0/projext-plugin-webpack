@@ -7,11 +7,13 @@ jest.mock('webpack', () => webpackMock);
 jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('copy-webpack-plugin');
+jest.mock('extra-watch-webpack-plugin');
 jest.unmock('/src/services/configurations/nodeDevelopmentConfiguration');
 
 require('jasmine-expect');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const { ProjextWebpackBundleRunner } = require('/src/plugins');
 
 const {
@@ -26,6 +28,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     OptimizeCssAssetsPlugin.mockReset();
     ProjextWebpackBundleRunner.mockClear();
     CopyWebpackPlugin.mockReset();
+    ExtraWatchWebpackPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -90,11 +93,13 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = ['file-to-watch'];
     const params = {
       target,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -128,6 +133,10 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledWith({
+      files: additionalWatch,
+    });
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -172,11 +181,13 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -211,6 +222,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -259,11 +271,13 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -297,6 +311,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackBundleRunner).toHaveBeenCalledWith({
       logger: appLogger,
@@ -346,11 +361,13 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
       jsChunks: 'statics/js/build.[name].js',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -384,6 +401,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [

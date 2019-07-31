@@ -13,6 +13,7 @@ jest.mock('compression-webpack-plugin');
 jest.mock('terser-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('copy-webpack-plugin');
+jest.mock('extra-watch-webpack-plugin');
 jest.mock('webpack');
 jest.unmock('/src/services/configurations/browserProductionConfiguration');
 
@@ -23,6 +24,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 
 const {
   WebpackBrowserProductionConfiguration,
@@ -40,6 +42,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     TerserPlugin.mockReset();
     CompressionPlugin.mockReset();
     CopyWebpackPlugin.mockReset();
+    ExtraWatchWebpackPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -110,12 +113,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = ['file-to-watch'];
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -168,6 +173,10 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledWith({
+      files: additionalWatch,
+    });
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -220,12 +229,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -275,6 +286,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -327,12 +339,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -386,6 +400,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -440,12 +455,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -495,6 +512,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -549,12 +567,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       devtool: 'source-map',
@@ -608,6 +628,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -660,12 +681,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -708,6 +731,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(CompressionPlugin).toHaveBeenCalledTimes(0);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
@@ -760,12 +784,14 @@ describe('services/configurations:browserProductionConfiguration', () => {
       css: 'statics/css/build.css',
     };
     const copy = ['file-to-copy'];
+    const additionalWatch = [];
     const params = {
       target,
       definitions,
       entry,
       output,
       copy,
+      additionalWatch,
     };
     const expectedConfig = {
       entry,
@@ -808,6 +834,7 @@ describe('services/configurations:browserProductionConfiguration', () => {
     expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
     expect(CompressionPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
