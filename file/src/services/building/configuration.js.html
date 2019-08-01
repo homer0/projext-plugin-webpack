@@ -36,6 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions">ProjextWebpackRuntimeDefinitionsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
@@ -77,6 +78,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-runtimedefinitions">plugins/runtimeDefinitions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html">ProjextWebpackRuntimeDefinitions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
@@ -118,6 +120,8 @@ class WebpackConfiguration {
    *                                                           configuration for the target.
    * @param {WebpackConfigurations}      webpackConfigurations A dictionary of configurations
    *                                                           for target type and build type.
+   * @param {WebpackPluginInfo}          webpackPluginInfo     To get the path to the Babel
+   *                                                           polyfill.
    */
   constructor(
     buildVersion,
@@ -125,7 +129,8 @@ class WebpackConfiguration {
     targets,
     targetsFileRules,
     targetConfiguration,
-    webpackConfigurations
+    webpackConfigurations,
+    webpackPluginInfo
   ) {
     /**
      * A local reference for the `buildVersion` service.
@@ -157,6 +162,11 @@ class WebpackConfiguration {
      * @type {WebpackConfigurations}
      */
     this.webpackConfigurations = webpackConfigurations;
+    /**
+     * A local reference for the plugin information.
+     * @type {WebpackPluginInfo}
+     */
+    this.webpackPluginInfo = webpackPluginInfo;
   }
   /**
    * This method generates a complete webpack configuration for a target.
@@ -177,7 +187,7 @@ class WebpackConfiguration {
     const entryFile = path.join(target.paths.source, target.entry[buildType]);
     const entries = [entryFile];
     if (target.babel.polyfill) {
-      entries.unshift(&apos;babel-polyfill&apos;);
+      entries.unshift(`${this.webpackPluginInfo.name}/${this.webpackPluginInfo.babelPolyfill}`);
     }
 
     const copy = [];
@@ -185,16 +195,25 @@ class WebpackConfiguration {
       copy.push(...this.targets.getFilesToCopy(target, buildType));
     }
 
+    const output = Object.assign({}, target.output[buildType]);
+    if (typeof output.jsChunks !== &apos;string&apos;) {
+      output.jsChunks = this._generateChunkName(output.js);
+    }
+
+    const definitions = this._getDefinitionsGenerator(target, buildType);
+    const additionalWatch = this._getBrowserTargetConfigurationDefinitions(target).files;
+
     const params = {
       target,
       targetRules: this.targetsFileRules.getRulesForTarget(target),
       entry: {
         [target.name]: entries,
       },
-      definitions: this._getDefinitions(target, buildType),
-      output: target.output[buildType],
+      definitions,
+      output,
       copy,
       buildType,
+      additionalWatch,
     };
 
     let config = this.targetConfiguration(
@@ -214,31 +233,78 @@ class WebpackConfiguration {
     return config;
   }
   /**
-   * Get a dictionary of definitions that will be replaced on the generated bundle. This is done
-   * using the `webpack.DefinePlugin` plugin.
-   * @param {Target} target The target information.
-   * @param {string} env    The `NODE_ENV` to define.
+   * Generates a function that when called will return a dictionary with definitions that will be
+   * replaced on the bundle.
+   * @param {Target} target    The target information.
+   * @param {string} buildType The intended build type: `production` or `development`.
+   * @return {Function():Object}
+   * @access protected
+   * @ignore
+   */
+  _getDefinitionsGenerator(target, buildType) {
+    return () =&gt; this._getTargetDefinitions(target, buildType);
+  }
+  /**
+   * Generates a dictionary with definitions that will be replaced on the bundle. These
+   * definitions are things like `process.env.NODE_ENV`, the bundle version, a browser target
+   * configuration, etc.
+   * @param {Target} target    The target information.
+   * @param {string} buildType The intended build type: `production` or `development`.
    * @return {Object}
    * @access protected
    * @ignore
    */
-  _getDefinitions(target, env) {
-    const definitions = {
-      &apos;process.env.NODE_ENV&apos;: `&apos;${env}&apos;`,
-      [this.buildVersion.getDefinitionVariable()]: JSON.stringify(this.buildVersion.getVersion()),
-    };
+  _getTargetDefinitions(target, buildType) {
+    const targetVariables = this.targets.loadTargetDotEnvFile(target, buildType);
+    const definitions = Object.keys(targetVariables).reduce(
+      (current, variableName) =&gt; Object.assign({}, current, {
+        [`process.env.${variableName}`]: JSON.stringify(targetVariables[variableName]),
+      }),
+      {}
+    );
 
-    if (
-      target.is.browser &amp;&amp;
-      target.configuration &amp;&amp;
-      target.configuration.enabled
-    ) {
-      definitions[target.configuration.defineOn] = JSON.stringify(
-        this.targets.getBrowserTargetConfiguration(target)
-      );
+    definitions[&apos;process.env.NODE_ENV&apos;] = `&apos;${buildType}&apos;`;
+    definitions[this.buildVersion.getDefinitionVariable()] = JSON.stringify(
+      this.buildVersion.getVersion()
+    );
+
+    return Object.assign(
+      {},
+      definitions,
+      this._getBrowserTargetConfigurationDefinitions(target).definitions
+    );
+  }
+  /**
+   * This is a wrapper on top of {@link Targets#getBrowserTargetConfiguration} so no matter the
+   * type of target it recevies, or if the feature is disabled, it will always return the same
+   * signature.
+   * It also takes care of formatting the configuration on a &quot;definitions object&quot; so it can be
+   * added to the rest of the targets definitions.
+   * @param {Target} target The target information.
+   * @return {Object}
+   * @property {Object} definitions A dictionary with
+   * @property {Array}  files       The list of files involved on the configuration creation.
+   * @access protected
+   * @ignore
+   */
+  _getBrowserTargetConfigurationDefinitions(target) {
+    let result;
+    if (target.is.browser &amp;&amp; target.configuration &amp;&amp; target.configuration.enabled) {
+      const parsed = this.targets.getBrowserTargetConfiguration(target);
+      result = {
+        definitions: {
+          [target.configuration.defineOn]: JSON.stringify(parsed.configuration),
+        },
+        files: parsed.files,
+      };
+    } else {
+      result = {
+        definitions: {},
+        files: [],
+      };
     }
 
-    return definitions;
+    return result;
   }
   /**
    * In case the target is a library, this method will be called in order to get the extra output
@@ -263,6 +329,18 @@ class WebpackConfiguration {
     });
 
     return newOptions;
+  }
+  /**
+   * This is a small helper function that parses the default path of the JS file webpack will
+   * emmit and adds a `[name]` placeholder for webpack to replace with the chunk name.
+   * @param {string} jsPath The original path for the JS file.
+   * @return {string}
+   * @access protected
+   * @ignore
+   */
+  _generateChunkName(jsPath) {
+    const parsed = path.parse(jsPath);
+    return path.join(parsed.dir, `${parsed.name}.[name]${parsed.ext}`);
   }
 }
 /**
@@ -294,7 +372,8 @@ const webpackConfiguration = provider((app) =&gt; {
       app.get(&apos;targets&apos;),
       app.get(&apos;targetsFileRules&apos;),
       app.get(&apos;targetConfiguration&apos;),
-      webpackConfigurations
+      webpackConfigurations,
+      app.get(&apos;webpackPluginInfo&apos;)
     );
   });
 });

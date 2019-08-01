@@ -18,6 +18,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "projext-plugin-webpack/src/plugins/runtimedefinitions/index.js~projextwebpackruntimedefinitions",
+    "class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html",
+    "<span>ProjextWebpackRuntimeDefinitions</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/plugins/runtimeDefinitions/index.js</span>",
+    "class"
+  ],
+  [
     "projext-plugin-webpack/src/plugins/utils.js~projextwebpackutils",
     "class/src/plugins/utils.js~ProjextWebpackUtils.html",
     "<span>ProjextWebpackUtils</span> <span class=\"search-result-import-path\">projext-plugin-webpack/src/plugins/utils.js</span>",
@@ -654,6 +660,30 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/plugins/runtimedefinitions/index.js",
+    "file/src/plugins/runtimeDefinitions/index.js.html",
+    "src/plugins/runtimeDefinitions/index.js",
+    "file"
+  ],
+  [
+    "src/plugins/runtimedefinitions/index.js~projextwebpackruntimedefinitions#apply",
+    "class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html#instance-method-apply",
+    "src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions#apply",
+    "method"
+  ],
+  [
+    "src/plugins/runtimedefinitions/index.js~projextwebpackruntimedefinitions#constructor",
+    "class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html#instance-constructor-constructor",
+    "src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions#constructor",
+    "method"
+  ],
+  [
+    "src/plugins/runtimedefinitions/index.js~projextwebpackruntimedefinitions#getoptions",
+    "class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html#instance-method-getOptions",
+    "src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions#getOptions",
+    "method"
+  ],
+  [
     "src/plugins/utils.js",
     "file/src/plugins/utils.js.html",
     "src/plugins/utils.js",
@@ -717,6 +747,12 @@ window.esdocSearchIndex = [
     "src/services/building/configuration.js~webpackconfiguration#webpackconfigurations",
     "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-member-webpackConfigurations",
     "src/services/building/configuration.js~WebpackConfiguration#webpackConfigurations",
+    "member"
+  ],
+  [
+    "src/services/building/configuration.js~webpackconfiguration#webpackplugininfo",
+    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-member-webpackPluginInfo",
+    "src/services/building/configuration.js~WebpackConfiguration#webpackPluginInfo",
     "member"
   ],
   [
@@ -1155,6 +1191,12 @@ window.esdocSearchIndex = [
     "src/typedef.js~projextwebpackopendevserveroptions",
     "typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions",
     "src/typedef.js~ProjextWebpackOpenDevServerOptions",
+    "typedef"
+  ],
+  [
+    "src/typedef.js~projextwebpackruntimedefinitionsoptions",
+    "typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions",
+    "src/typedef.js~ProjextWebpackRuntimeDefinitionsOptions",
     "typedef"
   ],
   [

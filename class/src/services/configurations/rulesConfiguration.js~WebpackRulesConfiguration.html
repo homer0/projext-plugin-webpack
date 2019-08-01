@@ -36,6 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions">ProjextWebpackRuntimeDefinitionsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
@@ -77,6 +78,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-runtimedefinitions">plugins/runtimeDefinitions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html">ProjextWebpackRuntimeDefinitions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
@@ -160,7 +162,7 @@ images and fonts.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(babelConfiguration: <span><a href="https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span>, events: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span>, pathUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/services/configurations/rulesConfiguration.js~WebpackRulesConfiguration.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(babelConfiguration: <span><a href="https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span>, events: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span>, packageInfo: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, pathUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span>)</span>
         </p>
       </div>
       <div>
@@ -475,11 +477,11 @@ the value of the <code>asFactory</code> property) and it should return the confi
     
     
     
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(babelConfiguration: <span><a href="https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span>, events: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span>, pathUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span>)</span>
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(babelConfiguration: <span><a href="https://homer0.github.io/projext/class/src/services/configurations/babelConfiguration.js~BabelConfiguration.html">BabelConfiguration</a></span>, events: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span>, packageInfo: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, pathUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber18">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber19">source</a></span></span>
     </span>
   </h3>
 
@@ -512,6 +514,13 @@ the value of the <code>asFactory</code> property) and it should return the confi
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>To reduce each set of rules and the entire
                                                  configuration.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">packageInfo</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>To read the dependencies list.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
@@ -559,7 +568,7 @@ the value of the <code>asFactory</code> property) and it should return the confi
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber25">source</a></span></span>
     </span>
   </h3>
 
@@ -603,7 +612,7 @@ the value of the <code>asFactory</code> property) and it should return the confi
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
@@ -650,7 +659,7 @@ the value of the <code>asFactory</code> property) and it should return the confi
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber44">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/services/configurations/rulesConfiguration.js.html#lineNumber60">source</a></span></span>
     </span>
   </h3>
 

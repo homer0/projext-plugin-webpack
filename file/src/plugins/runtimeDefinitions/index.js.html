@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../">
-  <title data-ice="title">WebpackNodeProductionConfiguration | projext-plugin-webpack</title>
+  <title data-ice="title">src/plugins/runtimeDefinitions/index.js | projext-plugin-webpack</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -101,554 +101,146 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {WebpackNodeProductionConfiguration} from &apos;<span><a href="file/src/services/configurations/nodeProductionConfiguration.js.html#lineNumber13">projext-plugin-webpack/src/services/configurations/nodeProductionConfiguration.js</a></span>&apos;</code></pre></div>
-  <span data-ice="access">public</span>
-  <span data-ice="kind">class</span>
-  
-  
-  
-  <span data-ice="source">| <span><a href="file/src/services/configurations/nodeProductionConfiguration.js.html#lineNumber13">source</a></span></span>
-</div>
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/runtimeDefinitions/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const ObjectUtils = require(&apos;wootils/shared/objectUtils&apos;);
+const { DefinePlugin } = require(&apos;webpack&apos;);
+/**
+ * This is a webpack plugin that works with `webpack.DefinePlugin` in order to reload all
+ * definitions when the bundle changes.
+ */
+class ProjextWebpackRuntimeDefinitions {
+  /**
+   * @param {Array}                                   files         The list of files that need to
+   *                                                                change in order to reload
+   *                                                                the definitions.
+   * @param {Function():Object}                       definitionsFn When this function is called,
+   *                                                                it should return the object
+   *                                                                with the definitions.
+   * @param {ProjextWebpackRuntimeDefinitionsOptions} [options={}]  The options to customize the
+   *                                                                plugin instance.
+   * @throws {Error} If `files` is not an Array.
+   * @throws {Error} If `files` is empty.
+   * @throws {Error} If `definitionsFn` is not a function.
+   */
+  constructor(files, definitionsFn, options = {}) {
+    if (!Array.isArray(files) || !files.length) {
+      throw new Error(&apos;You need to provide a valid files list&apos;);
+    }
 
-<div class="self-detail detail">
-  <h1 data-ice="name">WebpackNodeProductionConfiguration</h1>
+    if (typeof definitionsFn !== &apos;function&apos;) {
+      throw new Error(&apos;You need to provide a valid definitions function&apos;);
+    }
 
-  
+    /**
+     * The list of files that need to change in order to reload the definitions.
+     * @type {Array}
+     * @access protected
+     * @ignore
+     */
+    this._files = files;
+    /**
+     * The function that will generate the definitions.
+     * @type {Function():Object}
+     * @access protected
+     * @ignore
+     */
+    this._definitionsFn = definitionsFn;
+    /**
+     * The options to customize the plugin instance.
+     * @type {ProjextWebpackRuntimeDefinitionsOptions}
+     * @access protected
+     * @ignore
+     */
+    this._options = ObjectUtils.merge(
+      {
+        name: &apos;projext-webpack-plugin-runtime-definitions&apos;,
+      },
+      options
+    );
+    /**
+     * This is where the plugin will &quot;refresh&quot; the definitions when the bundle changes.
+     * @type {Object}
+     * @access protected
+     * @ignore
+     */
+    this._values = {};
+  }
+  /**
+   * Get the options that customize the plugin instance.
+   * @return {ProjextWebpackRuntimeDefinitionsOptions}
+   */
+  getOptions() {
+    return this._options;
+  }
+  /**
+   * This is called by webpack when the plugin is being processed. The method will create a new
+   * instance of `webpack.DefinePlugin` and set all the values as &quot;runtime values&quot;, so they&apos;ll
+   * get evaluated every time the bundle is generated.
+   * The method will also tap into the `compile` hook, so this plugin can refresh the values (by
+   * calling the `definitionFn`) when the bundle is about to be generated.
+   * @param {Object} compiler The compiler information provided by webpack.
+   */
+  apply(compiler) {
+    const plugin = new DefinePlugin(this._getDefinePluginSettings());
+    plugin.apply(compiler);
+    compiler.hooks.compile.tap(
+      this._options.name,
+      this._onCompilationStarts.bind(this)
+    );
+  }
+  /**
+   * Reloads the saved values on the instance by calling the `definitionsFn`.
+   * @access protected
+   * @ignore
+   */
+  _reloadValues() {
+    this._values = this._definitionsFn();
+    return this._values;
+  }
+  /**
+   * Generates the settings for `webpack.DefinePlugin`. It basically creates a &quot;runtime value&quot; for
+   * each of the definitions keys and sets a function that will call this instance.
+   * @return {Object}
+   * @access protected
+   * @ignore
+   */
+  _getDefinePluginSettings() {
+    const keys = Object.keys(this._reloadValues());
+    return keys.reduce(
+      (settings, key) =&gt; Object.assign({}, settings, {
+        [key]: DefinePlugin.runtimeValue(
+          () =&gt; this._getValue(key),
+          this._files
+        ),
+      }),
+      {}
+    );
+  }
+  /**
+   * Get a single value from a definition already loaded.
+   * @param {string} key The definition key.
+   * @return {string}
+   * @access protected
+   * @ignore
+   */
+  _getValue(key) {
+    return this._values[key];
+  }
+  /**
+   * This is called by webpack when the bundle compilation starts. The method just reloads the
+   * definition values on the instance so they&apos;ll be available when `webpack.DefinePlugin` tries
+   * to access them.
+   * @access protected
+   * @ignore
+   */
+  _onCompilationStarts() {
+    this._reloadValues();
+  }
+}
 
-  
-  
-  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span> &#x2192; WebpackNodeProductionConfiguration</div></div>
-  
-  
-  
-  
-  
-  
+module.exports = ProjextWebpackRuntimeDefinitions;
+</code></pre>
 
-  
-  
-  <div class="description" data-ice="description"><p>Creates the specifics of a Webpack configuration for a Node target production build.</p>
-</div>
-  
-
-  
-
-  
-
-  
-
-  
-</div>
-
-
-
-<div data-ice="constructorSummary"><h2>Constructor Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Public Constructor</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(events: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span>, pathUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span>, webpackBaseConfiguration: <span><a href="class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html">WebpackBaseConfiguration</a></span>)</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Class constructor.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
-<div data-ice="memberSummary"><h2>Member Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Public Members</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html#instance-member-events">events</a></span></span><span class="code" data-ice="signature">: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A local reference for the <code>events</code> service.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
-<div data-ice="methodSummary"><h2>Method Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Public Methods</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/services/configurations/nodeProductionConfiguration.js~WebpackNodeProductionConfiguration.html#instance-method-createConfig">createConfig</a></span></span><span class="code" data-ice="signature">(params: <span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Create the configuration with the <code>entry</code>, the <code>output</code> and the plugins specifics for a
-Node target production build.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
-
-<div class="inherited-summary" data-ice="inheritedSummary"><h2>Inherited Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3"><span class="toggle closed"></span> From class <span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-asFactory">asFactory</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Whether the configuration should be created every time <code>getConfig</code> gets called or not.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-overwritePaths">overwritePaths</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A list of paths that can overwrite the configuration.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-parentConfig">parentConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html">ConfigurationFile</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A parent configuration to extend.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-member-pathUtils">pathUtils</a></span></span><span class="code" data-ice="signature">: <span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A local reference for the <code>pathUtils</code> service.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      <span class="abstract" data-ice="abstract">abstract</span>
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-method-createConfig">createConfig</a></span></span><span class="code" data-ice="signature">()</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>This method will be called the first time <code>getConfig</code> gets called (or every time, depending on
-the value of the <code>asFactory</code> property) and it should return the configuration contents.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-method-getConfig">getConfig</a></span></span><span class="code" data-ice="signature">(args: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>This is the public method all other services uses to obtain the configuration.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
-
-
-
-<div data-ice="constructorDetails"><h2 data-ice="title">Public Constructors</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-constructor-constructor">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(events: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span>, pathUtils: <span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span>, webpackBaseConfiguration: <span><a href="class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html">WebpackBaseConfiguration</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/services/configurations/nodeProductionConfiguration.js.html#lineNumber23">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Class constructor.</p>
-</div>
-
-  <div data-ice="override"><h4>Override:</h4><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-constructor-constructor">ConfigurationFile#constructor</a></span></div>
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">events</td>
-      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>To reduce the configuration.</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">pathUtils</td>
-      <td data-ice="type" class="code"><span><a href="https://homer0.github.io/wootils/class/wootils/node/pathUtils.js~PathUtils.html">PathUtils</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Required by <code>ConfigurationFile</code>
-                                                               in order to build the path to
-                                                               the overwrite file.</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">webpackBaseConfiguration</td>
-      <td data-ice="type" class="code"><span><a href="class/src/services/configurations/baseConfiguration.js~WebpackBaseConfiguration.html">WebpackBaseConfiguration</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The configuration this one will
-                                                               extend.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-</div>
-<div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-events">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">events</span><span class="code" data-ice="signature">: <span><a href="https://homer0.github.io/projext/class/src/services/common/events.js~Events.html">Events</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/services/configurations/nodeProductionConfiguration.js.html#lineNumber41">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>A local reference for the <code>events</code> service.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-</div>
-<div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-createConfig">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">createConfig</span><span class="code" data-ice="signature">(params: <span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/services/configurations/nodeProductionConfiguration.js.html#lineNumber55">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Create the configuration with the <code>entry</code>, the <code>output</code> and the plugins specifics for a
-Node target production build.
-This method uses the reducer events <code>webpack-node-production-configuration</code> and
-<code>webpack-node-configuration</code>. It sends the configuration, the received <code>params</code> and expects
-a configuration on return.</p>
-</div>
-
-  <div data-ice="override"><h4>Override:</h4><span><a href="class/src/abstracts/configurationFile.js~ConfigurationFile.html#instance-method-createConfig">ConfigurationFile#createConfig</a></span></div>
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">params</td>
-      <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-WebpackConfigurationParams">WebpackConfigurationParams</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>A dictionary generated by the top service building
-                                           the configuration and that includes things like the
-                                           target information, its entry settings, output
-                                           paths, etc.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-</div>
 </div>
 
 <footer class="footer">

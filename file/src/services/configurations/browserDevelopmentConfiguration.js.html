@@ -36,6 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions">ProjextWebpackRuntimeDefinitionsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
@@ -77,6 +78,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-runtimedefinitions">plugins/runtimeDefinitions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html">ProjextWebpackRuntimeDefinitions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
@@ -100,21 +102,25 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/services/configurations/browserDevelopmentConfiguration.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const extend = require(&apos;extend&apos;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const path = require(&apos;path&apos;);
+const ObjectUtils = require(&apos;wootils/shared/objectUtils&apos;);
 const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);
 const ScriptExtHtmlWebpackPlugin = require(&apos;script-ext-html-webpack-plugin&apos;);
 const MiniCssExtractPlugin = require(&apos;mini-css-extract-plugin&apos;);
 const OptimizeCssAssetsPlugin = require(&apos;optimize-css-assets-webpack-plugin&apos;);
 const CopyWebpackPlugin = require(&apos;copy-webpack-plugin&apos;);
+const ExtraWatchWebpackPlugin = require(&apos;extra-watch-webpack-plugin&apos;);
 const {
   NoEmitOnErrorsPlugin,
-  DefinePlugin,
   HotModuleReplacementPlugin,
   NamedModulesPlugin,
 } = require(&apos;webpack&apos;);
 const { provider } = require(&apos;jimple&apos;);
 const ConfigurationFile = require(&apos;../../abstracts/configurationFile&apos;);
-const { ProjextWebpackOpenDevServer } = require(&apos;../../plugins&apos;);
+const {
+  ProjextWebpackOpenDevServer,
+  ProjextWebpackRuntimeDefinitions,
+} = require(&apos;../../plugins&apos;);
 /**
  * Creates the specifics of a Webpack configuration for a browser target development build.
  * @extends {ConfigurationFile}
@@ -196,13 +202,15 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
+      additionalWatch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
-      entry: extend(true, {}, entry),
+      entry: ObjectUtils.copy(entry),
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: &apos;/&apos;,
       },
       mode: &apos;development&apos;,
@@ -228,7 +236,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       // To avoid pushing assets with errors.
       new NoEmitOnErrorsPlugin(),
       // To add the _&apos;browser env variables&apos;_.
-      new DefinePlugin(definitions),
+      new ProjextWebpackRuntimeDefinitions(
+        Object.keys(entry).reduce(
+          (current, key) =&gt; [...current, ...entry[key].filter((file) =&gt; path.isAbsolute(file))],
+          []
+        ),
+        definitions
+      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // Copy the files the target specified on its settings.
@@ -243,6 +257,12 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
           [new MiniCssExtractPlugin({
             filename: output.css,
           })]
+      ),
+      // If there are additionals files to watch, add the plugin for it.
+      ...(
+        additionalWatch.length ?
+          [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
       ),
     ];
     // Define a list of extra entries that may be need depending on the target HMR configuration.
@@ -288,10 +308,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
         ]);
       }
       // Push the plugin that logs the dev server statuses and opens the browser.
-      config.plugins.push(new ProjextWebpackOpenDevServer(devServerConfig.url, {
-        logger: this.appLogger,
-        openBrowser: devServerConfig.open,
-      }));
+      config.plugins.push(new ProjextWebpackOpenDevServer(
+        (devServerConfig.proxied ? devServerConfig.proxied.url : devServerConfig.url),
+        {
+          logger: this.appLogger,
+          openBrowser: devServerConfig.open,
+        }
+      ));
     } else if (target.hot) {
       /**
        * If the target requires HMR but is not running with the dev server, it means that there&apos;s
@@ -312,8 +335,9 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       const [entryName] = Object.keys(entry);
       // Get the list of entries for the target.
       const entries = config.entry[entryName];
-      // Check if the `babel-polyfill` is present, since it always needs to be first.
-      const polyfillIndex = entries.indexOf(&apos;babel-polyfill&apos;);
+      // Check if the Babel polyfill is present, since it always needs to be first.
+      const polyfillIndex = entries
+      .indexOf(`${this.webpackPluginInfo.name}/${this.webpackPluginInfo.babelPolyfill}`);
       // If the `babel-polyfill` is present...
       if (polyfillIndex &gt; -1) {
         // ...push all the _&quot;hot entries&quot;_ after it.
@@ -344,7 +368,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
    */
   _normalizeTargetDevServerSettings(target) {
     // Get a new copy of the config to work with.
-    const config = extend(true, {}, target.devServer);
+    const config = ObjectUtils.copy(target.devServer);
     /**
      * Set a flag to know if at least one SSL file was sent.
      * This flag is also used when reading the `proxied` settings to determine the default
@@ -366,15 +390,29 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     if (!hasASSLFile) {
       delete config.ssl;
     }
+    /**
+     * Define whether to build a proxied URL for the plugin that opens the browser or not. The
+     * reason for this is that when the server is proxied but the host is not defined, it will use
+     * the dev server host, and in that case, it should include the port too, something that
+     * wouldn&apos;t be necessary when the proxied host is specified.
+     */
+    let buildProxiedURL = true;
     // If the server is being proxied...
     if (config.proxied.enabled) {
       // ...if no `host` was specified, use the one defined for the server.
       if (config.proxied.host === null) {
         config.proxied.host = config.host;
+        buildProxiedURL = false;
       }
       // If no `https` option was specified, set it to `true` if at least one SSL file was sent.
       if (config.proxied.https === null) {
         config.proxied.https = hasASSLFile;
+      }
+      // If a custom proxied host was specified, build the new URL.
+      if (buildProxiedURL) {
+        // Build the proxied URL.
+        const proxiedProtocol = config.proxied.https ? &apos;https&apos; : &apos;http&apos;;
+        config.proxied.url = `${proxiedProtocol}://${config.proxied.host}`;
       }
     } else {
       // ...otherwise, just remove the setting.
@@ -383,6 +421,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
 
     const protocol = config.ssl ? &apos;https&apos; : &apos;http&apos;;
     config.url = `${protocol}://${config.host}:${config.port}`;
+    /**
+     * If the server is proxied, but without a custom host, copy the dev server URL into the
+     * proxied settings.
+     */
+    if (config.proxied &amp;&amp; !buildProxiedURL) {
+      config.proxied.url = config.url;
+    }
 
     return config;
   }

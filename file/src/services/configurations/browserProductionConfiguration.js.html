@@ -36,6 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions">ProjextWebpackRuntimeDefinitionsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
@@ -77,6 +78,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-runtimedefinitions">plugins/runtimeDefinitions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html">ProjextWebpackRuntimeDefinitions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
@@ -100,16 +102,18 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/services/configurations/browserProductionConfiguration.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const path = require(&apos;path&apos;);
+const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);
 const ScriptExtHtmlWebpackPlugin = require(&apos;script-ext-html-webpack-plugin&apos;);
 const CompressionPlugin = require(&apos;compression-webpack-plugin&apos;);
 const MiniCssExtractPlugin = require(&apos;mini-css-extract-plugin&apos;);
-const UglifyJSPlugin = require(&apos;uglifyjs-webpack-plugin&apos;);
+const TerserPlugin = require(&apos;terser-webpack-plugin&apos;);
 const OptimizeCssAssetsPlugin = require(&apos;optimize-css-assets-webpack-plugin&apos;);
 const CopyWebpackPlugin = require(&apos;copy-webpack-plugin&apos;);
-const { DefinePlugin } = require(&apos;webpack&apos;);
+const ExtraWatchWebpackPlugin = require(&apos;extra-watch-webpack-plugin&apos;);
 const { provider } = require(&apos;jimple&apos;);
 const ConfigurationFile = require(&apos;../../abstracts/configurationFile&apos;);
+const { ProjextWebpackRuntimeDefinitions } = require(&apos;../../plugins&apos;);
 /**
  * Creates the specifics of a Webpack configuration for a browser target production build.
  * @extends {ConfigurationFile}
@@ -172,6 +176,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
+      additionalWatch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -179,6 +184,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
+        chunkFilename: output.jsChunks,
         publicPath: &apos;/&apos;,
       },
       mode: &apos;production&apos;,
@@ -187,12 +193,21 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
     if (target.sourceMap.production) {
       config.devtool = &apos;source-map&apos;;
     }
-    // If the code won&apos;t be uglified, remove the optimization flag.
-    if (!target.uglifyOnProduction) {
+    // Enable or not uglification for the target bundle.
+    if (target.uglifyOnProduction) {
+      config.optimization = {
+        minimizer: [
+          new TerserPlugin({
+            sourceMap: !!target.sourceMap.production,
+          }),
+        ],
+      };
+    } else {
       config.optimization = {
         minimize: false,
       };
     }
+
     // Setup the plugins.
     config.plugins = [
       // If the target is a library, it doesn&apos;t need HTML on production.
@@ -212,16 +227,12 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           ]
       ),
       // To add the _&apos;browser env variables&apos;_.
-      new DefinePlugin(definitions),
-      // Uglify the code if necessary.
-      ...(
-        target.uglifyOnProduction ?
-          [
-            new UglifyJSPlugin({
-              sourceMap: !!target.sourceMap.production,
-            }),
-          ] :
+      new ProjextWebpackRuntimeDefinitions(
+        Object.keys(entry).reduce(
+          (current, key) =&gt; [...current, ...entry[key].filter((file) =&gt; path.isAbsolute(file))],
           []
+        ),
+        definitions
       ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
@@ -239,6 +250,12 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           [new MiniCssExtractPlugin({
             filename: output.css,
           })]
+      ),
+      // If there are additionals files to watch, add the plugin for it.
+      ...(
+        additionalWatch.length ?
+          [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
       ),
     ];
     // Enable the watch mode if required...

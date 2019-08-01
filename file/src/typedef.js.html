@@ -36,6 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions">ProjextWebpackRuntimeDefinitionsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
@@ -77,6 +78,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-runtimedefinitions">plugins/runtimeDefinitions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html">ProjextWebpackRuntimeDefinitions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
@@ -281,6 +283,8 @@
  * @property {Array}  external      The list of subpaths the plugin exposes and that should be
  *                                  handled as external dependencies, in order to avoid bundling
  *                                  them.
+ * @property {string} babelPolyfill The name of the file that imports the required modules to
+ *                                  act as the old Babel polyfill.
  */
 
 /**
@@ -295,13 +299,15 @@
  * @property {WebpackConfigurationTargetOutput} output
  * A dictionary with the filenames formats and paths of the different files the bundle can
  * generate.
- * @property {Object} definitions
- * A dictionary of defined variables that will be replaced on the bundled code.
+ * @property {Function():Object} definitions
+ * A function that generates a dictionary of variables that will be replaced on the bundled code.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
  * @property {Array} copy
  * A list of {@link TargetExtraFile} with the information of files that need to be copied during
  * the bundling process.
+ * @property {Array} additionalWatch
+ * A list of additional paths webpack should watch for in order to restart the bundle.
  */
 
 /**
@@ -322,6 +328,8 @@
  * The host used to proxy the dev server.
  * @property {boolean} https
  * Whether or not the proxied host uses `https`.
+ * @property {string} url
+ * The complete URL being used to proxy the dev server.
  */
 
 /**
@@ -374,6 +382,13 @@
  *                                 webpack event hooks.
  *                                 Its default value is `projext-webpack-plugin-open-dev-server`.
  * @property {?Logger} logger      A custom logger to output the plugin&apos;s information messages.
+ */
+
+/**
+ * @typedef {Object} ProjextWebpackRuntimeDefinitionsOptions
+ * @property {?string} name The _&quot;instance name&quot;_, used to register the listeners on the
+ *                          webpack event hooks. Its default value is
+ *                          `projext-webpack-plugin-runtime-definitions`.
  */
 </code></pre>
 

@@ -36,6 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions">ProjextWebpackRuntimeDefinitionsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
@@ -77,6 +78,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-runtimedefinitions">plugins/runtimeDefinitions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html">ProjextWebpackRuntimeDefinitions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
@@ -114,10 +116,11 @@ class WebpackRulesConfiguration extends ConfigurationFile {
    * @param {BabelConfiguration} babelConfiguration   Used to configure the `babel-loader`.
    * @param {Events}             events               To reduce each set of rules and the entire
    *                                                  configuration.
+   * @param {Object}             packageInfo          To read the dependencies list.
    * @param {PathUtils}          pathUtils            Required by `ConfigurationFile` in order to
    *                                                  build the path to the overwrite file.
    */
-  constructor(babelConfiguration, events, pathUtils) {
+  constructor(babelConfiguration, events, packageInfo, pathUtils) {
     super(pathUtils, &apos;webpack/rules.config.js&apos;);
     /**
      * A local reference for the `babelConfiguration` service.
@@ -129,6 +132,21 @@ class WebpackRulesConfiguration extends ConfigurationFile {
      * @type {Events}
      */
     this.events = events;
+    /**
+     * The name of the loader for image optimization. This is on a property because the service
+     * will eveluate if the loader is installed before adding specific rules for it.
+     * @type {String}
+     * @access protected
+     * @ignore
+     */
+    this._imageLoaderName = &apos;image-webpack-loader&apos;;
+    /**
+     * Whether or not the implementation has the load for image optimization installed.
+     * @type {Boolean}
+     * @access protected
+     * @ignore
+     */
+    this._hasImageLoader = this._detectImageLoader(packageInfo);
   }
   /**
    * Creates the rules configuration for the required target.
@@ -162,6 +180,24 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       { rules },
       params
     );
+  }
+  /**
+   * Checks whether or not a `package.json` includes the image loader as a dependency or dev
+   * dependency.
+   * @param {Object} packageInfo The contents of a `package.json`.
+   * @return {Boolean}
+   * @access protected
+   * @ignore
+   */
+  _detectImageLoader(packageInfo) {
+    const names = [];
+    [&apos;dependencies&apos;, &apos;devDependencies&apos;].forEach((dependencyType) =&gt; {
+      if (packageInfo[dependencyType]) {
+        names.push(...Object.keys(packageInfo[dependencyType]));
+      }
+    });
+
+    return names.some((name) =&gt; name === this._imageLoaderName);
   }
   /**
    * Defines the list of rules for Javascript files.
@@ -224,21 +260,21 @@ class WebpackRulesConfiguration extends ConfigurationFile {
     // Set the base configuration for the CSS loader.
     const cssLoaderConfig = {
       // `2` because there are two other loaders after it: `resolve-url-loader` and `sass-loader`.
-      importRules: 2,
+      importLoaders: 2,
     };
     // If the target uses CSS modules...
     if (target.css.modules) {
-      // ...enable them on the CSS loader configuration.
-      cssLoaderConfig.modules = true;
-      // Add the modules name format.
-      cssLoaderConfig.localIdentName = &apos;[name]__[local]___[hash:base64:5]&apos;;
+      // ...enable them on the CSS loader configuration and add the name format.
+      cssLoaderConfig.modules = {
+        localIdentName: &apos;[name]__[local]___[hash:base64:5]&apos;,
+      };
     }
 
     let eventName = &apos;webpack-scss-rules-configuration-for-node&apos;;
     const use = [
       {
         loader: &apos;css-loader&apos;,
-        query: cssLoaderConfig,
+        options: cssLoaderConfig,
       },
       &apos;resolve-url-loader&apos;,
       {
@@ -440,6 +476,32 @@ class WebpackRulesConfiguration extends ConfigurationFile {
   _getImagesRules(params) {
     const { target, targetRules, output: { images: name } } = params;
     const imagesRule = targetRules.images.getRule();
+    const use = [{
+      loader: &apos;file-loader&apos;,
+      options: {
+        name,
+      },
+    }];
+    if (this._hasImageLoader) {
+      use.push({
+        loader: this._imageLoaderName,
+        options: {
+          mozjpeg: {
+            progressive: true,
+          },
+          gifsicle: {
+            interlaced: false,
+          },
+          optipng: {
+            optimizationLevel: 7,
+          },
+          pngquant: {
+            quality: &apos;75-90&apos;,
+            speed: 3,
+          },
+        },
+      });
+    }
     const rules = [{
       test: imagesRule.extension,
       include: [
@@ -448,32 +510,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       exclude: [
         ...imagesRule.files.exclude,
       ],
-      use: [
-        {
-          loader: &apos;file-loader&apos;,
-          options: {
-            name,
-          },
-        },
-        {
-          loader: &apos;image-webpack-loader&apos;,
-          query: {
-            mozjpeg: {
-              progressive: true,
-            },
-            gifsicle: {
-              interlaced: false,
-            },
-            optipng: {
-              optimizationLevel: 7,
-            },
-            pngquant: {
-              quality: &apos;75-90&apos;,
-              speed: 3,
-            },
-          },
-        },
-      ],
+      use,
     }];
     // Reduce the rules.
     const eventName = target.is.node ?
@@ -505,6 +542,26 @@ class WebpackRulesConfiguration extends ConfigurationFile {
   _getFaviconsRules(params) {
     const { target, targetRules } = params;
     const faviconRule = targetRules.favicon.getRule();
+    const use = [{
+      loader: &apos;file-loader&apos;,
+      options: {
+        name: &apos;[name].[ext]&apos;,
+      },
+    }];
+    if (this._hasImageLoader) {
+      use.push({
+        loader: this._imageLoaderName,
+        options: {
+          optipng: {
+            optimizationLevel: 7,
+          },
+          pngquant: {
+            quality: &apos;75-90&apos;,
+            speed: 3,
+          },
+        },
+      });
+    }
     const rules = [{
       test: faviconRule.extension,
       include: [
@@ -513,26 +570,7 @@ class WebpackRulesConfiguration extends ConfigurationFile {
       exclude: [
         ...faviconRule.files.exclude,
       ],
-      use: [
-        {
-          loader: &apos;file-loader&apos;,
-          options: {
-            name: &apos;[name].[ext]&apos;,
-          },
-        },
-        {
-          loader: &apos;image-webpack-loader&apos;,
-          query: {
-            optipng: {
-              optimizationLevel: 7,
-            },
-            pngquant: {
-              quality: &apos;75-90&apos;,
-              speed: 3,
-            },
-          },
-        },
-      ],
+      use,
     }];
     // Reduce the rules.
     const eventName = target.is.node ?
@@ -559,6 +597,7 @@ const webpackRulesConfiguration = provider((app) =&gt; {
   app.set(&apos;webpackRulesConfiguration&apos;, () =&gt; new WebpackRulesConfiguration(
     app.get(&apos;babelConfiguration&apos;),
     app.get(&apos;events&apos;),
+    app.get(&apos;packageInfo&apos;),
     app.get(&apos;pathUtils&apos;)
   ));
 });

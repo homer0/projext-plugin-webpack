@@ -36,6 +36,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MiddlewaresInformation">MiddlewaresInformation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackBundleRunnerOptions">ProjextWebpackBundleRunnerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackOpenDevServerOptions">ProjextWebpackOpenDevServerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjextWebpackRuntimeDefinitionsOptions">ProjextWebpackRuntimeDefinitionsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Provider">Provider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProviderRegisterMethod">ProviderRegisterMethod</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TargetDevServerProxiedSettings">TargetDevServerProxiedSettings</a></span></span></li>
@@ -77,6 +78,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins">plugins</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/utils.js~ProjextWebpackUtils.html">ProjextWebpackUtils</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bundlerunner">plugins/bundleRunner</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/bundleRunner/index.js~ProjextWebpackBundleRunner.html">ProjextWebpackBundleRunner</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-opendevserver">plugins/openDevServer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/openDevServer/index.js~ProjextWebpackOpenDevServer.html">ProjextWebpackOpenDevServer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-runtimedefinitions">plugins/runtimeDefinitions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/runtimeDefinitions/index.js~ProjextWebpackRuntimeDefinitions.html">ProjextWebpackRuntimeDefinitions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#services-building">services/building</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/configuration.js~WebpackConfiguration.html">WebpackConfiguration</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/services/building/engine.js~WebpackBuildEngine.html">WebpackBuildEngine</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-webpackConfiguration">webpackConfiguration</a></span></span></li>
@@ -123,7 +125,7 @@
 </tr>
 <tr>
 <td>Node Version</td>
-<td>&gt;= v6.10.0</td>
+<td>&gt;= v8.0.0</td>
 </tr>
 </tbody>
 </table>
@@ -270,6 +272,8 @@ module.exports = (params) =&gt; ({
 });</code>
 </code></pre>
 <p>That change will only be applied when building the target <code>myApp</code> on a production build.</p>
+<h3 id="images-optimization">Images optimization</h3><p>By default, this plugin used to include <a href="https://yarnpkg.com/en/package/image-webpack-loader"><code>image-webpack-loader</code></a> but the package wasn&apos;t being updated often and the requirement of <code>libpng</code> was something that caused issues for some of the users&apos; environments.</p>
+<p>Now, this plugin only uses the loader if the implementation has <code>image-webpack-loader</code> on its <code>package.json</code> <code>dependencies</code>/<code>devDependencies</code>.</p>
 <h2 id="making-a-plugin">Making a plugin</h2><p>If you want to write a plugin that works with this one (like a framework plugin), there are a lot of reducer events you can listen for and use to modify the webpack configuration:</p>
 <h3 id="node-target-configuration">Node target configuration</h3><ul>
 <li>Name: <code>webpack-base-configuration-for-node</code></li>
@@ -443,11 +447,7 @@ module.exports = (params) =&gt; ({
 </li>
 </ul>
 <p>This is called after generating the configuration for a browser target production build and before sending it to the main configuration to merge everything.</p>
-<h2 id="development">Development</h2><p>Before doing anything, install the repository hooks:</p>
-<pre><code class="lang-bash"><code class="source-code prettyprint"># You can either use npm or yarn, it doesn&apos;t matter
-yarn run hooks</code>
-</code></pre>
-<h3 id="npm-yarn-tasks">NPM/Yarn Tasks</h3><table>
+<h2 id="development">Development</h2><h3 id="npm-yarn-tasks">NPM/Yarn Tasks</h3><table>
 <thead>
 <tr>
 <th>Task</th>
@@ -455,10 +455,6 @@ yarn run hooks</code>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>yarn run hooks</code></td>
-<td>Install the GIT repository hooks.</td>
-</tr>
 <tr>
 <td><code>yarn test</code></td>
 <td>Run the project unit tests.</td>
