@@ -1,18 +1,22 @@
-const extend = require('extend');
+const path = require('path');
+const ObjectUtils = require('wootils/shared/objectUtils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
-  DefinePlugin,
   HotModuleReplacementPlugin,
   NamedModulesPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
-const { ProjextWebpackOpenDevServer } = require('../../plugins');
+const {
+  ProjextWebpackOpenDevServer,
+  ProjextWebpackRuntimeDefinitions,
+} = require('../../plugins');
 /**
  * Creates the specifics of a Webpack configuration for a browser target development build.
  * @extends {ConfigurationFile}
@@ -94,10 +98,11 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
+      additionalWatch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
-      entry: extend(true, {}, entry),
+      entry: ObjectUtils.copy(entry),
       output: {
         path: `./${target.folders.build}`,
         filename: output.js,
@@ -127,7 +132,13 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       // To avoid pushing assets with errors.
       new NoEmitOnErrorsPlugin(),
       // To add the _'browser env variables'_.
-      new DefinePlugin(definitions),
+      new ProjextWebpackRuntimeDefinitions(
+        Object.keys(entry).reduce(
+          (current, key) => [...current, ...entry[key].filter((file) => path.isAbsolute(file))],
+          []
+        ),
+        definitions
+      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // Copy the files the target specified on its settings.
@@ -142,6 +153,12 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
           [new MiniCssExtractPlugin({
             filename: output.css,
           })]
+      ),
+      // If there are additionals files to watch, add the plugin for it.
+      ...(
+        additionalWatch.length ?
+          [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
       ),
     ];
     // Define a list of extra entries that may be need depending on the target HMR configuration.
@@ -214,8 +231,9 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       const [entryName] = Object.keys(entry);
       // Get the list of entries for the target.
       const entries = config.entry[entryName];
-      // Check if the `babel-polyfill` is present, since it always needs to be first.
-      const polyfillIndex = entries.indexOf('@babel/polyfill');
+      // Check if the Babel polyfill is present, since it always needs to be first.
+      const polyfillIndex = entries
+      .indexOf(`${this.webpackPluginInfo.name}/${this.webpackPluginInfo.babelPolyfill}`);
       // If the `babel-polyfill` is present...
       if (polyfillIndex > -1) {
         // ...push all the _"hot entries"_ after it.
@@ -246,7 +264,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
    */
   _normalizeTargetDevServerSettings(target) {
     // Get a new copy of the config to work with.
-    const config = extend(true, {}, target.devServer);
+    const config = ObjectUtils.copy(target.devServer);
     /**
      * Set a flag to know if at least one SSL file was sent.
      * This flag is also used when reading the `proxied` settings to determine the default

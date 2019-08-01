@@ -107,8 +107,9 @@ describe('services/configurations:rulesConfiguration', () => {
         loader: 'css-loader',
         options: {
           importLoaders: 2,
-          modules: true,
-          localIdentName: '[name]__[local]___[hash:base64:5]',
+          modules: {
+            localIdentName: '[name]__[local]___[hash:base64:5]',
+          },
         },
       },
       'resolve-url-loader',

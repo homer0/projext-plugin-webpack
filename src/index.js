@@ -38,6 +38,7 @@ const loadPlugin = (app) => {
       'express',
       'jimpex',
     ],
+    babelPolyfill: 'polyfill.js',
   }));
   // Register the main services of the build engine.
   app.register(webpackConfiguration);

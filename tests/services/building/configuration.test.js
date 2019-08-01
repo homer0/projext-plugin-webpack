@@ -25,6 +25,7 @@ describe('services/building:configuration', () => {
     const targetsFileRules = 'targetsFileRules';
     const targetConfiguration = 'targetConfiguration';
     const webpackConfigurations = 'webpackConfigurations';
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -33,7 +34,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackConfiguration);
@@ -43,6 +45,7 @@ describe('services/building:configuration', () => {
     expect(sut.targetsFileRules).toBe(targetsFileRules);
     expect(sut.targetConfiguration).toBe(targetConfiguration);
     expect(sut.webpackConfigurations).toBe(webpackConfigurations);
+    expect(sut.webpackPluginInfo).toBe(webpackPluginInfo);
   });
 
   it('should throw an error when trying to build a target with an invalid type', () => {
@@ -56,6 +59,7 @@ describe('services/building:configuration', () => {
       type: 'random-type',
     };
     const webpackConfigurations = {};
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -64,7 +68,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     // Then
     expect(() => sut.getConfig(target))
@@ -85,6 +90,7 @@ describe('services/building:configuration', () => {
     const webpackConfigurations = {
       node: {},
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -93,7 +99,8 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     // Then
     expect(() => sut.getConfig(target, buildType))
@@ -119,7 +126,13 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = 'targets';
+    const envVarName = 'ROSARIO';
+    const envVarValue = 'Charito';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({
+        [envVarName]: envVarValue,
+      })),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -155,8 +168,11 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
+    let definitionsGenerator = null;
+    let generatedDefinitions = null;
     // When
     sut = new WebpackConfiguration(
       buildVersion,
@@ -164,11 +180,19 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
+    [[{ definitions: definitionsGenerator }]] = targetConfig.getConfig.mock.calls;
+    generatedDefinitions = definitionsGenerator();
     // Then
     expect(result).toEqual(config);
+    expect(generatedDefinitions).toEqual({
+      [`process.env.${envVarName}`]: `"${envVarValue}"`,
+      'process.env.NODE_ENV': `'${buildType}'`,
+      [versionVariable]: `"${version}"`,
+    });
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
     expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
     expect(targetsFileRules.getRulesForTarget).toHaveBeenCalledTimes(1);
@@ -182,6 +206,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -189,15 +215,13 @@ describe('services/building:configuration', () => {
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
-      definitions: {
-        'process.env.NODE_ENV': `'${buildType}'`,
-        [versionVariable]: `"${version}"`,
-      },
+      definitions: expect.any(Function),
       output: Object.assign({}, target.output[buildType], {
         jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
       }),
       targetRules,
       copy: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -225,6 +249,7 @@ describe('services/building:configuration', () => {
     const filesToCopy = ['copy'];
     const targets = {
       getFilesToCopy: jest.fn(() => filesToCopy),
+      loadTargetDotEnvFile: jest.fn(() => ({})),
     };
     const targetRules = 'target-rule';
     const targetsFileRules = {
@@ -262,6 +287,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     // When
@@ -271,13 +297,14 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(config);
-    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
-    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(0);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(0);
     expect(targetsFileRules.getRulesForTarget).toHaveBeenCalledTimes(1);
     expect(targetsFileRules.getRulesForTarget).toHaveBeenCalledWith(target);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
@@ -289,6 +316,7 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(0);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -296,15 +324,13 @@ describe('services/building:configuration', () => {
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
-      definitions: {
-        'process.env.NODE_ENV': `'${buildType}'`,
-        [versionVariable]: `"${version}"`,
-      },
+      definitions: expect.any(Function),
       output: Object.assign({}, target.output[buildType], {
         jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
       }),
       targetRules,
       copy: filesToCopy,
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -336,6 +362,7 @@ describe('services/building:configuration', () => {
     const filesToCopy = ['copy'];
     const targets = {
       getFilesToCopy: jest.fn(() => filesToCopy),
+      loadTargetDotEnvFile: jest.fn(() => ({})),
     };
     const targetRules = 'target-rule';
     const targetsFileRules = {
@@ -373,6 +400,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     // When
@@ -382,13 +410,14 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(config);
-    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
-    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(0);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(0);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -398,6 +427,7 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(0);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -405,13 +435,11 @@ describe('services/building:configuration', () => {
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
-      definitions: {
-        'process.env.NODE_ENV': `'${buildType}'`,
-        [versionVariable]: `"${version}"`,
-      },
+      definitions: expect.any(Function),
       output: target.output[buildType],
       targetRules,
       copy: filesToCopy,
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -441,10 +469,15 @@ describe('services/building:configuration', () => {
     const targetBrowserConfig = {
       someProp: 'someValue',
     };
+    const targetBrowserConfigFiles = ['some-config-file'];
     const filesToCopy = ['copy'];
     const targets = {
       getFilesToCopy: jest.fn(() => filesToCopy),
-      getBrowserTargetConfiguration: jest.fn(() => targetBrowserConfig),
+      loadTargetDotEnvFile: jest.fn(() => ({})),
+      getBrowserTargetConfiguration: jest.fn(() => ({
+        configuration: targetBrowserConfig,
+        files: targetBrowserConfigFiles,
+      })),
     };
     const targetRules = 'target-rule';
     const targetsFileRules = {
@@ -481,8 +514,11 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
+    let definitionsGenerator = null;
+    let generatedDefinitions = null;
     // When
     sut = new WebpackConfiguration(
       buildVersion,
@@ -490,11 +526,19 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
+    [[{ definitions: definitionsGenerator }]] = targetConfig.getConfig.mock.calls;
+    generatedDefinitions = definitionsGenerator();
     // Then
     expect(result).toEqual(config);
+    expect(generatedDefinitions).toEqual({
+      'process.env.NODE_ENV': `'${buildType}'`,
+      [versionVariable]: `"${version}"`,
+      [target.configuration.defineOn]: JSON.stringify(targetBrowserConfig),
+    });
     expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
     expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
@@ -506,6 +550,8 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(1);
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledWith(target, buildType);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -516,19 +562,17 @@ describe('services/building:configuration', () => {
       output: Object.assign({}, target.output[buildType], {
         jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
       }),
-      definitions: {
-        'process.env.NODE_ENV': `'${buildType}'`,
-        [versionVariable]: `"${version}"`,
-        [target.configuration.defineOn]: JSON.stringify(targetBrowserConfig),
-      },
+      definitions: expect.any(Function),
       targetRules,
       copy: filesToCopy,
+      additionalWatch: targetBrowserConfigFiles,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
     expect(targets.getFilesToCopy).toHaveBeenCalledTimes(1);
     expect(targets.getFilesToCopy).toHaveBeenCalledWith(target, buildType);
-    expect(targets.getBrowserTargetConfiguration).toHaveBeenCalledTimes(1);
+    expect(targets.getBrowserTargetConfiguration).toHaveBeenCalledTimes(2);
+    expect(targets.getBrowserTargetConfiguration).toHaveBeenCalledWith(target);
     expect(targets.getBrowserTargetConfiguration).toHaveBeenCalledWith(target);
   });
 
@@ -551,7 +595,9 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = 'targets';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({})),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -589,6 +635,10 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = {
+      name: 'plugin',
+      babelPolyfill: 'da-polyfill.js',
+    };
     let sut = null;
     let result = null;
     // When
@@ -598,13 +648,14 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(config);
-    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
-    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(0);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(0);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -614,25 +665,24 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(0);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
       buildType,
       entry: {
         [target.name]: [
-          '@babel/polyfill',
+          `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`,
           path.join(target.paths.source, target.entry[buildType]),
         ],
       },
-      definitions: {
-        'process.env.NODE_ENV': `'${buildType}'`,
-        [versionVariable]: `"${version}"`,
-      },
+      definitions: expect.any(Function),
       output: Object.assign({}, target.output[buildType], {
         jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
       }),
       targetRules,
       copy: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -657,7 +707,9 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = 'targets';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({})),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -694,6 +746,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     const expectedConfig = {
       output: {
         path: 'some-output-path',
@@ -709,13 +762,14 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
-    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(0);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(0);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -725,6 +779,7 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(0);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -732,15 +787,13 @@ describe('services/building:configuration', () => {
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
-      definitions: {
-        'process.env.NODE_ENV': `'${buildType}'`,
-        [versionVariable]: `"${version}"`,
-      },
+      definitions: expect.any(Function),
       output: Object.assign({}, target.output[buildType], {
         jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
       }),
       targetRules,
       copy: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -765,7 +818,9 @@ describe('services/building:configuration', () => {
     const targetConfig = {
       getConfig: jest.fn(() => config),
     };
-    const targets = '';
+    const targets = {
+      loadTargetDotEnvFile: jest.fn(() => ({})),
+    };
     const targetRules = 'target-rule';
     const targetsFileRules = {
       getRulesForTarget: jest.fn(() => targetRules),
@@ -804,6 +859,7 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
+    const webpackPluginInfo = 'webpackPluginInfo';
     const expectedConfig = {
       output: {
         path: 'some-output-path',
@@ -819,13 +875,14 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations
+      webpackConfigurations,
+      webpackPluginInfo
     );
     result = sut.getConfig(target, buildType);
     // Then
     expect(result).toEqual(expectedConfig);
-    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(1);
-    expect(buildVersion.getVersion).toHaveBeenCalledTimes(1);
+    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(0);
+    expect(buildVersion.getVersion).toHaveBeenCalledTimes(0);
     expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
     expect(targetConfiguration).toHaveBeenCalledWith(
       `webpack/${target.name}.config.js`,
@@ -835,6 +892,7 @@ describe('services/building:configuration', () => {
       `webpack/${target.name}.${buildType}.config.js`,
       targetConfig
     );
+    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(0);
     expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
     expect(targetConfig.getConfig).toHaveBeenCalledWith({
       target,
@@ -842,15 +900,13 @@ describe('services/building:configuration', () => {
       entry: {
         [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
-      definitions: {
-        'process.env.NODE_ENV': `'${buildType}'`,
-        [versionVariable]: `"${version}"`,
-      },
+      definitions: expect.any(Function),
       output: Object.assign({}, target.output[buildType], {
         jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
       }),
       targetRules,
       copy: [],
+      additionalWatch: [],
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -889,5 +945,6 @@ describe('services/building:configuration', () => {
         production: 'webpackBrowserProductionConfiguration',
       },
     });
+    expect(sut.webpackPluginInfo).toBe('webpackPluginInfo');
   });
 });

@@ -1,3 +1,4 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -5,9 +6,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { DefinePlugin } = require('webpack');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
+const { ProjextWebpackRuntimeDefinitions } = require('../../plugins');
 /**
  * Creates the specifics of a Webpack configuration for a browser target production build.
  * @extends {ConfigurationFile}
@@ -70,6 +72,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       entry,
       target,
       output,
+      additionalWatch,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -120,7 +123,13 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           ]
       ),
       // To add the _'browser env variables'_.
-      new DefinePlugin(definitions),
+      new ProjextWebpackRuntimeDefinitions(
+        Object.keys(entry).reduce(
+          (current, key) => [...current, ...entry[key].filter((file) => path.isAbsolute(file))],
+          []
+        ),
+        definitions
+      ),
       // To optimize the SCSS and remove repeated declarations.
       new OptimizeCssAssetsPlugin(),
       // To compress the emitted assets using gzip, if the target is not a library.
@@ -137,6 +146,12 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
           [new MiniCssExtractPlugin({
             filename: output.css,
           })]
+      ),
+      // If there are additionals files to watch, add the plugin for it.
+      ...(
+        additionalWatch.length ?
+          [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
       ),
     ];
     // Enable the watch mode if required...

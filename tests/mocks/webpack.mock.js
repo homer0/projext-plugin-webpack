@@ -1,6 +1,8 @@
 const mocks = {
   noEmitOnErrorsPlugin: jest.fn(),
   definePlugin: jest.fn(),
+  definePluginApply: jest.fn(),
+  definePluginRuntimeValue: jest.fn(),
   hotModuleReplacementPlugin: jest.fn(),
   namedModulesPlugin: jest.fn(),
 };
@@ -13,9 +15,18 @@ class NoEmitOnErrorsPluginMock {
 }
 
 class DefinePluginMock {
+  static runtimeValue(...args) {
+    return mocks.definePluginRuntimeValue(...args);
+  }
+
   constructor(...args) {
     this.constructorMock = mocks.definePlugin;
+    this.applyMock = mocks.definePluginApply;
     this.constructorMock(...args);
+  }
+
+  apply(...args) {
+    this.applyMock(...args);
   }
 }
 
@@ -50,6 +61,8 @@ module.exports.NoEmitOnErrorsPlugin = NoEmitOnErrorsPluginMock;
 module.exports.NoEmitOnErrorsPluginMock = mocks.noEmitOnErrorsPlugin;
 module.exports.DefinePlugin = DefinePluginMock;
 module.exports.DefinePluginMock = mocks.definePlugin;
+module.exports.DefinePluginApplyMock = mocks.definePluginApply;
+module.exports.DefinePluginRuntimeValueMock = mocks.definePluginRuntimeValue;
 module.exports.HotModuleReplacementPlugin = HotModuleReplacementPluginMock;
 module.exports.HotModuleReplacementPluginMock = mocks.hotModuleReplacementPlugin;
 module.exports.NamedModulesPlugin = NamedModulesPluginMock;

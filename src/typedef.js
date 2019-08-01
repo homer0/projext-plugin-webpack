@@ -179,6 +179,8 @@
  * @property {Array}  external      The list of subpaths the plugin exposes and that should be
  *                                  handled as external dependencies, in order to avoid bundling
  *                                  them.
+ * @property {string} babelPolyfill The name of the file that imports the required modules to
+ *                                  act as the old Babel polyfill.
  */
 
 /**
@@ -193,13 +195,15 @@
  * @property {WebpackConfigurationTargetOutput} output
  * A dictionary with the filenames formats and paths of the different files the bundle can
  * generate.
- * @property {Object} definitions
- * A dictionary of defined variables that will be replaced on the bundled code.
+ * @property {Function():Object} definitions
+ * A function that generates a dictionary of variables that will be replaced on the bundled code.
  * @property {string} buildType
  * The intended built type: `development` or `production`.
  * @property {Array} copy
  * A list of {@link TargetExtraFile} with the information of files that need to be copied during
  * the bundling process.
+ * @property {Array} additionalWatch
+ * A list of additional paths webpack should watch for in order to restart the bundle.
  */
 
 /**
@@ -274,4 +278,11 @@
  *                                 webpack event hooks.
  *                                 Its default value is `projext-webpack-plugin-open-dev-server`.
  * @property {?Logger} logger      A custom logger to output the plugin's information messages.
+ */
+
+/**
+ * @typedef {Object} ProjextWebpackRuntimeDefinitionsOptions
+ * @property {?string} name The _"instance name"_, used to register the listeners on the
+ *                          webpack event hooks. Its default value is
+ *                          `projext-webpack-plugin-runtime-definitions`.
  */

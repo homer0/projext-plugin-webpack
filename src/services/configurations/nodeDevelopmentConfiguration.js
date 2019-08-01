@@ -1,5 +1,6 @@
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
@@ -67,6 +68,7 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       target,
       output,
       copy,
+      additionalWatch,
     } = params;
     // By default it doesn't watch the source files.
     let watch = false;
@@ -78,6 +80,12 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       new OptimizeCssAssetsPlugin(),
       // Copy the files the target specified on its settings.
       new CopyWebpackPlugin(copy),
+      // If there are additionals files to watch, add the plugin for it.
+      ...(
+        additionalWatch.length ?
+          [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
+      ),
     ];
     // If the target needs to run on development...
     if (target.runOnDevelopment) {
