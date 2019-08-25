@@ -5,6 +5,7 @@ const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ConfigurationFile = require('../../abstracts/configurationFile');
 /**
  * Creates the specifics of a Webpack configuration for a Node target production build.
@@ -59,6 +60,7 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
       output,
       copy,
       additionalWatch,
+      analyze,
     } = params;
     const config = {
       entry,
@@ -79,6 +81,12 @@ class WebpackNodeProductionConfiguration extends ConfigurationFile {
         ...(
           additionalWatch.length ?
             [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+            []
+        ),
+        // If the the bundle should be analyzed, add the plugin for it.
+        ...(
+          analyze ?
+            [new BundleAnalyzerPlugin()] :
             []
         ),
       ],

@@ -5,6 +5,7 @@ const {
   NoEmitOnErrorsPlugin,
 } = require('webpack');
 const { provider } = require('jimple');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ConfigurationFile = require('../../abstracts/configurationFile');
 const { ProjextWebpackBundleRunner } = require('../../plugins');
 /**
@@ -69,6 +70,7 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
       output,
       copy,
       additionalWatch,
+      analyze,
     } = params;
     // By default it doesn't watch the source files.
     let watch = false;
@@ -86,9 +88,15 @@ class WebpackNodeDevelopmentConfiguration extends ConfigurationFile {
           [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
           []
       ),
+      // If the the bundle should be analyzed, add the plugin for it.
+      ...(
+        analyze ?
+          [new BundleAnalyzerPlugin()] :
+          []
+      ),
     ];
     // If the target needs to run on development...
-    if (target.runOnDevelopment) {
+    if (!analyze && target.runOnDevelopment) {
       // ...watch the source files.
       watch = true;
       // Push the plugin that executes the target bundle.
