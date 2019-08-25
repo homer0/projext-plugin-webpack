@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const path = require('path');
 const ObjectUtils = require('wootils/shared/objectUtils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
