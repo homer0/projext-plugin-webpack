@@ -49,10 +49,8 @@
     "opener": "^1.5.1"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^9.1.0",
+    "eslint": "^6.2.2",
+    "eslint-plugin-homer0": "^2.0.0",
     "@babel/preset-env": "7.5.5",
     "@babel/plugin-transform-runtime": "7.5.5",
     "jest-ex": "^6.1.1",
