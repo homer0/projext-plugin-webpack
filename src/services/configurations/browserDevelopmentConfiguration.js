@@ -123,7 +123,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
     config.plugins = [
       // To automatically inject the `script` tag on the target `html` file.
       new HtmlWebpackPlugin(Object.assign({}, target.html, {
-        template: this.targetsHTML.getFilepath(target),
+        template: this.targetsHTML.getFilepath(target, false, 'development'),
         inject: 'body',
       })),
       // To add the `async` attribute to the  `script` tag.
