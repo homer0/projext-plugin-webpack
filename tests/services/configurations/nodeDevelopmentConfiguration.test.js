@@ -8,12 +8,14 @@ jest.mock('/src/abstracts/configurationFile', () => ConfigurationFileMock);
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('copy-webpack-plugin');
 jest.mock('extra-watch-webpack-plugin');
+jest.mock('webpack-bundle-analyzer');
 jest.unmock('/src/services/configurations/nodeDevelopmentConfiguration');
 
 require('jasmine-expect');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { ProjextWebpackBundleRunner } = require('/src/plugins');
 
 const {
@@ -29,6 +31,7 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     ProjextWebpackBundleRunner.mockClear();
     CopyWebpackPlugin.mockReset();
     ExtraWatchWebpackPlugin.mockReset();
+    BundleAnalyzerPlugin.mockReset();
   });
 
   it('should be instantiated with all its dependencies', () => {
@@ -402,6 +405,94 @@ describe('services/configurations:nodeDevelopmentConfiguration', () => {
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-node-development-configuration',
+        'webpack-node-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+  });
+
+  it('should create a configuration with the bundle analyzer', () => {
+    // Given
+    const appLogger = 'appLogger';
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      excludeModules: [],
+      runOnDevelopment: false,
+      watch: {
+        development: true,
+      },
+      sourceMap: {
+        development: false,
+      },
+    };
+    const entry = {
+      [target.name]: ['index.js'],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
+    };
+    const copy = ['file-to-copy'];
+    const additionalWatch = [];
+    const analyze = true;
+    const params = {
+      target,
+      entry,
+      output,
+      copy,
+      additionalWatch,
+      analyze,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        chunkFilename: output.jsChunks,
+        publicPath: '/',
+      },
+      watch: target.watch.development,
+      mode: 'development',
+      plugins: expect.any(Array),
+      target: 'node',
+      node: {
+        __dirname: false,
+      },
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackNodeDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      webpackBaseConfiguration
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
+    expect(BundleAnalyzerPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [

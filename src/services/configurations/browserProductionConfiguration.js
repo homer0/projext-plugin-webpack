@@ -7,6 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { provider } = require('jimple');
 const ConfigurationFile = require('../../abstracts/configurationFile');
 const { ProjextWebpackRuntimeDefinitions } = require('../../plugins');
@@ -73,6 +74,7 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       target,
       output,
       additionalWatch,
+      analyze,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -151,6 +153,12 @@ class WebpackBrowserProductionConfiguration extends ConfigurationFile {
       ...(
         additionalWatch.length ?
           [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
+          []
+      ),
+      // If the the bundle should be analyzed, add the plugin for it.
+      ...(
+        analyze ?
+          [new BundleAnalyzerPlugin()] :
           []
       ),
     ];

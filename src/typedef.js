@@ -204,6 +204,8 @@
  * the bundling process.
  * @property {Array} additionalWatch
  * A list of additional paths webpack should watch for in order to restart the bundle.
+ * @property {boolean} analyze
+ * Whether or not the target bundle should be analyzed.
  */
 
 /**

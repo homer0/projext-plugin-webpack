@@ -222,6 +222,7 @@ describe('services/building:configuration', () => {
       targetRules,
       copy: [],
       additionalWatch: [],
+      analyze: false,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -331,6 +332,7 @@ describe('services/building:configuration', () => {
       targetRules,
       copy: filesToCopy,
       additionalWatch: [],
+      analyze: false,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -440,6 +442,7 @@ describe('services/building:configuration', () => {
       targetRules,
       copy: filesToCopy,
       additionalWatch: [],
+      analyze: false,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -566,6 +569,7 @@ describe('services/building:configuration', () => {
       targetRules,
       copy: filesToCopy,
       additionalWatch: targetBrowserConfigFiles,
+      analyze: false,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -683,6 +687,7 @@ describe('services/building:configuration', () => {
       targetRules,
       copy: [],
       additionalWatch: [],
+      analyze: false,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -794,6 +799,7 @@ describe('services/building:configuration', () => {
       targetRules,
       copy: [],
       additionalWatch: [],
+      analyze: false,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
@@ -907,6 +913,7 @@ describe('services/building:configuration', () => {
       targetRules,
       copy: [],
       additionalWatch: [],
+      analyze: false,
     });
     expect(pathUtils.join).toHaveBeenCalledTimes(1);
     expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
