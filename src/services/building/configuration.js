@@ -110,6 +110,11 @@ class WebpackConfiguration {
       copy,
       buildType,
       additionalWatch,
+      /**
+       * The reason we are taking this property is because it's not part of the `Target` entity,
+       * but it may be injected by the build engine.
+       */
+      analyze: !!target.analyze,
     };
 
     let config = this.targetConfiguration(

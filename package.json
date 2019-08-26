@@ -44,6 +44,8 @@
     "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.25.0",
 
+    "webpack-bundle-analyzer": "^3.4.1",
+
     "terser": "^4.2.1",
 
     "opener": "^1.5.1"

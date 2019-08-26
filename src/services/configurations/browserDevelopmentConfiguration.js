@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
   NoEmitOnErrorsPlugin,
   HotModuleReplacementPlugin,
@@ -100,6 +101,7 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
       target,
       output,
       additionalWatch,
+      analyze,
     } = params;
     // Define the basic stuff: entry, output and mode.
     const config = {
@@ -161,11 +163,17 @@ class WebpackBrowserDevelopmentConfiguration extends ConfigurationFile {
           [new ExtraWatchWebpackPlugin({ files: additionalWatch })] :
           []
       ),
+      // If the the bundle should be analyzed, add the plugin for it.
+      ...(
+        analyze ?
+          [new BundleAnalyzerPlugin()] :
+          []
+      ),
     ];
     // Define a list of extra entries that may be need depending on the target HMR configuration.
     const hotEntries = [];
     // If the target needs to run on development...
-    if (target.runOnDevelopment) {
+    if (!analyze && target.runOnDevelopment) {
       const devServerConfig = this._normalizeTargetDevServerSettings(target);
       // Add the dev server information to the configuration.
       config.devServer = {

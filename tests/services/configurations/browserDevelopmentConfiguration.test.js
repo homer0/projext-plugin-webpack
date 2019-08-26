@@ -12,6 +12,7 @@ jest.mock('script-ext-html-webpack-plugin');
 jest.mock('optimize-css-assets-webpack-plugin');
 jest.mock('copy-webpack-plugin');
 jest.mock('extra-watch-webpack-plugin');
+jest.mock('webpack-bundle-analyzer');
 jest.mock('webpack');
 jest.mock('opener');
 jest.unmock('/src/services/configurations/browserDevelopmentConfiguration');
@@ -22,6 +23,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
   ProjextWebpackOpenDevServer,
   ProjextWebpackRuntimeDefinitions,
@@ -42,6 +44,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     OptimizeCssAssetsPlugin.mockReset();
     CopyWebpackPlugin.mockReset();
     ExtraWatchWebpackPlugin.mockReset();
+    BundleAnalyzerPlugin.mockReset();
     ProjextWebpackOpenDevServer.mockReset();
     ProjextWebpackRuntimeDefinitions.mockReset();
   });
@@ -542,6 +545,126 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
     expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
     expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
+    expect(events.reduce).toHaveBeenCalledTimes(1);
+    expect(events.reduce).toHaveBeenCalledWith(
+      [
+        'webpack-browser-development-configuration',
+        'webpack-browser-configuration',
+      ],
+      expectedConfig,
+      params
+    );
+    expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+  });
+
+  it('should create a configuration with the bundle analyzer', () => {
+    // Given
+    const appLogger = 'appLogger';
+    const events = {
+      reduce: jest.fn((eventName, loaders) => loaders),
+    };
+    const pathUtils = 'pathUtils';
+    const targetsHTML = {
+      getFilepath: jest.fn((targetInfo) => targetInfo.html.template),
+    };
+    const webpackBaseConfiguration = 'webpackBaseConfiguration';
+    const webpackPluginInfo = 'webpackPluginInfo';
+    const target = {
+      name: 'targetName',
+      folders: {
+        build: 'build-folder',
+      },
+      paths: {
+        source: 'source-path',
+      },
+      html: {
+        template: 'index.html',
+      },
+      sourceMap: {
+        development: true,
+      },
+      css: {},
+      watch: {
+        development: true,
+      },
+    };
+    const definitions = 'definitions';
+    const entryFile = '/index.js';
+    const entry = {
+      [target.name]: [entryFile],
+    };
+    const output = {
+      js: 'statics/js/build.js',
+      jsChunks: 'statics/js/build.[name].js',
+      css: 'statics/css/build.css',
+    };
+    const copy = ['file-to-copy'];
+    const additionalWatch = [];
+    const analyze = true;
+    const params = {
+      target,
+      definitions,
+      entry,
+      output,
+      copy,
+      additionalWatch,
+      analyze,
+    };
+    const expectedConfig = {
+      entry,
+      output: {
+        path: `./${target.folders.build}`,
+        filename: output.js,
+        chunkFilename: output.jsChunks,
+        publicPath: '/',
+      },
+      mode: 'development',
+      devtool: 'source-map',
+      plugins: expect.any(Array),
+      watch: true,
+    };
+    let sut = null;
+    let result = null;
+    // When
+    sut = new WebpackBrowserDevelopmentConfiguration(
+      appLogger,
+      events,
+      pathUtils,
+      targetsHTML,
+      webpackBaseConfiguration,
+      webpackPluginInfo
+    );
+    result = sut.getConfig(params);
+    // Then
+    expect(result).toEqual(expectedConfig);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledTimes(1);
+    expect(MiniCssExtractPluginMock.mocks.constructor).toHaveBeenCalledWith({
+      filename: output.css,
+    });
+    expect(HtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(HtmlWebpackPlugin).toHaveBeenCalledWith(Object.assign(
+      target.html,
+      {
+        template: target.html.template,
+        inject: 'body',
+      }
+    ));
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(ScriptExtHtmlWebpackPlugin).toHaveBeenCalledWith({
+      defaultAttribute: 'async',
+    });
+    expect(webpackMock.NoEmitOnErrorsPluginMock).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledTimes(1);
+    expect(ProjextWebpackRuntimeDefinitions).toHaveBeenCalledWith(
+      [entryFile],
+      definitions
+    );
+    expect(OptimizeCssAssetsPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledTimes(1);
+    expect(CopyWebpackPlugin).toHaveBeenCalledWith(copy);
+    expect(ExtraWatchWebpackPlugin).toHaveBeenCalledTimes(0);
+    expect(BundleAnalyzerPlugin).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledTimes(1);
     expect(events.reduce).toHaveBeenCalledWith(
       [
