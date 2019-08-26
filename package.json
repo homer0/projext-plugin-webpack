@@ -2,7 +2,7 @@
   "name": "projext-plugin-webpack",
   "description": "Allows projext to use webpack as a build engine.",
   "homepage": "https://homer0.github.io/projext-plugin-webpack/",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "repository": "homer0/projext-plugin-webpack",
   "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
   "license": "MIT",
