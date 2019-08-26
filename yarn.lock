@@ -3207,7 +3207,7 @@ del@^4.1.1:
     pify "^4.0.1"
     rimraf "^2.6.3"
 
-del@^5.0.0:
+del@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/del/-/del-5.1.0.tgz#d9487c94e367410e6eff2925ee58c0c84a75b3a7"
   integrity sha512-wH9xOVHnczo9jN2IW68BabcecVPxacIA3g/7z6vhSU/4stOKQzeCRK0yD0A24WiAAUJmmVpWqrERcTxnLo3AnA==
@@ -3443,7 +3443,7 @@ dotenv-expand@^5.1.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
   integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
 
-dotenv@^8.0.0:
+dotenv@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.1.0.tgz#d811e178652bfb8a1e593c6dd704ec7e90d85ea2"
   integrity sha512-GUE3gqcDCaMltj2++g6bRQ5rBJWtkWTmqmD0fo1RnnMuUqHNCt2oTPeDnS9n6fKYvlhn7AeBkb38lymBtWBQdA==
@@ -3487,9 +3487,9 @@ ejs@^2.6.1:
   integrity sha512-PcW2a0tyTuPHz3tWyYqtK6r1fZ3gp+3Sop8Ph+ZYN81Ob5rwmbHEzaqs10N3BEsaGTkh/ooniXK+WwszGlc2+Q==
 
 electron-to-chromium@^1.3.191:
-  version "1.3.239"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.239.tgz#94a1ac83bad33e9897c667152efccfe2df5d7716"
-  integrity sha512-fsLbvTg++Ui8VSWQhMwLwWT5tHD5Dlx0bYym6yeqIlH4kPrPjuiy2Pb6lUDgPJzd2ySjMcmcskcFBE2SqD2/HA==
+  version "1.3.241"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.241.tgz#859dc49ab7f90773ed698767372d384190f60cb1"
+  integrity sha512-Gb9E6nWZlbgjDDNe5cAvMJixtn79krNJ70EDpq/M10lkGo7PGtBUe7Y0CYVHsBScRwi6ybCS+YetXAN9ysAHDg==
 
 elliptic@^6.0.0:
   version "6.5.0"
@@ -8209,10 +8209,10 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projext@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/projext/-/projext-7.0.1.tgz#4ff9bd49d0c28a6b4018edd4594a46bcc34c7265"
-  integrity sha512-Yt06XFzTON0ZtQQCN21gZggiuakd2WlzHKRMCVDssMHKzlfHg2C6bvdyBSLTduWg9+nJx7hpy+mlSmjAknWHdQ==
+projext@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/projext/-/projext-7.1.0.tgz#f1352df925361c3949a35d1e65383c16dfa419f9"
+  integrity sha512-6jzaZA7/B5KEqqozjSc9egd7he/GJeCWzIvSK0Ty5RPMyHjExMFsoj/+OmQ4dyNiXoRXMTnc7M3dYY8F7iy9WA==
   dependencies:
     "@babel/cli" "7.5.5"
     "@babel/core" "7.5.5"
@@ -8226,8 +8226,8 @@ projext@^7.0.1:
     "@babel/preset-typescript" "7.3.3"
     "@babel/runtime" "7.5.5"
     commander "^3.0.0"
-    del "^5.0.0"
-    dotenv "^8.0.0"
+    del "^5.1.0"
+    dotenv "^8.1.0"
     dotenv-expand "^5.1.0"
     extend "^3.0.2"
     fs-extra "^8.1.0"
@@ -8237,7 +8237,7 @@ projext@^7.0.1:
     prompt "^1.0.0"
     shelljs "0.8.3"
     watchpack "^1.6.0"
-    wootils "^2.6.3"
+    wootils "^2.6.5"
 
 promise-inflight@^1.0.1:
   version "1.0.1"
@@ -8629,9 +8629,9 @@ regex-parser@2.2.10:
   integrity sha512-8t6074A68gHfU8Neftl0Le6KTDwfGAj7IyjPIMSfikI2wJUTHDMaIq42bUsfVnj8mhx0R+45rdUXHGpN164avA==
 
 regexp-tree@^0.1.6:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/regexp-tree/-/regexp-tree-0.1.11.tgz#c9c7f00fcf722e0a56c7390983a7a63dd6c272f3"
-  integrity sha512-7/l/DgapVVDzZobwMCCgMlqiqyLFJ0cduo/j+3BcDJIB+yJdsYCfKuI3l/04NV+H/rfNRdPIDbXNZHM9XvQatg==
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/regexp-tree/-/regexp-tree-0.1.12.tgz#28eaaa6e66eeb3527c15108a3ff740d9e574e420"
+  integrity sha512-TsXZ8+cv2uxMEkLfgwO0E068gsNMLfuYwMMhiUxf0Kw2Vcgzq93vgl6wIlIYuPmfMqMjfQ9zAporiozqCnwLuQ==
 
 regexpp@^2.0.1:
   version "2.0.1"
@@ -10580,7 +10580,7 @@ winston@2.1.x:
     pkginfo "0.3.x"
     stack-trace "0.0.x"
 
-wootils@^2.4.1, wootils@^2.6.3, wootils@^2.6.5:
+wootils@^2.4.1, wootils@^2.6.5:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/wootils/-/wootils-2.6.5.tgz#7f01cf6bb0a93f7aa0fea56ddcd692ffdda5e442"
   integrity sha512-SoF5M8pwX2D3W/neZLJOp0SFcHQKJfGKlT1GVhCrw58gREtTZZz32b6MQ3mvo4/L9RBziEIaNgRf1gEwcIkxaQ==
