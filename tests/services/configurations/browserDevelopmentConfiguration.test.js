@@ -200,7 +200,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
   });
 
   it('should create a configuration for a target that injects CSS', () => {
@@ -314,7 +318,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
   });
 
   it('should create a configuration with HMR and source map', () => {
@@ -438,7 +446,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
   });
 
   it('should create a configuration with watch mode', () => {
@@ -555,7 +567,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
   });
 
   it('should create a configuration with the bundle analyzer', () => {
@@ -675,7 +691,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
   });
 
   it('should create a configuration for building and running the dev server', () => {
@@ -821,7 +841,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
@@ -974,7 +998,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
@@ -1126,7 +1154,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
@@ -1286,7 +1318,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
@@ -1444,7 +1480,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedURL, {
       logger: appLogger,
@@ -1603,7 +1643,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedProxiedURL, {
       logger: appLogger,
@@ -1762,7 +1806,11 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       params
     );
     expect(targetsHTML.getFilepath).toHaveBeenCalledTimes(1);
-    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(target);
+    expect(targetsHTML.getFilepath).toHaveBeenCalledWith(
+      target,
+      false,
+      'development'
+    );
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledTimes(1);
     expect(ProjextWebpackOpenDevServer).toHaveBeenCalledWith(expectedProxiedURL, {
       logger: appLogger,
