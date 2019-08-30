@@ -120,8 +120,11 @@ All the configurations receive a single object parameter with the following prop
 - `targetRules`: The rules to find the target files on the file system.
 - `entry`: A dictionary with the `entry` setting for a webpack configuration, generated with the target information.
 - `output`: A dictionary with the filenames formats and paths of the different files the bundle can generate (`js`, `css`, `images` and `fonts`).
-- `definitions`: A dictionary of defined variables that will be replaced on the bundled code.
+- `definitions`: A function that generates a dictionary of variables that will be replaced on the bundled code.
 - `buildType`: The indented build type (`development` or `production`).
+- `copy`: A list of information for files that need to be copied during the bundling process.
+- `additionalWatch`: A list of additional paths webpack should watch for in order to restart the bundle.
+- `analyze`: A flag to detect if the bundled should be analyzed or not. 
 
 #### Base configuration
 
@@ -232,6 +235,13 @@ Now, this plugin only uses the loader if the implementation has `image-webpack-l
 ## Making a plugin
 
 If you want to write a plugin that works with this one (like a framework plugin), there are a lot of reducer events you can listen for and use to modify the webpack configuration:
+
+### Configuration parameters
+
+- Name: `webpack-configuration-parameters`
+- Reduces: The parameters used by the plugin services to build a target configuration.
+
+This is called before generating any configuration.
 
 ### Node target configuration
 
