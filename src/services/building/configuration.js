@@ -66,11 +66,17 @@ class WebpackConfiguration {
   }
   /**
    * This method generates a complete webpack configuration for a target.
-   * @param {Target}  target    The target information.
-   * @param {string}  buildType The intended build type: `production` or `development`.
+   * Before creating the configuration, it uses the reducer event
+   * `webpack-configuration-parameters-for-browser` or `webpack-configuration-parameters-for-node`,
+   * depending on the target type, and then `webpack-configuration-parameters` to reduce
+   * the parameters ({@link WebpackConfigurationParams}) the services will use to generate the
+   * configuration. The event recevies the parameters and expects updated parameters in return.
+   * @param {Target} target    The target information.
+   * @param {string} buildType The intended build type: `production` or `development`.
    * @return {Object}
    * @throws {Error} If there's no base configuration for the target type.
    * @throws {Error} If there's no base configuration for the target type and build type.
+   * @todo Stop using `events` from `targets` and inject it directly on the class.
    */
   getConfig(target, buildType) {
     const targetType = target.type;
@@ -99,7 +105,7 @@ class WebpackConfiguration {
     const definitions = this._getDefinitionsGenerator(target, buildType);
     const additionalWatch = this._getBrowserTargetConfigurationDefinitions(target).files;
 
-    const params = {
+    let params = {
       target,
       targetRules: this.targetsFileRules.getRulesForTarget(target),
       entry: {
@@ -116,6 +122,15 @@ class WebpackConfiguration {
        */
       analyze: !!target.analyze,
     };
+
+    const eventName = params.target.is.node ?
+      'webpack-configuration-parameters-for-node' :
+      'webpack-configuration-parameters-for-browser';
+
+    params = this.targets.events.reduce(
+      [eventName, 'webpack-configuration-parameters'],
+      params
+    );
 
     let config = this.targetConfiguration(
       `webpack/${target.name}.config.js`,
