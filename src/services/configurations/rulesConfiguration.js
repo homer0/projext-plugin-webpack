@@ -181,8 +181,8 @@ class WebpackRulesConfiguration extends ConfigurationFile {
            * relative paths for linked assets.
            */
           sourceMap: true,
-          outputStyle: 'expanded',
           sassOptions: {
+            outputStyle: 'expanded',
             includePaths: ['node_modules'],
           },
         },
