@@ -182,7 +182,9 @@ class WebpackRulesConfiguration extends ConfigurationFile {
            */
           sourceMap: true,
           outputStyle: 'expanded',
-          includePaths: ['node_modules'],
+          sassOptions: {
+            includePaths: ['node_modules'],
+          },
         },
       },
     ];
