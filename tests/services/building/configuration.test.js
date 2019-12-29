@@ -25,7 +25,6 @@ describe('services/building:configuration', () => {
     const targetsFileRules = 'targetsFileRules';
     const targetConfiguration = 'targetConfiguration';
     const webpackConfigurations = 'webpackConfigurations';
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -34,8 +33,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     // Then
     expect(sut).toBeInstanceOf(WebpackConfiguration);
@@ -45,7 +43,6 @@ describe('services/building:configuration', () => {
     expect(sut.targetsFileRules).toBe(targetsFileRules);
     expect(sut.targetConfiguration).toBe(targetConfiguration);
     expect(sut.webpackConfigurations).toBe(webpackConfigurations);
-    expect(sut.webpackPluginInfo).toBe(webpackPluginInfo);
   });
 
   it('should throw an error when trying to build a target with an invalid type', () => {
@@ -59,7 +56,6 @@ describe('services/building:configuration', () => {
       type: 'random-type',
     };
     const webpackConfigurations = {};
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -68,8 +64,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     // Then
     expect(() => sut.getConfig(target))
@@ -90,7 +85,6 @@ describe('services/building:configuration', () => {
     const webpackConfigurations = {
       node: {},
     };
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     // When
     sut = new WebpackConfiguration(
@@ -99,8 +93,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     // Then
     expect(() => sut.getConfig(target, buildType))
@@ -172,7 +165,6 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     let definitionsGenerator = null;
@@ -199,8 +191,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     result = sut.getConfig(target, buildType);
     [[{ definitions: definitionsGenerator }]] = targetConfig.getConfig.mock.calls;
@@ -305,7 +296,6 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     const expectedParams = {
@@ -330,8 +320,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -432,7 +421,6 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     const expectedParams = {
@@ -455,8 +443,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -560,7 +547,6 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     let definitionsGenerator = null;
@@ -587,8 +573,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     result = sut.getConfig(target, buildType);
     [[{ definitions: definitionsGenerator }]] = targetConfig.getConfig.mock.calls;
@@ -626,132 +611,6 @@ describe('services/building:configuration', () => {
     expect(events.reduce).toHaveBeenCalledWith(
       [
         'webpack-configuration-parameters-for-browser',
-        'webpack-configuration-parameters',
-      ],
-      expectedParams
-    );
-  });
-
-  it('should generate the configuration for a target, with the Babel polyfill', () => {
-    // Given
-    const versionVariable = 'process.env.VERSION';
-    const version = 'latest';
-    const buildVersion = {
-      getDefinitionVariable: jest.fn(() => versionVariable),
-      getVersion: jest.fn(() => version),
-    };
-    const pathUtils = {
-      join: jest.fn((rest) => rest),
-    };
-    const config = {
-      output: {
-        path: 'some-output-path',
-      },
-    };
-    const targetConfig = {
-      getConfig: jest.fn(() => config),
-    };
-    const events = {
-      reduce: jest.fn((eventName, configParams) => configParams),
-    };
-    const targets = {
-      loadTargetDotEnvFile: jest.fn(() => ({})),
-      events,
-    };
-    const targetRules = 'target-rule';
-    const targetsFileRules = {
-      getRulesForTarget: jest.fn(() => targetRules),
-    };
-    const targetConfiguration = jest.fn(() => targetConfig);
-    const buildType = 'development';
-    const target = {
-      type: 'node',
-      name: 'target',
-      paths: {
-        source: 'src/target',
-      },
-      entry: {
-        [buildType]: 'index.js',
-      },
-      output: {
-        [buildType]: {
-          js: 'target.js',
-          css: 'css/target/file.2509.css',
-          fonts: 'fonts/target/[name].2509.[ext]',
-          images: 'images/target/[name].2509.[ext]',
-        },
-      },
-      babel: {
-        polyfill: true,
-      },
-      library: false,
-      is: {
-        browser: false,
-        node: true,
-      },
-    };
-    const webpackConfigurations = {
-      [target.type]: {
-        [buildType]: {},
-      },
-    };
-    const webpackPluginInfo = {
-      name: 'plugin',
-      babelPolyfill: 'da-polyfill.js',
-    };
-    let sut = null;
-    let result = null;
-    const expectedParams = {
-      target,
-      buildType,
-      entry: {
-        [target.name]: [
-          `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`,
-          path.join(target.paths.source, target.entry[buildType]),
-        ],
-      },
-      definitions: expect.any(Function),
-      output: Object.assign({}, target.output[buildType], {
-        jsChunks: target.output[buildType].js.replace(/\.js$/, '.[name].js'),
-      }),
-      targetRules,
-      copy: [],
-      additionalWatch: [],
-      analyze: false,
-    };
-    // When
-    sut = new WebpackConfiguration(
-      buildVersion,
-      pathUtils,
-      targets,
-      targetsFileRules,
-      targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
-    );
-    result = sut.getConfig(target, buildType);
-    // Then
-    expect(result).toEqual(config);
-    expect(buildVersion.getDefinitionVariable).toHaveBeenCalledTimes(0);
-    expect(buildVersion.getVersion).toHaveBeenCalledTimes(0);
-    expect(targetConfiguration).toHaveBeenCalledTimes(['global', 'byBuildType'].length);
-    expect(targetConfiguration).toHaveBeenCalledWith(
-      `webpack/${target.name}.config.js`,
-      {}
-    );
-    expect(targetConfiguration).toHaveBeenCalledWith(
-      `webpack/${target.name}.${buildType}.config.js`,
-      targetConfig
-    );
-    expect(targets.loadTargetDotEnvFile).toHaveBeenCalledTimes(0);
-    expect(targetConfig.getConfig).toHaveBeenCalledTimes(1);
-    expect(targetConfig.getConfig).toHaveBeenCalledWith(expectedParams);
-    expect(pathUtils.join).toHaveBeenCalledTimes(1);
-    expect(pathUtils.join).toHaveBeenCalledWith(config.output.path);
-    expect(events.reduce).toHaveBeenCalledTimes(1);
-    expect(events.reduce).toHaveBeenCalledWith(
-      [
-        'webpack-configuration-parameters-for-node',
         'webpack-configuration-parameters',
       ],
       expectedParams
@@ -820,7 +679,6 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
-    const webpackPluginInfo = 'webpackPluginInfo';
     const expectedConfig = {
       output: {
         path: 'some-output-path',
@@ -851,8 +709,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -947,7 +804,6 @@ describe('services/building:configuration', () => {
         [buildType]: {},
       },
     };
-    const webpackPluginInfo = 'webpackPluginInfo';
     let sut = null;
     let result = null;
     const expectedConfig = {
@@ -978,8 +834,7 @@ describe('services/building:configuration', () => {
       targets,
       targetsFileRules,
       targetConfiguration,
-      webpackConfigurations,
-      webpackPluginInfo
+      webpackConfigurations
     );
     result = sut.getConfig(target, buildType);
     // Then
@@ -1043,6 +898,5 @@ describe('services/building:configuration', () => {
         production: 'webpackBrowserProductionConfiguration',
       },
     });
-    expect(sut.webpackPluginInfo).toBe('webpackPluginInfo');
   });
 });

@@ -13,9 +13,6 @@
     "fs-extra": "^8.1.0",
     "extend": "^3.0.2",
 
-    "core-js": "^3.6.1",
-    "regenerator-runtime": "0.13.3",
-
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
