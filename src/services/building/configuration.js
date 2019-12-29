@@ -16,8 +16,6 @@ class WebpackConfiguration {
    *                                                           configuration for the target.
    * @param {WebpackConfigurations}      webpackConfigurations A dictionary of configurations
    *                                                           for target type and build type.
-   * @param {WebpackPluginInfo}          webpackPluginInfo     To get the path to the Babel
-   *                                                           polyfill.
    */
   constructor(
     buildVersion,
@@ -25,8 +23,7 @@ class WebpackConfiguration {
     targets,
     targetsFileRules,
     targetConfiguration,
-    webpackConfigurations,
-    webpackPluginInfo
+    webpackConfigurations
   ) {
     /**
      * A local reference for the `buildVersion` service.
@@ -58,11 +55,6 @@ class WebpackConfiguration {
      * @type {WebpackConfigurations}
      */
     this.webpackConfigurations = webpackConfigurations;
-    /**
-     * A local reference for the plugin information.
-     * @type {WebpackPluginInfo}
-     */
-    this.webpackPluginInfo = webpackPluginInfo;
   }
   /**
    * This method generates a complete webpack configuration for a target.
@@ -86,12 +78,6 @@ class WebpackConfiguration {
       throw new Error(`There's no configuration for the selected build type: ${buildType}`);
     }
 
-    const entryFile = path.join(target.paths.source, target.entry[buildType]);
-    const entries = [entryFile];
-    if (target.babel.polyfill) {
-      entries.unshift(`${this.webpackPluginInfo.name}/${this.webpackPluginInfo.babelPolyfill}`);
-    }
-
     const copy = [];
     if (target.is.browser || target.bundle) {
       copy.push(...this.targets.getFilesToCopy(target, buildType));
@@ -109,7 +95,7 @@ class WebpackConfiguration {
       target,
       targetRules: this.targetsFileRules.getRulesForTarget(target),
       entry: {
-        [target.name]: entries,
+        [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
       definitions,
       output,
@@ -288,8 +274,7 @@ const webpackConfiguration = provider((app) => {
       app.get('targets'),
       app.get('targetsFileRules'),
       app.get('targetConfiguration'),
-      webpackConfigurations,
-      app.get('webpackPluginInfo')
+      webpackConfigurations
     );
   });
 });
