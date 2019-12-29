@@ -68,8 +68,7 @@
   },
   "engine-strict": true,
   "engines": {
-    "node": ">=8.10.0",
-    "npm": ">=3.0.0"
+    "node": ">=10.13.0"
   },
   "main": "src/index.js",
   "husky": {
