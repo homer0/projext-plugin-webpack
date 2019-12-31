@@ -711,7 +711,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
-      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -740,13 +739,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = '/index.js';
     const entry = {
-      [target.name]: [
-        babelPolyfillEntry,
-        targetEntry,
-      ],
+      [target.name]: [targetEntry],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -774,7 +769,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       entry: {
         [target.name]: [
-          babelPolyfillEntry,
           `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
@@ -866,7 +860,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
-      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -896,13 +889,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = '/index.js';
     const entry = {
-      [target.name]: [
-        babelPolyfillEntry,
-        targetEntry,
-      ],
+      [target.name]: [targetEntry],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -931,7 +920,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       entry: {
         [target.name]: [
-          babelPolyfillEntry,
           `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
@@ -1025,7 +1013,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
-      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1056,13 +1043,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = '/index.js';
     const entry = {
-      [target.name]: [
-        babelPolyfillEntry,
-        targetEntry,
-      ],
+      [target.name]: [targetEntry],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -1088,10 +1071,7 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
         https: target.devServer.ssl,
       },
       entry: {
-        [target.name]: [
-          babelPolyfillEntry,
-          targetEntry,
-        ],
+        [target.name]: [targetEntry],
       },
       output: {
         path: `./${target.folders.build}`,
@@ -1181,7 +1161,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
-      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1213,13 +1192,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = '/index.js';
     const entry = {
-      [target.name]: [
-        babelPolyfillEntry,
-        targetEntry,
-      ],
+      [target.name]: [targetEntry],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -1249,7 +1224,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       entry: {
         [target.name]: [
-          babelPolyfillEntry,
           `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
@@ -1345,7 +1319,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
-      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1378,13 +1351,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = '/index.js';
     const entry = {
-      [target.name]: [
-        babelPolyfillEntry,
-        targetEntry,
-      ],
+      [target.name]: [targetEntry],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -1413,7 +1382,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       entry: {
         [target.name]: [
-          babelPolyfillEntry,
           `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
@@ -1507,7 +1475,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
-      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1540,13 +1507,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = '/index.js';
     const entry = {
-      [target.name]: [
-        babelPolyfillEntry,
-        targetEntry,
-      ],
+      [target.name]: [targetEntry],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -1576,7 +1539,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       entry: {
         [target.name]: [
-          babelPolyfillEntry,
           `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
@@ -1670,7 +1632,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
     const webpackBaseConfiguration = 'webpackBaseConfiguration';
     const webpackPluginInfo = {
       name: 'my-plugin',
-      babelPolyfill: 'polyfill.js',
     };
     const target = {
       name: 'targetName',
@@ -1703,13 +1664,9 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
     };
     const definitions = 'definitions';
-    const babelPolyfillEntry = `${webpackPluginInfo.name}/${webpackPluginInfo.babelPolyfill}`;
     const targetEntry = '/index.js';
     const entry = {
-      [target.name]: [
-        babelPolyfillEntry,
-        targetEntry,
-      ],
+      [target.name]: [targetEntry],
     };
     const output = {
       js: 'statics/js/build.js',
@@ -1739,7 +1696,6 @@ describe('services/configurations:browserDevelopmentConfiguration', () => {
       },
       entry: {
         [target.name]: [
-          babelPolyfillEntry,
           `webpack-dev-server/client?${expectedURL}`,
           'webpack/hot/only-dev-server',
           targetEntry,
