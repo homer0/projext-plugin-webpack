@@ -160,6 +160,10 @@ class WebpackBuildEngine {
      * @property {string} inspect Whether or not to enable the Node inspector. This will be like a
      *                            fake boolean as the CLI doesn&apos;t support boolean variables, so its
      *                            value will be either `&apos;true&apos;` or `&apos;false&apos;`.
+     * @property {string} analyze Whether or not to enable the bundle analyzer. This will be like a
+     *                            fake boolean as the CLI doesn&apos;t support boolean variables, so its
+     *                            value will be either `&apos;true&apos;` or `&apos;false&apos;`.
+     *
      * @access protected
      * @ignore
      */
@@ -169,6 +173,7 @@ class WebpackBuildEngine {
       run: &apos;PXTWPK_RUN&apos;,
       watch: &apos;PXTWPK_WATCH&apos;,
       inspect: &apos;PXTWPK_INSPECT&apos;,
+      analyze: &apos;PXTWPK_ANALYZE&apos;,
     };
   }
   /**
@@ -181,6 +186,7 @@ class WebpackBuildEngine {
    *                                       setting for the required build type is set to `false`.
    * @param {boolean} [forceInspect=false] Enables the Node inspector even if the target setting
    *                                       is set to `false`.
+   * @param {boolean} [forceAnalyze=false] Enables the bundle analyzer.
    * @return {string}
    */
   getBuildCommand(
@@ -188,7 +194,8 @@ class WebpackBuildEngine {
     buildType,
     forceRun = false,
     forceWatch = false,
-    forceInspect = false
+    forceInspect = false,
+    forceAnalyze = false
   ) {
     const vars = this._getEnvVarsAsString({
       target: target.name,
@@ -196,6 +203,7 @@ class WebpackBuildEngine {
       run: forceRun,
       watch: forceWatch,
       inspect: forceInspect,
+      analyze: forceAnalyze,
     });
 
     const config = path.join(
@@ -211,7 +219,7 @@ class WebpackBuildEngine {
     ]
     .join(&apos; &apos;);
 
-    const command = target.is.browser &amp;&amp; (target.runOnDevelopment || forceRun) ?
+    const command = !forceAnalyze &amp;&amp; target.is.browser &amp;&amp; (target.runOnDevelopment || forceRun) ?
       &apos;webpack-dev-server&apos; :
       &apos;webpack&apos;;
 
@@ -238,17 +246,26 @@ class WebpackBuildEngine {
       throw new Error(&apos;This file can only be run by using the `build` command&apos;);
     }
 
-    const { type, run, inspect } = vars;
+    const {
+      type,
+      run,
+      inspect,
+      analyze,
+    } = vars;
     const target = Object.assign({}, this.targets.getTarget(vars.target));
-    if (run === &apos;true&apos;) {
-      target.runOnDevelopment = true;
-      if (inspect === &apos;true&apos;) {
-        target.inspect.enabled = true;
+    if (analyze === &apos;true&apos;) {
+      target.analyze = true;
+    } else {
+      if (run === &apos;true&apos;) {
+        target.runOnDevelopment = true;
+        if (inspect === &apos;true&apos;) {
+          target.inspect.enabled = true;
+        }
       }
-    }
 
-    if (vars.watch === &apos;true&apos;) {
-      target.watch[type] = true;
+      if (vars.watch === &apos;true&apos;) {
+        target.watch[type] = true;
+      }
     }
 
     return this.getConfiguration(target, type);

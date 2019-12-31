@@ -125,7 +125,7 @@
 </tr>
 <tr>
 <td>Node Version</td>
-<td>&gt;= v8.0.0</td>
+<td>&gt;= v10.13.0</td>
 </tr>
 </tbody>
 </table>
@@ -206,8 +206,11 @@ app.start();</code>
 <li><code>targetRules</code>: The rules to find the target files on the file system.</li>
 <li><code>entry</code>: A dictionary with the <code>entry</code> setting for a webpack configuration, generated with the target information.</li>
 <li><code>output</code>: A dictionary with the filenames formats and paths of the different files the bundle can generate (<code>js</code>, <code>css</code>, <code>images</code> and <code>fonts</code>).</li>
-<li><code>definitions</code>: A dictionary of defined variables that will be replaced on the bundled code.</li>
+<li><code>definitions</code>: A function that generates a dictionary of variables that will be replaced on the bundled code.</li>
 <li><code>buildType</code>: The indented build type (<code>development</code> or <code>production</code>).</li>
+<li><code>copy</code>: A list of information for files that need to be copied during the bundling process.</li>
+<li><code>additionalWatch</code>: A list of additional paths webpack should watch for in order to restart the bundle.</li>
+<li><code>analyze</code>: A flag to detect if the bundled should be analyzed or not. </li>
 </ul>
 <h4 id="base-configuration">Base configuration</h4><p>This is the top level configuration, the one a regular <code>webpack.config.js</code> file would export.</p>
 <p>To extend/overwrite this configuration you would need to create a file with the following path: <code>config/webpack/base.config.js</code>. For example:</p>
@@ -275,6 +278,11 @@ module.exports = (params) =&gt; ({
 <h3 id="images-optimization">Images optimization</h3><p>By default, this plugin used to include <a href="https://yarnpkg.com/en/package/image-webpack-loader"><code>image-webpack-loader</code></a> but the package wasn&apos;t being updated often and the requirement of <code>libpng</code> was something that caused issues for some of the users&apos; environments.</p>
 <p>Now, this plugin only uses the loader if the implementation has <code>image-webpack-loader</code> on its <code>package.json</code> <code>dependencies</code>/<code>devDependencies</code>.</p>
 <h2 id="making-a-plugin">Making a plugin</h2><p>If you want to write a plugin that works with this one (like a framework plugin), there are a lot of reducer events you can listen for and use to modify the webpack configuration:</p>
+<h3 id="configuration-parameters">Configuration parameters</h3><ul>
+<li>Name: <code>webpack-configuration-parameters</code></li>
+<li>Reduces: The parameters used by the plugin services to build a target configuration.</li>
+</ul>
+<p>This is called before generating any configuration.</p>
 <h3 id="node-target-configuration">Node target configuration</h3><ul>
 <li>Name: <code>webpack-base-configuration-for-node</code></li>
 <li>Reduces: A webpack configuration for a Node target.</li>

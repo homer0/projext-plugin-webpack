@@ -120,8 +120,6 @@ class WebpackConfiguration {
    *                                                           configuration for the target.
    * @param {WebpackConfigurations}      webpackConfigurations A dictionary of configurations
    *                                                           for target type and build type.
-   * @param {WebpackPluginInfo}          webpackPluginInfo     To get the path to the Babel
-   *                                                           polyfill.
    */
   constructor(
     buildVersion,
@@ -129,8 +127,7 @@ class WebpackConfiguration {
     targets,
     targetsFileRules,
     targetConfiguration,
-    webpackConfigurations,
-    webpackPluginInfo
+    webpackConfigurations
   ) {
     /**
      * A local reference for the `buildVersion` service.
@@ -162,19 +159,20 @@ class WebpackConfiguration {
      * @type {WebpackConfigurations}
      */
     this.webpackConfigurations = webpackConfigurations;
-    /**
-     * A local reference for the plugin information.
-     * @type {WebpackPluginInfo}
-     */
-    this.webpackPluginInfo = webpackPluginInfo;
   }
   /**
    * This method generates a complete webpack configuration for a target.
-   * @param {Target}  target    The target information.
-   * @param {string}  buildType The intended build type: `production` or `development`.
+   * Before creating the configuration, it uses the reducer event
+   * `webpack-configuration-parameters-for-browser` or `webpack-configuration-parameters-for-node`,
+   * depending on the target type, and then `webpack-configuration-parameters` to reduce
+   * the parameters ({@link WebpackConfigurationParams}) the services will use to generate the
+   * configuration. The event recevies the parameters and expects updated parameters in return.
+   * @param {Target} target    The target information.
+   * @param {string} buildType The intended build type: `production` or `development`.
    * @return {Object}
    * @throws {Error} If there&apos;s no base configuration for the target type.
    * @throws {Error} If there&apos;s no base configuration for the target type and build type.
+   * @todo Stop using `events` from `targets` and inject it directly on the class.
    */
   getConfig(target, buildType) {
     const targetType = target.type;
@@ -182,12 +180,6 @@ class WebpackConfiguration {
       throw new Error(`There&apos;s no configuration for the selected target type: ${targetType}`);
     } else if (!this.webpackConfigurations[targetType][buildType]) {
       throw new Error(`There&apos;s no configuration for the selected build type: ${buildType}`);
-    }
-
-    const entryFile = path.join(target.paths.source, target.entry[buildType]);
-    const entries = [entryFile];
-    if (target.babel.polyfill) {
-      entries.unshift(`${this.webpackPluginInfo.name}/${this.webpackPluginInfo.babelPolyfill}`);
     }
 
     const copy = [];
@@ -203,18 +195,32 @@ class WebpackConfiguration {
     const definitions = this._getDefinitionsGenerator(target, buildType);
     const additionalWatch = this._getBrowserTargetConfigurationDefinitions(target).files;
 
-    const params = {
+    let params = {
       target,
       targetRules: this.targetsFileRules.getRulesForTarget(target),
       entry: {
-        [target.name]: entries,
+        [target.name]: [path.join(target.paths.source, target.entry[buildType])],
       },
       definitions,
       output,
       copy,
       buildType,
       additionalWatch,
+      /**
+       * The reason we are taking this property is because it&apos;s not part of the `Target` entity,
+       * but it may be injected by the build engine.
+       */
+      analyze: !!target.analyze,
     };
+
+    const eventName = params.target.is.node ?
+      &apos;webpack-configuration-parameters-for-node&apos; :
+      &apos;webpack-configuration-parameters-for-browser&apos;;
+
+    params = this.targets.events.reduce(
+      [eventName, &apos;webpack-configuration-parameters&apos;],
+      params
+    );
 
     let config = this.targetConfiguration(
       `webpack/${target.name}.config.js`,
@@ -372,8 +378,7 @@ const webpackConfiguration = provider((app) =&gt; {
       app.get(&apos;targets&apos;),
       app.get(&apos;targetsFileRules&apos;),
       app.get(&apos;targetConfiguration&apos;),
-      webpackConfigurations,
-      app.get(&apos;webpackPluginInfo&apos;)
+      webpackConfigurations
     );
   });
 });

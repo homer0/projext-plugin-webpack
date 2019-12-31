@@ -750,12 +750,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/services/building/configuration.js~webpackconfiguration#webpackplugininfo",
-    "class/src/services/building/configuration.js~WebpackConfiguration.html#instance-member-webpackPluginInfo",
-    "src/services/building/configuration.js~WebpackConfiguration#webpackPluginInfo",
-    "member"
-  ],
-  [
     "src/services/building/engine.js",
     "file/src/services/building/engine.js.html",
     "src/services/building/engine.js",
